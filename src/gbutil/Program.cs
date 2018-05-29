@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using gbutil.Models;
+using Microsoft.EntityFrameworkCore;
 using Octokit;
 
 namespace gbutil
@@ -10,34 +13,28 @@ namespace gbutil
         {
             try
             {
-                var client = new GitHubClient(
-                    new ProductHeaderValue("test"),
-                    new Uri("http://localhost:8080/api/v3/"));
-
-                var openIssues = await client.Issue.GetAllForRepository(
-                    "root",
-                    "test",
-                    new RepositoryIssueRequest { State = ItemStateFilter.Open },
-                    ApiOptions.None);
-
-                Console.WriteLine("Open issues");
-                foreach (var issue in openIssues)
+                using (var context = new GitBucketDbContext())
                 {
-                    Console.WriteLine(issue.Title);
-                }
+                    var issues = await context.Issue
+                    .Where(i => i.UserName == "HAP")
+                    .Where(i => i.RepositoryName == "HSK")
+                    .Where(i => i.Milestone.Title == "v1.3.0")
+                    .Where(i => i.Closed == true)
+                    .Where(i => !i.PullRequest)
+                    .Include(i => i.Milestone)
+                    .ToListAsync();
 
-                Console.WriteLine("");
+                    if (issues.Any(i => !i.Closed))
+                    {
+                        Console.WriteLine("Closeされていないissueが存在します。");
+                        return;
+                    }
 
-                var closedIssues = await client.Issue.GetAllForRepository(
-                    "root",
-                    "test",
-                    new RepositoryIssueRequest { State = ItemStateFilter.Closed },
-                    ApiOptions.None);
-
-                Console.WriteLine("Closed issues");
-                foreach (var issue in closedIssues)
-                {
-                    Console.WriteLine(issue.Title);
+                    //var groupedIssues = issues.GroupBy(i=>i.)
+                    foreach (var issue in issues)
+                    {
+                        Console.WriteLine(issue.Title);
+                    }
                 }
             }
             catch (Exception ex)

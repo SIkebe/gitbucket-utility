@@ -11,14 +11,18 @@ namespace gbutil
     {
         static async Task Main(string[] args)
         {
+            var owner = "owner";
+            var repositoryName = "repositoryName";
+            var mileStoneTitle = "mileStoneTitle";
+
             try
             {
                 using (var context = new GitBucketDbContext())
                 {
                     var issues = await context.Issue
-                    .Where(i => i.UserName == "HAP")
-                    .Where(i => i.RepositoryName == "HSK")
-                    .Where(i => i.Milestone.Title == "v1.3.0")
+                    .Where(i => i.UserName == owner)
+                    .Where(i => i.RepositoryName == repositoryName)
+                    .Where(i => i.Milestone.Title == mileStoneTitle)
                     .Where(i => i.Closed == true)
                     .Where(i => !i.PullRequest)
                     .Include(i => i.Milestone)
@@ -26,14 +30,34 @@ namespace gbutil
 
                     if (issues.Any(i => !i.Closed))
                     {
-                        Console.WriteLine("Closeされていないissueが存在します。");
+                        Console.WriteLine("There are unclosed issues.");
                         return;
                     }
 
-                    //var groupedIssues = issues.GroupBy(i=>i.)
-                    foreach (var issue in issues)
+                    var issueLabels = await context.IssueLabel
+                    .Where(l => l.UserName == owner)
+                    .Where(l => l.RepositoryName == repositoryName)
+                    .Where(l => issues.Select(i => i.IssueId).Contains(l.IssueId))
+                    .ToListAsync();
+
+                    var labels = await context.Label
+                    .Where(l => l.UserName == owner)
+                    .Where(l => l.RepositoryName == repositoryName)
+                    .Where(l => issueLabels.Select(i => i.LabelId).Contains(l.LabelId))
+                    .ToListAsync();
+
+                    foreach (var label in labels)
                     {
-                        Console.WriteLine(issue.Title);
+                        Console.WriteLine($"###{label.LabelName}");
+                        var ids = issueLabels.Where(l => l.LabelId == label.LabelId).Select(i => i.IssueId).OrderBy(i => i);
+
+                        foreach (var issueId in ids)
+                        {
+                            var issue = issues.Where(i => i.IssueId == issueId).Single();
+                            Console.WriteLine($"* {issue.Title} #{issue.IssueId}");
+                        }
+
+                        Console.WriteLine("");
                     }
                 }
             }

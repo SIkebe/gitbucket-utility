@@ -28,9 +28,15 @@ namespace gbutil
                     .Include(i => i.Milestone)
                     .ToListAsync();
 
+                    if (issues.Count == 0)
+                    {
+                        Console.WriteLine($"There are no issues related to \"{mileStoneTitle}\".");
+                        return;
+                    }
+
                     if (issues.Any(i => !i.Closed))
                     {
-                        Console.WriteLine("There are unclosed issues.");
+                        Console.WriteLine($"There are unclosed issues in \"{mileStoneTitle}\".");
                         return;
                     }
 
@@ -39,6 +45,12 @@ namespace gbutil
                     .Where(l => l.RepositoryName == repositoryName)
                     .Where(l => issues.Select(i => i.IssueId).Contains(l.IssueId))
                     .ToListAsync();
+
+                    if (issues.Any(i => !issueLabels.Select(l => l.IssueId).Contains(i.IssueId)))
+                    {
+                        Console.WriteLine($"There are issues which have no labels in \"{mileStoneTitle}\".");
+                        return;
+                    }
 
                     var labels = await context.Label
                     .Where(l => l.UserName == owner)

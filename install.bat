@@ -1,1 +1,1 @@
-dotnet tool install -g gbutil --configfile .\nuget.config
+dotnet tool install gbutil -g --add-source .\packages\gbutil.0.1.0.nupkg --version 0.1.0

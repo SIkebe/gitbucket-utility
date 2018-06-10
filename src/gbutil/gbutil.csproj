@@ -3,9 +3,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <Description>.NET Core Global tool for GotBucket utilities.</Description>
+    <Description>.NET Core Global tool for GitBucket utilities.</Description>
     <LangVersion>7.3</LangVersion>
-    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionPrefix>0.1.1</VersionPrefix>
     <Authors>SIkebe</Authors>
     <Product>gitbucket-utility</Product>
     <Copyright>MIT</Copyright>

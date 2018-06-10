@@ -1,3 +1,4 @@
-/src/gbutil/bin
-/src/gbutil/obj
+/.vs
+/**/bin
+/**/obj
 /packages

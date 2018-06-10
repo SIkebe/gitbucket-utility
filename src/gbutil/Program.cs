@@ -19,13 +19,20 @@ namespace gbutil
             {
                 var builder = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json")
+                    .AddJsonFile("appsettings.json", optional: true)
                     .AddEnvironmentVariables();
 
                 Configuration = builder.Build();
 
+                var connectionString = Configuration.GetConnectionString("GitBucketConnection");
+                if (string.IsNullOrEmpty(connectionString))
+                {
+                    Console.WriteLine("PostgreSQL ConnectionString is not configured. Add \"ConnectionStrings: GitBucketConnection\" environment variable.");
+                    return;
+                }
+
                 Parser.Default.ParseArguments<ReleaseOptions>(args)
-                    .WithParsed(options => OutputReleaseNotes(options));
+                    .WithParsed(options => OutputReleaseNotes(options, connectionString));
             }
             catch (Exception ex)
             {
@@ -33,9 +40,9 @@ namespace gbutil
             }
         }
 
-        private static int OutputReleaseNotes(ReleaseOptions option)
+        private static int OutputReleaseNotes(ReleaseOptions option, string connectionString)
         {
-            using (var context = new GitBucketDbContext(Configuration.GetConnectionString("GitBucketConnection")))
+            using (var context = new GitBucketDbContext(connectionString))
             {
                 var issues = context.Issue
                 .Where(i => i.UserName == option.Owner)

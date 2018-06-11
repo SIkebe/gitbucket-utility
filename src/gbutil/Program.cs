@@ -82,7 +82,8 @@ namespace gbutil
                 .Where(l => issueLabels.Select(i => i.LabelId).Contains(l.LabelId))
                 .ToList();
 
-                Console.WriteLine($"");
+                Console.WriteLine($"As part of this release we had {issues.Count} issues closed.");
+                Console.WriteLine("");
                 foreach (var label in labels)
                 {
                     Console.WriteLine($"### {label.LabelName.ConvertFirstCharToUpper()}");

@@ -67,8 +67,7 @@ namespace gbutil
                 var issueLabels = context.IssueLabel
                 .Where(l => l.UserName == option.Owner)
                 .Where(l => l.RepositoryName == option.Repository)
-                .Where(l => issues.Select(i => i.IssueId).Contains(l.IssueId))
-                .ToList();
+                .Where(l => issues.Select(i => i.IssueId).Contains(l.IssueId));
 
                 if (issues.Any(i => !issueLabels.Select(l => l.IssueId).Contains(i.IssueId)))
                 {
@@ -79,8 +78,7 @@ namespace gbutil
                 var labels = context.Label
                 .Where(l => l.UserName == option.Owner)
                 .Where(l => l.RepositoryName == option.Repository)
-                .Where(l => issueLabels.Select(i => i.LabelId).Contains(l.LabelId))
-                .ToList();
+                .Where(l => issueLabels.Select(i => i.LabelId).Contains(l.LabelId));
 
                 Console.WriteLine($"As part of this release we had {issues.Count} issues closed.");
                 Console.WriteLine("");

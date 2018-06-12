@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/gbutil/gbutil.csproj"
+                "${workspaceFolder}/src/GbUtil/GbUtil.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

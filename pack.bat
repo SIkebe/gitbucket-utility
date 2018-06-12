@@ -1,1 +1,1 @@
-dotnet pack -c release .\src\gbutil\gbutil.csproj
+dotnet pack -c release .\src\GbUtil\GbUtil.csproj

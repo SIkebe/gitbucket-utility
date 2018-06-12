@@ -2,12 +2,12 @@
 using System.IO;
 using System.Linq;
 using CommandLine;
-using gbutil.Extensions;
+using GbUtil.Extensions;
 using GitBucket.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace gbutil
+namespace GbUtil
 {
     class Program
     {

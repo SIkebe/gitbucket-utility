@@ -1,1 +1,1 @@
-dotnet tool install gbutil -g --add-source .\packages\gbutil.0.1.1.nupkg --version 0.1.1
+dotnet tool install gbutil -g --add-source .\packages\GbUtil.0.1.1.nupkg --version 0.1.1

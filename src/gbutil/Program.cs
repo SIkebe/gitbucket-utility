@@ -54,14 +54,28 @@ namespace GbUtil
 
                 if (issues.Count == 0)
                 {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"There are no issues related to \"{option.MileStone}\".");
+                    Console.ResetColor();
                     return 1;
                 }
 
                 if (issues.Any(i => !i.Closed))
                 {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"There are unclosed issues in \"{option.MileStone}\".");
-                    return 1;
+                    Console.Write("Do you want to continue?([Y]es/[N]o): ");
+                    Console.ResetColor();
+
+                    string yesOrNo = Console.ReadLine();
+                    
+                    if (!string.Equals(yesOrNo, "y", StringComparison.OrdinalIgnoreCase)
+                    && !string.Equals(yesOrNo, "yes", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return 1;
+                    }
+
+                    Console.WriteLine("");
                 }
 
                 var issueLabels = context.IssueLabel
@@ -71,7 +85,9 @@ namespace GbUtil
 
                 if (issues.Any(i => !issueLabels.Select(l => l.IssueId).Contains(i.IssueId)))
                 {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"There are issues which have no labels in \"{option.MileStone}\".");
+                    Console.ResetColor();
                     return 1;
                 }
 

@@ -7,7 +7,7 @@ Utilities for GitBucket
 
 ## Preparation
 ```cmd
-dotnet tool install --global gbutil --version 0.1.1
+dotnet tool install --global gbutil --version 0.2.0
 setx ConnectionStrings:GitBucketConnection Host=host;Username=username;Password=password;Database=gitbucket
 ```
 

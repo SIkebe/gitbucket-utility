@@ -12,12 +12,14 @@ setx ConnectionStrings:GitBucketConnection Host=host;Username=username;Password=
 ```
 
 ## Usage
-### Output release notes
-Output release notes as markdown which list issues of the repository related to the milistone.  
-`gbutil release -o {owner} -r {repository} -m {miliestone}`
+```powershell
+gbutil [-o|--owner] [-r|--repository] [-m|--miliestone] [-t|--target]
+```
+Output a release note in markdown which lists issues or pull requests of the repository related to the milistone.
 
 ```powershell
-gbutil release -o ikebe -r RepeatableTimer -m v0.1.0
+> gbutil -o ikebe -r RepeatableTimer -m v0.1.0
+As part of this release we had 4 issues closed.
 
 ### Bug
 * Crash when paused  #5
@@ -27,3 +29,11 @@ gbutil release -o ikebe -r RepeatableTimer -m v0.1.0
 * Allow one time/repeat options #1
 * Add validation #3
 ```
+
+## Options
+|Short name|Long name|Required|Default value|Abstract|
+|:-|:-|:-:|:-:|:-|
+|`-o`|`--owner`|`true`|-|The owner name of the repository.|
+|`-r`|`--repository`|`true`|-|The repository name.|
+|`-m`|`--milestone`|`true`|-|The milestone to publish a release note.|
+|`-t`|`--target`|`false`|`issues`|The switch whether publish a release note based on issues or pull requests.<br>Predefined values are "issues" or "pullrequests".|

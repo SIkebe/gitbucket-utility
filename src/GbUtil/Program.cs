@@ -48,14 +48,18 @@ namespace GbUtil
                 .Where(i => i.UserName == option.Owner)
                 .Where(i => i.RepositoryName == option.Repository)
                 .Where(i => i.Milestone.Title == option.MileStone)
-                .Where(i => !i.PullRequest)
+                .WhereIf(string.Equals(nameof(Target.Issues), option.Target, StringComparison.OrdinalIgnoreCase),
+                    i => !i.PullRequest)
+                .WhereIf(!string.Equals(nameof(Target.Issues), option.Target, StringComparison.OrdinalIgnoreCase),
+                    i => i.PullRequest)
                 .Include(i => i.Milestone)
                 .ToList();
 
+                var closedTargets = option.Target.ToLowerInvariant();
                 if (issues.Count == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"There are no issues related to \"{option.MileStone}\".");
+                    Console.WriteLine($"There are no {closedTargets} related to \"{option.MileStone}\".");
                     Console.ResetColor();
                     return 1;
                 }
@@ -63,12 +67,12 @@ namespace GbUtil
                 if (issues.Any(i => !i.Closed))
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"There are unclosed issues in \"{option.MileStone}\".");
+                    Console.WriteLine($"There are unclosed {closedTargets} in \"{option.MileStone}\".");
                     Console.Write("Do you want to continue?([Y]es/[N]o): ");
                     Console.ResetColor();
 
                     string yesOrNo = Console.ReadLine();
-                    
+
                     if (!string.Equals(yesOrNo, "y", StringComparison.OrdinalIgnoreCase)
                     && !string.Equals(yesOrNo, "yes", StringComparison.OrdinalIgnoreCase))
                     {
@@ -96,7 +100,7 @@ namespace GbUtil
                 .Where(l => l.RepositoryName == option.Repository)
                 .Where(l => issueLabels.Select(i => i.LabelId).Contains(l.LabelId));
 
-                Console.WriteLine($"As part of this release we had {issues.Count} issues closed.");
+                Console.WriteLine($"As part of this release we had {issues.Count} {closedTargets} closed.");
                 Console.WriteLine("");
                 foreach (var label in labels)
                 {
@@ -121,16 +125,25 @@ namespace GbUtil
         }
     }
 
-    [Verb("release", HelpText = "Output release notes")]
+    [Verb("release", HelpText = "Output a release note")]
     public class ReleaseOptions
     {
-        [Option('o', "owner", Required = true, HelpText = "The owner name of the repository")]
+        [Option('o', "owner", Required = true, HelpText = "The owner name of the repository.")]
         public string Owner { get; set; }
 
-        [Option('r', "repository", Required = true, HelpText = "The repository name")]
+        [Option('r', "repository", Required = true, HelpText = "The repository name.")]
         public string Repository { get; set; }
 
-        [Option('m', "milestone", Required = true, HelpText = "The milestone to publish release notes")]
+        [Option('m', "milestone", Required = true, HelpText = "The milestone to publish a release note.")]
         public string MileStone { get; set; }
+
+        [Option('t', "target", Required = false, HelpText = "The options to publish a release note based on issues or pull requests.")]
+        public string Target { get; set; } = nameof(GbUtil.Target.Issues);
+    }
+
+    public enum Target
+    {
+        Issues = 0,
+        PullRequests
     }
 }

@@ -31,9 +31,9 @@ As part of this release we had 4 issues closed.
 ```
 
 ## Options
-|Short name|Long name|Required|Default value|Abstract|
-|:-|:-|:-:|:-:|:-|
-|`-o`|`--owner`|`true`|-|The owner name of the repository.|
-|`-r`|`--repository`|`true`|-|The repository name.|
-|`-m`|`--milestone`|`true`|-|The milestone to publish a release note.|
-|`-t`|`--target`|`false`|`issues`|The switch whether publish a release note based on issues or pull requests.<br>Predefined values are "issues" or "pullrequests".|
+|Short name|Long name|Required|Abstract|
+|:-|:-|:-:|:-|
+|`-o`|`--owner`|`true`|The owner name of the repository.|
+|`-r`|`--repository`|`true`|The repository name.|
+|`-m`|`--milestone`|`true`|The milestone to publish a release note.|
+|`-t`|`--target`|`false`|The switch whether publish a release note based on issues or pull requests.<br>Predefined values are "issues" or "pullrequests".<br> Default value is "issues".|

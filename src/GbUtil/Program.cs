@@ -53,6 +53,7 @@ namespace GbUtil
                 .WhereIf(!string.Equals(nameof(Target.Issues), option.Target, StringComparison.OrdinalIgnoreCase),
                     i => i.PullRequest)
                 .Include(i => i.Milestone)
+                .Include(i => i.Priority)
                 .ToList();
 
                 var closedTargets = option.Target.ToLowerInvariant();
@@ -100,7 +101,13 @@ namespace GbUtil
                 .Where(l => l.RepositoryName == option.Repository)
                 .Where(l => issueLabels.Select(i => i.LabelId).Contains(l.LabelId));
 
+                var highestPriority = issues
+                .OrderBy(i => i.Priority.Ordering)
+                .First()
+                .Priority.PriorityName;
+
                 Console.WriteLine($"As part of this release we had {issues.Count} {closedTargets} closed.");
+                Console.WriteLine($"The highest priority among them is \"{highestPriority}\".");
                 Console.WriteLine("");
                 foreach (var label in labels)
                 {

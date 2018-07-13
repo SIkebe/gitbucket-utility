@@ -20,6 +20,7 @@ Output a release note in markdown which lists issues or pull requests of the rep
 ```powershell
 > gbutil -o ikebe -r RepeatableTimer -m v0.1.0
 As part of this release we had 4 issues closed.
+The highest priority among them is "very high".
 
 ### Bug
 * Crash when paused  #5

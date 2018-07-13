@@ -1,5 +1,8 @@
 # gitbucket-utility
-Utilities for GitBucket
+Utilities for GitBucket  
+
+[![Build status](https://ci.appveyor.com/api/projects/status/q1hfisqpa09662l5/?svg=true)](https://ci.appveyor.com/project/SIkebe/gitbucket-utility/)
+
 
 ## Requirements
 * [.NET Core 2.1 SDK](https://www.microsoft.com/net/download/windows)

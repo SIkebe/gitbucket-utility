@@ -51,12 +51,12 @@ gbutil [-o|--owner] [-r|--repository] [-c|--includeClosed]
 ```
 Show unclosed (by default) milestones.
 
-```powershell
+```
 > gbutil milestone -o ikebe
 There are 3 open milestones.
 
 * RepeatableTimer, v0.2.0, 2018/08/01, Implement xxx feature
-* RepeatableTimer, v0.3.0, ,
+* RepeatableTimer, v0.3.0, 
 * test, v1.0.0, 2018/07/01, Bugfix for #123
 ```
 

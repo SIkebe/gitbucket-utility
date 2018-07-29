@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace GbUtil.Extensions
+namespace System
 {
     public static class StringExtensions
     {

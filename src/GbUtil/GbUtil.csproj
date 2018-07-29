@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <Description>.NET Core Global tool for GitBucket utilities.</Description>
     <LangVersion>7.3</LangVersion>
-    <VersionPrefix>0.2.0</VersionPrefix>
+    <VersionPrefix>0.3.0</VersionPrefix>
     <ToolCommandName>gbutil</ToolCommandName>
     <Authors>SIkebe</Authors>
     <Product>gitbucket-utility</Product>
@@ -23,15 +23,15 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.2.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.0" />
-    <PackageReference Include="octokit" Version="0.29.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GitBucket.Core\GitBucket.Core.csproj" />
+    <ProjectReference Include="..\GitBucket.Data\GitBucket.Data.csproj" />
+    <ProjectReference Include="..\GitBucket.Service\GitBucket.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>

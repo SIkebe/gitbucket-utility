@@ -3,7 +3,7 @@ using CommandLine;
 namespace GitBucket.Core
 {
     [Verb("release", HelpText = "Output a release note")]
-    public class ReleaseOptions
+    public class ReleaseOptions : CommandLineOptionsBase
     {
         [Option('o', "owner", Required = true, HelpText = "The owner name of the repository.")]
         public string Owner { get; set; }

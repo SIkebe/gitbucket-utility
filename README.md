@@ -15,13 +15,14 @@ setx ConnectionStrings:GitBucketConnection Host=host;Username=username;Password=
 ```
 
 ## Usage
+### `gbutil release`
 ```powershell
 gbutil [-o|--owner] [-r|--repository] [-m|--miliestone] [-t|--target]
 ```
 Output a release note in markdown which lists issues or pull requests of the repository related to the milistone.
 
 ```powershell
-> gbutil -o ikebe -r RepeatableTimer -m v0.1.0
+> gbutil release -o ikebe -r RepeatableTimer -m v0.1.0
 As part of this release we had 4 issues closed.
 The highest priority among them is "very high".
 
@@ -34,10 +35,34 @@ The highest priority among them is "very high".
 * Add validation #3
 ```
 
-## Options
+### Options
 |Short name|Long name|Required|Abstract|
 |:-|:-|:-:|:-|
 |`-o`|`--owner`|`true`|The owner name of the repository.|
 |`-r`|`--repository`|`true`|The repository name.|
 |`-m`|`--milestone`|`true`|The milestone to publish a release note.|
 |`-t`|`--target`|`false`|The switch whether publish a release note based on issues or pull requests.<br>Predefined values are "issues" or "pullrequests".<br> Default value is "issues".|
+
+-----
+
+### `gbutil milestone`
+```powershell
+gbutil [-o|--owner] [-r|--repository] [-c|--includeClosed]
+```
+Show unclosed (by default) milestones.
+
+```powershell
+> gbutil milestone -o ikebe
+There are 3 open milestones.
+
+* RepeatableTimer, v0.2.0, 2018/08/01, Implement xxx feature
+* RepeatableTimer, v0.3.0, ,
+* test, v1.0.0, 2018/07/01, Bugfix for #123
+```
+
+### Options
+|Short name|Long name|Required|Abstract|
+|:-|:-|:-:|:-|
+|`-o`|`--owner`|`true`|The owner names of the repositories to show milestones. Use ":" for separator.|
+|`-r`|`--repository`|`false`|The repository names to show milestones. Use ":" for separator.|
+|`-c`|`--includeClosed`|`false`|Whether show closed milestones.|

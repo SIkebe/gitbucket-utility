@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using CommandLine;
 using GitBucket.Core;
+using GitBucket.Core.Models;
 using GitBucket.Data.Repositories;
 using GitBucket.Service;
 using Microsoft.EntityFrameworkCore;
@@ -13,46 +14,51 @@ namespace GbUtil
 {
     class Program
     {
-        private static IConfiguration Configuration { get; set; }
 
         static void Main(string[] args)
         {
+            IConfiguration configuration;
+            IConsole console = new GbUtilConsole();
+
             try
             {
-                Configuration = new ConfigurationBuilder()
+                configuration = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("appsettings.json", optional: true)
                     .AddEnvironmentVariables()
                     .Build();
 
-                var connectionString = Configuration.GetConnectionString("GitBucketConnection");
+                var connectionString = configuration.GetConnectionString("GitBucketConnection");
                 if (string.IsNullOrEmpty(connectionString))
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("PostgreSQL ConnectionString is not configured. Add \"ConnectionStrings: GitBucketConnection\" environment variable.");
-                    Console.ResetColor();
+                    console.WriteWarnLine("PostgreSQL ConnectionString is not configured. Add \"ConnectionStrings: GitBucketConnection\" environment variable.");
                     return;
                 }
 
                 var serviceProvider = new ServiceCollection()
                     .AddScoped<DbContext>(_ => new GitBucketDbContext(connectionString))
                     .AddTransient<IReleaseNoteService, ReleaseNoteService>()
+                    .AddTransient<IMilestoneService, MilestoneService>()
                     .AddTransient<IssueRepositoryBase, IssueRepository>()
                     .AddTransient<LabelRepositoryBase, LabelRepository>()
+                    .AddTransient<MilestoneRepositoryBase, MilestoneRepository>()
+                    .AddTransient<IConsole, GbUtilConsole>()
                     .BuildServiceProvider();
 
                 using (var scope = serviceProvider.CreateScope())
                 {
-                    var releaseNoteService = scope.ServiceProvider.GetRequiredService<IReleaseNoteService>();
-                    Parser.Default.ParseArguments<ReleaseOptions>(args)
-                        .WithParsed(options => releaseNoteService.OutputReleaseNotes(options));
+                    var provider = scope.ServiceProvider;
+                    Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions>(args)
+                        .MapResult(
+                            (ReleaseOptions options) => provider.GetRequiredService<IReleaseNoteService>().OutputReleaseNotes(options),
+                            (MilestoneOptions options) => provider.GetRequiredService<IMilestoneService>().ShowMilestones(options),
+                            errs => 1);
                 }
             }
             catch (Exception ex)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(ex.ToString());
-                Console.ResetColor();
+                console.WriteErrorLine(ex.Message);
+                console.WriteErrorLine(ex.StackTrace);
             }
         }
     }

@@ -5,7 +5,7 @@ init:
 
 # Build script
 build_script:
-  - ps: .\build.ps1
+  - ps: .\build.ps1 -target Run-Unit-Tests
 
 # Tests
 test: off

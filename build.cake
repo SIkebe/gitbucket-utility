@@ -42,6 +42,18 @@ Task("Build")
         }); 
 });
 
+Task("Run-Unit-Tests")
+    .IsDependentOn("Clean")
+    .DoesForEach(GetFiles("./src/*.Tests/*.csproj"), (project) =>
+{
+    DotNetCoreTest(
+        project.FullPath,
+        new DotNetCoreTestSettings 
+        {
+            Configuration = configuration 
+        }); 
+});
+
 Task("Pack")
     .IsDependentOn("Clean")
     .Does(() =>

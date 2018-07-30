@@ -14,7 +14,7 @@ namespace GitBucket.Service.Tests
     public class MilestoneServiceTest
     {
         [Fact]
-        public void Should_Show_Milestone()
+        public void Should_Show_Open_Milestone()
         {
             // Given
             var mockRepository = new Mock<MilestoneRepositoryBase>(new Mock<DbContext>().Object);
@@ -48,9 +48,45 @@ namespace GitBucket.Service.Tests
 
             Assert.Equal("* test1, v0.1.0, 2018/07/29, Implement xxx feature", console.Messages[2]);
         }
+        
+        [Fact]
+        public void Should_Include_Closed_Milestone_If_Specified()
+        {
+            // Given
+            var mockRepository = new Mock<MilestoneRepositoryBase>(new Mock<DbContext>().Object);
+            mockRepository.Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>())).Returns(new[]
+            {
+                new Milestone
+                {
+                    Title = "v0.1.0",
+                    RepositoryName = "test1",
+                    DueDate = new DateTime(2018, 7, 29),
+                    ClosedDate = new DateTime(2018, 7, 29),
+                    Description = "Implement xxx feature"
+                }
+            });
+
+            var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 29), IncludeClosed = true };
+            var console = new FakeConsole();
+            var service = new MilestoneService(mockRepository.Object, console);
+
+            // When
+            var result = service.ShowMilestones(options);
+
+            // Then
+            Assert.Equal(0, result);
+            Assert.Equal(3, console.Messages.Count);
+            Assert.Empty(console.WarnMessages);
+            Assert.Empty(console.ErrorMessages);
+
+            Assert.Equal("There are 1 milestone.", console.Messages[0]);
+            Assert.Equal(string.Empty, console.Messages[1]);
+
+            Assert.Equal("* test1, v0.1.0, 2018/07/29, Implement xxx feature", console.Messages[2]);
+        }
 
         [Fact]
-        public void Should_Show_Closed_Milestones_With_Warning()
+        public void Should_Show_Expired_Milestones_With_Warning()
         {
             // Given
             var mockRepository = new Mock<MilestoneRepositoryBase>(new Mock<DbContext>().Object);
@@ -153,7 +189,7 @@ namespace GitBucket.Service.Tests
 
             // Then
             Assert.Equal(0, result);
-            Assert.Equal(1, console.Messages.Count);
+            Assert.Single(console.Messages);
             Assert.Empty(console.WarnMessages);
             Assert.Empty(console.ErrorMessages);
 

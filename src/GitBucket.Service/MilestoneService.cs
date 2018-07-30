@@ -31,7 +31,9 @@ namespace GitBucket.Service
             }
 
             var milestoneOrMilestones = milestones.Count == 1 ? "milestone." : "milestones.";
-            _console.WriteLine($"There are {milestones.Count} open {milestoneOrMilestones}");
+            _console.WriteLine(options.IncludeClosed ?
+                $"There are {milestones.Count} {milestoneOrMilestones}" :
+                $"There are {milestones.Count} open {milestoneOrMilestones}");
             _console.WriteLine(string.Empty);
 
             foreach (var milestone in milestones)
@@ -43,7 +45,7 @@ namespace GitBucket.Service
                     _console.WriteWarn(", ");
                     _console.WriteWarn(milestone.Title);
                     _console.WriteWarn(", ");
-                    _console.WriteWarn(milestone.DueDate?.ToLocalTime().ToShortDateString());
+                    _console.WriteWarn(milestone.DueDate?.ToString("yyyy/MM/dd"));
                     _console.WriteWarn(", ");
                     _console.WriteWarnLine(milestone.Description);
                     continue;
@@ -54,7 +56,7 @@ namespace GitBucket.Service
                 _console.Write(", ");
                 _console.Write(milestone.Title);
                 _console.Write(", ");
-                _console.Write(milestone.DueDate?.ToLocalTime().ToShortDateString());
+                _console.Write(milestone.DueDate?.ToString("yyyy/MM/dd"));
                 _console.Write(", ");
                 _console.WriteLine(milestone.Description);
             }

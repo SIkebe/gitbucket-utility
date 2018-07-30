@@ -45,7 +45,7 @@ namespace GitBucket.Service
                     _console.WriteWarn(", ");
                     _console.WriteWarn(milestone.Title);
                     _console.WriteWarn(", ");
-                    _console.WriteWarn(milestone.DueDate?.ToLocalTime().ToString("yyyy/MM/dd"));
+                    _console.WriteWarn(milestone.DueDate?.ToString("yyyy/MM/dd"));
                     _console.WriteWarn(", ");
                     _console.WriteWarnLine(milestone.Description);
                     continue;
@@ -56,7 +56,7 @@ namespace GitBucket.Service
                 _console.Write(", ");
                 _console.Write(milestone.Title);
                 _console.Write(", ");
-                _console.Write(milestone.DueDate?.ToLocalTime().ToString("yyyy/MM/dd"));
+                _console.Write(milestone.DueDate?.ToString("yyyy/MM/dd"));
                 _console.Write(", ");
                 _console.WriteLine(milestone.Description);
             }

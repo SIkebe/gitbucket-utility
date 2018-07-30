@@ -41,7 +41,7 @@ namespace GitBucket.Service
                 if (milestone.DueDate != null && milestone.DueDate < options.ExecutedDate)
                 {
                     _console.WriteWarn("* ");
-                    _console.WriteWarn(milestone.RepositoryName);
+                    _console.WriteWarn(milestone.UserName + "/" + milestone.RepositoryName);
                     _console.WriteWarn(", ");
                     _console.WriteWarn(milestone.Title);
                     _console.WriteWarn(", ");
@@ -52,7 +52,7 @@ namespace GitBucket.Service
                 }
 
                 _console.Write("* ");
-                _console.Write(milestone.RepositoryName);
+                _console.Write(milestone.UserName + "/" + milestone.RepositoryName);
                 _console.Write(", ");
                 _console.Write(milestone.Title);
                 _console.Write(", ");

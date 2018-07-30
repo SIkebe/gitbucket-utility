@@ -26,7 +26,8 @@ namespace GitBucket.Service.Tests
                     RepositoryName = "test1",
                     DueDate = new DateTime(2018, 7, 29),
                     ClosedDate = null,
-                    Description = "Implement xxx feature"
+                    Description = "Implement xxx feature",
+                    UserName = "root"
                 }
             });
 
@@ -46,7 +47,7 @@ namespace GitBucket.Service.Tests
             Assert.Equal("There are 1 open milestone.", console.Messages[0]);
             Assert.Equal(string.Empty, console.Messages[1]);
 
-            Assert.Equal("* test1, v0.1.0, 2018/07/29, Implement xxx feature", console.Messages[2]);
+            Assert.Equal("* root/test1, v0.1.0, 2018/07/29, Implement xxx feature", console.Messages[2]);
         }
         
         [Fact]
@@ -62,7 +63,8 @@ namespace GitBucket.Service.Tests
                     RepositoryName = "test1",
                     DueDate = new DateTime(2018, 7, 29),
                     ClosedDate = new DateTime(2018, 7, 29),
-                    Description = "Implement xxx feature"
+                    Description = "Implement xxx feature",
+                    UserName = "root"
                 }
             });
 
@@ -82,7 +84,7 @@ namespace GitBucket.Service.Tests
             Assert.Equal("There are 1 milestone.", console.Messages[0]);
             Assert.Equal(string.Empty, console.Messages[1]);
 
-            Assert.Equal("* test1, v0.1.0, 2018/07/29, Implement xxx feature", console.Messages[2]);
+            Assert.Equal("* root/test1, v0.1.0, 2018/07/29, Implement xxx feature", console.Messages[2]);
         }
 
         [Fact]
@@ -98,7 +100,8 @@ namespace GitBucket.Service.Tests
                     RepositoryName = "test1",
                     DueDate = new DateTime(2018, 7, 28),
                     ClosedDate = null,
-                    Description = "Implement xxx feature"
+                    Description = "Implement xxx feature",
+                    UserName = "root"
                 }
             });
 
@@ -118,7 +121,7 @@ namespace GitBucket.Service.Tests
             Assert.Equal("There are 1 open milestone.", console.Messages[0]);
             Assert.Equal(string.Empty, console.Messages[1]);
 
-            Assert.Equal("* test1, v0.1.0, 2018/07/28, Implement xxx feature", console.WarnMessages[0]);
+            Assert.Equal("* root/test1, v0.1.0, 2018/07/28, Implement xxx feature", console.WarnMessages[0]);
         }
 
         [Fact]
@@ -134,14 +137,16 @@ namespace GitBucket.Service.Tests
                     RepositoryName = "test1",
                     DueDate = null,
                     ClosedDate = null,
-                    Description = "Implement xxx feature"
+                    Description = "Implement xxx feature",
+                    UserName = "user1"
                 },
                 new Milestone
                 {
                     Title = "v0.2.0",
                     RepositoryName = "test1",
                     DueDate = new DateTime(2018, 7, 28),
-                    ClosedDate = null
+                    ClosedDate = null,
+                    UserName = "user1"
                 },
                 new Milestone
                 {
@@ -149,7 +154,8 @@ namespace GitBucket.Service.Tests
                     RepositoryName = "test2",
                     DueDate = new DateTime(2018, 7, 30),
                     ClosedDate = null,
-                    Description = "Bugfix for #123"
+                    Description = "Bugfix for #123",
+                    UserName = "user2"
                 }
             });
 
@@ -169,9 +175,9 @@ namespace GitBucket.Service.Tests
             Assert.Equal("There are 3 open milestones.", console.Messages[0]);
             Assert.Equal(string.Empty, console.Messages[1]);
 
-            Assert.Equal("* test1, v0.1.0, , Implement xxx feature", console.Messages[2]);
-            Assert.Equal("* test1, v0.2.0, 2018/07/28, ", console.WarnMessages[0]);
-            Assert.Equal("* test2, v1.0.0, 2018/07/30, Bugfix for #123", console.Messages[3]);
+            Assert.Equal("* user1/test1, v0.1.0, , Implement xxx feature", console.Messages[2]);
+            Assert.Equal("* user1/test1, v0.2.0, 2018/07/28, ", console.WarnMessages[0]);
+            Assert.Equal("* user2/test2, v1.0.0, 2018/07/30, Bugfix for #123", console.Messages[3]);
         }
 
         [Fact]

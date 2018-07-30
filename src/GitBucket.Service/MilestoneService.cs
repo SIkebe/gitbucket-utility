@@ -31,7 +31,9 @@ namespace GitBucket.Service
             }
 
             var milestoneOrMilestones = milestones.Count == 1 ? "milestone." : "milestones.";
-            _console.WriteLine($"There are {milestones.Count} open {milestoneOrMilestones}");
+            _console.WriteLine(options.IncludeClosed ?
+                $"There are {milestones.Count} {milestoneOrMilestones}" :
+                $"There are {milestones.Count} open {milestoneOrMilestones}");
             _console.WriteLine(string.Empty);
 
             foreach (var milestone in milestones)

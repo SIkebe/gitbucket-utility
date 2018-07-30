@@ -189,7 +189,7 @@ namespace GitBucket.Service.Tests
 
             // Then
             Assert.Equal(0, result);
-            Assert.Equal(1, console.Messages.Count);
+            Assert.Single(console.Messages);
             Assert.Empty(console.WarnMessages);
             Assert.Empty(console.ErrorMessages);
 

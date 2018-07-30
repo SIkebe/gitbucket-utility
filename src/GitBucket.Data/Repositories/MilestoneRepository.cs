@@ -28,7 +28,8 @@ namespace GitBucket.Data.Repositories
                 .WhereIf(options.Owners.Any(), m => options.Owners.Contains(m.UserName))
                 .WhereIf(options.Repositories.Any(), m => options.Repositories.Contains(m.RepositoryName))
                 .WhereIf(!options.IncludeClosed, m => m.ClosedDate == null)
-                .OrderBy(m => m.UserName)
+                .OrderBy(m => m.DueDate)
+                .ThenBy(m => m.UserName)
                 .ThenBy(m => m.RepositoryName);
         }
     }

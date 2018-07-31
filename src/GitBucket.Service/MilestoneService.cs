@@ -38,27 +38,24 @@ namespace GitBucket.Service
 
             foreach (var milestone in milestones)
             {
-                if (milestone.DueDate != null && milestone.DueDate < options.ExecutedDate)
+                if (milestone.ClosedDate != null)
                 {
-                    _console.WriteWarn("* ");
-                    _console.WriteWarn(milestone.UserName + "/" + milestone.RepositoryName);
-                    _console.WriteWarn(", ");
-                    _console.WriteWarn(milestone.Title);
-                    _console.WriteWarn(", ");
-                    _console.WriteWarn(milestone.DueDate?.ToString("yyyy/MM/dd"));
-                    _console.WriteWarn(", ");
-                    _console.WriteWarnLine(milestone.Description);
-                    continue;
+                    _console.WriteLine(milestone.Format());
                 }
-
-                _console.Write("* ");
-                _console.Write(milestone.UserName + "/" + milestone.RepositoryName);
-                _console.Write(", ");
-                _console.Write(milestone.Title);
-                _console.Write(", ");
-                _console.Write(milestone.DueDate?.ToString("yyyy/MM/dd"));
-                _console.Write(", ");
-                _console.WriteLine(milestone.Description);
+                else if (milestone.DueDate == null ||
+                        (milestone.DueDate >= options.ExecutedDate) &&
+                        (milestone.DueDate.Value.Date < options.ExecutedDate.Date.AddDays(7)))
+                {
+                    _console.WriteWarnLine(milestone.Format());
+                }
+                else if (milestone.DueDate < options.ExecutedDate)
+                {
+                    _console.WriteErrorLine(milestone.Format());
+                }
+                else
+                {
+                    _console.WriteLine(milestone.Format());
+                }
             }
 
             return 0;

@@ -24,14 +24,14 @@ namespace GitBucket.Service.Tests
                 {
                     Title = "v0.1.0",
                     RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 7, 29),
+                    DueDate = new DateTime(2018, 7, 8),
                     ClosedDate = null,
                     Description = "Implement xxx feature",
                     UserName = "root"
                 }
             });
 
-            var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 29) };
+            var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
             var console = new FakeConsole();
             var service = new MilestoneService(mockRepository.Object, console);
 
@@ -47,7 +47,7 @@ namespace GitBucket.Service.Tests
             Assert.Equal("There are 1 open milestone.", console.Messages[0]);
             Assert.Equal(string.Empty, console.Messages[1]);
 
-            Assert.Equal("* root/test1, v0.1.0, 2018/07/29, Implement xxx feature", console.Messages[2]);
+            Assert.Equal("* root/test1, v0.1.0, 2018/07/08, Implement xxx feature", console.Messages[2]);
         }
         
         [Fact]
@@ -61,14 +61,14 @@ namespace GitBucket.Service.Tests
                 {
                     Title = "v0.1.0",
                     RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 7, 29),
-                    ClosedDate = new DateTime(2018, 7, 29),
+                    DueDate = new DateTime(2018, 7, 1),
+                    ClosedDate = new DateTime(2018, 7, 1),
                     Description = "Implement xxx feature",
                     UserName = "root"
                 }
             });
 
-            var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 29), IncludeClosed = true };
+            var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1), IncludeClosed = true };
             var console = new FakeConsole();
             var service = new MilestoneService(mockRepository.Object, console);
 
@@ -84,11 +84,11 @@ namespace GitBucket.Service.Tests
             Assert.Equal("There are 1 milestone.", console.Messages[0]);
             Assert.Equal(string.Empty, console.Messages[1]);
 
-            Assert.Equal("* root/test1, v0.1.0, 2018/07/29, Implement xxx feature", console.Messages[2]);
+            Assert.Equal("* root/test1, v0.1.0, 2018/07/01, Implement xxx feature", console.Messages[2]);
         }
 
         [Fact]
-        public void Should_Show_Expired_Milestones_With_Warning()
+        public void Should_Show_Expired_Milestones_With_Error()
         {
             // Given
             var mockRepository = new Mock<MilestoneRepositoryBase>(new Mock<DbContext>().Object);
@@ -98,14 +98,51 @@ namespace GitBucket.Service.Tests
                 {
                     Title = "v0.1.0",
                     RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 7, 28),
+                    DueDate = new DateTime(2018, 6, 30),
                     ClosedDate = null,
                     Description = "Implement xxx feature",
                     UserName = "root"
                 }
             });
 
-            var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 29) };
+            var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
+            var console = new FakeConsole();
+            var service = new MilestoneService(mockRepository.Object, console);
+
+            // When
+            var result = service.ShowMilestones(options);
+
+            // Then
+            Assert.Equal(0, result);
+            Assert.Equal(2, console.Messages.Count);
+            Assert.Empty(console.WarnMessages);
+            Assert.Single(console.ErrorMessages);
+
+            Assert.Equal("There are 1 open milestone.", console.Messages[0]);
+            Assert.Equal(string.Empty, console.Messages[1]);
+
+            Assert.Equal("* root/test1, v0.1.0, 2018/06/30, Implement xxx feature", console.ErrorMessages[0]);
+        }
+
+        [Fact]
+        public void Should_Show_Milestones_To_Be_Closed_In_A_Week_With_Warn()
+        {
+            // Given
+            var mockRepository = new Mock<MilestoneRepositoryBase>(new Mock<DbContext>().Object);
+            mockRepository.Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>())).Returns(new[]
+            {
+                new Milestone
+                {
+                    Title = "v0.1.0",
+                    RepositoryName = "test1",
+                    DueDate = new DateTime(2018, 7, 7),
+                    ClosedDate = null,
+                    Description = "Implement xxx feature",
+                    UserName = "root"
+                }
+            });
+
+            var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
             var console = new FakeConsole();
             var service = new MilestoneService(mockRepository.Object, console);
 
@@ -121,7 +158,44 @@ namespace GitBucket.Service.Tests
             Assert.Equal("There are 1 open milestone.", console.Messages[0]);
             Assert.Equal(string.Empty, console.Messages[1]);
 
-            Assert.Equal("* root/test1, v0.1.0, 2018/07/28, Implement xxx feature", console.WarnMessages[0]);
+            Assert.Equal("* root/test1, v0.1.0, 2018/07/07, Implement xxx feature", console.WarnMessages[0]);
+        }
+
+        [Fact]
+        public void Should_Show_Milestones_With_Warn_If_DueDate_Equals_ExecutedDate()
+        {
+            // Given
+            var mockRepository = new Mock<MilestoneRepositoryBase>(new Mock<DbContext>().Object);
+            mockRepository.Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>())).Returns(new[]
+            {
+                new Milestone
+                {
+                    Title = "v0.1.0",
+                    RepositoryName = "test1",
+                    DueDate = new DateTime(2018, 7, 1),
+                    ClosedDate = null,
+                    Description = "Implement xxx feature",
+                    UserName = "root"
+                }
+            });
+
+            var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
+            var console = new FakeConsole();
+            var service = new MilestoneService(mockRepository.Object, console);
+
+            // When
+            var result = service.ShowMilestones(options);
+
+            // Then
+            Assert.Equal(0, result);
+            Assert.Equal(2, console.Messages.Count);
+            Assert.Single(console.WarnMessages);
+            Assert.Empty(console.ErrorMessages);
+
+            Assert.Equal("There are 1 open milestone.", console.Messages[0]);
+            Assert.Equal(string.Empty, console.Messages[1]);
+
+            Assert.Equal("* root/test1, v0.1.0, 2018/07/01, Implement xxx feature", console.WarnMessages[0]);
         }
 
         [Fact]
@@ -135,31 +209,41 @@ namespace GitBucket.Service.Tests
                 {
                     Title = "v0.1.0",
                     RepositoryName = "test1",
-                    DueDate = null,
+                    DueDate = new DateTime(2018, 6, 30),
                     ClosedDate = null,
-                    Description = "Implement xxx feature",
-                    UserName = "user1"
+                    Description = "Error",
+                    UserName = "root"
                 },
                 new Milestone
                 {
                     Title = "v0.2.0",
                     RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 7, 28),
-                    ClosedDate = null,
-                    UserName = "user1"
+                    DueDate = new DateTime(2018, 7, 1),
+                    ClosedDate = new DateTime(2018, 7, 1),
+                    Description = "Closed",
+                    UserName = "root"
                 },
                 new Milestone
                 {
-                    Title = "v1.0.0",
-                    RepositoryName = "test2",
-                    DueDate = new DateTime(2018, 7, 30),
+                    Title = "v0.3.0",
+                    RepositoryName = "test1",
+                    DueDate = new DateTime(2018, 7, 7),
                     ClosedDate = null,
-                    Description = "Bugfix for #123",
-                    UserName = "user2"
+                    Description = "Warn",
+                    UserName = "root"
+                },
+                new Milestone
+                {
+                    Title = "v0.4.0",
+                    RepositoryName = "test1",
+                    DueDate = new DateTime(2018, 7, 8),
+                    ClosedDate = null,
+                    Description = "Info",
+                    UserName = "root"
                 }
             });
 
-            var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 29) };
+            var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1), IncludeClosed = true };
             var console = new FakeConsole();
             var service = new MilestoneService(mockRepository.Object, console);
 
@@ -170,14 +254,15 @@ namespace GitBucket.Service.Tests
             Assert.Equal(0, result);
             Assert.Equal(4, console.Messages.Count);
             Assert.Single(console.WarnMessages);
-            Assert.Empty(console.ErrorMessages);
+            Assert.Single(console.ErrorMessages);
 
-            Assert.Equal("There are 3 open milestones.", console.Messages[0]);
+            Assert.Equal("There are 4 milestones.", console.Messages[0]);
             Assert.Equal(string.Empty, console.Messages[1]);
-
-            Assert.Equal("* user1/test1, v0.1.0, , Implement xxx feature", console.Messages[2]);
-            Assert.Equal("* user1/test1, v0.2.0, 2018/07/28, ", console.WarnMessages[0]);
-            Assert.Equal("* user2/test2, v1.0.0, 2018/07/30, Bugfix for #123", console.Messages[3]);
+            
+            Assert.Equal("* root/test1, v0.1.0, 2018/06/30, Error", console.ErrorMessages[0]);
+            Assert.Equal("* root/test1, v0.2.0, 2018/07/01, Closed", console.Messages[2]);
+            Assert.Equal("* root/test1, v0.3.0, 2018/07/07, Warn", console.WarnMessages[0]);
+            Assert.Equal("* root/test1, v0.4.0, 2018/07/08, Info", console.Messages[3]);
         }
 
         [Fact]

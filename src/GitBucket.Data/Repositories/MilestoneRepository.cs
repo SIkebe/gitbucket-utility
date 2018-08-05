@@ -25,8 +25,8 @@ namespace GitBucket.Data.Repositories
         public override IEnumerable<Milestone> FindMilestones(MilestoneOptions options)
         {
             return Context.Set<Milestone>()
-                .WhereIf(options.Owners.Any(), m => options.Owners.Contains(m.UserName))
-                .WhereIf(options.Repositories.Any(), m => options.Repositories.Contains(m.RepositoryName))
+                .WhereIf(options.Owners.Any(), m => options.Owners.Contains(m.UserName, StringComparer.OrdinalIgnoreCase))
+                .WhereIf(options.Repositories.Any(), m => options.Repositories.Contains(m.RepositoryName, StringComparer.OrdinalIgnoreCase))
                 .WhereIf(!options.IncludeClosed, m => m.ClosedDate == null)
                 .OrderBy(m => m.DueDate)
                 .ThenBy(m => m.UserName)

@@ -60,8 +60,8 @@ namespace GitBucket.Service
             }
 
             var labels = _labelRepository.FindBy(l =>
-                l.UserName == options.Owner &&
-                l.RepositoryName == options.Repository &&
+                l.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase) &&
+                l.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase) &&
                 issueLabels.Select(i => i.LabelId).Contains(l.LabelId));
 
             var highestPriority = issues

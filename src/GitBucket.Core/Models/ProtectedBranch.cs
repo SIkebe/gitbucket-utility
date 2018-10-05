@@ -13,7 +13,7 @@ namespace GitBucket.Core.Models
         public string UserName { get; set; }
         public string RepositoryName { get; set; }
         public string Branch { get; set; }
-        public bool? StatusCheckAdmin { get; set; }
+        public bool StatusCheckAdmin { get; set; }
 
         public Repository Repository { get; set; }
         public ICollection<ProtectedBranchRequireContext> ProtectedBranchRequireContext { get; set; }

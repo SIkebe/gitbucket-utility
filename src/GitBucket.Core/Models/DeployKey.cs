@@ -10,7 +10,7 @@ namespace GitBucket.Core.Models
         public int DeployKeyId { get; set; }
         public string Title { get; set; }
         public string PublicKey { get; set; }
-        public bool? AllowWrite { get; set; }
+        public bool AllowWrite { get; set; }
 
         public Repository Repository { get; set; }
     }

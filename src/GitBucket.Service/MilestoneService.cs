@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using GitBucket.Core;
 using GitBucket.Core.Models;
 using GitBucket.Data.Repositories;
@@ -10,7 +11,7 @@ namespace GitBucket.Service
 {
     public interface IMilestoneService
     {
-        int ShowMilestones(MilestoneOptions options);
+        Task<int> ShowMilestones(MilestoneOptions options);
     }
 
     public class MilestoneService : IMilestoneService
@@ -21,9 +22,9 @@ namespace GitBucket.Service
         public MilestoneService(MilestoneRepositoryBase milestoneRepository, IConsole console)
             => (_milestoneRepository, _console) = (milestoneRepository, console);
 
-        public int ShowMilestones(MilestoneOptions options)
+        public async Task<int> ShowMilestones(MilestoneOptions options)
         {
-            var milestones = _milestoneRepository.FindMilestones(options).ToList();
+            var milestones = await _milestoneRepository.FindMilestones(options);
             if (milestones.Count == 0)
             {
                 _console.WriteLine("There are no milestone.");

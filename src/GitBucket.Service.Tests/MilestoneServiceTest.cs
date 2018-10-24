@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using GitBucket.Core;
 using GitBucket.Core.Models;
 using GitBucket.Data.Repositories;
@@ -14,29 +16,32 @@ namespace GitBucket.Service.Tests
     public class MilestoneServiceTest
     {
         [Fact]
-        public void Should_Show_Open_Milestone()
+        public async Task Should_Show_Open_Milestone()
         {
             // Given
             var mockRepository = new Mock<MilestoneRepositoryBase>(new Mock<DbContext>().Object);
-            mockRepository.Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>())).Returns(new[]
-            {
-                new Milestone
-                {
-                    Title = "v0.1.0",
-                    RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 7, 8),
-                    ClosedDate = null,
-                    Description = "Implement xxx feature",
-                    UserName = "root"
-                }
-            });
+            mockRepository
+                .Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>()))
+                .ReturnsAsync((MilestoneOptions _) =>
+                    new List<Milestone>
+                    {
+                        new Milestone
+                        {
+                            Title = "v0.1.0",
+                            RepositoryName = "test1",
+                            DueDate = new DateTime(2018, 7, 8),
+                            ClosedDate = null,
+                            Description = "Implement xxx feature",
+                            UserName = "root"
+                        }
+                    });
 
             var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
             var console = new FakeConsole();
             var service = new MilestoneService(mockRepository.Object, console);
 
             // When
-            var result = service.ShowMilestones(options);
+            var result = await service.ShowMilestones(options);
 
             // Then
             Assert.Equal(0, result);
@@ -49,31 +54,34 @@ namespace GitBucket.Service.Tests
 
             Assert.Equal("* root/test1, v0.1.0, 2018/07/08, Implement xxx feature", console.Messages[2]);
         }
-        
+
         [Fact]
-        public void Should_Include_Closed_Milestone_If_Specified()
+        public async Task Should_Include_Closed_Milestone_If_Specified()
         {
             // Given
             var mockRepository = new Mock<MilestoneRepositoryBase>(new Mock<DbContext>().Object);
-            mockRepository.Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>())).Returns(new[]
-            {
-                new Milestone
-                {
-                    Title = "v0.1.0",
-                    RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 7, 1),
-                    ClosedDate = new DateTime(2018, 7, 1),
-                    Description = "Implement xxx feature",
-                    UserName = "root"
-                }
-            });
+            mockRepository
+                .Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>()))
+                .ReturnsAsync((MilestoneOptions _) =>
+                    new List<Milestone>
+                    {
+                        new Milestone
+                        {
+                            Title = "v0.1.0",
+                            RepositoryName = "test1",
+                            DueDate = new DateTime(2018, 7, 1),
+                            ClosedDate = new DateTime(2018, 7, 1),
+                            Description = "Implement xxx feature",
+                            UserName = "root"
+                        }
+                    });
 
             var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1), IncludeClosed = true };
             var console = new FakeConsole();
             var service = new MilestoneService(mockRepository.Object, console);
 
             // When
-            var result = service.ShowMilestones(options);
+            var result = await service.ShowMilestones(options);
 
             // Then
             Assert.Equal(0, result);
@@ -88,29 +96,32 @@ namespace GitBucket.Service.Tests
         }
 
         [Fact]
-        public void Should_Show_Expired_Milestones_With_Error()
+        public async Task Should_Show_Expired_Milestones_With_Error()
         {
             // Given
             var mockRepository = new Mock<MilestoneRepositoryBase>(new Mock<DbContext>().Object);
-            mockRepository.Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>())).Returns(new[]
-            {
-                new Milestone
-                {
-                    Title = "v0.1.0",
-                    RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 6, 30),
-                    ClosedDate = null,
-                    Description = "Implement xxx feature",
-                    UserName = "root"
-                }
-            });
+            mockRepository
+                .Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>()))
+                .ReturnsAsync((MilestoneOptions _) =>
+                    new List<Milestone>
+                    {
+                        new Milestone
+                        {
+                            Title = "v0.1.0",
+                            RepositoryName = "test1",
+                            DueDate = new DateTime(2018, 6, 30),
+                            ClosedDate = null,
+                            Description = "Implement xxx feature",
+                            UserName = "root"
+                        }
+                    });
 
             var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
             var console = new FakeConsole();
             var service = new MilestoneService(mockRepository.Object, console);
 
             // When
-            var result = service.ShowMilestones(options);
+            var result = await service.ShowMilestones(options);
 
             // Then
             Assert.Equal(0, result);
@@ -125,29 +136,32 @@ namespace GitBucket.Service.Tests
         }
 
         [Fact]
-        public void Should_Show_Milestones_To_Be_Closed_In_A_Week_With_Warn()
+        public async Task Should_Show_Milestones_To_Be_Closed_In_A_Week_With_Warn()
         {
             // Given
             var mockRepository = new Mock<MilestoneRepositoryBase>(new Mock<DbContext>().Object);
-            mockRepository.Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>())).Returns(new[]
-            {
-                new Milestone
-                {
-                    Title = "v0.1.0",
-                    RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 7, 7),
-                    ClosedDate = null,
-                    Description = "Implement xxx feature",
-                    UserName = "root"
-                }
-            });
+            mockRepository
+                .Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>()))
+                .ReturnsAsync((MilestoneOptions _) =>
+                    new List<Milestone>
+                    {
+                        new Milestone
+                        {
+                            Title = "v0.1.0",
+                            RepositoryName = "test1",
+                            DueDate = new DateTime(2018, 7, 7),
+                            ClosedDate = null,
+                            Description = "Implement xxx feature",
+                            UserName = "root"
+                        }
+                    });
 
             var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
             var console = new FakeConsole();
             var service = new MilestoneService(mockRepository.Object, console);
 
             // When
-            var result = service.ShowMilestones(options);
+            var result = await service.ShowMilestones(options);
 
             // Then
             Assert.Equal(0, result);
@@ -162,29 +176,32 @@ namespace GitBucket.Service.Tests
         }
 
         [Fact]
-        public void Should_Show_Milestones_With_Warn_If_DueDate_Equals_ExecutedDate()
+        public async Task Should_Show_Milestones_With_Warn_If_DueDate_Equals_ExecutedDate()
         {
             // Given
             var mockRepository = new Mock<MilestoneRepositoryBase>(new Mock<DbContext>().Object);
-            mockRepository.Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>())).Returns(new[]
-            {
-                new Milestone
-                {
-                    Title = "v0.1.0",
-                    RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 7, 1),
-                    ClosedDate = null,
-                    Description = "Implement xxx feature",
-                    UserName = "root"
-                }
-            });
+            mockRepository
+                .Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>()))
+                .ReturnsAsync((MilestoneOptions _) =>
+                    new List<Milestone>
+                    {
+                        new Milestone
+                        {
+                            Title = "v0.1.0",
+                            RepositoryName = "test1",
+                            DueDate = new DateTime(2018, 7, 1),
+                            ClosedDate = null,
+                            Description = "Implement xxx feature",
+                            UserName = "root"
+                        }
+                    });
 
             var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
             var console = new FakeConsole();
             var service = new MilestoneService(mockRepository.Object, console);
 
             // When
-            var result = service.ShowMilestones(options);
+            var result = await service.ShowMilestones(options);
 
             // Then
             Assert.Equal(0, result);
@@ -199,56 +216,58 @@ namespace GitBucket.Service.Tests
         }
 
         [Fact]
-        public void Should_Show_Multiple_Milestones()
+        public async Task Should_Show_Multiple_Milestones()
         {
             // Given
             var mockRepository = new Mock<MilestoneRepositoryBase>(new Mock<DbContext>().Object);
-            mockRepository.Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>())).Returns(new[]
-            {
-                new Milestone
+            mockRepository
+                .Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>()))
+                .ReturnsAsync((MilestoneOptions _) => new List<Milestone>
                 {
-                    Title = "v0.1.0",
-                    RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 6, 30),
-                    ClosedDate = null,
-                    Description = "Error",
-                    UserName = "root"
-                },
-                new Milestone
-                {
-                    Title = "v0.2.0",
-                    RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 7, 1),
-                    ClosedDate = new DateTime(2018, 7, 1),
-                    Description = "Closed",
-                    UserName = "root"
-                },
-                new Milestone
-                {
-                    Title = "v0.3.0",
-                    RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 7, 7),
-                    ClosedDate = null,
-                    Description = "Warn",
-                    UserName = "root"
-                },
-                new Milestone
-                {
-                    Title = "v0.4.0",
-                    RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 7, 8),
-                    ClosedDate = null,
-                    Description = "Info",
-                    UserName = "root"
-                }
-            });
+                    new Milestone
+                    {
+                        Title = "v0.1.0",
+                        RepositoryName = "test1",
+                        DueDate = new DateTime(2018, 6, 30),
+                        ClosedDate = null,
+                        Description = "Error",
+                        UserName = "root"
+                    },
+                    new Milestone
+                    {
+                        Title = "v0.2.0",
+                        RepositoryName = "test1",
+                        DueDate = new DateTime(2018, 7, 1),
+                        ClosedDate = new DateTime(2018, 7, 1),
+                        Description = "Closed",
+                        UserName = "root"
+                    },
+                    new Milestone
+                    {
+                        Title = "v0.3.0",
+                        RepositoryName = "test1",
+                        DueDate = new DateTime(2018, 7, 7),
+                        ClosedDate = null,
+                        Description = "Warn",
+                        UserName = "root"
+                    },
+                    new Milestone
+                    {
+                        Title = "v0.4.0",
+                        RepositoryName = "test1",
+                        DueDate = new DateTime(2018, 7, 8),
+                        ClosedDate = null,
+                        Description = "Info",
+                        UserName = "root"
+                    }
+                });
 
             var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1), IncludeClosed = true };
             var console = new FakeConsole();
             var service = new MilestoneService(mockRepository.Object, console);
 
             // When
-            var result = service.ShowMilestones(options);
+            var result = await service.ShowMilestones(options);
 
             // Then
             Assert.Equal(0, result);
@@ -258,7 +277,7 @@ namespace GitBucket.Service.Tests
 
             Assert.Equal("There are 4 milestones.", console.Messages[0]);
             Assert.Equal(string.Empty, console.Messages[1]);
-            
+
             Assert.Equal("* root/test1, v0.1.0, 2018/06/30, Error", console.ErrorMessages[0]);
             Assert.Equal("* root/test1, v0.2.0, 2018/07/01, Closed", console.Messages[2]);
             Assert.Equal("* root/test1, v0.3.0, 2018/07/07, Warn", console.WarnMessages[0]);
@@ -266,17 +285,20 @@ namespace GitBucket.Service.Tests
         }
 
         [Fact]
-        public void Should_Return_If_No_Milestone()
+        public async Task Should_Return_If_No_Milestone()
         {
             // Given
             var mockRepository = new Mock<MilestoneRepositoryBase>(new Mock<DbContext>().Object);
-            mockRepository.Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>())).Returns(Array.Empty<Milestone>());
+            mockRepository
+                .Setup(m => m.FindMilestones(It.IsAny<MilestoneOptions>()))
+                .ReturnsAsync((MilestoneOptions _) => new List<Milestone>());
+
             var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 29) };
             var console = new FakeConsole();
             var service = new MilestoneService(mockRepository.Object, console);
 
             // When
-            var result = service.ShowMilestones(options);
+            var result = await service.ShowMilestones(options);
 
             // Then
             Assert.Equal(0, result);

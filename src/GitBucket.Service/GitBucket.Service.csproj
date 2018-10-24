@@ -9,4 +9,8 @@
     <ProjectReference Include="..\GitBucket.Data\GitBucket.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="octokit" Version="0.32.0" />
+  </ItemGroup>
+
 </Project>

@@ -78,9 +78,11 @@ namespace GbUtil
                                 }
 
                                 var client = new GitHubClient(
-                                    new ProductHeaderValue("gbutil"),
-                                    new InMemoryCredentialStore(new Credentials(user, password)),
-                                    new Uri(gitbucketUri));
+                                    new Connection(
+                                        new ProductHeaderValue("gbutil"),
+                                        new Uri(gitbucketUri),
+                                        new InMemoryCredentialStore(new Credentials(user, password))
+                                    ));
 
                                 return provider.GetRequiredService<IIssueService>().MoveIssue(options, client);
                             },
@@ -121,7 +123,7 @@ namespace GbUtil
                 {
                     Console.Write('*');
                     builder.Append(consoleKeyInfo.KeyChar);
-                }                
+                }
             }
 
             return builder.ToString();

@@ -71,7 +71,7 @@ namespace GbUtil
                                 }
 
                                 console.Write("Enter your Password: ");
-                                string password = GetConsolePassword();
+                                string password = GetPasswordFromConsole();
                                 if (string.IsNullOrEmpty(password))
                                 {
                                     return Task.FromResult(1);
@@ -96,9 +96,9 @@ namespace GbUtil
             }
         }
 
-        private static string GetConsolePassword()
+        private static string GetPasswordFromConsole()
         {
-            var builder = new StringBuilder();
+            var builder = new StringBuilder();            
             while (true)
             {
                 var consoleKeyInfo = Console.ReadKey(true);
@@ -108,7 +108,7 @@ namespace GbUtil
                     break;
                 }
 
-                if (consoleKeyInfo.Key == ConsoleKey.Backspace)
+                if (consoleKeyInfo.Key == ConsoleKey.Backspace && builder.Length > 0)
                 {
                     if (builder.Length > 0)
                     {
@@ -119,11 +119,8 @@ namespace GbUtil
                     continue;
                 }
 
-                if (((int)consoleKeyInfo.Key) >= 65 && ((int)consoleKeyInfo.Key <= 90))
-                {
-                    Console.Write('*');
-                    builder.Append(consoleKeyInfo.KeyChar);
-                }
+                Console.Write('*');
+                builder.Append(consoleKeyInfo.KeyChar);
             }
 
             return builder.ToString();

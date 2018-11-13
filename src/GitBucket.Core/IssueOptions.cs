@@ -12,7 +12,7 @@ namespace GitBucket.Core
         [Option('s', "source", Required = true, HelpText = @"The source owner and repository to move from. Use ""/"" for separator like ""root/repository1"".")]
         public string Source { get; set; }
 
-        [Option('d', "destination", Required = true, HelpText = @"The destination owner and repository to move. Use ""/"" for separator like ""root/repository2"".")]
+        [Option('d', "destination", Required = true, HelpText = @"The destination owner and repository to move to. Use ""/"" for separator like ""root/repository2"".")]
         public string Destination { get; set; }
 
         [Option('n', "number", Required = true, HelpText = @"The issue number to move.")]

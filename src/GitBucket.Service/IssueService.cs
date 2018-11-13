@@ -15,16 +15,9 @@ namespace GitBucket.Service
 
     public class IssueService : IIssueService
     {
-        private readonly IssueRepositoryBase _issueRepository;
         private readonly IConsole _console;
 
-        public IssueService(
-            IssueRepositoryBase issueRepository,
-            IConsole console)
-        {
-            _issueRepository = issueRepository;
-            _console = console;
-        }
+        public IssueService(IConsole console) => _console = console;
 
         public async Task<int> MoveIssue(IssueOptions options, IGitHubClient gitBucketClient)
         {

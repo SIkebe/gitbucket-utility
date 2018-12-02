@@ -27,14 +27,14 @@ namespace GitBucket.Service
                 return 1;
             }
 
-            var source = options.Source.Split('/');
+            var source = options.Source.Split('/').Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
             if (source.Length != 2)
             {
                 _console.WriteWarnLine("Incorrect source format.");
                 return 1;
             }
 
-            var dest = options.Destination.Split('/');
+            var dest = options.Destination.Split('/').Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
             if (dest.Length != 2)
             {
                 _console.WriteWarnLine("Incorrect destination format.");

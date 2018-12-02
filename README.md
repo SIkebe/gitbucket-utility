@@ -12,6 +12,7 @@ Utilities for GitBucket
 ```cmd
 dotnet tool install --global gbutil --version 0.2.0
 setx ConnectionStrings:GitBucketConnection Host=host;Username=username;Password=password;Database=gitbucket
+setx ConnectionStrings:GitBucketUri http://localhost:8080/gitbucket/api/v3/
 ```
 
 ## Usage

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using GitBucket.Core;
 using GitBucket.Core.Models;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ namespace GitBucket.Data.Repositories
         {
         }
 
-        public abstract IEnumerable<Milestone> FindMilestones(MilestoneOptions options);
+        public abstract Task<List<Milestone>> FindMilestones(MilestoneOptions options);
     }
 
     public class MilestoneRepository : MilestoneRepositoryBase
@@ -22,15 +23,16 @@ namespace GitBucket.Data.Repositories
         {
         }
 
-        public override IEnumerable<Milestone> FindMilestones(MilestoneOptions options)
+        public override async Task<List<Milestone>> FindMilestones(MilestoneOptions options)
         {
-            return Context.Set<Milestone>()
+            return await Context.Set<Milestone>()
                 .WhereIf(options.Owners.Any(), m => options.Owners.Contains(m.UserName, StringComparer.OrdinalIgnoreCase))
                 .WhereIf(options.Repositories.Any(), m => options.Repositories.Contains(m.RepositoryName, StringComparer.OrdinalIgnoreCase))
                 .WhereIf(!options.IncludeClosed, m => m.ClosedDate == null)
                 .OrderBy(m => m.DueDate)
                 .ThenBy(m => m.UserName)
-                .ThenBy(m => m.RepositoryName);
+                .ThenBy(m => m.RepositoryName)
+                .ToListAsync();
         }
     }
 }

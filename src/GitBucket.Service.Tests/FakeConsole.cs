@@ -9,7 +9,7 @@ namespace GitBucket.Service.Tests
     /// <summary>
     /// Implementation of a fake <see cref="IConsole"/>.
     /// </summary>
-    public sealed class FakeConsole : IConsole
+    public class FakeConsole : IConsole
     {
         private bool hasNewLineAtTheEndOfTheMessages = false;
         public List<string> Messages { get; set; } = new List<string>();
@@ -132,5 +132,7 @@ namespace GitBucket.Service.Tests
         }
 
         public void ResetColor() => ForegroundColor = ConsoleColor.Gray;
+
+        public virtual string ReadLine() => "test";
     }
 }

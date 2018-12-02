@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using GitBucket.Core;
 using GitBucket.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ namespace GitBucket.Service
 {
     public interface IReleaseNoteService
     {
-        int OutputReleaseNotes(ReleaseOptions options);
+        Task<int> OutputReleaseNotes(ReleaseOptions options);
     }
 
     public class ReleaseNoteService : IReleaseNoteService
@@ -27,10 +28,10 @@ namespace GitBucket.Service
             _console = console;
         }
 
-        public int OutputReleaseNotes(ReleaseOptions options)
+        public async Task<int> OutputReleaseNotes(ReleaseOptions options)
         {
             var closedTargets = options.Target.ToLowerInvariant();
-            var issues = _issueRepository.FindIssuesRelatedToMileStone(options).ToList();
+            var issues = await _issueRepository.FindIssuesRelatedToMileStone(options);
             if (!issues.Any())
             {
                 _console.WriteWarnLine($"There are no {closedTargets} related to \"{options.MileStone}\".");
@@ -60,8 +61,8 @@ namespace GitBucket.Service
             }
 
             var labels = _labelRepository.FindBy(l =>
-                l.UserName == options.Owner &&
-                l.RepositoryName == options.Repository &&
+                l.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase) &&
+                l.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase) &&
                 issueLabels.Select(i => i.LabelId).Contains(l.LabelId));
 
             var highestPriority = issues

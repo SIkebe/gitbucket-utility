@@ -17,6 +17,9 @@ namespace GitBucket.Core.Models
         public DateTime RegisteredDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public int? IssueId { get; set; }
+        public string OriginalCommitId { get; set; }
+        public int? OriginalOldLine { get; set; }
+        public int? OriginalNewLine { get; set; }
 
         public Repository Repository { get; set; }
     }

@@ -62,5 +62,7 @@ namespace GitBucket.Core
         }
 
         public void ResetColor() => Console.ResetColor();
+
+        public string ReadLine() => Console.ReadLine();
     }
 }

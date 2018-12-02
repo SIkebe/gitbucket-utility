@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using GitBucket.Core;
 using GitBucket.Core.Models;
 using GitBucket.Data.Repositories;
@@ -10,7 +11,7 @@ namespace GitBucket.Service
 {
     public interface IMilestoneService
     {
-        int ShowMilestones(MilestoneOptions options);
+        Task<int> ShowMilestones(MilestoneOptions options);
     }
 
     public class MilestoneService : IMilestoneService
@@ -21,9 +22,9 @@ namespace GitBucket.Service
         public MilestoneService(MilestoneRepositoryBase milestoneRepository, IConsole console)
             => (_milestoneRepository, _console) = (milestoneRepository, console);
 
-        public int ShowMilestones(MilestoneOptions options)
+        public async Task<int> ShowMilestones(MilestoneOptions options)
         {
-            var milestones = _milestoneRepository.FindMilestones(options).ToList();
+            var milestones = await _milestoneRepository.FindMilestones(options);
             if (milestones.Count == 0)
             {
                 _console.WriteLine("There are no milestone.");
@@ -31,32 +32,31 @@ namespace GitBucket.Service
             }
 
             var milestoneOrMilestones = milestones.Count == 1 ? "milestone." : "milestones.";
-            _console.WriteLine($"There are {milestones.Count} open {milestoneOrMilestones}");
+            _console.WriteLine(options.IncludeClosed ?
+                $"There are {milestones.Count} {milestoneOrMilestones}" :
+                $"There are {milestones.Count} open {milestoneOrMilestones}");
             _console.WriteLine(string.Empty);
 
             foreach (var milestone in milestones)
             {
-                if (milestone.DueDate != null && milestone.DueDate < options.ExecutedDate)
+                if (milestone.ClosedDate != null)
                 {
-                    _console.WriteWarn("* ");
-                    _console.WriteWarn(milestone.RepositoryName);
-                    _console.WriteWarn(", ");
-                    _console.WriteWarn(milestone.Title);
-                    _console.WriteWarn(", ");
-                    _console.WriteWarn(milestone.DueDate?.ToLocalTime().ToShortDateString());
-                    _console.WriteWarn(", ");
-                    _console.WriteWarnLine(milestone.Description);
-                    continue;
+                    _console.WriteLine(milestone.Format());
                 }
-
-                _console.Write("* ");
-                _console.Write(milestone.RepositoryName);
-                _console.Write(", ");
-                _console.Write(milestone.Title);
-                _console.Write(", ");
-                _console.Write(milestone.DueDate?.ToLocalTime().ToShortDateString());
-                _console.Write(", ");
-                _console.WriteLine(milestone.Description);
+                else if (milestone.DueDate == null ||
+                        (milestone.DueDate >= options.ExecutedDate) &&
+                        (milestone.DueDate.Value.Date < options.ExecutedDate.Date.AddDays(7)))
+                {
+                    _console.WriteWarnLine(milestone.Format());
+                }
+                else if (milestone.DueDate < options.ExecutedDate)
+                {
+                    _console.WriteErrorLine(milestone.Format());
+                }
+                else
+                {
+                    _console.WriteLine(milestone.Format());
+                }
             }
 
             return 0;

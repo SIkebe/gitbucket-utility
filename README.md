@@ -19,7 +19,7 @@ setx GitBucketUri http://localhost:8080/gitbucket/api/v3/
 ### `gbutil issue -t move`
 
 ```powershell
-gbutil issue [-t|--type] [-s|--source] [-d|--destination] [-n|--number]
+gbutil issue -t move [-s|--source] [-d|--destination] [-n|--number]
 ```
 
 Move an issue between repositories.
@@ -39,6 +39,32 @@ Close the original one manually.
 |`-s`|`--source`|`true`|The source owner and repository to move from. Use "/" for separator like "root/repository1".|
 |`-d`|`--destination`|`true`|The destination owner and repository to move to. Use "/" for separator like "root/repository2".|
 |`-n`|`--number`|`false`|The issue number to move.|
+
+-----
+
+
+### `gbutil issue -t copy`
+
+```powershell
+gbutil issue -t copy [-s|--source] [-d|--destination] [-n|--number]
+```
+
+Copy an issue between repositories.
+
+```
+> gbutil issue -t copy -s root/test1 -d root/test2 -n 1
+Enter your Username: root
+Enter your Password: ****
+The issue has been successfully copied to http://localhost:8080/gitbucket/root/test2/issues/35.
+```
+
+### Options
+|Short name|Long name|Required|Abstract|
+|:-|:-|:-:|:-|
+|`-t`|`--type`|`true`|The type of issue options. Default value is "move".|
+|`-s`|`--source`|`true`|The source owner and repository to copy from. Use "/" for separator like "root/repository1".|
+|`-d`|`--destination`|`true`|The destination owner and repository to copy to. Use "/" for separator like "root/repository2".|
+|`-n`|`--number`|`false`|The issue number to copy.|
 
 -----
 

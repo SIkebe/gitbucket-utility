@@ -84,7 +84,7 @@ namespace GbUtil
                                         new InMemoryCredentialStore(new Credentials(user, password))
                                     ));
 
-                                return provider.GetRequiredService<IIssueService>().MoveIssue(options, client);
+                                return provider.GetRequiredService<IIssueService>().Execute(options, client);
                             },
                             errs => Task.FromResult(-1));
                 }

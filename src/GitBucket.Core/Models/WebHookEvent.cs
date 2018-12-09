@@ -10,6 +10,6 @@ namespace GitBucket.Core.Models
         public string Url { get; set; }
         public string Event { get; set; }
 
-        public WebHook WebHook { get; set; }
+        public virtual WebHook WebHook { get; set; }
     }
 }

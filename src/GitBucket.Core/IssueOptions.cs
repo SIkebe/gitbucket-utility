@@ -15,7 +15,7 @@ namespace GitBucket.Core
         [Option('d', "destination", Separator = '/', Min = 2, Max = 2, HelpText = @"The destination owner and repository to move/copy to. Use ""/"" for separator like ""root/repository2"".")]
         public IEnumerable<string> Destination { get; set; }
 
-        [Option('n', "number", Required = true, HelpText = @"The issue number to move/copy.")]
-        public int IssueNumber { get; set; }
+        [Option('n', "number", Required = true, HelpText = @"The issue numbers to move/copy. Use "":"" for separator.")]
+        public IEnumerable<int> IssueNumbers { get; set; }
     }
 }

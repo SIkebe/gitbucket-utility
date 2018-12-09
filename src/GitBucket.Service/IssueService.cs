@@ -51,40 +51,43 @@ namespace GitBucket.Service
             string destOwner,
             string destRepository)
         {
-            var sourceIssue = await gitBucketClient.Issue.Get(sourceOwner, sourceRepository, options.IssueNumber);
-
-            // Create a new issue on the specified owner/repository
-            var newIssue = await gitBucketClient.Issue.Create(
-                destOwner,
-                destRepository,
-                new NewIssue(sourceIssue.Title)
-                {
-                    Body = $"*From @{sourceIssue.User.Login} on {sourceIssue.CreatedAt.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss")}*" + Environment.NewLine + Environment.NewLine
-                        + sourceIssue.Body + Environment.NewLine + Environment.NewLine
-                        + $"*Copied from original issue: {sourceOwner}/{sourceRepository}#{options.IssueNumber}*"
-                });
-
-            // Copy all comments from the original issue
-            var issueComments = await gitBucketClient.Issue.Comment.GetAllForIssue(sourceOwner, sourceRepository, options.IssueNumber);
-            foreach (var comment in issueComments)
+            foreach (var issueNumber in options.IssueNumbers)
             {
-                await gitBucketClient.Issue.Comment.Create(
+                var sourceIssue = await gitBucketClient.Issue.Get(sourceOwner, sourceRepository, issueNumber);
+
+                // Create a new issue on the specified owner/repository
+                var newIssue = await gitBucketClient.Issue.Create(
                     destOwner,
                     destRepository,
-                    newIssue.Number,
-                    $"*From @{comment.User.Login} on {comment.CreatedAt.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss")}*" + Environment.NewLine + Environment.NewLine
-                        + comment.Body);
+                    new NewIssue(sourceIssue.Title)
+                    {
+                        Body = $"*From @{sourceIssue.User.Login} on {sourceIssue.CreatedAt.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss")}*" + Environment.NewLine + Environment.NewLine
+                            + sourceIssue.Body + Environment.NewLine + Environment.NewLine
+                            + $"*Copied from original issue: {sourceOwner}/{sourceRepository}#{issueNumber}*"
+                    });
+
+                // Copy all comments from the original issue
+                var issueComments = await gitBucketClient.Issue.Comment.GetAllForIssue(sourceOwner, sourceRepository, issueNumber);
+                foreach (var comment in issueComments)
+                {
+                    await gitBucketClient.Issue.Comment.Create(
+                        destOwner,
+                        destRepository,
+                        newIssue.Number,
+                        $"*From @{comment.User.Login} on {comment.CreatedAt.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss")}*" + Environment.NewLine + Environment.NewLine
+                            + comment.Body);
+                }
+
+                // Create a comment on the original issue
+                await gitBucketClient.Issue.Comment.Create(
+                    sourceOwner,
+                    sourceRepository,
+                    sourceIssue.Number,
+                    $"*This issue was moved to {destOwner}/{destRepository}#{newIssue.Number}*");
+
+                _console.WriteLine($"The issue has been successfully moved to {newIssue.HtmlUrl}.");
+                _console.WriteLine($"Close the original one manually.");
             }
-
-            // Create a comment on the original issue
-            await gitBucketClient.Issue.Comment.Create(
-                sourceOwner,
-                sourceRepository,
-                sourceIssue.Number,
-                $"*This issue was moved to {destOwner}/{destRepository}#{newIssue.Number}*");
-
-            _console.WriteLine($"The issue has been successfully moved to {newIssue.HtmlUrl}.");
-            _console.WriteLine($"Close the original one manually.");
         }
 
         private async Task CopyIssue(
@@ -95,26 +98,29 @@ namespace GitBucket.Service
             string destOwner,
             string destRepository)
         {
-            var sourceIssue = await gitBucketClient.Issue.Get(sourceOwner, sourceRepository, options.IssueNumber);
-
-            // Create a new issue on the specified owner/repository
-            var newIssue = await gitBucketClient.Issue.Create(
-                destOwner,
-                destRepository,
-                new NewIssue(sourceIssue.Title)
-                {
-                    Body = sourceIssue.Body + Environment.NewLine + Environment.NewLine
-                        + $"*Copied from original issue: {sourceOwner}/{sourceRepository}#{options.IssueNumber}*"
-                });
-
-            // Copy all comments from the original issue
-            var issueComments = await gitBucketClient.Issue.Comment.GetAllForIssue(sourceOwner, sourceRepository, options.IssueNumber);
-            foreach (var comment in issueComments)
+            foreach (var issueNumber in options.IssueNumbers)
             {
-                await gitBucketClient.Issue.Comment.Create(destOwner, destRepository, newIssue.Number, comment.Body);
-            }
+                var sourceIssue = await gitBucketClient.Issue.Get(sourceOwner, sourceRepository, issueNumber);
 
-            _console.WriteLine($"The issue has been successfully copied to {newIssue.HtmlUrl}.");
+                // Create a new issue on the specified owner/repository
+                var newIssue = await gitBucketClient.Issue.Create(
+                    destOwner,
+                    destRepository,
+                    new NewIssue(sourceIssue.Title)
+                    {
+                        Body = sourceIssue.Body + Environment.NewLine + Environment.NewLine
+                            + $"*Copied from original issue: {sourceOwner}/{sourceRepository}#{issueNumber}*"
+                    });
+
+                // Copy all comments from the original issue
+                var issueComments = await gitBucketClient.Issue.Comment.GetAllForIssue(sourceOwner, sourceRepository, issueNumber);
+                foreach (var comment in issueComments)
+                {
+                    await gitBucketClient.Issue.Comment.Create(destOwner, destRepository, newIssue.Number, comment.Body);
+                }
+
+                _console.WriteLine($"The issue has been successfully copied to {newIssue.HtmlUrl}.");
+            }
         }
     }
 }

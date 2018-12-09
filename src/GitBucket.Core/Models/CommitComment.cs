@@ -21,6 +21,6 @@ namespace GitBucket.Core.Models
         public int? OriginalOldLine { get; set; }
         public int? OriginalNewLine { get; set; }
 
-        public Repository Repository { get; set; }
+        public virtual Repository Repository { get; set; }
     }
 }

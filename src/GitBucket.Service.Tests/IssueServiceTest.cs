@@ -91,7 +91,7 @@ namespace GitBucket.Service.Tests
                     htmlUrl: "",
                     commentsUrl: "",
                     eventsUrl: "",
-                    number: 0,
+                    number: id,
                     state: ItemState.Open,
                     title: "Found a bug",
                     body: "Original Issue Comment.",
@@ -170,7 +170,7 @@ namespace GitBucket.Service.Tests
                 ExecutedDate = new DateTime(2018, 7, 1),
                 Source = new[] { "root", "test1" },
                 Destination = new[] { "root", "test2" },
-                IssueNumber = 1
+                IssueNumbers = new[] { 1 }
             };
 
             var console = new FakeConsole();
@@ -202,8 +202,165 @@ namespace GitBucket.Service.Tests
             mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
                 It.Is<string>(o => o == "root"),
                 It.Is<string>(r => r == "test1"),
-                It.Is<int>(n => n == 0),
+                It.Is<int>(n => n == 1),
                 It.Is<string>(c => c == "*This issue was moved to root/test2#1*")));
+        }
+
+        [Fact]
+        public async Task Should_Move_Multiple_Issues_To_Same_Owner_Repository()
+        {
+            // Given
+            var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
+            mockGitBucketClient
+                .Setup(g => g.Issue.Get(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
+                .ReturnsAsync((string owner, string repository, int id) => new Octokit.Issue
+                (
+                    url: "",
+                    htmlUrl: "",
+                    commentsUrl: "",
+                    eventsUrl: "",
+                    number: id,
+                    state: ItemState.Open,
+                    title: "Found a bug",
+                    body: "Original Issue Comment.",
+                    closedBy: null,
+                    user: _rootUser,
+                    labels: null,
+                    assignee: new User(),
+                    assignees: null,
+                    milestone: null,
+                    comments: 0,
+                    pullRequest: null,
+                    closedAt: null,
+                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    updatedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    id: id,
+                    nodeId: "",
+                    locked: false,
+                    repository: null,
+                    reactions: null
+                ));
+
+            int invocationCount = 0;
+            mockGitBucketClient
+                .Setup(g => g.Issue.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewIssue>()))
+                .Callback(() => invocationCount++)
+                .ReturnsAsync((string owner, string repository, NewIssue newIssue) => new Octokit.Issue
+                (
+                    url: "",
+                    htmlUrl: "",
+                    commentsUrl: "",
+                    eventsUrl: "",
+                    number: invocationCount,
+                    state: ItemState.Open,
+                    title: newIssue.Title,
+                    body: newIssue.Body,
+                    closedBy: null,
+                    user: new User(),
+                    labels: null,
+                    assignee: new User(),
+                    assignees: null,
+                    milestone: null,
+                    comments: 0,
+                    pullRequest: null,
+                    closedAt: null,
+                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 2)),
+                    updatedAt: new DateTimeOffset(new DateTime(2018, 7, 2)),
+                    id: invocationCount,
+                    nodeId: "",
+                    locked: false,
+                    repository: null,
+                    reactions: null
+                ));
+
+            mockGitBucketClient
+                .Setup(g => g.Issue.Comment.GetAllForIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
+                .ReturnsAsync(new ReadOnlyCollection<Octokit.IssueComment>(new List<Octokit.IssueComment>{
+                    new Octokit.IssueComment(
+                        id:1,
+                        nodeId:"",
+                        url:"",
+                        htmlUrl:"",
+                        body:"This is a comment by root.",
+                        createdAt:new DateTimeOffset(new DateTime(2018, 1, 1)),
+                        updatedAt:new DateTimeOffset(new DateTime(2018, 1, 2)),
+                        user:_user1,
+                        reactions:new ReactionSummary()
+                    )
+                }));
+
+            mockGitBucketClient
+                .Setup(g => g.Issue.Comment.Create(
+                    It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string>()
+                ))
+                .ReturnsAsync(new Octokit.IssueComment());
+
+            var options = new IssueOptions
+            {
+                ExecutedDate = new DateTime(2018, 7, 1),
+                Source = new[] { "root", "test1" },
+                Destination = new[] { "root", "test2" },
+                IssueNumbers = new[] { 1, 2 }
+            };
+
+            var console = new FakeConsole();
+            var service = new IssueService(console);
+
+            // When
+            var result = await service.Execute(options, mockGitBucketClient.Object);
+
+            // Then
+            Assert.Equal(0, result);
+
+            // First issue
+            mockGitBucketClient.Verify(g => g.Issue.Get(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test1"),
+                It.Is<int>(i => i == 1)));
+
+            mockGitBucketClient.Verify(g => g.Issue.Create(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test2"),
+                It.Is<NewIssue>(i =>
+                    i.Title == "Found a bug" &&
+                    i.Body == "*From @root on 2018-07-01 00:00:00*\r\n\r\nOriginal Issue Comment.\r\n\r\n*Copied from original issue: root/test1#1*")));
+
+            mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test2"),
+                It.Is<int>(n => n == 1),
+                It.Is<string>(c => c == "*From @user1 on 2018-01-01 00:00:00*\r\n\r\nThis is a comment by root.")));
+
+            mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test1"),
+                It.Is<int>(n => n == 1),
+                It.Is<string>(c => c == "*This issue was moved to root/test2#1*")));
+
+            // Second issue
+            mockGitBucketClient.Verify(g => g.Issue.Get(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test1"),
+                It.Is<int>(i => i == 2)));
+
+            mockGitBucketClient.Verify(g => g.Issue.Create(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test2"),
+                It.Is<NewIssue>(i =>
+                    i.Title == "Found a bug" &&
+                    i.Body == "*From @root on 2018-07-01 00:00:00*\r\n\r\nOriginal Issue Comment.\r\n\r\n*Copied from original issue: root/test1#2*")));
+
+            mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test2"),
+                It.Is<int>(n => n == 2),
+                It.Is<string>(c => c == "*From @user1 on 2018-01-01 00:00:00*\r\n\r\nThis is a comment by root.")));
+
+            mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test1"),
+                It.Is<int>(n => n == 2),
+                It.Is<string>(c => c == "*This issue was moved to root/test2#2*")));
         }
 
         [Fact]
@@ -216,7 +373,7 @@ namespace GitBucket.Service.Tests
                 ExecutedDate = new DateTime(2018, 7, 1),
                 Source = new[] { "root", "test1" },
                 Destination = new[] { "root", "test2" },
-                IssueNumber = 1,
+                IssueNumbers = new[] { 1 },
                 Type = "Invalid Type"
             };
 
@@ -258,7 +415,7 @@ namespace GitBucket.Service.Tests
                 ExecutedDate = new DateTime(2018, 7, 1),
                 Source = new[] { "root", "test1" },
                 Destination = new[] { "root", "test2" },
-                IssueNumber = 1
+                IssueNumbers = new[] { 1 }
             };
 
             var console = new FakeConsole();
@@ -285,7 +442,7 @@ namespace GitBucket.Service.Tests
                     htmlUrl: "",
                     commentsUrl: "",
                     eventsUrl: "",
-                    number: 0,
+                    number: id,
                     state: ItemState.Open,
                     title: "Found a bug",
                     body: "Original Issue Comment.",
@@ -364,7 +521,7 @@ namespace GitBucket.Service.Tests
                 ExecutedDate = new DateTime(2018, 7, 1),
                 Source = new[] { "root", "test1" },
                 Destination = new[] { "root", "test2" },
-                IssueNumber = 1,
+                IssueNumbers = new[] { 1 },
                 Type = "copy"
             };
 
@@ -392,6 +549,152 @@ namespace GitBucket.Service.Tests
                 It.Is<string>(o => o == "root"),
                 It.Is<string>(r => r == "test2"),
                 It.Is<int>(n => n == 1),
+                It.Is<string>(c => c == "This is a comment by root.")));
+        }
+
+        [Fact]
+        public async Task Should_Copy_Multiple_Issues_To_Same_Owner_Repository()
+        {
+            // Given
+            var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
+            mockGitBucketClient
+                .Setup(g => g.Issue.Get(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
+                .ReturnsAsync((string owner, string repository, int id) => new Octokit.Issue
+                (
+                    url: "",
+                    htmlUrl: "",
+                    commentsUrl: "",
+                    eventsUrl: "",
+                    number: id,
+                    state: ItemState.Open,
+                    title: "Found a bug",
+                    body: "Original Issue Comment.",
+                    closedBy: null,
+                    user: _rootUser,
+                    labels: null,
+                    assignee: new User(),
+                    assignees: null,
+                    milestone: null,
+                    comments: 0,
+                    pullRequest: null,
+                    closedAt: null,
+                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    updatedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    id: id,
+                    nodeId: "",
+                    locked: false,
+                    repository: null,
+                    reactions: null
+                ));
+
+            int invocationCount = 0;
+            mockGitBucketClient
+                .Setup(g => g.Issue.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewIssue>()))
+                .Callback(() => invocationCount++)
+                .ReturnsAsync((string owner, string repository, NewIssue newIssue) => new Octokit.Issue
+                (
+                    url: "",
+                    htmlUrl: "",
+                    commentsUrl: "",
+                    eventsUrl: "",
+                    number: invocationCount,
+                    state: ItemState.Open,
+                    title: newIssue.Title,
+                    body: newIssue.Body,
+                    closedBy: null,
+                    user: new User(),
+                    labels: null,
+                    assignee: new User(),
+                    assignees: null,
+                    milestone: null,
+                    comments: 0,
+                    pullRequest: null,
+                    closedAt: null,
+                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 2)),
+                    updatedAt: new DateTimeOffset(new DateTime(2018, 7, 2)),
+                    id: invocationCount,
+                    nodeId: "",
+                    locked: false,
+                    repository: null,
+                    reactions: null
+                ));
+
+            mockGitBucketClient
+                .Setup(g => g.Issue.Comment.GetAllForIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
+                .ReturnsAsync(new ReadOnlyCollection<Octokit.IssueComment>(new List<Octokit.IssueComment>{
+                    new Octokit.IssueComment(
+                        id:1,
+                        nodeId:"",
+                        url:"",
+                        htmlUrl:"",
+                        body:"This is a comment by root.",
+                        createdAt:new DateTimeOffset(new DateTime(2018, 1, 1)),
+                        updatedAt:new DateTimeOffset(new DateTime(2018, 1, 2)),
+                        user:_user1,
+                        reactions:new ReactionSummary()
+                    )
+                }));
+
+            mockGitBucketClient
+                .Setup(g => g.Issue.Comment.Create(
+                    It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string>()
+                ))
+                .ReturnsAsync(new Octokit.IssueComment());
+
+            var options = new IssueOptions
+            {
+                ExecutedDate = new DateTime(2018, 7, 1),
+                Source = new[] { "root", "test1" },
+                Destination = new[] { "root", "test2" },
+                IssueNumbers = new[] { 1, 2 },
+                Type = "copy"
+            };
+
+            var console = new FakeConsole();
+            var service = new IssueService(console);
+
+            // When
+            var result = await service.Execute(options, mockGitBucketClient.Object);
+
+            // Then
+            Assert.Equal(0, result);
+
+            // First issue
+            mockGitBucketClient.Verify(g => g.Issue.Get(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test1"),
+                It.Is<int>(i => i == 1)));
+
+            mockGitBucketClient.Verify(g => g.Issue.Create(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test2"),
+                It.Is<NewIssue>(i =>
+                    i.Title == "Found a bug" &&
+                    i.Body == "Original Issue Comment.\r\n\r\n*Copied from original issue: root/test1#1*")));
+
+            mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test2"),
+                It.Is<int>(n => n == 1),
+                It.Is<string>(c => c == "This is a comment by root.")));
+
+            // Second issue
+            mockGitBucketClient.Verify(g => g.Issue.Get(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test1"),
+                It.Is<int>(i => i == 2)));
+
+            mockGitBucketClient.Verify(g => g.Issue.Create(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test2"),
+                It.Is<NewIssue>(i =>
+                    i.Title == "Found a bug" &&
+                    i.Body == "Original Issue Comment.\r\n\r\n*Copied from original issue: root/test1#2*")));
+
+            mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test2"),
+                It.Is<int>(n => n == 2),
                 It.Is<string>(c => c == "This is a comment by root.")));
         }
     }

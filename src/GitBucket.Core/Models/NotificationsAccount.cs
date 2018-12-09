@@ -8,6 +8,6 @@ namespace GitBucket.Core.Models
         public string UserName { get; set; }
         public bool DisableEmail { get; set; }
 
-        public Account UserNameNavigation { get; set; }
+        public virtual Account UserNameNavigation { get; set; }
     }
 }

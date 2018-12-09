@@ -16,7 +16,7 @@ namespace GitBucket.Core.Models
         public string Token { get; set; }
         public string Ctype { get; set; }
 
-        public Repository Repository { get; set; }
-        public ICollection<WebHookEvent> WebHookEvent { get; set; }
+        public virtual Repository Repository { get; set; }
+        public virtual ICollection<WebHookEvent> WebHookEvent { get; set; }
     }
 }

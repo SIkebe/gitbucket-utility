@@ -12,6 +12,6 @@ namespace GitBucket.Core.Models
         public string PublicKey { get; set; }
         public bool AllowWrite { get; set; }
 
-        public Repository Repository { get; set; }
+        public virtual Repository Repository { get; set; }
     }
 }

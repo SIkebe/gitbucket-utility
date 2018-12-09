@@ -19,7 +19,7 @@ namespace GitBucket.Core.Models
         public DateTime RegisteredDate { get; set; }
         public DateTime UpdatedDate { get; set; }
 
-        public Repository Repository { get; set; }
-        public ICollection<ReleaseAsset> ReleaseAsset { get; set; }
+        public virtual Repository Repository { get; set; }
+        public virtual ICollection<ReleaseAsset> ReleaseAsset { get; set; }
     }
 }

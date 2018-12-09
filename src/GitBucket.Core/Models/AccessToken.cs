@@ -10,6 +10,6 @@ namespace GitBucket.Core.Models
         public string UserName { get; set; }
         public string Note { get; set; }
 
-        public Account UserNameNavigation { get; set; }
+        public virtual Account UserNameNavigation { get; set; }
     }
 }

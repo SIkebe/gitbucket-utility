@@ -17,8 +17,8 @@ namespace GitBucket.Core.Models
         public DateTime RegisteredDate { get; set; }
         public DateTime UpdatedDate { get; set; }
 
-        public Account CreatorNavigation { get; set; }
-        public Repository Repository { get; set; }
-        public Account UserNameNavigation { get; set; }
+        public virtual Account CreatorNavigation { get; set; }
+        public virtual Repository Repository { get; set; }
+        public virtual Account UserNameNavigation { get; set; }
     }
 }

@@ -22,24 +22,10 @@ namespace GitBucket.Service
             if (options == null) throw new ArgumentNullException(nameof(options));
             if (gitBucketClient == null) throw new ArgumentNullException(nameof(gitBucketClient));
 
-            var source = options.Source.Split('/').Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
-            if (source.Length != 2)
-            {
-                _console.WriteWarnLine("Incorrect source format.");
-                return 1;
-            }
-
-            var dest = options.Destination.Split('/').Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
-            if (dest.Length != 2)
-            {
-                _console.WriteWarnLine("Incorrect destination format.");
-                return 1;
-            }
-
-            var sourceOwner = source[0];
-            var sourceRepository = source[1];
-            var destOwner = dest[0];
-            var destRepository = dest[1];
+            var sourceOwner = options.Source.First();
+            var sourceRepository = options.Source.Skip(1).First();
+            var destOwner = options.Destination.First();
+            var destRepository = options.Destination.Skip(1).First();
 
             switch (options.Type)
             {

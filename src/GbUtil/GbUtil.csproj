@@ -4,7 +4,6 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <Description>.NET Core Global tool for GitBucket utilities.</Description>
-    <LangVersion>7.3</LangVersion>
     <VersionPrefix>0.4.0</VersionPrefix>
     <ToolCommandName>gbutil</ToolCommandName>
     <Authors>SIkebe</Authors>
@@ -14,18 +13,16 @@
     <PackageLicenseUrl>https://github.com/SIkebe/gitbucket-utility/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/SIkebe/gitbucket-utility/blob/master/README.md</PackageProjectUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <DebugType>embedded</DebugType>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IsPackable>true</IsPackable>
     <PackAsTool>true</PackAsTool>
     <PackageOutputPath>../../packages</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.3.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="CommandLineParser" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
   </ItemGroup>
 
   <ItemGroup>

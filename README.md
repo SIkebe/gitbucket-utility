@@ -5,12 +5,12 @@ Utilities for GitBucket
 
 
 ## Requirements
-* [.NET Core 2.1 SDK](https://www.microsoft.com/net/download/windows)
+* [.NET Core 2.2 SDK](https://www.microsoft.com/net/download/windows)
 * GitBucket 4.27.0+ (using PostgreSQL as backend DB)
 
 ## Preparation
 ```cmd
-dotnet tool install --global gbutil --version 0.2.0
+dotnet tool install --global gbutil --version 0.4.0
 setx ConnectionStrings:GitBucketConnection Host=host;Username=username;Password=password;Database=gitbucket
 setx GitBucketUri http://localhost:8080/gitbucket/api/v3/
 ```

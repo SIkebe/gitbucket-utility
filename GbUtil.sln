@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28315.86
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{803B2494-938D-4027-BDEE-E9126627BA74}"
 EndProject
@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		.gitignore = .gitignore
 		build.cake = build.cake
 		build.ps1 = build.ps1
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
 		global.json = global.json
 		install.bat = install.bat
 		nuget.config = nuget.config
@@ -21,11 +23,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitBucket.Data", "src\GitBucket.Data\GitBucket.Data.csproj", "{FD4C2D34-F249-4E34-81C2-0D7F23D6D338}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitBucket.Data", "src\GitBucket.Data\GitBucket.Data.csproj", "{FD4C2D34-F249-4E34-81C2-0D7F23D6D338}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitBucket.Service", "src\GitBucket.Service\GitBucket.Service.csproj", "{13A179C3-0F83-4083-A77A-8CC622522C0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitBucket.Service", "src\GitBucket.Service\GitBucket.Service.csproj", "{13A179C3-0F83-4083-A77A-8CC622522C0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitBucket.Service.Tests", "src\GitBucket.Service.Tests\GitBucket.Service.Tests.csproj", "{0FFAA976-E8F5-46A2-9B3A-7C3A478F295F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitBucket.Service.Tests", "src\GitBucket.Service.Tests\GitBucket.Service.Tests.csproj", "{0FFAA976-E8F5-46A2-9B3A-7C3A478F295F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

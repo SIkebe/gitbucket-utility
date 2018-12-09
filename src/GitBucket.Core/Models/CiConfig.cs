@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GitBucket.Core.Models
+﻿namespace GitBucket.Core.Models
 {
     public partial class CiConfig
     {

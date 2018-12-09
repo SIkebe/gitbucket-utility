@@ -168,8 +168,8 @@ namespace GitBucket.Service.Tests
             var options = new IssueOptions
             {
                 ExecutedDate = new DateTime(2018, 7, 1),
-                Source = "root/test1",
-                Destination = "root/test2",
+                Source = new[] { "root", "test1" },
+                Destination = new[] { "root", "test2" },
                 IssueNumber = 1
             };
 
@@ -214,8 +214,8 @@ namespace GitBucket.Service.Tests
             var options = new IssueOptions
             {
                 ExecutedDate = new DateTime(2018, 7, 1),
-                Source = "root/test1",
-                Destination = "root/test2",
+                Source = new[] { "root", "test1" },
+                Destination = new[] { "root", "test2" },
                 IssueNumber = 1,
                 Type = "Invalid Type"
             };
@@ -230,64 +230,6 @@ namespace GitBucket.Service.Tests
             Assert.Equal(1, result);
             Assert.Single(console.WarnMessages);
             Assert.Equal(@"""Invalid Type"" is not supported.", console.WarnMessages.First());
-        }
-
-        [Theory]
-        [InlineData("roottest1")]
-        [InlineData("/roottest1")]
-        [InlineData("roottest1/")]
-        [InlineData("root/tes/t1")]
-        public async Task Invalid_Source_Format(string source)
-        {
-            // Given
-            var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
-            var options = new IssueOptions
-            {
-                ExecutedDate = new DateTime(2018, 7, 1),
-                Source = source,
-                Destination = "root/test2",
-                IssueNumber = 1
-            };
-
-            var console = new FakeConsole();
-            var service = new IssueService(console);
-
-            // When
-            var result = await service.Execute(options, mockGitBucketClient.Object);
-
-            // Then
-            Assert.Equal(1, result);
-            Assert.Single(console.WarnMessages);
-            Assert.Equal("Incorrect source format.", console.WarnMessages.First());
-        }
-
-        [Theory]
-        [InlineData("roottest2")]
-        [InlineData("/roottest2")]
-        [InlineData("roottest2/")]
-        [InlineData("root/tes/t2")]
-        public async Task Invalid_Destination_Format(string destination)
-        {
-            // Given
-            var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
-            var options = new IssueOptions
-            {
-                ExecutedDate = new DateTime(2018, 7, 1),
-                Source = "root/test1",
-                Destination = destination,
-                IssueNumber = 1
-            };
-
-            var console = new FakeConsole();
-            var service = new IssueService(console);
-
-            // When
-            var result = await service.Execute(options, mockGitBucketClient.Object);
-
-            // Then
-            Assert.Equal(1, result);
-            Assert.Single(console.WarnMessages);
-            Assert.Equal("Incorrect destination format.", console.WarnMessages.First());
         }
 
         [Fact]
@@ -314,8 +256,8 @@ namespace GitBucket.Service.Tests
             var options = new IssueOptions
             {
                 ExecutedDate = new DateTime(2018, 7, 1),
-                Source = "root/test1",
-                Destination = "root/test2",
+                Source = new[] { "root", "test1" },
+                Destination = new[] { "root", "test2" },
                 IssueNumber = 1
             };
 
@@ -420,8 +362,8 @@ namespace GitBucket.Service.Tests
             var options = new IssueOptions
             {
                 ExecutedDate = new DateTime(2018, 7, 1),
-                Source = "root/test1",
-                Destination = "root/test2",
+                Source = new[] { "root", "test1" },
+                Destination = new[] { "root", "test2" },
                 IssueNumber = 1,
                 Type = "copy"
             };

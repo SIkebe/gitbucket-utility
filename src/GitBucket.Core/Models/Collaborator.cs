@@ -10,7 +10,7 @@ namespace GitBucket.Core.Models
         public string CollaboratorName { get; set; }
         public string Role { get; set; }
 
-        public Account CollaboratorNameNavigation { get; set; }
-        public Repository Repository { get; set; }
+        public virtual Account CollaboratorNameNavigation { get; set; }
+        public virtual Repository Repository { get; set; }
     }
 }

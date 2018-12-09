@@ -10,6 +10,6 @@ namespace GitBucket.Core.Models
         public string Branch { get; set; }
         public string Context { get; set; }
 
-        public ProtectedBranch ProtectedBranch { get; set; }
+        public virtual ProtectedBranch ProtectedBranch { get; set; }
     }
 }

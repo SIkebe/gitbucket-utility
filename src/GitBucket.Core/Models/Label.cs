@@ -11,6 +11,6 @@ namespace GitBucket.Core.Models
         public string LabelName { get; set; }
         public string Color { get; set; }
 
-        public Repository Repository { get; set; }
+        public virtual Repository Repository { get; set; }
     }
 }

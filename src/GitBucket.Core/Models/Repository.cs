@@ -41,19 +41,19 @@ namespace GitBucket.Core.Models
         public string MergeOptions { get; set; }
         public string DefaultMergeOption { get; set; }
 
-        public Account UserNameNavigation { get; set; }
-        public IssueId IssueId { get; set; }
-        public ICollection<Activity> Activity { get; set; }
-        public ICollection<Collaborator> Collaborator { get; set; }
-        public ICollection<CommitComment> CommitComment { get; set; }
-        public ICollection<CommitStatus> CommitStatus { get; set; }
-        public ICollection<DeployKey> DeployKey { get; set; }
-        public ICollection<Issue> Issue { get; set; }
-        public ICollection<Label> Label { get; set; }
-        public ICollection<Milestone> Milestone { get; set; }
-        public ICollection<Priority> Priority { get; set; }
-        public ICollection<ProtectedBranch> ProtectedBranch { get; set; }
-        public ICollection<ReleaseTag> ReleaseTag { get; set; }
-        public ICollection<WebHook> WebHook { get; set; }
+        public virtual Account UserNameNavigation { get; set; }
+        public virtual IssueId IssueId { get; set; }
+        public virtual ICollection<Activity> Activity { get; set; }
+        public virtual ICollection<Collaborator> Collaborator { get; set; }
+        public virtual ICollection<CommitComment> CommitComment { get; set; }
+        public virtual ICollection<CommitStatus> CommitStatus { get; set; }
+        public virtual ICollection<DeployKey> DeployKey { get; set; }
+        public virtual ICollection<Issue> Issue { get; set; }
+        public virtual ICollection<Label> Label { get; set; }
+        public virtual ICollection<Milestone> Milestone { get; set; }
+        public virtual ICollection<Priority> Priority { get; set; }
+        public virtual ICollection<ProtectedBranch> ProtectedBranch { get; set; }
+        public virtual ICollection<ReleaseTag> ReleaseTag { get; set; }
+        public virtual ICollection<WebHook> WebHook { get; set; }
     }
 }

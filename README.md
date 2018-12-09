@@ -38,7 +38,7 @@ Close the original one manually.
 |`-t`|`--type`|`false`|The type of issue options. Default value is "move".|
 |`-s`|`--source`|`true`|The source owner and repository to move from. Use "/" for separator like "root/repository1".|
 |`-d`|`--destination`|`true`|The destination owner and repository to move to. Use "/" for separator like "root/repository2".|
-|`-n`|`--number`|`false`|The issue number to move.|
+|`-n`|`--number`|`false`|The issue numbers to move. Use ":" for separator.|
 
 -----
 
@@ -64,7 +64,7 @@ The issue has been successfully copied to http://localhost:8080/gitbucket/root/t
 |`-t`|`--type`|`true`|The type of issue options. Default value is "move".|
 |`-s`|`--source`|`true`|The source owner and repository to copy from. Use "/" for separator like "root/repository1".|
 |`-d`|`--destination`|`true`|The destination owner and repository to copy to. Use "/" for separator like "root/repository2".|
-|`-n`|`--number`|`false`|The issue number to copy.|
+|`-n`|`--number`|`false`|The issue numbers to copy. Use ":" for separator.|
 
 -----
 

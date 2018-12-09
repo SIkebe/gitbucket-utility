@@ -14,7 +14,7 @@ using Octokit.Internal;
 
 namespace GbUtil
 {
-    public class Program
+    public sealed class Program
     {
         public static async Task Main(string[] args)
         {

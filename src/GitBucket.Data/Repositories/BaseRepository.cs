@@ -64,6 +64,7 @@ namespace GitBucket.Data.Repositories
 #pragma warning restore SA1202 // Elements must be ordered by access
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

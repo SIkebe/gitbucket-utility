@@ -14,8 +14,8 @@ namespace GitBucket.Data.Repositories
         {
         }
 
-        public abstract Task<List<Issue>> FindIssuesRelatedToMileStone(ReleaseOptions option);
-        public abstract IEnumerable<IssueLabel> FindIssueLabels(ReleaseOptions option, IEnumerable<Issue> issues);
+        public abstract Task<List<Issue>> FindIssuesRelatedToMileStone(ReleaseOptions options);
+        public abstract IEnumerable<IssueLabel> FindIssueLabels(ReleaseOptions options, IEnumerable<Issue> issues);
     }
 
     public class IssueRepository : IssueRepositoryBase
@@ -24,23 +24,23 @@ namespace GitBucket.Data.Repositories
         {
         }
 
-        public override IEnumerable<IssueLabel> FindIssueLabels(ReleaseOptions option, IEnumerable<Issue> issues)
+        public override IEnumerable<IssueLabel> FindIssueLabels(ReleaseOptions options, IEnumerable<Issue> issues)
         {
             return Context.Set<IssueLabel>()
-                .Where(l => l.UserName.Equals(option.Owner, StringComparison.OrdinalIgnoreCase))
-                .Where(l => l.RepositoryName.Equals(option.Repository, StringComparison.OrdinalIgnoreCase))
+                .Where(l => l.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase))
+                .Where(l => l.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase))
                 .Where(l => issues.Select(i => i.IssueId).Contains(l.IssueId));
         }
 
-        public async override Task<List<Issue>> FindIssuesRelatedToMileStone(ReleaseOptions option)
+        public async override Task<List<Issue>> FindIssuesRelatedToMileStone(ReleaseOptions options)
         {
             return await Context.Set<Issue>()
-                .Where(i => i.UserName.Equals(option.Owner, StringComparison.OrdinalIgnoreCase))
-                .Where(i => i.RepositoryName.Equals(option.Repository, StringComparison.OrdinalIgnoreCase))
-                .Where(i => i.Milestone.Title.Equals(option.MileStone, StringComparison.OrdinalIgnoreCase))
-                .WhereIf(string.Equals(nameof(ReleaseNoteTarget.Issues), option.Target, StringComparison.OrdinalIgnoreCase),
+                .Where(i => i.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase))
+                .Where(i => i.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase))
+                .Where(i => i.Milestone.Title.Equals(options.MileStone, StringComparison.OrdinalIgnoreCase))
+                .WhereIf(string.Equals(nameof(ReleaseNoteTarget.Issues), options.Target, StringComparison.OrdinalIgnoreCase),
                     i => !i.PullRequest)
-                .WhereIf(!string.Equals(nameof(ReleaseNoteTarget.Issues), option.Target, StringComparison.OrdinalIgnoreCase),
+                .WhereIf(!string.Equals(nameof(ReleaseNoteTarget.Issues), options.Target, StringComparison.OrdinalIgnoreCase),
                     i => i.PullRequest)
                 .Include(i => i.Milestone)
                 .Include(i => i.Priority)

@@ -11,9 +11,9 @@ namespace GitBucket.Service.Tests
     public class FakeConsole : IConsole
     {
         private bool hasNewLineAtTheEndOfTheMessages = false;
-        public List<string> Messages { get; set; } = new List<string>();
-        public List<string> WarnMessages { get; set; } = new List<string>();
-        public List<string> ErrorMessages { get; set; } = new List<string>();
+        public List<string> Messages { get; } = new List<string>();
+        public List<string> WarnMessages { get; } = new List<string>();
+        public List<string> ErrorMessages { get; } = new List<string>();
         public ConsoleColor ForegroundColor { get; set; } = ConsoleColor.Gray;
 
         public void Write(string value)

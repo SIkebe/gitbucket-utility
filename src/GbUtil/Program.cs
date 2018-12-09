@@ -14,9 +14,9 @@ using Octokit.Internal;
 
 namespace GbUtil
 {
-    class Program
+    public class Program
     {
-        static async Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
             IConfiguration configuration;
             IConsole console = new GbUtilConsole();
@@ -98,7 +98,7 @@ namespace GbUtil
 
         private static string GetPasswordFromConsole()
         {
-            var builder = new StringBuilder();            
+            var builder = new StringBuilder();
             while (true)
             {
                 var consoleKeyInfo = Console.ReadKey(true);

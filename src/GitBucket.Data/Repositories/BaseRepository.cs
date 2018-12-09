@@ -38,8 +38,9 @@ namespace GitBucket.Data.Repositories
 
         public virtual void Save() => Context.SaveChanges();
 
-        #region IDisposable Support
+#pragma warning disable SA1201 // Elements must appear in the correct order
         private bool disposedValue = false; // To detect redundant calls
+#pragma warning restore SA1201 // Elements must appear in the correct order
 
         protected virtual void Dispose(bool disposing)
         {
@@ -58,10 +59,11 @@ namespace GitBucket.Data.Repositories
             }
         }
 
+#pragma warning disable SA1202 // Elements must be ordered by access
         public void Dispose()
+#pragma warning restore SA1202 // Elements must be ordered by access
         {
             Dispose(true);
         }
-        #endregion
     }
 }

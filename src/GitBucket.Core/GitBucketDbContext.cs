@@ -49,7 +49,6 @@ namespace GitBucket.Core
         public string ConnectionString { get; }
 
         // Unable to generate entity type for table 'public.account_web_hook_event'. Please see the warning messages.
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

@@ -1,5 +1,3 @@
-using GitBucket.Core.Models;
-
 namespace GitBucket.Core.Models
 {
     public static class MilestoneExtensions

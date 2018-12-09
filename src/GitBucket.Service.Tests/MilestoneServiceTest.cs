@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using GitBucket.Core;
 using GitBucket.Core.Models;
 using GitBucket.Data.Repositories;
-using GitBucket.Service;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;

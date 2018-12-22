@@ -3,7 +3,7 @@ using CommandLine;
 
 namespace GitBucket.Core
 {
-    [Verb("issue", HelpText = "Move or Copy an issue to a different repository")]
+    [Verb("issue", HelpText = "Move or Copy issues to a different repository")]
     public class IssueOptions : CommandLineOptionsBase
     {
         [Option('t', "type", Required = false, HelpText = @"The type of issue options. Default value is ""move"".")]

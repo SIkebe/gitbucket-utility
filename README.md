@@ -22,7 +22,7 @@ setx GitBucketUri http://localhost:8080/gitbucket/api/v3/
 gbutil issue -t move [-s|--source] [-d|--destination] [-n|--number]
 ```
 
-Move an issue between repositories.
+Move issues between repositories.
 
 ```
 > gbutil issue -t move -s root/test1 -d root/test2 -n 1
@@ -49,7 +49,7 @@ Close the original one manually.
 gbutil issue -t copy [-s|--source] [-d|--destination] [-n|--number]
 ```
 
-Copy an issue between repositories.
+Copy issues between repositories.
 
 ```
 > gbutil issue -t copy -s root/test1 -d root/test2 -n 1

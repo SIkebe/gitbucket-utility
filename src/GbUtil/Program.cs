@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using CommandLine;
 using GitBucket.Core;
@@ -81,7 +83,9 @@ namespace GbUtil
                                     new Connection(
                                         new ProductHeaderValue("gbutil"),
                                         new Uri(gitbucketUri),
-                                        new InMemoryCredentialStore(new Credentials(user, password))
+                                        new InMemoryCredentialStore(new Credentials(user, password)),
+                                        new HttpClientAdapter(() => new GitBucketMessageHandler()),
+                                        new SimpleJsonSerializer()
                                     ));
 
                                 return provider.GetRequiredService<IIssueService>().Execute(options, client);
@@ -124,6 +128,26 @@ namespace GbUtil
             }
 
             return builder.ToString();
+        }
+    }
+
+    public class GitBucketMessageHandler : DelegatingHandler
+    {
+        public GitBucketMessageHandler() : base(new HttpClientHandler())
+        {
+        }
+
+        protected async override Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            var contentType = request?.Content?.Headers.ContentType.MediaType;
+            if (contentType == "application/x-www-form-urlencoded")
+            {
+                // GitBucket doesn't accept Content-Type: application/x-www-form-urlencoded
+                request.Content.Headers.ContentType.MediaType = "application/json";
+            }
+
+            return await base.SendAsync(request, cancellationToken);
         }
     }
 }

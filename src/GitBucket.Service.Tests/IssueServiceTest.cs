@@ -82,6 +82,11 @@ namespace GitBucket.Service.Tests
         public async Task Should_Move_Issue_To_Same_Owner_Repository()
         {
             // Given
+            var labels = new List<Label>
+            {
+                new Label(url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
+            };
+
             var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
             mockGitBucketClient
                 .Setup(g => g.Issue.Get(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
@@ -97,7 +102,7 @@ namespace GitBucket.Service.Tests
                     body: "Original Issue Comment.",
                     closedBy: null,
                     user: _rootUser,
-                    labels: null,
+                    labels: labels,
                     assignee: new User(),
                     assignees: null,
                     milestone: null,
@@ -142,6 +147,10 @@ namespace GitBucket.Service.Tests
                     repository: null,
                     reactions: null
                 ));
+
+            mockGitBucketClient
+                .Setup(g => g.Issue.Labels.AddToIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string[]>()))
+                .ReturnsAsync(new ReadOnlyCollection<Octokit.Label>(labels));
 
             mockGitBucketClient
                 .Setup(g => g.Issue.Comment.GetAllForIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
@@ -193,6 +202,12 @@ namespace GitBucket.Service.Tests
                     i.Title == "Found a bug" &&
                     i.Body == "*From @root on 2018-07-01 00:00:00*\r\n\r\nOriginal Issue Comment.\r\n\r\n*Copied from original issue: root/test1#1*")));
 
+            mockGitBucketClient.Verify(g => g.Issue.Labels.AddToIssue(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test2"),
+                It.Is<int>(i => i == 1),
+                It.Is<string[]>(i => i.Single() == "bug")));
+
             mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
                 It.Is<string>(o => o == "root"),
                 It.Is<string>(r => r == "test2"),
@@ -210,6 +225,11 @@ namespace GitBucket.Service.Tests
         public async Task Should_Move_Multiple_Issues_To_Same_Owner_Repository()
         {
             // Given
+            var labels = new List<Label>
+            {
+                new Label(url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
+            };
+
             var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
             mockGitBucketClient
                 .Setup(g => g.Issue.Get(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
@@ -225,7 +245,7 @@ namespace GitBucket.Service.Tests
                     body: "Original Issue Comment.",
                     closedBy: null,
                     user: _rootUser,
-                    labels: null,
+                    labels: labels,
                     assignee: new User(),
                     assignees: null,
                     milestone: null,
@@ -272,6 +292,10 @@ namespace GitBucket.Service.Tests
                     repository: null,
                     reactions: null
                 ));
+
+            mockGitBucketClient
+                .Setup(g => g.Issue.Labels.AddToIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string[]>()))
+                .ReturnsAsync(new ReadOnlyCollection<Octokit.Label>(labels));
 
             mockGitBucketClient
                 .Setup(g => g.Issue.Comment.GetAllForIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
@@ -325,6 +349,12 @@ namespace GitBucket.Service.Tests
                     i.Title == "Found a bug" &&
                     i.Body == "*From @root on 2018-07-01 00:00:00*\r\n\r\nOriginal Issue Comment.\r\n\r\n*Copied from original issue: root/test1#1*")));
 
+            mockGitBucketClient.Verify(g => g.Issue.Labels.AddToIssue(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test2"),
+                It.Is<int>(i => i == 1),
+                It.Is<string[]>(i => i.Single() == "bug")));
+
             mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
                 It.Is<string>(o => o == "root"),
                 It.Is<string>(r => r == "test2"),
@@ -349,6 +379,12 @@ namespace GitBucket.Service.Tests
                 It.Is<NewIssue>(i =>
                     i.Title == "Found a bug" &&
                     i.Body == "*From @root on 2018-07-01 00:00:00*\r\n\r\nOriginal Issue Comment.\r\n\r\n*Copied from original issue: root/test1#2*")));
+
+            mockGitBucketClient.Verify(g => g.Issue.Labels.AddToIssue(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test2"),
+                It.Is<int>(i => i == 2),
+                It.Is<string[]>(i => i.Single() == "bug")));
 
             mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
                 It.Is<string>(o => o == "root"),
@@ -433,6 +469,11 @@ namespace GitBucket.Service.Tests
         public async Task Should_Copy_Issue_To_Same_Owner_Repository()
         {
             // Given
+            var labels = new List<Label>
+            {
+                new Label(url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
+            };
+
             var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
             mockGitBucketClient
                 .Setup(g => g.Issue.Get(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
@@ -448,7 +489,7 @@ namespace GitBucket.Service.Tests
                     body: "Original Issue Comment.",
                     closedBy: null,
                     user: _rootUser,
-                    labels: null,
+                    labels: labels,
                     assignee: new User(),
                     assignees: null,
                     milestone: null,
@@ -493,6 +534,10 @@ namespace GitBucket.Service.Tests
                     repository: null,
                     reactions: null
                 ));
+
+            mockGitBucketClient
+                .Setup(g => g.Issue.Labels.AddToIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string[]>()))
+                .ReturnsAsync(new ReadOnlyCollection<Octokit.Label>(labels));
 
             mockGitBucketClient
                 .Setup(g => g.Issue.Comment.GetAllForIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
@@ -545,6 +590,12 @@ namespace GitBucket.Service.Tests
                     i.Title == "Found a bug" &&
                     i.Body == "Original Issue Comment.\r\n\r\n*Copied from original issue: root/test1#1*")));
 
+            mockGitBucketClient.Verify(g => g.Issue.Labels.AddToIssue(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test2"),
+                It.Is<int>(i => i == 1),
+                It.Is<string[]>(i => i.Single() == "bug")));
+
             mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
                 It.Is<string>(o => o == "root"),
                 It.Is<string>(r => r == "test2"),
@@ -556,6 +607,11 @@ namespace GitBucket.Service.Tests
         public async Task Should_Copy_Multiple_Issues_To_Same_Owner_Repository()
         {
             // Given
+            var labels = new List<Label>
+            {
+                new Label(url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
+            };
+
             var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
             mockGitBucketClient
                 .Setup(g => g.Issue.Get(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
@@ -571,7 +627,7 @@ namespace GitBucket.Service.Tests
                     body: "Original Issue Comment.",
                     closedBy: null,
                     user: _rootUser,
-                    labels: null,
+                    labels: labels,
                     assignee: new User(),
                     assignees: null,
                     milestone: null,
@@ -618,6 +674,10 @@ namespace GitBucket.Service.Tests
                     repository: null,
                     reactions: null
                 ));
+
+            mockGitBucketClient
+                .Setup(g => g.Issue.Labels.AddToIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string[]>()))
+                .ReturnsAsync(new ReadOnlyCollection<Octokit.Label>(labels));
 
             mockGitBucketClient
                 .Setup(g => g.Issue.Comment.GetAllForIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
@@ -671,6 +731,12 @@ namespace GitBucket.Service.Tests
                 It.Is<NewIssue>(i =>
                     i.Title == "Found a bug" &&
                     i.Body == "Original Issue Comment.\r\n\r\n*Copied from original issue: root/test1#1*")));
+
+            mockGitBucketClient.Verify(g => g.Issue.Labels.AddToIssue(
+                It.Is<string>(o => o == "root"),
+                It.Is<string>(r => r == "test2"),
+                It.Is<int>(i => i == 1),
+                It.Is<string[]>(i => i.Single() == "bug")));
 
             mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
                 It.Is<string>(o => o == "root"),

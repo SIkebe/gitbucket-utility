@@ -66,6 +66,14 @@ namespace GitBucket.Service
                             + $"*Copied from original issue: {sourceOwner}/{sourceRepository}#{issueNumber}*"
                     });
 
+                // Copy all labels from the original issue.
+                // If there is not the same name label, GitBucket creates one automatically.
+                await gitBucketClient.Issue.Labels.AddToIssue(
+                    destOwner,
+                    destRepository,
+                    newIssue.Number,
+                    sourceIssue.Labels.Select(l => l.Name).ToArray());
+
                 // Copy all comments from the original issue
                 var issueComments = await gitBucketClient.Issue.Comment.GetAllForIssue(sourceOwner, sourceRepository, issueNumber);
                 foreach (var comment in issueComments)
@@ -111,6 +119,14 @@ namespace GitBucket.Service
                         Body = sourceIssue.Body + Environment.NewLine + Environment.NewLine
                             + $"*Copied from original issue: {sourceOwner}/{sourceRepository}#{issueNumber}*"
                     });
+
+                // Copy all labels from the original issue.
+                // If there is not the same name label, GitBucket creates one automatically.
+                await gitBucketClient.Issue.Labels.AddToIssue(
+                    destOwner,
+                    destRepository,
+                    newIssue.Number,
+                    sourceIssue.Labels.Select(l => l.Name).ToArray());
 
                 // Copy all comments from the original issue
                 var issueComments = await gitBucketClient.Issue.Comment.GetAllForIssue(sourceOwner, sourceRepository, issueNumber);

@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <LangVersion>7.3</LangVersion>
+    <NoWarn>NU1603</NoWarn>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <PropertyGroup>

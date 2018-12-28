@@ -11,7 +11,7 @@
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/src/GbUtil/bin/Debug/netcoreapp2.1/GbUtil.dll",
-            "args": ["issue", "-s", "roottest1",  "-d", "root/test2", "-n 1"],
+            "args": ["issue", "-t", "copy", "-s", "root/test1",  "-d", "root/test2", "-n 1"],
             "cwd": "${workspaceFolder}/src/GbUtil",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
             "console": "externalTerminal",

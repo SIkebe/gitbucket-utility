@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using GitBucket.Core;
 using Moq;
@@ -88,6 +89,51 @@ namespace GitBucket.Service.Tests
             };
 
             var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
+
+            mockGitBucketClient
+                .Setup(m => m.Repository.Get(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync((string owner, string repository) => new Repository
+                (
+                    url: "",
+                    htmlUrl: "",
+                    cloneUrl: "",
+                    gitUrl: "",
+                    sshUrl: "",
+                    svnUrl: "",
+                    mirrorUrl: "",
+                    id: 0,
+                    nodeId: "",
+                    owner: _rootUser,
+                    name: repository,
+                    fullName: owner + "/" + repository,
+                    description: "",
+                    homepage: "",
+                    language: "",
+                    @private: true,
+                    fork: false,
+                    forksCount: 0,
+                    stargazersCount: 0,
+                    defaultBranch: "master",
+                    openIssuesCount: 1,
+                    pushedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    updatedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    permissions: null,
+                    parent: null,
+                    source: null,
+                    license: null,
+                    hasIssues: true,
+                    hasWiki: true,
+                    hasDownloads: true,
+                    hasPages: true,
+                    subscribersCount: 1,
+                    size: 100,
+                    allowRebaseMerge: true,
+                    allowSquashMerge: true,
+                    allowMergeCommit: true,
+                    archived: false
+                ));
+
             mockGitBucketClient
                 .Setup(g => g.Issue.Get(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
                 .ReturnsAsync((string owner, string repository, int id) => new Octokit.Issue
@@ -231,6 +277,51 @@ namespace GitBucket.Service.Tests
             };
 
             var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
+
+            mockGitBucketClient
+                .Setup(m => m.Repository.Get(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync((string owner, string repository) => new Repository
+                (
+                    url: "",
+                    htmlUrl: "",
+                    cloneUrl: "",
+                    gitUrl: "",
+                    sshUrl: "",
+                    svnUrl: "",
+                    mirrorUrl: "",
+                    id: 0,
+                    nodeId: "",
+                    owner: _rootUser,
+                    name: repository,
+                    fullName: owner + "/" + repository,
+                    description: "",
+                    homepage: "",
+                    language: "",
+                    @private: true,
+                    fork: false,
+                    forksCount: 0,
+                    stargazersCount: 0,
+                    defaultBranch: "master",
+                    openIssuesCount: 1,
+                    pushedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    updatedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    permissions: null,
+                    parent: null,
+                    source: null,
+                    license: null,
+                    hasIssues: true,
+                    hasWiki: true,
+                    hasDownloads: true,
+                    hasPages: true,
+                    subscribersCount: 1,
+                    size: 100,
+                    allowRebaseMerge: true,
+                    allowSquashMerge: true,
+                    allowMergeCommit: true,
+                    archived: false
+                ));
+
             mockGitBucketClient
                 .Setup(g => g.Issue.Get(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
                 .ReturnsAsync((string owner, string repository, int id) => new Octokit.Issue
@@ -400,10 +491,86 @@ namespace GitBucket.Service.Tests
         }
 
         [Fact]
+        public async Task Throw_If_Repository_Not_Exists()
+        {
+            // Given
+            var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
+
+            mockGitBucketClient
+                .Setup(m => m.Repository.Get(It.IsAny<string>(), It.IsAny<string>()))
+                .ThrowsAsync(new NotFoundException("Not Found", HttpStatusCode.NotFound));
+
+            var options = new IssueOptions
+            {
+                ExecutedDate = new DateTime(2018, 7, 1),
+                Source = new[] { "root", "test1" },
+                Destination = new[] { "root", "test2" },
+                IssueNumbers = new[] { 1 },
+                Type = "copy"
+            };
+
+            var console = new FakeConsole();
+            var service = new IssueService(console);
+
+            // When
+            var result = await Assert.ThrowsAsync<NotFoundException>(() => service.Execute(options, mockGitBucketClient.Object));
+
+            // Then
+            Assert.Equal("Not Found", result.Message);
+            Assert.Single(console.ErrorMessages);
+            Assert.Equal(@"Repository root/test1 does not exist.", console.ErrorMessages.First());
+        }
+
+        [Fact]
         public async Task Unsupported_Issue_Type()
         {
             // Given
             var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
+
+            mockGitBucketClient
+                .Setup(m => m.Repository.Get(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync((string owner, string repository) => new Repository
+                (
+                    url: "",
+                    htmlUrl: "",
+                    cloneUrl: "",
+                    gitUrl: "",
+                    sshUrl: "",
+                    svnUrl: "",
+                    mirrorUrl: "",
+                    id: 0,
+                    nodeId: "",
+                    owner: _rootUser,
+                    name: repository,
+                    fullName: owner + "/" + repository,
+                    description: "",
+                    homepage: "",
+                    language: "",
+                    @private: true,
+                    fork: false,
+                    forksCount: 0,
+                    stargazersCount: 0,
+                    defaultBranch: "master",
+                    openIssuesCount: 1,
+                    pushedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    updatedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    permissions: null,
+                    parent: null,
+                    source: null,
+                    license: null,
+                    hasIssues: true,
+                    hasWiki: true,
+                    hasDownloads: true,
+                    hasPages: true,
+                    subscribersCount: 1,
+                    size: 100,
+                    allowRebaseMerge: true,
+                    allowSquashMerge: true,
+                    allowMergeCommit: true,
+                    archived: false
+                ));
+
             var options = new IssueOptions
             {
                 ExecutedDate = new DateTime(2018, 7, 1),
@@ -475,6 +642,51 @@ namespace GitBucket.Service.Tests
             };
 
             var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
+
+            mockGitBucketClient
+                .Setup(m => m.Repository.Get(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync((string owner, string repository) => new Repository
+                (
+                    url: "",
+                    htmlUrl: "",
+                    cloneUrl: "",
+                    gitUrl: "",
+                    sshUrl: "",
+                    svnUrl: "",
+                    mirrorUrl: "",
+                    id: 0,
+                    nodeId: "",
+                    owner: _rootUser,
+                    name: repository,
+                    fullName: owner + "/" + repository,
+                    description: "",
+                    homepage: "",
+                    language: "",
+                    @private: true,
+                    fork: false,
+                    forksCount: 0,
+                    stargazersCount: 0,
+                    defaultBranch: "master",
+                    openIssuesCount: 1,
+                    pushedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    updatedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    permissions: null,
+                    parent: null,
+                    source: null,
+                    license: null,
+                    hasIssues: true,
+                    hasWiki: true,
+                    hasDownloads: true,
+                    hasPages: true,
+                    subscribersCount: 1,
+                    size: 100,
+                    allowRebaseMerge: true,
+                    allowSquashMerge: true,
+                    allowMergeCommit: true,
+                    archived: false
+                ));
+
             mockGitBucketClient
                 .Setup(g => g.Issue.Get(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
                 .ReturnsAsync((string owner, string repository, int id) => new Octokit.Issue
@@ -613,6 +825,51 @@ namespace GitBucket.Service.Tests
             };
 
             var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
+
+            mockGitBucketClient
+                .Setup(m => m.Repository.Get(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync((string owner, string repository) => new Repository
+                (
+                    url: "",
+                    htmlUrl: "",
+                    cloneUrl: "",
+                    gitUrl: "",
+                    sshUrl: "",
+                    svnUrl: "",
+                    mirrorUrl: "",
+                    id: 0,
+                    nodeId: "",
+                    owner: _rootUser,
+                    name: repository,
+                    fullName: owner + "/" + repository,
+                    description: "",
+                    homepage: "",
+                    language: "",
+                    @private: true,
+                    fork: false,
+                    forksCount: 0,
+                    stargazersCount: 0,
+                    defaultBranch: "master",
+                    openIssuesCount: 1,
+                    pushedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    updatedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
+                    permissions: null,
+                    parent: null,
+                    source: null,
+                    license: null,
+                    hasIssues: true,
+                    hasWiki: true,
+                    hasDownloads: true,
+                    hasPages: true,
+                    subscribersCount: 1,
+                    size: 100,
+                    allowRebaseMerge: true,
+                    allowSquashMerge: true,
+                    allowMergeCommit: true,
+                    archived: false
+                ));
+
             mockGitBucketClient
                 .Setup(g => g.Issue.Get(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
                 .ReturnsAsync((string owner, string repository, int id) => new Octokit.Issue

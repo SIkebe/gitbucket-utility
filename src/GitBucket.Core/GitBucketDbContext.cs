@@ -14,14 +14,10 @@ namespace GitBucket.Core
         public virtual DbSet<AccountFederation> AccountFederation { get; set; }
         public virtual DbSet<AccountWebHook> AccountWebHook { get; set; }
         public virtual DbSet<Activity> Activity { get; set; }
-        public virtual DbSet<CiConfig> CiConfig { get; set; }
-        public virtual DbSet<CiResult> CiResult { get; set; }
         public virtual DbSet<Collaborator> Collaborator { get; set; }
         public virtual DbSet<CommitComment> CommitComment { get; set; }
         public virtual DbSet<CommitStatus> CommitStatus { get; set; }
         public virtual DbSet<DeployKey> DeployKey { get; set; }
-        public virtual DbSet<Gist> Gist { get; set; }
-        public virtual DbSet<GistComment> GistComment { get; set; }
         public virtual DbSet<GroupMember> GroupMember { get; set; }
         public virtual DbSet<Issue> Issue { get; set; }
         public virtual DbSet<IssueComment> IssueComment { get; set; }
@@ -31,7 +27,6 @@ namespace GitBucket.Core
         public virtual DbSet<Label> Label { get; set; }
         public virtual DbSet<Milestone> Milestone { get; set; }
         public virtual DbSet<NotificationsAccount> NotificationsAccount { get; set; }
-        public virtual DbSet<Pages> Pages { get; set; }
         public virtual DbSet<Plugin> Plugin { get; set; }
         public virtual DbSet<Priority> Priority { get; set; }
         public virtual DbSet<ProtectedBranch> ProtectedBranch { get; set; }
@@ -59,7 +54,7 @@ namespace GitBucket.Core
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.0-rtm-35687");
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.1-servicing-10028");
 
             modelBuilder.Entity<AccessToken>(entity =>
             {
@@ -277,82 +272,6 @@ namespace GitBucket.Core
                     .HasConstraintName("idx_activity_fk0");
             });
 
-modelBuilder.Entity<CiConfig>(entity =>
-            {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName });
-
-                entity.ToTable("ci_config");
-
-                entity.Property(e => e.UserName).HasColumnName("user_name");
-
-                entity.Property(e => e.RepositoryName).HasColumnName("repository_name");
-
-                entity.Property(e => e.BuildScript)
-                    .IsRequired()
-                    .HasColumnName("build_script");
-
-                entity.Property(e => e.Notification).HasColumnName("notification");
-
-                entity.Property(e => e.RunWords).HasColumnName("run_words");
-
-                entity.Property(e => e.SkipWords).HasColumnName("skip_words");
-            });
-
-            modelBuilder.Entity<CiResult>(entity =>
-            {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.BuildNumber });
-
-                entity.ToTable("ci_result");
-
-                entity.Property(e => e.UserName).HasColumnName("user_name");
-
-                entity.Property(e => e.RepositoryName).HasColumnName("repository_name");
-
-                entity.Property(e => e.BuildNumber).HasColumnName("build_number");
-
-                entity.Property(e => e.BuildAuthor)
-                    .IsRequired()
-                    .HasColumnName("build_author");
-
-                entity.Property(e => e.BuildBranch)
-                    .IsRequired()
-                    .HasColumnName("build_branch");
-
-                entity.Property(e => e.BuildRepositoryName)
-                    .IsRequired()
-                    .HasColumnName("build_repository_name");
-
-                entity.Property(e => e.BuildUserName)
-                    .IsRequired()
-                    .HasColumnName("build_user_name");
-
-                entity.Property(e => e.CommitMailAddress)
-                    .IsRequired()
-                    .HasColumnName("commit_mail_address");
-
-                entity.Property(e => e.CommitMessage)
-                    .IsRequired()
-                    .HasColumnName("commit_message");
-
-                entity.Property(e => e.CommitUserName)
-                    .IsRequired()
-                    .HasColumnName("commit_user_name");
-
-                entity.Property(e => e.EndTime).HasColumnName("end_time");
-
-                entity.Property(e => e.PullRequestId).HasColumnName("pull_request_id");
-
-                entity.Property(e => e.Sha)
-                    .IsRequired()
-                    .HasColumnName("sha");
-
-                entity.Property(e => e.StartTime).HasColumnName("start_time");
-
-                entity.Property(e => e.Status)
-                    .IsRequired()
-                    .HasColumnName("status");
-            });
-
             modelBuilder.Entity<Collaborator>(entity =>
             {
                 entity.HasKey(e => new { e.UserName, e.RepositoryName, e.CollaboratorName })
@@ -567,91 +486,6 @@ modelBuilder.Entity<CiConfig>(entity =>
                     .HasForeignKey(d => new { d.UserName, d.RepositoryName })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("idx_deploy_key_fk0");
-            });
-
-            modelBuilder.Entity<Gist>(entity =>
-            {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName });
-
-                entity.ToTable("gist");
-
-                entity.Property(e => e.UserName).HasColumnName("user_name");
-
-                entity.Property(e => e.RepositoryName).HasColumnName("repository_name");
-
-                entity.Property(e => e.Description).HasColumnName("description");
-
-                entity.Property(e => e.Mode)
-                    .IsRequired()
-                    .HasColumnName("mode")
-                    .HasDefaultValueSql("'PUBLIC'::character varying");
-
-                entity.Property(e => e.OriginRepositoryName).HasColumnName("origin_repository_name");
-
-                entity.Property(e => e.OriginUserName).HasColumnName("origin_user_name");
-
-                entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
-
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasColumnName("title");
-
-                entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
-
-                entity.HasOne(d => d.UserNameNavigation)
-                    .WithMany(p => p.Gist)
-                    .HasForeignKey(d => d.UserName)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("idx_gist_fk0");
-            });
-
-            modelBuilder.Entity<GistComment>(entity =>
-            {
-                entity.HasKey(e => e.CommentId);
-
-                entity.ToTable("gist_comment");
-
-                entity.HasIndex(e => e.CommentId)
-                    .HasName("gist_comment_comment_id_key")
-                    .IsUnique();
-
-                entity.HasIndex(e => new { e.UserName, e.RepositoryName, e.CommentId })
-                    .HasName("idx_gist_comment_1")
-                    .IsUnique();
-
-                entity.Property(e => e.CommentId).HasColumnName("comment_id");
-
-                entity.Property(e => e.CommentedUserName)
-                    .IsRequired()
-                    .HasColumnName("commented_user_name");
-
-                entity.Property(e => e.Content)
-                    .IsRequired()
-                    .HasColumnName("content");
-
-                entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
-
-                entity.Property(e => e.RepositoryName)
-                    .IsRequired()
-                    .HasColumnName("repository_name");
-
-                entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
-
-                entity.Property(e => e.UserName)
-                    .IsRequired()
-                    .HasColumnName("user_name");
-
-                entity.HasOne(d => d.CommentedUserNameNavigation)
-                    .WithMany(p => p.GistComment)
-                    .HasForeignKey(d => d.CommentedUserName)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("idx_gist_comment_fk1");
-
-                entity.HasOne(d => d.Gist)
-                    .WithMany(p => p.GistComment)
-                    .HasForeignKey(d => new { d.UserName, d.RepositoryName })
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("idx_gist_comment_fk0");
             });
 
             modelBuilder.Entity<GroupMember>(entity =>
@@ -965,21 +799,6 @@ modelBuilder.Entity<CiConfig>(entity =>
                     .HasForeignKey<NotificationsAccount>(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("idx_notifications_account_fk0");
-            });
-
-            modelBuilder.Entity<Pages>(entity =>
-            {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName });
-
-                entity.ToTable("pages");
-
-                entity.Property(e => e.UserName).HasColumnName("user_name");
-
-                entity.Property(e => e.RepositoryName).HasColumnName("repository_name");
-
-                entity.Property(e => e.Source)
-                    .IsRequired()
-                    .HasColumnName("source");
             });
 
             modelBuilder.Entity<Plugin>(entity =>
@@ -1473,10 +1292,6 @@ modelBuilder.Entity<CiConfig>(entity =>
                     .HasForeignKey(d => new { d.UserName, d.RepositoryName, d.Url })
                     .HasConstraintName("idx_web_hook_event_fk0");
             });
-
-            modelBuilder.HasSequence("access_token_access_token_id_seq");
-
-            modelBuilder.HasSequence("activity_activity_id_seq");
         }
     }
 }

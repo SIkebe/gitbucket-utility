@@ -5,7 +5,7 @@ namespace GitBucket.Core
 {
     public partial class GitBucketDbContext : DbContext
     {
-        public GitBucketDbContext(string connectionString) 
+        public GitBucketDbContext(string connectionString)
             => ConnectionString = connectionString;
 
         public virtual DbSet<AccessToken> AccessToken { get; set; }
@@ -14,14 +14,10 @@ namespace GitBucket.Core
         public virtual DbSet<AccountFederation> AccountFederation { get; set; }
         public virtual DbSet<AccountWebHook> AccountWebHook { get; set; }
         public virtual DbSet<Activity> Activity { get; set; }
-        public virtual DbSet<CiConfig> CiConfig { get; set; }
-        public virtual DbSet<CiResult> CiResult { get; set; }
         public virtual DbSet<Collaborator> Collaborator { get; set; }
         public virtual DbSet<CommitComment> CommitComment { get; set; }
         public virtual DbSet<CommitStatus> CommitStatus { get; set; }
         public virtual DbSet<DeployKey> DeployKey { get; set; }
-        public virtual DbSet<Gist> Gist { get; set; }
-        public virtual DbSet<GistComment> GistComment { get; set; }
         public virtual DbSet<GroupMember> GroupMember { get; set; }
         public virtual DbSet<Issue> Issue { get; set; }
         public virtual DbSet<IssueComment> IssueComment { get; set; }
@@ -31,7 +27,6 @@ namespace GitBucket.Core
         public virtual DbSet<Label> Label { get; set; }
         public virtual DbSet<Milestone> Milestone { get; set; }
         public virtual DbSet<NotificationsAccount> NotificationsAccount { get; set; }
-        public virtual DbSet<Pages> Pages { get; set; }
         public virtual DbSet<Plugin> Plugin { get; set; }
         public virtual DbSet<Priority> Priority { get; set; }
         public virtual DbSet<ProtectedBranch> ProtectedBranch { get; set; }
@@ -49,7 +44,6 @@ namespace GitBucket.Core
         public string ConnectionString { get; }
 
         // Unable to generate entity type for table 'public.account_web_hook_event'. Please see the warning messages.
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -60,6 +54,8 @@ namespace GitBucket.Core
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.1-servicing-10028");
+
             modelBuilder.Entity<AccessToken>(entity =>
             {
                 entity.ToTable("access_token");
@@ -96,7 +92,8 @@ namespace GitBucket.Core
 
             modelBuilder.Entity<Account>(entity =>
             {
-                entity.HasKey(e => e.UserName);
+                entity.HasKey(e => e.UserName)
+                    .HasName("idx_account_pk");
 
                 entity.ToTable("account");
 
@@ -149,7 +146,8 @@ namespace GitBucket.Core
 
             modelBuilder.Entity<AccountExtraMailAddress>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.ExtraMailAddress });
+                entity.HasKey(e => new { e.UserName, e.ExtraMailAddress })
+                    .HasName("idx_account_extra_mail_address_pk");
 
                 entity.ToTable("account_extra_mail_address");
 
@@ -168,7 +166,8 @@ namespace GitBucket.Core
 
             modelBuilder.Entity<AccountFederation>(entity =>
             {
-                entity.HasKey(e => new { e.Issuer, e.Subject });
+                entity.HasKey(e => new { e.Issuer, e.Subject })
+                    .HasName("idx_account_federation_pk");
 
                 entity.ToTable("account_federation");
 
@@ -194,7 +193,8 @@ namespace GitBucket.Core
 
             modelBuilder.Entity<AccountWebHook>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.Url });
+                entity.HasKey(e => new { e.UserName, e.Url })
+                    .HasName("idx_account_web_hook_pk");
 
                 entity.ToTable("account_web_hook");
 
@@ -272,85 +272,10 @@ namespace GitBucket.Core
                     .HasConstraintName("idx_activity_fk0");
             });
 
-modelBuilder.Entity<CiConfig>(entity =>
-            {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName });
-
-                entity.ToTable("ci_config");
-
-                entity.Property(e => e.UserName).HasColumnName("user_name");
-
-                entity.Property(e => e.RepositoryName).HasColumnName("repository_name");
-
-                entity.Property(e => e.BuildScript)
-                    .IsRequired()
-                    .HasColumnName("build_script");
-
-                entity.Property(e => e.Notification).HasColumnName("notification");
-
-                entity.Property(e => e.RunWords).HasColumnName("run_words");
-
-                entity.Property(e => e.SkipWords).HasColumnName("skip_words");
-            });
-
-            modelBuilder.Entity<CiResult>(entity =>
-            {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.BuildNumber });
-
-                entity.ToTable("ci_result");
-
-                entity.Property(e => e.UserName).HasColumnName("user_name");
-
-                entity.Property(e => e.RepositoryName).HasColumnName("repository_name");
-
-                entity.Property(e => e.BuildNumber).HasColumnName("build_number");
-
-                entity.Property(e => e.BuildAuthor)
-                    .IsRequired()
-                    .HasColumnName("build_author");
-
-                entity.Property(e => e.BuildBranch)
-                    .IsRequired()
-                    .HasColumnName("build_branch");
-
-                entity.Property(e => e.BuildRepositoryName)
-                    .IsRequired()
-                    .HasColumnName("build_repository_name");
-
-                entity.Property(e => e.BuildUserName)
-                    .IsRequired()
-                    .HasColumnName("build_user_name");
-
-                entity.Property(e => e.CommitMailAddress)
-                    .IsRequired()
-                    .HasColumnName("commit_mail_address");
-
-                entity.Property(e => e.CommitMessage)
-                    .IsRequired()
-                    .HasColumnName("commit_message");
-
-                entity.Property(e => e.CommitUserName)
-                    .IsRequired()
-                    .HasColumnName("commit_user_name");
-
-                entity.Property(e => e.EndTime).HasColumnName("end_time");
-
-                entity.Property(e => e.PullRequestId).HasColumnName("pull_request_id");
-
-                entity.Property(e => e.Sha)
-                    .IsRequired()
-                    .HasColumnName("sha");
-
-                entity.Property(e => e.StartTime).HasColumnName("start_time");
-
-                entity.Property(e => e.Status)
-                    .IsRequired()
-                    .HasColumnName("status");
-            });
-
             modelBuilder.Entity<Collaborator>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.CollaboratorName });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.CollaboratorName })
+                    .HasName("idx_collaborator_pk");
 
                 entity.ToTable("collaborator");
 
@@ -387,7 +312,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<CommitComment>(entity =>
             {
-                entity.HasKey(e => e.CommentId);
+                entity.HasKey(e => e.CommentId)
+                    .HasName("idx_commit_comment_pk");
 
                 entity.ToTable("commit_comment");
 
@@ -523,7 +449,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<DeployKey>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.DeployKeyId });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.DeployKeyId })
+                    .HasName("idx_deploy_key_pk");
 
                 entity.ToTable("deploy_key");
 
@@ -561,94 +488,10 @@ modelBuilder.Entity<CiConfig>(entity =>
                     .HasConstraintName("idx_deploy_key_fk0");
             });
 
-            modelBuilder.Entity<Gist>(entity =>
-            {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName });
-
-                entity.ToTable("gist");
-
-                entity.Property(e => e.UserName).HasColumnName("user_name");
-
-                entity.Property(e => e.RepositoryName).HasColumnName("repository_name");
-
-                entity.Property(e => e.Description).HasColumnName("description");
-
-                entity.Property(e => e.Mode)
-                    .IsRequired()
-                    .HasColumnName("mode")
-                    .HasDefaultValueSql("'PUBLIC'::character varying");
-
-                entity.Property(e => e.OriginRepositoryName).HasColumnName("origin_repository_name");
-
-                entity.Property(e => e.OriginUserName).HasColumnName("origin_user_name");
-
-                entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
-
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasColumnName("title");
-
-                entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
-
-                entity.HasOne(d => d.UserNameNavigation)
-                    .WithMany(p => p.Gist)
-                    .HasForeignKey(d => d.UserName)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("idx_gist_fk0");
-            });
-
-            modelBuilder.Entity<GistComment>(entity =>
-            {
-                entity.HasKey(e => e.CommentId);
-
-                entity.ToTable("gist_comment");
-
-                entity.HasIndex(e => e.CommentId)
-                    .HasName("gist_comment_comment_id_key")
-                    .IsUnique();
-
-                entity.HasIndex(e => new { e.UserName, e.RepositoryName, e.CommentId })
-                    .HasName("idx_gist_comment_1")
-                    .IsUnique();
-
-                entity.Property(e => e.CommentId).HasColumnName("comment_id");
-
-                entity.Property(e => e.CommentedUserName)
-                    .IsRequired()
-                    .HasColumnName("commented_user_name");
-
-                entity.Property(e => e.Content)
-                    .IsRequired()
-                    .HasColumnName("content");
-
-                entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
-
-                entity.Property(e => e.RepositoryName)
-                    .IsRequired()
-                    .HasColumnName("repository_name");
-
-                entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
-
-                entity.Property(e => e.UserName)
-                    .IsRequired()
-                    .HasColumnName("user_name");
-
-                entity.HasOne(d => d.CommentedUserNameNavigation)
-                    .WithMany(p => p.GistComment)
-                    .HasForeignKey(d => d.CommentedUserName)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("idx_gist_comment_fk1");
-
-                entity.HasOne(d => d.Gist)
-                    .WithMany(p => p.GistComment)
-                    .HasForeignKey(d => new { d.UserName, d.RepositoryName })
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("idx_gist_comment_fk0");
-            });
-
             modelBuilder.Entity<GroupMember>(entity =>
             {
-                entity.HasKey(e => new { e.GroupName, e.UserName });
+                entity.HasKey(e => new { e.GroupName, e.UserName })
+                    .HasName("idx_group_member_pk");
 
                 entity.ToTable("group_member");
 
@@ -677,7 +520,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<Issue>(entity =>
             {
-                entity.HasKey(e => new { e.IssueId, e.UserName, e.RepositoryName });
+                entity.HasKey(e => new { e.IssueId, e.UserName, e.RepositoryName })
+                    .HasName("idx_issue_pk");
 
                 entity.ToTable("issue");
 
@@ -745,7 +589,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<IssueComment>(entity =>
             {
-                entity.HasKey(e => e.CommentId);
+                entity.HasKey(e => e.CommentId)
+                    .HasName("idx_issue_comment_pk");
 
                 entity.ToTable("issue_comment");
 
@@ -788,7 +633,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<IssueId>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName })
+                    .HasName("idx_issue_id_pk");
 
                 entity.ToTable("issue_id");
 
@@ -811,7 +657,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<IssueLabel>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.IssueId, e.LabelId });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.IssueId, e.LabelId })
+                    .HasName("idx_issue_label_pk");
 
                 entity.ToTable("issue_label");
 
@@ -830,7 +677,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<IssueNotification>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.IssueId, e.NotificationUserName });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.IssueId, e.NotificationUserName })
+                    .HasName("idx_issue_notification_pk");
 
                 entity.ToTable("issue_notification");
 
@@ -853,7 +701,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<Label>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.LabelId });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.LabelId })
+                    .HasName("idx_label_pk");
 
                 entity.ToTable("label");
 
@@ -892,7 +741,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<Milestone>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.MilestoneId });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.MilestoneId })
+                    .HasName("idx_milestone_pk");
 
                 entity.ToTable("milestone");
 
@@ -932,7 +782,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<NotificationsAccount>(entity =>
             {
-                entity.HasKey(e => e.UserName);
+                entity.HasKey(e => e.UserName)
+                    .HasName("idx_notifications_account_pk");
 
                 entity.ToTable("notifications_account");
 
@@ -948,21 +799,6 @@ modelBuilder.Entity<CiConfig>(entity =>
                     .HasForeignKey<NotificationsAccount>(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("idx_notifications_account_fk0");
-            });
-
-            modelBuilder.Entity<Pages>(entity =>
-            {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName });
-
-                entity.ToTable("pages");
-
-                entity.Property(e => e.UserName).HasColumnName("user_name");
-
-                entity.Property(e => e.RepositoryName).HasColumnName("repository_name");
-
-                entity.Property(e => e.Source)
-                    .IsRequired()
-                    .HasColumnName("source");
             });
 
             modelBuilder.Entity<Plugin>(entity =>
@@ -982,7 +818,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<Priority>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.PriorityId });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.PriorityId })
+                    .HasName("idx_priority_pk");
 
                 entity.ToTable("priority");
 
@@ -1029,7 +866,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<ProtectedBranch>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Branch });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Branch })
+                    .HasName("idx_protected_branch_pk");
 
                 entity.ToTable("protected_branch");
 
@@ -1055,7 +893,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<ProtectedBranchRequireContext>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Branch, e.Context });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Branch, e.Context })
+                    .HasName("idx_protected_branch_require_context_pk");
 
                 entity.ToTable("protected_branch_require_context");
 
@@ -1083,7 +922,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<PullRequest>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.IssueId });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.IssueId })
+                    .HasName("idx_pull_request_pk");
 
                 entity.ToTable("pull_request");
 
@@ -1130,7 +970,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<ReleaseAsset>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Tag, e.FileName });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Tag, e.FileName })
+                    .HasName("idx_release_asset_pk");
 
                 entity.ToTable("release_asset");
 
@@ -1182,7 +1023,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<ReleaseTag>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Tag });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Tag })
+                    .HasName("idx_release_tag_pk");
 
                 entity.ToTable("release_tag");
 
@@ -1223,7 +1065,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<Repository>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName })
+                    .HasName("idx_repository_pk");
 
                 entity.ToTable("repository");
 
@@ -1311,7 +1154,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<SshKey>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.SshKeyId });
+                entity.HasKey(e => new { e.UserName, e.SshKeyId })
+                    .HasName("idx_ssh_key_pk");
 
                 entity.ToTable("ssh_key");
 
@@ -1345,7 +1189,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<Versions>(entity =>
             {
-                entity.HasKey(e => e.ModuleId);
+                entity.HasKey(e => e.ModuleId)
+                    .HasName("versions_pk");
 
                 entity.ToTable("versions");
 
@@ -1362,7 +1207,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<Watch>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.NotificationUserName });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.NotificationUserName })
+                    .HasName("idx_watch_pk");
 
                 entity.ToTable("watch");
 
@@ -1386,7 +1232,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<WebHook>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Url });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Url })
+                    .HasName("idx_web_hook_pk");
 
                 entity.ToTable("web_hook");
 
@@ -1419,7 +1266,8 @@ modelBuilder.Entity<CiConfig>(entity =>
 
             modelBuilder.Entity<WebHookEvent>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Url, e.Event });
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Url, e.Event })
+                    .HasName("idx_web_hook_event_pk");
 
                 entity.ToTable("web_hook_event");
 
@@ -1444,10 +1292,6 @@ modelBuilder.Entity<CiConfig>(entity =>
                     .HasForeignKey(d => new { d.UserName, d.RepositoryName, d.Url })
                     .HasConstraintName("idx_web_hook_event_fk0");
             });
-
-            modelBuilder.HasSequence("access_token_access_token_id_seq");
-
-            modelBuilder.HasSequence("activity_activity_id_seq");
         }
     }
 }

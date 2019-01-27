@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace GitBucket.Core.Models
 {
@@ -14,7 +13,7 @@ namespace GitBucket.Core.Models
         public string AdditionalInfo { get; set; }
         public DateTime ActivityDate { get; set; }
 
-        public Account ActivityUserNameNavigation { get; set; }
-        public Repository Repository { get; set; }
+        public virtual Account ActivityUserNameNavigation { get; set; }
+        public virtual Repository Repository { get; set; }
     }
 }

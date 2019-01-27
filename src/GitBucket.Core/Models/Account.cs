@@ -14,8 +14,6 @@ namespace GitBucket.Core.Models
             Collaborator = new HashSet<Collaborator>();
             CommitStatusCreatorNavigation = new HashSet<CommitStatus>();
             CommitStatusUserNameNavigation = new HashSet<CommitStatus>();
-            Gist = new HashSet<Gist>();
-            GistComment = new HashSet<GistComment>();
             GroupMemberGroupNameNavigation = new HashSet<GroupMember>();
             GroupMemberUserNameNavigation = new HashSet<GroupMember>();
             Issue = new HashSet<Issue>();
@@ -37,20 +35,18 @@ namespace GitBucket.Core.Models
         public bool? Removed { get; set; }
         public string Description { get; set; }
 
-        public NotificationsAccount NotificationsAccount { get; set; }
-        public ICollection<AccessToken> AccessToken { get; set; }
-        public ICollection<AccountFederation> AccountFederation { get; set; }
-        public ICollection<AccountWebHook> AccountWebHook { get; set; }
-        public ICollection<Activity> Activity { get; set; }
-        public ICollection<Collaborator> Collaborator { get; set; }
-        public ICollection<CommitStatus> CommitStatusCreatorNavigation { get; set; }
-        public ICollection<CommitStatus> CommitStatusUserNameNavigation { get; set; }
-        public ICollection<Gist> Gist { get; set; }
-        public ICollection<GistComment> GistComment { get; set; }
-        public ICollection<GroupMember> GroupMemberGroupNameNavigation { get; set; }
-        public ICollection<GroupMember> GroupMemberUserNameNavigation { get; set; }
-        public ICollection<Issue> Issue { get; set; }
-        public ICollection<Repository> Repository { get; set; }
-        public ICollection<SshKey> SshKey { get; set; }
+        public virtual NotificationsAccount NotificationsAccount { get; set; }
+        public virtual ICollection<AccessToken> AccessToken { get; set; }
+        public virtual ICollection<AccountFederation> AccountFederation { get; set; }
+        public virtual ICollection<AccountWebHook> AccountWebHook { get; set; }
+        public virtual ICollection<Activity> Activity { get; set; }
+        public virtual ICollection<Collaborator> Collaborator { get; set; }
+        public virtual ICollection<CommitStatus> CommitStatusCreatorNavigation { get; set; }
+        public virtual ICollection<CommitStatus> CommitStatusUserNameNavigation { get; set; }
+        public virtual ICollection<GroupMember> GroupMemberGroupNameNavigation { get; set; }
+        public virtual ICollection<GroupMember> GroupMemberUserNameNavigation { get; set; }
+        public virtual ICollection<Issue> Issue { get; set; }
+        public virtual ICollection<Repository> Repository { get; set; }
+        public virtual ICollection<SshKey> SshKey { get; set; }
     }
 }

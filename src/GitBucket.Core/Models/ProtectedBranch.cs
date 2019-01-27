@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace GitBucket.Core.Models
 {
@@ -15,7 +14,7 @@ namespace GitBucket.Core.Models
         public string Branch { get; set; }
         public bool StatusCheckAdmin { get; set; }
 
-        public Repository Repository { get; set; }
-        public ICollection<ProtectedBranchRequireContext> ProtectedBranchRequireContext { get; set; }
+        public virtual Repository Repository { get; set; }
+        public virtual ICollection<ProtectedBranchRequireContext> ProtectedBranchRequireContext { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace GitBucket.Core.Models
 {
@@ -19,9 +18,9 @@ namespace GitBucket.Core.Models
         public bool PullRequest { get; set; }
         public int? PriorityId { get; set; }
 
-        public Milestone Milestone { get; set; }
-        public Account OpenedUserNameNavigation { get; set; }
-        public Priority Priority { get; set; }
-        public Repository Repository { get; set; }
+        public virtual Milestone Milestone { get; set; }
+        public virtual Account OpenedUserNameNavigation { get; set; }
+        public virtual Priority Priority { get; set; }
+        public virtual Repository Repository { get; set; }
     }
 }

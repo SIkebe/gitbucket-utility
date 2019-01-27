@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GitBucket.Core.Models
+﻿namespace GitBucket.Core.Models
 {
     public partial class SshKey
     {
@@ -10,6 +7,6 @@ namespace GitBucket.Core.Models
         public string Title { get; set; }
         public string PublicKey { get; set; }
 
-        public Account UserNameNavigation { get; set; }
+        public virtual Account UserNameNavigation { get; set; }
     }
 }

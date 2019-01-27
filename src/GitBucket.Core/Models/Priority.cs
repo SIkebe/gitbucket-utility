@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace GitBucket.Core.Models
 {
@@ -19,7 +18,7 @@ namespace GitBucket.Core.Models
         public bool IsDefault { get; set; }
         public string Color { get; set; }
 
-        public Repository Repository { get; set; }
-        public ICollection<Issue> Issue { get; set; }
+        public virtual Repository Repository { get; set; }
+        public virtual ICollection<Issue> Issue { get; set; }
     }
 }

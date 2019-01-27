@@ -18,7 +18,7 @@ namespace GitBucket.Core.Models
         public DateTime? DueDate { get; set; }
         public DateTime? ClosedDate { get; set; }
 
-        public Repository Repository { get; set; }
-        public ICollection<Issue> Issue { get; set; }
+        public virtual Repository Repository { get; set; }
+        public virtual ICollection<Issue> Issue { get; set; }
     }
 }

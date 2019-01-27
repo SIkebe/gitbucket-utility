@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GitBucket.Core.Models
+﻿namespace GitBucket.Core.Models
 {
     public partial class AccountFederation
     {
@@ -9,6 +6,6 @@ namespace GitBucket.Core.Models
         public string Subject { get; set; }
         public string UserName { get; set; }
 
-        public Account UserNameNavigation { get; set; }
+        public virtual Account UserNameNavigation { get; set; }
     }
 }

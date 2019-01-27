@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GitBucket.Core.Models
+﻿namespace GitBucket.Core.Models
 {
     public partial class WebHookEvent
     {
@@ -10,6 +7,6 @@ namespace GitBucket.Core.Models
         public string Url { get; set; }
         public string Event { get; set; }
 
-        public WebHook WebHook { get; set; }
+        public virtual WebHook WebHook { get; set; }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GitBucket.Core.Models
+﻿namespace GitBucket.Core.Models
 {
     public partial class GroupMember
     {
@@ -9,7 +6,7 @@ namespace GitBucket.Core.Models
         public string UserName { get; set; }
         public bool? Manager { get; set; }
 
-        public Account GroupNameNavigation { get; set; }
-        public Account UserNameNavigation { get; set; }
+        public virtual Account GroupNameNavigation { get; set; }
+        public virtual Account UserNameNavigation { get; set; }
     }
 }

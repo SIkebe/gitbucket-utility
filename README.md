@@ -3,14 +3,13 @@ Utilities for GitBucket
 
 [![Build status](https://ci.appveyor.com/api/projects/status/q1hfisqpa09662l5/?svg=true)](https://ci.appveyor.com/project/SIkebe/gitbucket-utility/)
 
-
 ## Requirements
 * [.NET Core 2.2 SDK](https://www.microsoft.com/net/download/windows)
 * GitBucket 4.30.0+ (using PostgreSQL as backend DB)
 
 ## Preparation
 ```cmd
-dotnet tool install --global gbutil --version 0.4.0
+dotnet tool install --global gbutil --version 0.5.0
 setx ConnectionStrings:GitBucketConnection Host=host;Username=username;Password=password;Database=gitbucket
 setx GitBucketUri http://localhost:8080/gitbucket/api/v3/
 ```

@@ -56,42 +56,40 @@ namespace GbUtil
                     .AddTransient<IConsole, GbUtilConsole>()
                     .BuildServiceProvider();
 
-                using (var scope = serviceProvider.CreateScope())
-                {
-                    var provider = scope.ServiceProvider;
-                    await Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
-                        .MapResult(
-                            (ReleaseOptions options) => provider.GetRequiredService<IReleaseNoteService>().OutputReleaseNotes(options),
-                            (MilestoneOptions options) => provider.GetRequiredService<IMilestoneService>().ShowMilestones(options),
-                            (IssueOptions options) =>
+                using var scope = serviceProvider.CreateScope();
+                var provider = scope.ServiceProvider;
+                await Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
+                    .MapResult(
+                        (ReleaseOptions options) => provider.GetRequiredService<IReleaseNoteService>().OutputReleaseNotes(options),
+                        (MilestoneOptions options) => provider.GetRequiredService<IMilestoneService>().ShowMilestones(options),
+                        (IssueOptions options) =>
+                        {
+                            console.Write("Enter your Username: ");
+                            string user = console.ReadLine();
+                            if (string.IsNullOrEmpty(user))
                             {
-                                console.Write("Enter your Username: ");
-                                string user = console.ReadLine();
-                                if (string.IsNullOrEmpty(user))
-                                {
-                                    return Task.FromResult(1);
-                                }
+                                return Task.FromResult(1);
+                            }
 
-                                console.Write("Enter your Password: ");
-                                string password = GetPasswordFromConsole();
-                                if (string.IsNullOrEmpty(password))
-                                {
-                                    return Task.FromResult(1);
-                                }
+                            console.Write("Enter your Password: ");
+                            string password = GetPasswordFromConsole();
+                            if (string.IsNullOrEmpty(password))
+                            {
+                                return Task.FromResult(1);
+                            }
 
-                                var client = new GitHubClient(
-                                    new Connection(
-                                        new ProductHeaderValue("gbutil"),
-                                        new Uri(gitbucketUri),
-                                        new InMemoryCredentialStore(new Credentials(user, password)),
-                                        new HttpClientAdapter(() => new GitBucketMessageHandler()),
-                                        new SimpleJsonSerializer()
-                                    ));
+                            var client = new GitHubClient(
+                                new Connection(
+                                    new ProductHeaderValue("gbutil"),
+                                    new Uri(gitbucketUri),
+                                    new InMemoryCredentialStore(new Credentials(user, password)),
+                                    new HttpClientAdapter(() => new GitBucketMessageHandler()),
+                                    new SimpleJsonSerializer()
+                                ));
 
-                                return provider.GetRequiredService<IIssueService>().Execute(options, client);
-                            },
-                            errs => Task.FromResult(-1));
-                }
+                            return provider.GetRequiredService<IIssueService>().Execute(options, client);
+                        },
+                        errs => Task.FromResult(-1));
             }
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)

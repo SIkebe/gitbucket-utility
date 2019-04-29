@@ -2,7 +2,7 @@
   <ItemGroup>
     <PackageReference Update="CommandLineParser" Version="2.4.3" />
     <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.2" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="2.2.2" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="2.2.4" />
     <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.4" />
     <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />

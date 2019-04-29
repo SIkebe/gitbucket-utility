@@ -56,48 +56,48 @@ namespace GbUtil
                     .AddTransient<IConsole, GbUtilConsole>()
                     .BuildServiceProvider();
 
-                using (var scope = serviceProvider.CreateScope())
-                {
-                    var provider = scope.ServiceProvider;
-                    await Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
-                        .MapResult(
-                            (ReleaseOptions options) => provider.GetRequiredService<IReleaseNoteService>().OutputReleaseNotes(options),
-                            (MilestoneOptions options) => provider.GetRequiredService<IMilestoneService>().ShowMilestones(options),
-                            (IssueOptions options) =>
+                using var scope = serviceProvider.CreateScope();
+                var provider = scope.ServiceProvider;
+                await Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
+                    .MapResult(
+                        (ReleaseOptions options) => provider.GetRequiredService<IReleaseNoteService>().OutputReleaseNotes(options),
+                        (MilestoneOptions options) => provider.GetRequiredService<IMilestoneService>().ShowMilestones(options),
+                        (IssueOptions options) =>
+                        {
+                            console.Write("Enter your Username: ");
+                            string user = console.ReadLine();
+                            if (string.IsNullOrEmpty(user))
                             {
-                                console.Write("Enter your Username: ");
-                                string user = console.ReadLine();
-                                if (string.IsNullOrEmpty(user))
-                                {
-                                    return Task.FromResult(1);
-                                }
+                                return Task.FromResult(1);
+                            }
 
-                                console.Write("Enter your Password: ");
-                                string password = GetPasswordFromConsole();
-                                if (string.IsNullOrEmpty(password))
-                                {
-                                    return Task.FromResult(1);
-                                }
+                            console.Write("Enter your Password: ");
+                            string password = GetPasswordFromConsole();
+                            if (string.IsNullOrEmpty(password))
+                            {
+                                return Task.FromResult(1);
+                            }
 
-                                var client = new GitHubClient(
-                                    new Connection(
-                                        new ProductHeaderValue("gbutil"),
-                                        new Uri(gitbucketUri),
-                                        new InMemoryCredentialStore(new Credentials(user, password)),
-                                        new HttpClientAdapter(() => new GitBucketMessageHandler()),
-                                        new SimpleJsonSerializer()
-                                    ));
+                            var client = new GitHubClient(
+                                new Connection(
+                                    new ProductHeaderValue("gbutil"),
+                                    new Uri(gitbucketUri),
+                                    new InMemoryCredentialStore(new Credentials(user, password)),
+                                    new HttpClientAdapter(() => new GitBucketMessageHandler()),
+                                    new SimpleJsonSerializer()
+                                ));
 
-                                return provider.GetRequiredService<IIssueService>().Execute(options, client);
-                            },
-                            errs => Task.FromResult(-1));
-                }
+                            return provider.GetRequiredService<IIssueService>().Execute(options, client);
+                        },
+                        errs => Task.FromResult(-1));
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
             {
                 console.WriteErrorLine(ex.Message);
                 console.WriteErrorLine(ex.StackTrace);
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private static string GetPasswordFromConsole()
@@ -138,13 +138,17 @@ namespace GbUtil
         }
 
         protected async override Task<HttpResponseMessage> SendAsync(
-            HttpRequestMessage request, CancellationToken cancellationToken)
+            HttpRequestMessage request,
+            CancellationToken cancellationToken = default)
         {
-            var contentType = request?.Content?.Headers.ContentType.MediaType;
-            if (contentType == "application/x-www-form-urlencoded")
+            if (request != null && request.Content != null)
             {
-                // GitBucket doesn't accept Content-Type: application/x-www-form-urlencoded
-                request.Content.Headers.ContentType.MediaType = "application/json";
+                var contentType = request.Content.Headers.ContentType.MediaType;
+                if (contentType == "application/x-www-form-urlencoded")
+                {
+                    // GitBucket doesn't accept Content-Type: application/x-www-form-urlencoded
+                    request.Content.Headers.ContentType.MediaType = "application/json";
+                }
             }
 
             return await base.SendAsync(request, cancellationToken);

@@ -593,46 +593,6 @@ namespace GitBucket.Service.Tests
         }
 
         [Fact]
-        public async Task Should_Throw_If_IssueOptions_Is_Null()
-        {
-            // Given
-            var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
-
-            var console = new FakeConsole();
-            var service = new IssueService(console);
-
-            // When
-            var ex = await Record.ExceptionAsync(() => service.Execute(null, mockGitBucketClient.Object));
-
-            // Then
-            Assert.IsType<ArgumentNullException>(ex);
-            Assert.Equal("Value cannot be null.\r\nParameter name: options", ex.Message);
-        }
-
-        [Fact]
-        public async Task Should_Throw_If_Client_Is_Null()
-        {
-            // Given
-            var options = new IssueOptions
-            {
-                ExecutedDate = new DateTime(2018, 7, 1),
-                Source = new[] { "root", "test1" },
-                Destination = new[] { "root", "test2" },
-                IssueNumbers = new[] { 1 }
-            };
-
-            var console = new FakeConsole();
-            var service = new IssueService(console);
-
-            // When
-            var ex = await Record.ExceptionAsync(() => service.Execute(options, null));
-
-            // Then
-            Assert.IsType<ArgumentNullException>(ex);
-            Assert.Equal("Value cannot be null.\r\nParameter name: gitBucketClient", ex.Message);
-        }
-
-        [Fact]
         public async Task Should_Copy_Issue_To_Same_Owner_Repository()
         {
             // Given

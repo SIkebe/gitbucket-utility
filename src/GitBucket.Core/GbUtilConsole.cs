@@ -31,7 +31,6 @@ namespace GitBucket.Core
 
         public void WriteWarn(string value)
         {
-            var color = ForegroundColor;
             ForegroundColor = ConsoleColor.Yellow;
             Console.Write(value);
             ResetColor();
@@ -39,7 +38,6 @@ namespace GitBucket.Core
 
         public void WriteWarnLine(string value)
         {
-            var color = ForegroundColor;
             ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(value);
             ResetColor();
@@ -47,7 +45,6 @@ namespace GitBucket.Core
 
         public void WriteError(string value)
         {
-            var color = ForegroundColor;
             ForegroundColor = ConsoleColor.Red;
             Console.Write(value);
             ResetColor();
@@ -55,7 +52,6 @@ namespace GitBucket.Core
 
         public void WriteErrorLine(string value)
         {
-            var color = ForegroundColor;
             ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(value);
             ResetColor();

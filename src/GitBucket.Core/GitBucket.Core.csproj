@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    
+    <!--https://github.com/aspnet/EntityFrameworkCore/pull/15499-->
+    <NullableContextOptions>disable</NullableContextOptions>
     <NoWarn>CA2227</NoWarn>
   </PropertyGroup>
 

@@ -93,11 +93,13 @@ namespace GbUtil
                             errs => Task.FromResult(-1));
                 }
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
             {
                 console.WriteErrorLine(ex.Message);
                 console.WriteErrorLine(ex.StackTrace);
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private static string GetPasswordFromConsole()

@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <LangVersion>8.0</LangVersion>
+    <NullableContextOptions>enable</NullableContextOptions>
     <VersionPrefix>0.5.0</VersionPrefix>
   </PropertyGroup>
 

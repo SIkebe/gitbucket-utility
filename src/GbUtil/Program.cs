@@ -138,13 +138,17 @@ namespace GbUtil
         }
 
         protected async override Task<HttpResponseMessage> SendAsync(
-            HttpRequestMessage request, CancellationToken cancellationToken)
+            HttpRequestMessage request,
+            CancellationToken cancellationToken = default)
         {
-            var contentType = request?.Content?.Headers.ContentType.MediaType;
-            if (contentType == "application/x-www-form-urlencoded")
+            if (request != null && request.Content != null)
             {
-                // GitBucket doesn't accept Content-Type: application/x-www-form-urlencoded
-                request.Content.Headers.ContentType.MediaType = "application/json";
+                var contentType = request.Content.Headers.ContentType.MediaType;
+                if (contentType == "application/x-www-form-urlencoded")
+                {
+                    // GitBucket doesn't accept Content-Type: application/x-www-form-urlencoded
+                    request.Content.Headers.ContentType.MediaType = "application/json";
+                }
             }
 
             return await base.SendAsync(request, cancellationToken);

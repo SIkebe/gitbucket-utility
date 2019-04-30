@@ -19,7 +19,7 @@ namespace GitBucket.Service
     {
         private readonly IssueRepositoryBase _issueRepository;
         private readonly LabelRepositoryBase _labelRepository;
-        private IConsole _console;
+        private readonly IConsole _console;
 
         public ReleaseService(
             IssueRepositoryBase issueRepository,
@@ -112,17 +112,22 @@ namespace GitBucket.Service
                 builder.AppendLine("");
             }
 
-            var body = builder.ToString();
-            var pr = new NewPullRequest(
-                    title: options.Title ?? options.MileStone,
-                    head: options.Head,
-                    baseRef: options.Base
-                ){ Body = body };
-
-            await gitBucketClient.PullRequest.Create(
-                options.Owner,
-                options.Repository,
-                pr);
+            try
+            {
+                // https://github.com/gitbucket/gitbucket/issues/2306
+                await gitBucketClient.PullRequest.Create(
+                    options.Owner,
+                    options.Repository,
+                    new NewPullRequest(
+                        title: options.Title ?? options.MileStone,
+                        head: options.Head,
+                        baseRef: options.Base
+                    )
+                    { Body = builder.ToString() });
+            }
+            catch (InvalidCastException)
+            {
+            }
 
             return await Task.FromResult(0);
         }

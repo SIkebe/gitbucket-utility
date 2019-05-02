@@ -18,7 +18,7 @@ setx GitBucketUri http://localhost:8080/gitbucket/api/v3/
 ### `gbutil issue -t move`
 
 ```powershell
-gbutil issue -t move [-s|--source] [-d|--destination] [-n|--number]
+gbutil issue -t move -s|--source -d|--destination -n|--number
 ```
 
 Move issues between repositories.
@@ -41,11 +41,10 @@ Close the original one manually.
 
 -----
 
-
 ### `gbutil issue -t copy`
 
 ```powershell
-gbutil issue -t copy [-s|--source] [-d|--destination] [-n|--number]
+gbutil issue -t copy -s|--source -d|--destination -n|--number
 ```
 
 Copy issues between repositories.
@@ -69,7 +68,7 @@ The issue has been successfully copied to http://localhost:8080/gitbucket/root/t
 
 ### `gbutil milestone`
 ```powershell
-gbutil milestone [-o|--owner] [-r|--repository] [-c|--includeClosed]
+gbutil milestone -o|--owner -r|--repository [-c|--includeClosed]
 ```
 Show unclosed (by default) milestones.
 
@@ -92,10 +91,12 @@ There are 3 open milestones.
 -----
 
 ### `gbutil release`
+
 ```powershell
-gbutil release [-o|--owner] [-r|--repository] [-m|--miliestone] [-t|--target]
+gbutil release -o|--owner -r|--repository -m|--miliestone [--from-pr] [--create-pr]
 ```
-Output a release note in markdown which lists issues or pull requests of the repository related to the milistone.
+Output a release note in markdown which lists issues of the repository related to the milistone.  
+If `--create-pr` option is specified, gbutil automatically creates Pull Request instead of release note output.
 
 ```powershell
 > gbutil release -o ikebe -r RepeatableTimer -m v0.1.0
@@ -109,6 +110,9 @@ The highest priority among them is "very high".
 ### Enhancement
 * Allow one time/repeat options #1
 * Add validation #3
+
+> gbutil release -o ikebe -r RepeatableTimer -m v0.1.0 --create-pr
+A new pull request has been successfully created!
 ```
 
 ### Options
@@ -117,4 +121,8 @@ The highest priority among them is "very high".
 |`-o`|`--owner`|`true`|The owner name of the repository.|
 |`-r`|`--repository`|`true`|The repository name.|
 |`-m`|`--milestone`|`true`|The milestone to publish a release note.|
-|`-t`|`--target`|`false`|The switch whether publish a release note based on issues or pull requests.<br>Predefined values are "issues" or "pullrequests".<br> Default value is "issues".|
+|-|`--from-pr`|`false`|If specified, gbutil publish a release note based on pull requests.|
+|-|`--create-pr`|`false`|If specified, gbutil automatically creates Pull Request.|
+|`-b`|`--base`|`false`|The name of the branch you want the changes pulled into. Default value is "master".|
+|`-h`|`--head`|`false`|The name of the branch where your changes are implemented. Default value is "develop".|
+|`-t`|`--title`|`false`|The title of the new pull request. Default value is the same as milestone.|

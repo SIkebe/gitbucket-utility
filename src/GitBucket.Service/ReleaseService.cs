@@ -33,7 +33,7 @@ namespace GitBucket.Service
 
         public async Task<int> Execute(ReleaseOptions options, IGitHubClient gitBucketClient)
         {
-            var closedTargets = options.Target.ToLowerInvariant();
+            var closedTargets = options.FromPullRequest ? "pull requests" : "issues";
             var issues = await _issueRepository.FindIssuesRelatedToMileStone(options);
             if (!issues.Any())
             {
@@ -80,10 +80,61 @@ namespace GitBucket.Service
             string closedTargets,
             IGitHubClient gitBucketClient)
         {
-            var labels = _labelRepository.FindBy(l =>
-                l.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase) &&
-                l.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase) &&
-                issueLabels.Select(i => i.LabelId).Contains(l.LabelId));
+            // Check if specified pull request already exists
+            var pullRequests = await gitBucketClient.PullRequest.GetAllForRepository(options.Owner, options.Repository);
+            if (pullRequests.Any(p => p.Head.Ref == options.Head && p.Base.Ref == options.Base))
+            {
+                _console.WriteWarnLine($"A pull request already exists for {options.Owner}:{options.Head}.");
+                return await Task.FromResult(1);
+            }
+
+            var releaseNote = CreateReleaseNote(options, issues, issueLabels, closedTargets);
+
+            try
+            {
+                // Create new pull request
+                await gitBucketClient.PullRequest.Create(
+                    options.Owner,
+                    options.Repository,
+                    new NewPullRequest(
+                        title: options.Title ?? options.MileStone,
+                        head: options.Head,
+                        baseRef: options.Base
+                    )
+                    { Body = releaseNote });
+            }
+            catch (InvalidCastException)
+            {
+                // Ignore InvalidCastException because of escaped response.
+                // https://github.com/gitbucket/gitbucket/issues/2306
+            }
+
+            _console.WriteLine($"A new pull request has been successfully created!");
+            return await Task.FromResult(0);
+        }
+
+        private async Task<int> OutputReleaseNote(
+            ReleaseOptions options,
+            List<Core.Models.Issue> issues,
+            List<Core.Models.IssueLabel> issueLabels,
+            string closedTargets)
+        {
+            var releaseNote = CreateReleaseNote(options, issues, issueLabels, closedTargets);
+            _console.WriteLine(releaseNote);
+            return await Task.FromResult(0);
+        }
+
+        private string CreateReleaseNote(
+            ReleaseOptions options,
+            List<Core.Models.Issue> issues,
+            List<Core.Models.IssueLabel> issueLabels,
+            string closedTargets)
+        {
+            var labels = _labelRepository
+                .FindBy(l =>
+                    l.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase) &&
+                    l.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase) &&
+                    issueLabels.Select(i => i.LabelId).Contains(l.LabelId));
 
             var highestPriority = issues
                 .OrderBy(i => i.Priority.Ordering)
@@ -112,64 +163,7 @@ namespace GitBucket.Service
                 builder.AppendLine("");
             }
 
-            try
-            {
-                // https://github.com/gitbucket/gitbucket/issues/2306
-                await gitBucketClient.PullRequest.Create(
-                    options.Owner,
-                    options.Repository,
-                    new NewPullRequest(
-                        title: options.Title ?? options.MileStone,
-                        head: options.Head,
-                        baseRef: options.Base
-                    )
-                    { Body = builder.ToString() });
-            }
-            catch (InvalidCastException)
-            {
-            }
-
-            return await Task.FromResult(0);
-        }
-
-        private async Task<int> OutputReleaseNote(
-            ReleaseOptions options,
-            List<Core.Models.Issue> issues,
-            List<Core.Models.IssueLabel> issueLabels,
-            string closedTargets)
-        {
-            var labels = _labelRepository.FindBy(l =>
-                l.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase) &&
-                l.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase) &&
-                issueLabels.Select(i => i.LabelId).Contains(l.LabelId));
-
-            var highestPriority = issues
-                .OrderBy(i => i.Priority.Ordering)
-                .First()
-                .Priority.PriorityName;
-
-            _console.WriteLine($"As part of this release we had {issues.Count} {closedTargets} closed.");
-            _console.WriteLine($"The highest priority among them is \"{highestPriority}\".");
-            _console.WriteLine("");
-            foreach (var label in labels)
-            {
-                _console.WriteLine($"### {label.LabelName.ConvertFirstCharToUpper()}");
-
-                var ids = issueLabels
-                    .Where(l => l.LabelId == label.LabelId)
-                    .Select(i => i.IssueId)
-                    .OrderBy(i => i);
-
-                foreach (var issueId in ids)
-                {
-                    var issue = issues.Where(i => i.IssueId == issueId).Single();
-                    _console.WriteLine($"* {issue.Title} #{issue.IssueId}");
-                }
-
-                _console.WriteLine("");
-            }
-
-            return await Task.FromResult(0);
+            return builder.ToString();
         }
     }
 }

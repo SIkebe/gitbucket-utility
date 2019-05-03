@@ -4,8 +4,8 @@ Utilities for GitBucket
 [![Build status](https://ci.appveyor.com/api/projects/status/q1hfisqpa09662l5/?svg=true)](https://ci.appveyor.com/project/SIkebe/gitbucket-utility/)
 
 ## Requirements
-* [.NET Core 2.1.X Runtime](https://www.microsoft.com/net/download/windows)
-* GitBucket 4.30.0+ (using PostgreSQL as backend DB)
+* [.NET Core 2.1.X SDK](https://www.microsoft.com/net/download/windows)
+* GitBucket 4.31.X+ (using PostgreSQL as backend DB)
 
 ## Preparation
 ```cmd
@@ -18,13 +18,13 @@ setx GitBucketUri http://localhost:8080/gitbucket/api/v3/
 ### `gbutil issue -t move`
 
 ```powershell
-gbutil issue -t move -s|--source -d|--destination -n|--number
+gbutil issue -s|--source -d|--destination -n|--number [-t move]
 ```
 
 Move issues between repositories.
 
 ```
-> gbutil issue -t move -s root/test1 -d root/test2 -n 1
+> gbutil issue -s root/test1 -d root/test2 -n 1 -t move
 Enter your Username: root
 Enter your Password: ****
 The issue has been successfully moved to http://localhost:8080/gitbucket/root/test2/issues/35.
@@ -37,7 +37,7 @@ Close the original one manually.
 |`-t`|`--type`|`false`|The type of issue options. Default value is "move".|
 |`-s`|`--source`|`true`|The source owner and repository to move from. Use "/" for separator like "root/repository1".|
 |`-d`|`--destination`|`true`|The destination owner and repository to move to. Use "/" for separator like "root/repository2".|
-|`-n`|`--number`|`false`|The issue numbers to move. Use ":" for separator.|
+|`-n`|`--number`|`true`|The issue numbers to move. Use ":" for separator.|
 
 -----
 
@@ -62,7 +62,7 @@ The issue has been successfully copied to http://localhost:8080/gitbucket/root/t
 |`-t`|`--type`|`true`|The type of issue options. Default value is "move".|
 |`-s`|`--source`|`true`|The source owner and repository to copy from. Use "/" for separator like "root/repository1".|
 |`-d`|`--destination`|`true`|The destination owner and repository to copy to. Use "/" for separator like "root/repository2".|
-|`-n`|`--number`|`false`|The issue numbers to copy. Use ":" for separator.|
+|`-n`|`--number`|`true`|The issue numbers to copy. Use ":" for separator.|
 
 -----
 
@@ -96,7 +96,7 @@ There are 3 open milestones.
 gbutil release -o|--owner -r|--repository -m|--miliestone [--from-pr] [--create-pr]
 ```
 Output a release note in markdown which lists issues of the repository related to the milistone.  
-If `--create-pr` option is specified, gbutil automatically creates Pull Request instead of release note output.
+If `--create-pr` option is specified, gbutil automatically creates Pull Request instead of console output.
 
 ```powershell
 > gbutil release -o ikebe -r RepeatableTimer -m v0.1.0
@@ -122,7 +122,7 @@ A new pull request has been successfully created!
 |`-r`|`--repository`|`true`|The repository name.|
 |`-m`|`--milestone`|`true`|The milestone to publish a release note.|
 |-|`--from-pr`|`false`|If specified, gbutil publish a release note based on pull requests.|
-|-|`--create-pr`|`false`|If specified, gbutil automatically creates Pull Request.|
+|-|`--create-pr`|`false`|If specified, gbutil automatically creates a pull request.|
 |`-b`|`--base`|`false`|The name of the branch you want the changes pulled into. Default value is "master".|
 |`-h`|`--head`|`false`|The name of the branch where your changes are implemented. Default value is "develop".|
 |`-t`|`--title`|`false`|The title of the new pull request. Default value is the same as milestone.|

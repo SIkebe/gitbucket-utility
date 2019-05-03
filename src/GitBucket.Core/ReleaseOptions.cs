@@ -21,10 +21,10 @@ namespace GitBucket.Core
         public bool CreatePullRequest { get; set; }
 
         [Option("base", Required = false, Default = "master", HelpText = "The name of the branch you want the changes pulled into.")]
-        public string Base { get; set; }
+        public string Base { get; set; } = "master";
 
         [Option('h', "head", Required = false, Default = "develop", HelpText = "The name of the branch where your changes are implemented.")]
-        public string Head { get; set; }
+        public string Head { get; set; } = "develop";
 
         [Option("title", Required = false, HelpText = "The title of the new pull request. Default value is the same as milestone.")]
         public string Title { get; set; }

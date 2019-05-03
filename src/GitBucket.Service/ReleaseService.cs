@@ -26,26 +26,26 @@ namespace GitBucket.Service
             LabelRepositoryBase labelRepository,
             IConsole console)
         {
-            _issueRepository = issueRepository;
-            _labelRepository = labelRepository;
-            _console = console;
+            _issueRepository = issueRepository ?? throw new ArgumentNullException(nameof(issueRepository));
+            _labelRepository = labelRepository ?? throw new ArgumentNullException(nameof(labelRepository));
+            _console = console ?? throw new ArgumentNullException(nameof(console));
         }
 
         public async Task<int> Execute(ReleaseOptions options, IGitHubClient gitBucketClient)
         {
-            var closedTargets = options.FromPullRequest ? "pull requests" : "issues";
+            var pullRequestSource = options.FromPullRequest ? "pull requests" : "issues";
             var issues = await _issueRepository.FindIssuesRelatedToMileStone(options);
             if (!issues.Any())
             {
-                _console.WriteWarnLine($"There are no {closedTargets} related to \"{options.MileStone}\".");
+                _console.WriteWarnLine($"There are no {pullRequestSource} related to \"{options.MileStone}\".");
                 return await Task.FromResult(1);
             }
 
             if (issues.Any(i => !i.Closed))
             {
-                _console.WriteWarnLine($"There are unclosed {closedTargets} in \"{options.MileStone}\".");
+                _console.WriteWarnLine($"There are unclosed {pullRequestSource} in \"{options.MileStone}\".");
                 _console.WriteWarn("Do you want to continue?([Y]es/[N]o): ");
-                string yesOrNo = Console.ReadLine();
+                string yesOrNo = _console.ReadLine();
 
                 if (!string.Equals(yesOrNo, "y", StringComparison.OrdinalIgnoreCase)
                 && !string.Equals(yesOrNo, "yes", StringComparison.OrdinalIgnoreCase))
@@ -65,11 +65,11 @@ namespace GitBucket.Service
 
             if (options.CreatePullRequest)
             {
-                return await CreatePullRequest(options, issues, issueLabels, closedTargets, gitBucketClient);
+                return await CreatePullRequest(options, issues, issueLabels, pullRequestSource, gitBucketClient);
             }
             else
             {
-                return await OutputReleaseNote(options, issues, issueLabels, closedTargets);
+                return await OutputReleaseNote(options, issues, issueLabels, pullRequestSource);
             }
         }
 
@@ -77,7 +77,7 @@ namespace GitBucket.Service
             ReleaseOptions options,
             List<Core.Models.Issue> issues,
             List<Core.Models.IssueLabel> issueLabels,
-            string closedTargets,
+            string pullRequestSource,
             IGitHubClient gitBucketClient)
         {
             // Check if specified pull request already exists
@@ -88,7 +88,7 @@ namespace GitBucket.Service
                 return await Task.FromResult(1);
             }
 
-            var releaseNote = CreateReleaseNote(options, issues, issueLabels, closedTargets);
+            var releaseNote = CreateReleaseNote(options, issues, issueLabels, pullRequestSource);
 
             try
             {
@@ -117,9 +117,9 @@ namespace GitBucket.Service
             ReleaseOptions options,
             List<Core.Models.Issue> issues,
             List<Core.Models.IssueLabel> issueLabels,
-            string closedTargets)
+            string pullRequestSource)
         {
-            var releaseNote = CreateReleaseNote(options, issues, issueLabels, closedTargets);
+            var releaseNote = CreateReleaseNote(options, issues, issueLabels, pullRequestSource);
             _console.WriteLine(releaseNote);
             return await Task.FromResult(0);
         }
@@ -128,7 +128,7 @@ namespace GitBucket.Service
             ReleaseOptions options,
             List<Core.Models.Issue> issues,
             List<Core.Models.IssueLabel> issueLabels,
-            string closedTargets)
+            string pullRequestSource)
         {
             var labels = _labelRepository
                 .FindBy(l =>
@@ -142,7 +142,7 @@ namespace GitBucket.Service
                 .Priority.PriorityName;
 
             var builder = new StringBuilder();
-            builder.AppendLine($"As part of this release we had {issues.Count} {closedTargets} closed.");
+            builder.AppendLine($"As part of this release we had {issues.Count} {pullRequestSource} closed.");
             builder.AppendLine($"The highest priority among them is \"{highestPriority}\".");
             builder.AppendLine("");
             foreach (var label in labels)

@@ -217,6 +217,61 @@ The highest priority among them is ""high"".
         }
 
         [Fact]
+        public async void Should_Create_PullRequest_With_Different_Options()
+        {
+            // Given
+            var options = new ReleaseOptions
+            {
+                Base = "release/v1.0.0",
+                CreatePullRequest = true,
+                FromPullRequest = true,
+                Head = "master2",
+                MileStone = "v1.0.0",
+                Owner = "root",
+                Repository = "test",
+                Title = "Amazing PR",
+            };
+
+            var dbContext = EnsureDbCreated(options);
+            var service = new ReleaseService(new IssueRepository(dbContext), new LabelRepository(dbContext), FakeConsole);
+            var gitbucketClient = new Mock<IGitHubClient>();
+            gitbucketClient
+                .Setup(g => g.PullRequest.GetAllForRepository(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>()));
+
+            gitbucketClient
+                .Setup(g => g.PullRequest.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewPullRequest>()))
+                .ThrowsAsync(new InvalidCastException("Ignore InvalidCastException because of escaped response."));
+
+            // When
+            var result = await service.Execute(options, gitbucketClient.Object);
+
+            // Then
+            Assert.Equal(0, result);
+
+            gitbucketClient
+                .Verify(g => g.PullRequest.Create(
+                    It.Is<string>(o => o == "root"),
+                    It.Is<string>(r => r == "test"),
+                    It.Is<NewPullRequest>(p =>
+                        p.Title == "Amazing PR" &&
+                        p.Head == "master2" &&
+                        p.Base == "release/v1.0.0" &&
+                        p.Body == @"As part of this release we had 1 pull requests closed.
+The highest priority among them is ""default"".
+
+### Bug
+* Fix a bug #4
+
+")));
+
+            Assert.Single(FakeConsole.Messages);
+            Assert.Equal("A new pull request has been successfully created!", FakeConsole.Messages[0]);
+            Assert.Empty(FakeConsole.WarnMessages);
+            Assert.Empty(FakeConsole.ErrorMessages);
+        }
+
+        [Fact]
         public async void Should_Output_ReleaseNote()
         {
             // Given
@@ -309,6 +364,17 @@ The highest priority among them is ""high"".
                     RepositoryName = options.Repository,
                     Title = "Some improvement on build",
                     UserName = options.Owner,
+                },
+                new Core.Models.Issue
+                {
+                    Closed = true,
+                    IssueId = 4,
+                    Milestone = milestone,
+                    Priority = defaultPriority,
+                    PullRequest = true,
+                    RepositoryName = options.Repository,
+                    Title = "Fix a bug",
+                    UserName = options.Owner,
                 }
             });
 
@@ -332,6 +398,13 @@ The highest priority among them is ""high"".
                 {
                     IssueId = 3,
                     LabelId = 30,
+                    RepositoryName = options.Repository,
+                    UserName = options.Owner,
+                },
+                new Core.Models.IssueLabel
+                {
+                    IssueId = 4,
+                    LabelId = 10,
                     RepositoryName = options.Repository,
                     UserName = options.Owner,
                 }

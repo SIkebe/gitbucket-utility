@@ -91,6 +91,7 @@ namespace GbUtil
                         },
                         errs => Task.FromResult(-1));
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
             {
                 console.WriteErrorLine(ex.Message);

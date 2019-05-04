@@ -45,9 +45,32 @@ namespace GbUtil
                     return;
                 }
 
+                console.Write("Enter your Username: ");
+                string user = console.ReadLine();
+                if (string.IsNullOrEmpty(user))
+                {
+                    return;
+                }
+
+                console.Write("Enter your Password: ");
+                string password = GetPasswordFromConsole();
+                if (string.IsNullOrEmpty(password))
+                {
+                    return;
+                }
+
+                var client = new GitHubClient(
+                    new Connection(
+                        new ProductHeaderValue("gbutil"),
+                        new Uri(gitbucketUri),
+                        new InMemoryCredentialStore(new Credentials(user, password)),
+                        new HttpClientAdapter(() => new GitBucketMessageHandler()),
+                        new SimpleJsonSerializer()
+                    ));
+
                 var serviceProvider = new ServiceCollection()
                     .AddScoped<DbContext>(_ => new GitBucketDbContext(connectionString))
-                    .AddTransient<IReleaseNoteService, ReleaseNoteService>()
+                    .AddTransient<IReleaseService, ReleaseService>()
                     .AddTransient<IMilestoneService, MilestoneService>()
                     .AddTransient<IIssueService, IssueService>()
                     .AddTransient<IssueRepositoryBase, IssueRepository>()
@@ -60,33 +83,10 @@ namespace GbUtil
                 var provider = scope.ServiceProvider;
                 await Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
                     .MapResult(
-                        (ReleaseOptions options) => provider.GetRequiredService<IReleaseNoteService>().OutputReleaseNotes(options),
+                        (ReleaseOptions options) => provider.GetRequiredService<IReleaseService>().Execute(options, client),
                         (MilestoneOptions options) => provider.GetRequiredService<IMilestoneService>().ShowMilestones(options),
                         (IssueOptions options) =>
                         {
-                            console.Write("Enter your Username: ");
-                            string user = console.ReadLine();
-                            if (string.IsNullOrEmpty(user))
-                            {
-                                return Task.FromResult(1);
-                            }
-
-                            console.Write("Enter your Password: ");
-                            string password = GetPasswordFromConsole();
-                            if (string.IsNullOrEmpty(password))
-                            {
-                                return Task.FromResult(1);
-                            }
-
-                            var client = new GitHubClient(
-                                new Connection(
-                                    new ProductHeaderValue("gbutil"),
-                                    new Uri(gitbucketUri),
-                                    new InMemoryCredentialStore(new Credentials(user, password)),
-                                    new HttpClientAdapter(() => new GitBucketMessageHandler()),
-                                    new SimpleJsonSerializer()
-                                ));
-
                             return provider.GetRequiredService<IIssueService>().Execute(options, client);
                         },
                         errs => Task.FromResult(-1));

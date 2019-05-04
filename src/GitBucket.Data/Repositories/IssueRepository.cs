@@ -38,10 +38,7 @@ namespace GitBucket.Data.Repositories
                 .Where(i => i.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase))
                 .Where(i => i.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase))
                 .Where(i => i.Milestone.Title.Equals(options.MileStone, StringComparison.OrdinalIgnoreCase))
-                .WhereIf(string.Equals(nameof(ReleaseNoteTarget.Issues), options.Target, StringComparison.OrdinalIgnoreCase),
-                    i => !i.PullRequest)
-                .WhereIf(!string.Equals(nameof(ReleaseNoteTarget.Issues), options.Target, StringComparison.OrdinalIgnoreCase),
-                    i => i.PullRequest)
+                .Where(i => i.PullRequest == options.FromPullRequest)
                 .Include(i => i.Milestone)
                 .Include(i => i.Priority)
                 .ToListAsync();

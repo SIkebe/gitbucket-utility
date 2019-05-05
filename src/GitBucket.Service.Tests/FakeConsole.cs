@@ -192,5 +192,10 @@ namespace GitBucket.Service.Tests
             _hasNewLineAtTheEndOfTheMessages = true;
             return _input;
         }
+
+        public string GetPassword()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

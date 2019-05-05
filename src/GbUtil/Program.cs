@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CommandLine;
+using GbUtil.Extensions;
 using GitBucket.Core;
 using GitBucket.Data.Repositories;
 using GitBucket.Service;
@@ -18,7 +18,7 @@ namespace GbUtil
 {
     public sealed class Program
     {
-        public static async Task Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
             IConfiguration configuration;
             IConsole console = new GbUtilConsole();
@@ -31,103 +31,101 @@ namespace GbUtil
                     .AddEnvironmentVariables()
                     .Build();
 
-                var connectionString = configuration.GetConnectionString("GitBucketConnection");
-                if (string.IsNullOrEmpty(connectionString))
-                {
-                    console.WriteWarnLine("PostgreSQL ConnectionString is not configured. Add \"ConnectionStrings: GitBucketConnection\" environment variable.");
-                    return;
-                }
-
-                var gitbucketUri = configuration.GetSection("GitBucketUri")?.Value;
-                if (string.IsNullOrEmpty(gitbucketUri))
-                {
-                    console.WriteWarnLine("GitBucket URI is not configured. Add \"GitBucketUri\" environment variable.");
-                    return;
-                }
-
-                console.Write("Enter your Username: ");
-                string user = console.ReadLine();
-                if (string.IsNullOrEmpty(user))
-                {
-                    return;
-                }
-
-                console.Write("Enter your Password: ");
-                string password = GetPasswordFromConsole();
-                if (string.IsNullOrEmpty(password))
-                {
-                    return;
-                }
-
-                var client = new GitHubClient(
-                    new Connection(
-                        new ProductHeaderValue("gbutil"),
-                        new Uri(gitbucketUri),
-                        new InMemoryCredentialStore(new Credentials(user, password)),
-                        new HttpClientAdapter(() => new GitBucketMessageHandler()),
-                        new SimpleJsonSerializer()
-                    ));
-
-                var serviceProvider = new ServiceCollection()
-                    .AddScoped<DbContext>(_ => new GitBucketDbContext(connectionString))
-                    .AddTransient<IReleaseService, ReleaseService>()
-                    .AddTransient<IMilestoneService, MilestoneService>()
-                    .AddTransient<IIssueService, IssueService>()
-                    .AddTransient<IssueRepositoryBase, IssueRepository>()
-                    .AddTransient<LabelRepositoryBase, LabelRepository>()
-                    .AddTransient<MilestoneRepositoryBase, MilestoneRepository>()
-                    .AddTransient<IConsole, GbUtilConsole>()
-                    .BuildServiceProvider();
-
-                using var scope = serviceProvider.CreateScope();
-                var provider = scope.ServiceProvider;
-                await Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
+                var options = Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
+                    .WithNotParsed(_ => throw new InvalidConfigurationException($"Failed to parse arguments."))
                     .MapResult(
-                        (ReleaseOptions options) => provider.GetRequiredService<IReleaseService>().Execute(options, client),
-                        (MilestoneOptions options) => provider.GetRequiredService<IMilestoneService>().ShowMilestones(options),
-                        (IssueOptions options) =>
-                        {
-                            return provider.GetRequiredService<IIssueService>().Execute(options, client);
-                        },
-                        errs => Task.FromResult(-1));
+                        (ReleaseOptions options) => (CommandLineOptionsBase)options,
+                        (MilestoneOptions options) => options,
+                        (IssueOptions options) => options,
+                        _ => throw new InvalidConfigurationException($"Failed to parse arguments.")
+                    );
+
+                var requireDbConnection = options is ReleaseOptions || options is MilestoneOptions;
+                using var scope = CreateServiceProvider(configuration, requireDbConnection).CreateScope();
+                var result = options switch
+                {
+                    ReleaseOptions releaseOptions
+                        => await scope.ServiceProvider.GetRequiredService<IReleaseService>().Execute(releaseOptions, CreateGitBucketClient(configuration, console)),
+                    MilestoneOptions milestoneOptions
+                        => await scope.ServiceProvider.GetRequiredService<IMilestoneService>().ShowMilestones(milestoneOptions),
+                    IssueOptions issueOptions
+                        => await scope.ServiceProvider.GetRequiredService<IIssueService>().Execute(issueOptions, CreateGitBucketClient(configuration, console)),
+                    _ => 1
+                };
+
+                return result;
+            }
+            catch (InvalidConfigurationException ex)
+            {
+                console.WriteWarnLine(ex.Message);
+                return 1;
             }
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
             {
                 console.WriteErrorLine(ex.Message);
                 console.WriteErrorLine(ex.StackTrace);
+                return 1;
             }
 #pragma warning restore CA1031 // Do not catch general exception types
         }
 
-        private static string GetPasswordFromConsole()
+        private static ServiceProvider CreateServiceProvider(
+            IConfiguration configuration,
+            bool requireDbConnection = false)
         {
-            var builder = new StringBuilder();
-            while (true)
+            string connectionString = "";
+            if (requireDbConnection)
             {
-                var consoleKeyInfo = Console.ReadKey(true);
-                if (consoleKeyInfo.Key == ConsoleKey.Enter)
+                connectionString = configuration.GetConnectionString("GitBucketConnection");
+                if (string.IsNullOrEmpty(connectionString))
                 {
-                    Console.WriteLine();
-                    break;
+                    throw new InvalidConfigurationException("PostgreSQL ConnectionString is not configured. Add \"ConnectionStrings: GitBucketConnection\" environment variable.");
                 }
-
-                if (consoleKeyInfo.Key == ConsoleKey.Backspace && builder.Length > 0)
-                {
-                    if (builder.Length > 0)
-                    {
-                        Console.Write("\b\0\b");
-                        builder.Length--;
-                    }
-
-                    continue;
-                }
-
-                Console.Write('*');
-                builder.Append(consoleKeyInfo.KeyChar);
             }
 
-            return builder.ToString();
+            return new ServiceCollection()
+                .AddScopedIf<DbContext>(requireDbConnection, _ => new GitBucketDbContext(connectionString))
+                .AddTransient<IReleaseService, ReleaseService>()
+                .AddTransient<IMilestoneService, MilestoneService>()
+                .AddTransient<IIssueService, IssueService>()
+                .AddTransientIf<IssueRepositoryBase, IssueRepository>(requireDbConnection)
+                .AddTransientIf<LabelRepositoryBase, LabelRepository>(requireDbConnection)
+                .AddTransientIf<MilestoneRepositoryBase, MilestoneRepository>(requireDbConnection)
+                .AddTransient<IConsole, GbUtilConsole>()
+                .BuildServiceProvider();
+        }
+
+        private static IGitHubClient CreateGitBucketClient(IConfiguration configuration, IConsole console)
+        {
+            var gitbucketUri = configuration.GetSection("GitBucketUri")?.Value;
+            if (string.IsNullOrEmpty(gitbucketUri))
+            {
+                throw new InvalidConfigurationException("GitBucket URI is not configured. Add \"GitBucketUri\" environment variable.");
+            }
+
+            console.Write("Enter your Username: ");
+            string user = console.ReadLine();
+            if (string.IsNullOrEmpty(user))
+            {
+                throw new InvalidConfigurationException("Username is required");
+            }
+
+            console.Write("Enter your Password: ");
+            string password = console.GetPassword();
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new InvalidConfigurationException("Password is required");
+            }
+
+            return new GitHubClient(
+                new Connection(
+                    new ProductHeaderValue("gbutil"),
+                    new Uri(gitbucketUri),
+                    new InMemoryCredentialStore(new Credentials(user, password)),
+                    new HttpClientAdapter(() => new GitBucketMessageHandler()),
+                    new SimpleJsonSerializer()
+                ));
         }
     }
 

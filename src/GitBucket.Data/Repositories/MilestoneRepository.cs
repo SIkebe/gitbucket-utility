@@ -32,6 +32,7 @@ namespace GitBucket.Data.Repositories
                 .OrderBy(m => m.DueDate)
                 .ThenBy(m => m.UserName)
                 .ThenBy(m => m.RepositoryName)
+                .AsNoTracking()
                 .ToListAsync();
         }
     }

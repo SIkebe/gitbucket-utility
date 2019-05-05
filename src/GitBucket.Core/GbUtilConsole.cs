@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 namespace GitBucket.Core
 {
@@ -60,5 +61,35 @@ namespace GitBucket.Core
         public void ResetColor() => Console.ResetColor();
 
         public string ReadLine() => Console.ReadLine();
+
+        public string GetPassword()
+        {
+            var builder = new StringBuilder();
+            while (true)
+            {
+                var consoleKeyInfo = Console.ReadKey(true);
+                if (consoleKeyInfo.Key == ConsoleKey.Enter)
+                {
+                    Console.WriteLine();
+                    break;
+                }
+
+                if (consoleKeyInfo.Key == ConsoleKey.Backspace && builder.Length > 0)
+                {
+                    if (builder.Length > 0)
+                    {
+                        Console.Write("\b\0\b");
+                        builder.Length--;
+                    }
+
+                    continue;
+                }
+
+                Console.Write('*');
+                builder.Append(consoleKeyInfo.KeyChar);
+            }
+
+            return builder.ToString();
+        }
     }
 }

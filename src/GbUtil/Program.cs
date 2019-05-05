@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,15 +31,30 @@ namespace GbUtil
                     .AddJsonFile("appsettings.json", optional: true)
                     .AddEnvironmentVariables()
                     .Build();
+#nullable disable
 
-                var options = Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
-                    .WithNotParsed(_ => throw new InvalidConfigurationException($"Failed to parse arguments."))
+                // TODO: CommandLineOptionsBase? does not work here...
+                CommandLineOptionsBase options = Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
+                    .WithNotParsed(errors =>
+                    {
+                        if (errors.Any(e => e.Tag != ErrorType.HelpVerbRequestedError && e.Tag != ErrorType.VersionRequestedError))
+                        {
+                            throw new InvalidConfigurationException($"Failed to parse arguments.");
+                        }
+                    })
                     .MapResult(
                         (ReleaseOptions options) => (CommandLineOptionsBase)options,
                         (MilestoneOptions options) => options,
                         (IssueOptions options) => options,
-                        _ => throw new InvalidConfigurationException($"Failed to parse arguments.")
+                        _ => null
                     );
+#nullable restore
+
+                // In case of default verbs (--help or --version)
+                if (options == null)
+                {
+                    return 0;
+                }
 
                 var requireDbConnection = options is ReleaseOptions || options is MilestoneOptions;
                 using var scope = CreateServiceProvider(configuration, requireDbConnection).CreateScope();

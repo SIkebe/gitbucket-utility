@@ -33,7 +33,7 @@ namespace GbUtil
                     .Build();
 #nullable disable
 
-                // TODO: CommandLineOptionsBase? does not works here...
+                // TODO: CommandLineOptionsBase? does not work here...
                 CommandLineOptionsBase options = Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
                     .WithNotParsed(errors =>
                     {

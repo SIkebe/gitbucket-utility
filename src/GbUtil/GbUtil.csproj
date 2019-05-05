@@ -9,8 +9,7 @@
     <Product>gitbucket-utility</Product>
     <Copyright>MIT</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageLicenseUrl>https://github.com/SIkebe/gitbucket-utility/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/SIkebe/gitbucket-utility/blob/master/README.md</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IsPackable>true</IsPackable>
     <PackAsTool>true</PackAsTool>
@@ -35,5 +34,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
+  </ItemGroup>
+
 </Project>

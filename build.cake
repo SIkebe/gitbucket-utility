@@ -1,4 +1,3 @@
-#addin nuget:?package=Cake.Incubator&version=3.0.0
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
@@ -32,10 +31,10 @@ Task("Restore")
 
 Task("Build")
     .IsDependentOn("Clean")
-    .DoesForEach(GetFiles("./src/**/*.csproj"), (project) =>
+    .Does(() =>
 {
     DotNetCoreBuild(
-        project.FullPath,
+        "./GbUtil.sln",
         new DotNetCoreBuildSettings 
         {
             Configuration = configuration 
@@ -44,10 +43,10 @@ Task("Build")
 
 Task("Run-Unit-Tests")
     .IsDependentOn("Clean")
-    .DoesForEach(GetFiles("./src/*.Tests/*.csproj"), (project) =>
+    .Does(() =>
 {
     DotNetCoreTest(
-        project.FullPath,
+        "./GbUtil.sln",
         new DotNetCoreTestSettings 
         {
             Configuration = configuration 
@@ -78,7 +77,7 @@ Task("Publish")
     }
 
     DotNetCoreNuGetPush(
-        "./packages/GbUtil.0.5.0.nupkg",
+        "./packages/GbUtil.0.6.0.nupkg",
         new DotNetCoreNuGetPushSettings 
         {
             ApiKey = apiKey,

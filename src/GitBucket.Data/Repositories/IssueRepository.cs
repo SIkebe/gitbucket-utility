@@ -29,7 +29,8 @@ namespace GitBucket.Data.Repositories
             return Context.Set<IssueLabel>()
                 .Where(l => l.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase))
                 .Where(l => l.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase))
-                .Where(l => issues.Select(i => i.IssueId).Contains(l.IssueId));
+                .Where(l => issues.Select(i => i.IssueId).Contains(l.IssueId))
+                .AsNoTracking();
         }
 
         public async override Task<List<Issue>> FindIssuesRelatedToMileStone(ReleaseOptions options)
@@ -38,12 +39,10 @@ namespace GitBucket.Data.Repositories
                 .Where(i => i.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase))
                 .Where(i => i.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase))
                 .Where(i => i.Milestone.Title.Equals(options.MileStone, StringComparison.OrdinalIgnoreCase))
-                .WhereIf(string.Equals(nameof(ReleaseNoteTarget.Issues), options.Target, StringComparison.OrdinalIgnoreCase),
-                    i => !i.PullRequest)
-                .WhereIf(!string.Equals(nameof(ReleaseNoteTarget.Issues), options.Target, StringComparison.OrdinalIgnoreCase),
-                    i => i.PullRequest)
+                .Where(i => i.PullRequest == options.FromPullRequest)
                 .Include(i => i.Milestone)
                 .Include(i => i.Priority)
+                .AsNoTracking()
                 .ToListAsync();
         }
     }

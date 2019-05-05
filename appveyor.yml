@@ -5,7 +5,7 @@ init:
 
 # Build script
 build_script:
-  - ps: .\build.ps1 -target Run-Unit-Tests
+  - ps: .\build.ps1 --target="Run-Unit-Tests"
 
 # Tests
 test: off
@@ -23,4 +23,4 @@ branches:
 
 # Build cache
 cache:
-- tools -> build.cake
+- tools -> build.cake, build.config

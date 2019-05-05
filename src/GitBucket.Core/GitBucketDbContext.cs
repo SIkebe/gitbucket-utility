@@ -8,6 +8,11 @@ namespace GitBucket.Core
         public GitBucketDbContext(string connectionString)
             => ConnectionString = connectionString;
 
+        public GitBucketDbContext(DbContextOptions<GitBucketDbContext> options)
+            : base(options)
+        {
+        }
+
         public virtual DbSet<AccessToken> AccessToken { get; set; }
         public virtual DbSet<Account> Account { get; set; }
         public virtual DbSet<AccountExtraMailAddress> AccountExtraMailAddress { get; set; }

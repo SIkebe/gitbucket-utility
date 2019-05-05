@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 namespace GitBucket.Core
 {
@@ -31,7 +32,6 @@ namespace GitBucket.Core
 
         public void WriteWarn(string value)
         {
-            var color = ForegroundColor;
             ForegroundColor = ConsoleColor.Yellow;
             Console.Write(value);
             ResetColor();
@@ -39,7 +39,6 @@ namespace GitBucket.Core
 
         public void WriteWarnLine(string value)
         {
-            var color = ForegroundColor;
             ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(value);
             ResetColor();
@@ -47,7 +46,6 @@ namespace GitBucket.Core
 
         public void WriteError(string value)
         {
-            var color = ForegroundColor;
             ForegroundColor = ConsoleColor.Red;
             Console.Write(value);
             ResetColor();
@@ -55,7 +53,6 @@ namespace GitBucket.Core
 
         public void WriteErrorLine(string value)
         {
-            var color = ForegroundColor;
             ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(value);
             ResetColor();
@@ -64,5 +61,35 @@ namespace GitBucket.Core
         public void ResetColor() => Console.ResetColor();
 
         public string ReadLine() => Console.ReadLine();
+
+        public string GetPassword()
+        {
+            var builder = new StringBuilder();
+            while (true)
+            {
+                var consoleKeyInfo = Console.ReadKey(true);
+                if (consoleKeyInfo.Key == ConsoleKey.Enter)
+                {
+                    Console.WriteLine();
+                    break;
+                }
+
+                if (consoleKeyInfo.Key == ConsoleKey.Backspace && builder.Length > 0)
+                {
+                    if (builder.Length > 0)
+                    {
+                        Console.Write("\b\0\b");
+                        builder.Length--;
+                    }
+
+                    continue;
+                }
+
+                Console.Write('*');
+                builder.Append(consoleKeyInfo.KeyChar);
+            }
+
+            return builder.ToString();
+        }
     }
 }

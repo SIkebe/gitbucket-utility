@@ -10,7 +10,19 @@ namespace GitBucket.Service.Tests
     /// </summary>
     public class FakeConsole : IConsole
     {
-        private bool hasNewLineAtTheEndOfTheMessages = false;
+        private readonly string _input;
+        private ConsoleKind _consoleKind = ConsoleKind.Normal;
+        private bool _hasNewLineAtTheEndOfTheMessages = false;
+
+        public FakeConsole(string input = "test") => _input = input;
+
+        private enum ConsoleKind
+        {
+            Normal,
+            Warn,
+            Error
+        }
+
         public List<string> Messages { get; } = new List<string>();
         public List<string> WarnMessages { get; } = new List<string>();
         public List<string> ErrorMessages { get; } = new List<string>();
@@ -21,18 +33,18 @@ namespace GitBucket.Service.Tests
             if (!Messages.Any())
             {
                 Messages.Add(value);
-                hasNewLineAtTheEndOfTheMessages = false;
             }
-            else if (hasNewLineAtTheEndOfTheMessages)
+            else if (_hasNewLineAtTheEndOfTheMessages)
             {
                 Messages.Add(value);
-                hasNewLineAtTheEndOfTheMessages = false;
             }
             else
             {
                 Messages[Messages.Count - 1] += value;
-                hasNewLineAtTheEndOfTheMessages = false;
             }
+
+            _consoleKind = ConsoleKind.Normal;
+            _hasNewLineAtTheEndOfTheMessages = false;
         }
 
         public void WriteLine(string value)
@@ -40,98 +52,150 @@ namespace GitBucket.Service.Tests
             if (!Messages.Any())
             {
                 Messages.Add(value);
-                hasNewLineAtTheEndOfTheMessages = true;
             }
-            else if (hasNewLineAtTheEndOfTheMessages)
+            else if (_hasNewLineAtTheEndOfTheMessages)
             {
                 Messages.Add(value);
-                hasNewLineAtTheEndOfTheMessages = true;
             }
             else
             {
                 Messages[Messages.Count - 1] += value;
-                hasNewLineAtTheEndOfTheMessages = true;
             }
+
+            _consoleKind = ConsoleKind.Normal;
+            _hasNewLineAtTheEndOfTheMessages = true;
+            ResetColor();
         }
 
         public void WriteWarn(string value)
         {
-            if (!Messages.Any())
+            if (!WarnMessages.Any())
             {
                 WarnMessages.Add(value);
-                hasNewLineAtTheEndOfTheMessages = false;
             }
-            else if (hasNewLineAtTheEndOfTheMessages)
+            else if (_hasNewLineAtTheEndOfTheMessages)
             {
                 WarnMessages.Add(value);
-                hasNewLineAtTheEndOfTheMessages = false;
             }
             else
             {
                 WarnMessages[WarnMessages.Count - 1] += value;
-                hasNewLineAtTheEndOfTheMessages = false;
             }
+
+            _consoleKind = ConsoleKind.Warn;
+            _hasNewLineAtTheEndOfTheMessages = false;
         }
 
         public void WriteWarnLine(string value)
         {
-            if (!Messages.Any())
+            if (!WarnMessages.Any())
             {
                 WarnMessages.Add(value);
-                hasNewLineAtTheEndOfTheMessages = true;
             }
-            else if (hasNewLineAtTheEndOfTheMessages)
+            else if (_hasNewLineAtTheEndOfTheMessages)
             {
                 WarnMessages.Add(value);
-                hasNewLineAtTheEndOfTheMessages = true;
             }
             else
             {
                 WarnMessages[WarnMessages.Count - 1] += value;
-                hasNewLineAtTheEndOfTheMessages = true;
             }
+
+            _consoleKind = ConsoleKind.Normal;
+            _hasNewLineAtTheEndOfTheMessages = true;
+            ResetColor();
         }
 
         public void WriteError(string value)
         {
-            if (!Messages.Any())
+            if (!ErrorMessages.Any())
             {
                 ErrorMessages.Add(value);
-                hasNewLineAtTheEndOfTheMessages = false;
             }
-            else if (hasNewLineAtTheEndOfTheMessages)
+            else if (_hasNewLineAtTheEndOfTheMessages)
             {
                 ErrorMessages.Add(value);
-                hasNewLineAtTheEndOfTheMessages = false;
             }
             else
             {
                 ErrorMessages[ErrorMessages.Count - 1] += value;
-                hasNewLineAtTheEndOfTheMessages = false;
             }
+
+            _consoleKind = ConsoleKind.Error;
+            _hasNewLineAtTheEndOfTheMessages = false;
         }
 
         public void WriteErrorLine(string value)
         {
-            if (!Messages.Any())
+            if (!ErrorMessages.Any())
             {
                 ErrorMessages.Add(value);
-                hasNewLineAtTheEndOfTheMessages = true;
             }
-            else if (hasNewLineAtTheEndOfTheMessages)
+            else if (_hasNewLineAtTheEndOfTheMessages)
             {
                 ErrorMessages.Add(value);
-                hasNewLineAtTheEndOfTheMessages = true;
             }
             else
             {
                 ErrorMessages[ErrorMessages.Count - 1] += value;
-                hasNewLineAtTheEndOfTheMessages = true;
             }
+
+            _consoleKind = ConsoleKind.Normal;
+            _hasNewLineAtTheEndOfTheMessages = true;
+            ResetColor();
         }
 
         public void ResetColor() => ForegroundColor = ConsoleColor.Gray;
 
-        public virtual string ReadLine() => "test";
+        public virtual string ReadLine()
+        {
+            switch (_consoleKind)
+            {
+                case ConsoleKind.Warn:
+                    if (!_hasNewLineAtTheEndOfTheMessages)
+                    {
+                        WarnMessages[WarnMessages.Count - 1] += _input;
+                    }
+                    else
+                    {
+                        WarnMessages.Add(_input);
+                    }
+
+                    break;
+
+                case ConsoleKind.Error:
+                    if (!_hasNewLineAtTheEndOfTheMessages)
+                    {
+                        ErrorMessages[ErrorMessages.Count - 1] += _input;
+                    }
+                    else
+                    {
+                        ErrorMessages.Add(_input);
+                    }
+
+                    break;
+
+                default:
+                    if (!_hasNewLineAtTheEndOfTheMessages)
+                    {
+                        Messages[Messages.Count - 1] += _input;
+                    }
+                    else
+                    {
+                        Messages.Add(_input);
+                    }
+
+                    break;
+            }
+
+            _consoleKind = ConsoleKind.Normal;
+            _hasNewLineAtTheEndOfTheMessages = true;
+            return _input;
+        }
+
+        public string GetPassword()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

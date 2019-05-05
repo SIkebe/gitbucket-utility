@@ -16,5 +16,6 @@ namespace GitBucket.Core
         void WriteErrorLine(string value);
         void ResetColor();
         string ReadLine();
+        string GetPassword();
     }
 }

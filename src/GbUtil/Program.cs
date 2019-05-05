@@ -37,7 +37,10 @@ namespace GbUtil
                 CommandLineOptionsBase options = Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
                     .WithNotParsed(errors =>
                     {
-                        if (errors.Any(e => e.Tag != ErrorType.HelpVerbRequestedError && e.Tag != ErrorType.VersionRequestedError))
+                        if (errors.Any(e =>
+                            e.Tag != ErrorType.HelpVerbRequestedError &&
+                            e.Tag != ErrorType.VersionRequestedError &&
+                            e.Tag != ErrorType.NoVerbSelectedError))
                         {
                             throw new InvalidConfigurationException($"Failed to parse arguments.");
                         }

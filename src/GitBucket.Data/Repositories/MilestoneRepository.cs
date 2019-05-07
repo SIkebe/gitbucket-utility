@@ -25,15 +25,22 @@ namespace GitBucket.Data.Repositories
 
         public override async Task<List<Milestone>> FindMilestones(MilestoneOptions options)
         {
+#pragma warning disable CA1304 // Specify CultureInfo
+            // "String.Equals(String, StringComparison)" causes client side evaluation.
+            // https://github.com/aspnet/EntityFrameworkCore/issues/1222
+            var owners = options.Owners.Select(o => o.ToLower());
+            var repositories = options.Repositories.Select(r => r.ToLower());
+
             return await Context.Set<Milestone>()
-                .WhereIf(options.Owners.Any(), m => options.Owners.Contains(m.UserName, StringComparer.OrdinalIgnoreCase))
-                .WhereIf(options.Repositories.Any(), m => options.Repositories.Contains(m.RepositoryName, StringComparer.OrdinalIgnoreCase))
+                .WhereIf(options.Owners.Any(), m => owners.Contains(m.UserName.ToLower()))
+                .WhereIf(options.Repositories.Any(), m => repositories.Contains(m.RepositoryName.ToLower()))
                 .WhereIf(!options.IncludeClosed, m => m.ClosedDate == null)
                 .OrderBy(m => m.DueDate)
                 .ThenBy(m => m.UserName)
                 .ThenBy(m => m.RepositoryName)
                 .AsNoTracking()
                 .ToListAsync();
+#pragma warning restore CA1304 // Specify CultureInfo
         }
     }
 }

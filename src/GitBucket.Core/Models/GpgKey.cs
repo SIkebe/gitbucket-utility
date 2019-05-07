@@ -3,10 +3,11 @@ using System.Collections.Generic;
 
 namespace GitBucket.Core.Models
 {
-    public partial class SshKey
+    public partial class GpgKey
     {
         public string UserName { get; set; }
-        public int SshKeyId { get; set; }
+        public int KeyId { get; set; }
+        public long GpgKeyId { get; set; }
         public string Title { get; set; }
         public string PublicKey { get; set; }
 

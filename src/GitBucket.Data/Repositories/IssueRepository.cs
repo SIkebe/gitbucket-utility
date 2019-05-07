@@ -26,24 +26,30 @@ namespace GitBucket.Data.Repositories
 
         public override IEnumerable<IssueLabel> FindIssueLabels(ReleaseOptions options, IEnumerable<Issue> issues)
         {
+#pragma warning disable CA1304 // Specify CultureInfo
+            // "String.Equals(String, StringComparison)" causes client side evaluation.
+            // https://github.com/aspnet/EntityFrameworkCore/issues/1222
             return Context.Set<IssueLabel>()
-                .Where(l => l.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase))
-                .Where(l => l.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase))
+                .Where(l => l.UserName.ToLower() == options.Owner.ToLower())
+                .Where(l => l.RepositoryName.ToLower() == options.Repository.ToLower())
                 .Where(l => issues.Select(i => i.IssueId).Contains(l.IssueId))
                 .AsNoTracking();
         }
 
         public async override Task<List<Issue>> FindIssuesRelatedToMileStone(ReleaseOptions options)
         {
+            // "String.Equals(String, StringComparison)" causes client side evaluation.
+            // https://github.com/aspnet/EntityFrameworkCore/issues/1222
             return await Context.Set<Issue>()
-                .Where(i => i.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase))
-                .Where(i => i.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase))
-                .Where(i => i.Milestone.Title.Equals(options.MileStone, StringComparison.OrdinalIgnoreCase))
+                .Where(i => i.UserName.ToLower() == options.Owner.ToLower())
+                .Where(i => i.RepositoryName.ToLower() == options.Repository.ToLower())
+                .Where(i => i.Milestone.Title.ToLower() == options.MileStone.ToLower())
                 .Where(i => i.PullRequest == options.FromPullRequest)
                 .Include(i => i.Milestone)
                 .Include(i => i.Priority)
                 .AsNoTracking()
                 .ToListAsync();
+#pragma warning restore CA1304 // Specify CultureInfo
         }
     }
 }

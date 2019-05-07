@@ -130,11 +130,17 @@ namespace GitBucket.Service
             List<Core.Models.IssueLabel> issueLabels,
             string pullRequestSource)
         {
+#pragma warning disable CA1304 // Specify CultureInfo
+
+            // "String.Equals(String, StringComparison)" causes client side evaluation.
+            // https://github.com/aspnet/EntityFrameworkCore/issues/1222
             var labels = _labelRepository
                 .FindBy(l =>
-                    l.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase) &&
-                    l.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase) &&
+                    l.UserName.ToLower() == options.Owner.ToLower() &&
+                    l.RepositoryName.ToLower() == options.Repository.ToLower() &&
                     issueLabels.Select(i => i.LabelId).Contains(l.LabelId));
+
+#pragma warning restore CA1304 // Specify CultureInfo
 
             var highestPriority = issues
                 .OrderBy(i => i.Priority.Ordering)

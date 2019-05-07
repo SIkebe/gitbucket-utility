@@ -23,7 +23,7 @@ namespace GitBucket.Service.Tests
                 .Options;
 
             var dbContext = new GitBucketDbContext(dbContextOptions);
-            var options = new ReleaseOptions { MileStone = "v1.0.0" };
+            var options = new ReleaseOptions { MileStone = "v1.0.0", Owner = "root", Repository = "test" };
             var service = new ReleaseService(new IssueRepository(dbContext), new LabelRepository(dbContext), FakeConsole);
 
             // When
@@ -46,7 +46,7 @@ namespace GitBucket.Service.Tests
                 .Options;
 
             var dbContext = new GitBucketDbContext(dbContextOptions);
-            var options = new ReleaseOptions { FromPullRequest = true, MileStone = "v1.0.0" };
+            var options = new ReleaseOptions { FromPullRequest = true, MileStone = "v1.0.0", Owner = "root", Repository = "test" };
             var service = new ReleaseService(new IssueRepository(dbContext), new LabelRepository(dbContext), FakeConsole);
 
             // When
@@ -320,6 +320,7 @@ The highest priority among them is ""high"".
             var highPriority = new Core.Models.Priority
             {
                 Ordering = 0,
+                PriorityId = 0,
                 PriorityName = "high",
                 RepositoryName = options.Repository,
                 UserName = options.Owner,
@@ -328,6 +329,7 @@ The highest priority among them is ""high"".
             var defaultPriority = new Core.Models.Priority
             {
                 Ordering = 1,
+                PriorityId = 1,
                 PriorityName = "default",
                 RepositoryName = options.Repository,
                 UserName = options.Owner,

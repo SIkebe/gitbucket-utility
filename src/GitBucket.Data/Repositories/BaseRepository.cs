@@ -16,7 +16,9 @@ namespace GitBucket.Data.Repositories
         public virtual TEntity FindById(int id) => Context.Set<TEntity>().Find(id);
 
         public virtual IEnumerable<TEntity> FindBy(Expression<Func<TEntity, bool>> predictate)
-            => Context.Set<TEntity>().Where(predictate);
+            => Context.Set<TEntity>()
+            .Where(predictate)
+            .AsNoTracking();
 
         public virtual IEnumerable<TEntity> FindAll() => Context.Set<TEntity>().AsEnumerable();
 

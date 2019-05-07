@@ -56,7 +56,7 @@ namespace GitBucket.Service
                 _console.WriteLine("");
             }
 
-            var issueLabels = _issueRepository.FindIssueLabels(options, issues).ToList();
+            var issueLabels = await _issueRepository.FindIssueLabels(options, issues);
             if (issues.Any(i => !issueLabels.Select(l => l.IssueId).Contains(i.IssueId)))
             {
                 _console.WriteWarnLine($"There are issues which have no labels in \"{options.MileStone}\".");

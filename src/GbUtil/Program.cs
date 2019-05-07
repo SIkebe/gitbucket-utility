@@ -31,10 +31,8 @@ namespace GbUtil
                     .AddJsonFile("appsettings.json", optional: true)
                     .AddEnvironmentVariables()
                     .Build();
-#nullable disable
 
-                // TODO: CommandLineOptionsBase? does not work here...
-                CommandLineOptionsBase options = Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
+                var options = Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
                     .WithNotParsed(errors =>
                     {
                         if (errors.Any(e =>
@@ -45,13 +43,12 @@ namespace GbUtil
                             throw new InvalidConfigurationException($"Failed to parse arguments.");
                         }
                     })
-                    .MapResult(
-                        (ReleaseOptions options) => (CommandLineOptionsBase)options,
+                    .MapResult<ReleaseOptions, MilestoneOptions, IssueOptions, CommandLineOptionsBase?>(
+                        (ReleaseOptions options) => options,
                         (MilestoneOptions options) => options,
                         (IssueOptions options) => options,
                         _ => null
                     );
-#nullable restore
 
                 // In case of default verbs (--help or --version)
                 if (options == null)

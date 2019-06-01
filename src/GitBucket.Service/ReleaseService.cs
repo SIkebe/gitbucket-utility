@@ -169,9 +169,9 @@ namespace GitBucket.Service
 #pragma warning restore CA1304 // Specify CultureInfo
 
             var highestPriority = issues
-                .OrderBy(i => i.Priority.Ordering)
+                .OrderBy(i => i.Priority?.Ordering)
                 .First()
-                .Priority.PriorityName;
+                .Priority?.PriorityName;
 
             var builder = new StringBuilder();
             builder.AppendLine($"As part of this release we had {issues.Count} {pullRequestSource} closed.");

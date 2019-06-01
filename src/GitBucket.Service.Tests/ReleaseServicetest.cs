@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using GitBucket.Core;
-using GitBucket.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Octokit;

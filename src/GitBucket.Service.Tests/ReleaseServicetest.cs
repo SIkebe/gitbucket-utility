@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using GitBucket.Core;
-using GitBucket.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Octokit;
@@ -24,7 +23,7 @@ namespace GitBucket.Service.Tests
 
             var dbContext = new GitBucketDbContext(dbContextOptions);
             var options = new ReleaseOptions { MileStone = "v1.0.0", Owner = "root", Repository = "test" };
-            var service = new ReleaseService(new IssueRepository(dbContext), new LabelRepository(dbContext), FakeConsole);
+            var service = new ReleaseService(dbContext, FakeConsole);
 
             // When
             var result = await service.Execute(options, new Mock<IGitHubClient>().Object);
@@ -47,7 +46,7 @@ namespace GitBucket.Service.Tests
 
             var dbContext = new GitBucketDbContext(dbContextOptions);
             var options = new ReleaseOptions { FromPullRequest = true, MileStone = "v1.0.0", Owner = "root", Repository = "test" };
-            var service = new ReleaseService(new IssueRepository(dbContext), new LabelRepository(dbContext), FakeConsole);
+            var service = new ReleaseService(dbContext, FakeConsole);
 
             // When
             var result = await service.Execute(options, new Mock<IGitHubClient>().Object);
@@ -86,7 +85,7 @@ namespace GitBucket.Service.Tests
             dbContext.SaveChanges();
 
             var console = new FakeConsole("no");
-            var service = new ReleaseService(new IssueRepository(dbContext), new LabelRepository(dbContext), console);
+            var service = new ReleaseService(dbContext, console);
 
             // When
             var result = await service.Execute(options, new Mock<IGitHubClient>().Object);
@@ -124,7 +123,7 @@ namespace GitBucket.Service.Tests
 
             dbContext.SaveChanges();
 
-            var service = new ReleaseService(new IssueRepository(dbContext), new LabelRepository(dbContext), FakeConsole);
+            var service = new ReleaseService(dbContext, FakeConsole);
 
             // When
             var result = await service.Execute(options, new Mock<IGitHubClient>().Object);
@@ -148,7 +147,7 @@ namespace GitBucket.Service.Tests
             // Given
             var options = new ReleaseOptions { CreatePullRequest = true, MileStone = "v1.0.0", Owner = "root", Repository = "test" };
             var dbContext = EnsureDbCreated(options);
-            var service = new ReleaseService(new IssueRepository(dbContext), new LabelRepository(dbContext), FakeConsole);
+            var service = new ReleaseService(dbContext, FakeConsole);
             var gitbucketClient = new Mock<IGitHubClient>();
             gitbucketClient
                 .Setup(g => g.PullRequest.GetAllForRepository(It.IsAny<string>(), It.IsAny<string>()))
@@ -174,7 +173,7 @@ namespace GitBucket.Service.Tests
             // Given
             var options = new ReleaseOptions { CreatePullRequest = true, MileStone = "v1.0.0", Owner = "root", Repository = "test" };
             var dbContext = EnsureDbCreated(options);
-            var service = new ReleaseService(new IssueRepository(dbContext), new LabelRepository(dbContext), FakeConsole);
+            var service = new ReleaseService(dbContext, FakeConsole);
             var gitbucketClient = new Mock<IGitHubClient>();
             gitbucketClient
                 .Setup(g => g.PullRequest.GetAllForRepository(It.IsAny<string>(), It.IsAny<string>()))
@@ -233,7 +232,7 @@ The highest priority among them is ""high"".
             };
 
             var dbContext = EnsureDbCreated(options);
-            var service = new ReleaseService(new IssueRepository(dbContext), new LabelRepository(dbContext), FakeConsole);
+            var service = new ReleaseService(dbContext, FakeConsole);
             var gitbucketClient = new Mock<IGitHubClient>();
             gitbucketClient
                 .Setup(g => g.PullRequest.GetAllForRepository(It.IsAny<string>(), It.IsAny<string>()))
@@ -277,7 +276,7 @@ The highest priority among them is ""default"".
             // Given
             var options = new ReleaseOptions { MileStone = "v1.0.0", Owner = "root", Repository = "test" };
             var dbContext = EnsureDbCreated(options);
-            var service = new ReleaseService(new IssueRepository(dbContext), new LabelRepository(dbContext), FakeConsole);
+            var service = new ReleaseService(dbContext, FakeConsole);
 
             // When
             var result = await service.Execute(options, new Mock<IGitHubClient>().Object);

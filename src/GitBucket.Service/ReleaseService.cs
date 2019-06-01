@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GitBucket.Core;
-using GitBucket.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Octokit;
 
@@ -17,24 +16,19 @@ namespace GitBucket.Service
 
     public class ReleaseService : IReleaseService
     {
-        private readonly IssueRepositoryBase _issueRepository;
-        private readonly LabelRepositoryBase _labelRepository;
+        private readonly DbContext _context;
         private readonly IConsole _console;
 
-        public ReleaseService(
-            IssueRepositoryBase issueRepository,
-            LabelRepositoryBase labelRepository,
-            IConsole console)
+        public ReleaseService(DbContext context, IConsole console)
         {
-            _issueRepository = issueRepository ?? throw new ArgumentNullException(nameof(issueRepository));
-            _labelRepository = labelRepository ?? throw new ArgumentNullException(nameof(labelRepository));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
             _console = console ?? throw new ArgumentNullException(nameof(console));
         }
 
         public async Task<int> Execute(ReleaseOptions options, IGitHubClient gitBucketClient)
         {
             var pullRequestSource = options.FromPullRequest ? "pull requests" : "issues";
-            var issues = await _issueRepository.FindIssuesRelatedToMileStone(options);
+            var issues = await FindIssuesRelatedToMileStone(options);
             if (!issues.Any())
             {
                 _console.WriteWarnLine($"There are no {pullRequestSource} related to \"{options.MileStone}\".");
@@ -56,7 +50,7 @@ namespace GitBucket.Service
                 _console.WriteLine("");
             }
 
-            var issueLabels = await _issueRepository.FindIssueLabels(options, issues);
+            var issueLabels = await FindIssueLabels(options, issues);
             if (issues.Any(i => !issueLabels.Select(l => l.IssueId).Contains(i.IssueId)))
             {
                 _console.WriteWarnLine($"There are issues which have no labels in \"{options.MileStone}\".");
@@ -71,6 +65,37 @@ namespace GitBucket.Service
             {
                 return await OutputReleaseNote(options, issues, issueLabels, pullRequestSource);
             }
+        }
+
+        private async Task<List<GitBucket.Core.Models.IssueLabel>> FindIssueLabels(
+            ReleaseOptions options,
+            IEnumerable<GitBucket.Core.Models.Issue> issues)
+        {
+#pragma warning disable CA1304 // Specify CultureInfo
+            // "String.Equals(String, StringComparison)" causes client side evaluation.
+            // https://github.com/aspnet/EntityFrameworkCore/issues/1222
+            return await _context.Set<GitBucket.Core.Models.IssueLabel>()
+                .Where(l => l.UserName.ToLower() == options.Owner.ToLower())
+                .Where(l => l.RepositoryName.ToLower() == options.Repository.ToLower())
+                .Where(l => issues.Select(i => i.IssueId).Contains(l.IssueId))
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        private async Task<List<GitBucket.Core.Models.Issue>> FindIssuesRelatedToMileStone(ReleaseOptions options)
+        {
+            // "String.Equals(String, StringComparison)" causes client side evaluation.
+            // https://github.com/aspnet/EntityFrameworkCore/issues/1222
+            return await _context.Set<GitBucket.Core.Models.Issue>()
+                .Where(i => i.UserName.ToLower() == options.Owner.ToLower())
+                .Where(i => i.RepositoryName.ToLower() == options.Repository.ToLower())
+                .Where(i => i.Milestone.Title.ToLower() == options.MileStone.ToLower())
+                .Where(i => i.PullRequest == options.FromPullRequest)
+                .Include(i => i.Milestone)
+                .Include(i => i.Priority)
+                .AsNoTracking()
+                .ToListAsync();
+#pragma warning restore CA1304 // Specify CultureInfo
         }
 
         private async Task<int> CreatePullRequest(
@@ -134,18 +159,19 @@ namespace GitBucket.Service
 
             // "String.Equals(String, StringComparison)" causes client side evaluation.
             // https://github.com/aspnet/EntityFrameworkCore/issues/1222
-            var labels = _labelRepository
-                .FindBy(l =>
+            var labels = _context.Set<Core.Models.Label>()
+                .Where(l =>
                     l.UserName.ToLower() == options.Owner.ToLower() &&
                     l.RepositoryName.ToLower() == options.Repository.ToLower() &&
-                    issueLabels.Select(i => i.LabelId).Contains(l.LabelId));
+                    issueLabels.Select(i => i.LabelId).Contains(l.LabelId))
+                .AsNoTracking();
 
 #pragma warning restore CA1304 // Specify CultureInfo
 
             var highestPriority = issues
-                .OrderBy(i => i.Priority.Ordering)
+                .OrderBy(i => i.Priority?.Ordering)
                 .First()
-                .Priority.PriorityName;
+                .Priority?.PriorityName;
 
             var builder = new StringBuilder();
             builder.AppendLine($"As part of this release we had {issues.Count} {pullRequestSource} closed.");

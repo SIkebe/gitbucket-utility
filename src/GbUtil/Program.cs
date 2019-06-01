@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using CommandLine;
 using GbUtil.Extensions;
 using GitBucket.Core;
-using GitBucket.Data.Repositories;
 using GitBucket.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -105,9 +104,6 @@ namespace GbUtil
                 .AddTransient<IReleaseService, ReleaseService>()
                 .AddTransient<IMilestoneService, MilestoneService>()
                 .AddTransient<IIssueService, IssueService>()
-                .AddTransientIf<IssueRepositoryBase, IssueRepository>(requireDbConnection)
-                .AddTransientIf<LabelRepositoryBase, LabelRepository>(requireDbConnection)
-                .AddTransientIf<MilestoneRepositoryBase, MilestoneRepository>(requireDbConnection)
                 .AddTransient<IConsole, GbUtilConsole>()
                 .BuildServiceProvider();
         }

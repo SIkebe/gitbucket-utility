@@ -105,8 +105,6 @@ namespace GbUtil
                 .AddTransient<IReleaseService, ReleaseService>()
                 .AddTransient<IMilestoneService, MilestoneService>()
                 .AddTransient<IIssueService, IssueService>()
-                .AddTransientIf<IssueRepositoryBase, IssueRepository>(requireDbConnection)
-                .AddTransientIf<LabelRepositoryBase, LabelRepository>(requireDbConnection)
                 .AddTransientIf<MilestoneRepositoryBase, MilestoneRepository>(requireDbConnection)
                 .AddTransient<IConsole, GbUtilConsole>()
                 .BuildServiceProvider();

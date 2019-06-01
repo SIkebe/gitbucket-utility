@@ -18,7 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		Directory.Build.targets = Directory.Build.targets
 		global.json = global.json
 		install.bat = install.bat
-		tools\packages.config = tools\packages.config
 		README.md = README.md
 	EndProjectSection
 EndProject

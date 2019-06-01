@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using GitBucket.Core;
 using GitBucket.Core.Models;
-using GitBucket.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace GitBucket.Service
 {
@@ -12,15 +15,18 @@ namespace GitBucket.Service
 
     public class MilestoneService : IMilestoneService
     {
-        private readonly MilestoneRepositoryBase _milestoneRepository;
+        private readonly DbContext _context;
         private readonly IConsole _console;
 
-        public MilestoneService(MilestoneRepositoryBase milestoneRepository, IConsole console)
-            => (_milestoneRepository, _console) = (milestoneRepository, console);
+        public MilestoneService(DbContext context, IConsole console)
+        {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _console = console ?? throw new ArgumentNullException(nameof(console));
+        }
 
         public async Task<int> ShowMilestones(MilestoneOptions options)
         {
-            var milestones = await _milestoneRepository.FindMilestones(options);
+            var milestones = await FindMilestones(options);
             if (milestones.Count == 0)
             {
                 _console.WriteLine("There are no milestone.");
@@ -56,6 +62,26 @@ namespace GitBucket.Service
             }
 
             return 0;
+        }
+
+        private async Task<List<Milestone>> FindMilestones(MilestoneOptions options)
+        {
+#pragma warning disable CA1304 // Specify CultureInfo
+            // "String.Equals(String, StringComparison)" causes client side evaluation.
+            // https://github.com/aspnet/EntityFrameworkCore/issues/1222
+            var owners = options.Owners.Select(o => o.ToLower());
+            var repositories = options.Repositories.Select(r => r.ToLower());
+
+            return await _context.Set<Milestone>()
+                .WhereIf(options.Owners.Any(), m => owners.Contains(m.UserName.ToLower()))
+                .WhereIf(options.Repositories.Any(), m => repositories.Contains(m.RepositoryName.ToLower()))
+                .WhereIf(!options.IncludeClosed, m => m.ClosedDate == null)
+                .OrderBy(m => m.DueDate)
+                .ThenBy(m => m.UserName)
+                .ThenBy(m => m.RepositoryName)
+                .AsNoTracking()
+                .ToListAsync();
+#pragma warning restore CA1304 // Specify CultureInfo
         }
     }
 }

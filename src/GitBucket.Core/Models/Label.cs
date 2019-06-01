@@ -1,4 +1,7 @@
-﻿namespace GitBucket.Core.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace GitBucket.Core.Models
 {
     public partial class Label
     {

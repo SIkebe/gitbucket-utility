@@ -14,6 +14,9 @@ namespace GitBucket.Core.Models
             Collaborator = new HashSet<Collaborator>();
             CommitStatusCreatorNavigation = new HashSet<CommitStatus>();
             CommitStatusUserNameNavigation = new HashSet<CommitStatus>();
+            Gist = new HashSet<Gist>();
+            GistComment = new HashSet<GistComment>();
+            GpgKey = new HashSet<GpgKey>();
             GroupMemberGroupNameNavigation = new HashSet<GroupMember>();
             GroupMemberUserNameNavigation = new HashSet<GroupMember>();
             Issue = new HashSet<Issue>();
@@ -43,6 +46,9 @@ namespace GitBucket.Core.Models
         public virtual ICollection<Collaborator> Collaborator { get; set; }
         public virtual ICollection<CommitStatus> CommitStatusCreatorNavigation { get; set; }
         public virtual ICollection<CommitStatus> CommitStatusUserNameNavigation { get; set; }
+        public virtual ICollection<Gist> Gist { get; set; }
+        public virtual ICollection<GistComment> GistComment { get; set; }
+        public virtual ICollection<GpgKey> GpgKey { get; set; }
         public virtual ICollection<GroupMember> GroupMemberGroupNameNavigation { get; set; }
         public virtual ICollection<GroupMember> GroupMemberUserNameNavigation { get; set; }
         public virtual ICollection<Issue> Issue { get; set; }

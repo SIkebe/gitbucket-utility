@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using CommandLine;
 using GbUtil.Extensions;
 using GitBucket.Core;
-using GitBucket.Data.Repositories;
 using GitBucket.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,10 +30,8 @@ namespace GbUtil
                     .AddJsonFile("appsettings.json", optional: true)
                     .AddEnvironmentVariables()
                     .Build();
-#nullable disable
 
-                // TODO: CommandLineOptionsBase? does not work here...
-                CommandLineOptionsBase options = Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
+                var options = Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
                     .WithNotParsed(errors =>
                     {
                         if (errors.Any(e =>
@@ -45,13 +42,12 @@ namespace GbUtil
                             throw new InvalidConfigurationException($"Failed to parse arguments.");
                         }
                     })
-                    .MapResult(
-                        (ReleaseOptions options) => (CommandLineOptionsBase)options,
+                    .MapResult<ReleaseOptions, MilestoneOptions, IssueOptions, CommandLineOptionsBase?>(
+                        (ReleaseOptions options) => options,
                         (MilestoneOptions options) => options,
                         (IssueOptions options) => options,
                         _ => null
                     );
-#nullable restore
 
                 // In case of default verbs (--help or --version)
                 if (options == null)
@@ -108,9 +104,6 @@ namespace GbUtil
                 .AddTransient<IReleaseService, ReleaseService>()
                 .AddTransient<IMilestoneService, MilestoneService>()
                 .AddTransient<IIssueService, IssueService>()
-                .AddTransientIf<IssueRepositoryBase, IssueRepository>(requireDbConnection)
-                .AddTransientIf<LabelRepositoryBase, LabelRepository>(requireDbConnection)
-                .AddTransientIf<MilestoneRepositoryBase, MilestoneRepository>(requireDbConnection)
                 .AddTransient<IConsole, GbUtilConsole>()
                 .BuildServiceProvider();
         }

@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GitBucket.Core\GitBucket.Core.csproj" />
-    <ProjectReference Include="..\GitBucket.Data\GitBucket.Data.csproj" />
     <ProjectReference Include="..\GitBucket.Service\GitBucket.Service.csproj" />
   </ItemGroup>
 

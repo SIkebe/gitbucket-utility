@@ -27,6 +27,16 @@ namespace GitBucket.Service
 
         public async Task<int> Execute(ReleaseOptions options, IGitHubClient gitBucketClient)
         {
+            if (options == null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+
+            if (gitBucketClient == null)
+            {
+                throw new ArgumentNullException(nameof(gitBucketClient));
+            }
+
             var pullRequestSource = options.FromPullRequest ? "pull requests" : "issues";
             var issues = await FindIssuesRelatedToMileStone(options);
             if (!issues.Any())

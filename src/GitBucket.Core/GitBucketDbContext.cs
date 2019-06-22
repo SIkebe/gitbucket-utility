@@ -61,6 +61,11 @@ namespace GitBucket.Core
         // Unable to generate entity type for table 'public.account_web_hook_event'. Please see the warning messages.
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if (optionsBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(optionsBuilder));
+            }
+
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseNpgsql(ConnectionString);
@@ -69,6 +74,11 @@ namespace GitBucket.Core
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            if (modelBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(modelBuilder));
+            }
+
             modelBuilder.HasAnnotation("ProductVersion", "3.0.0-preview5.19227.1");
 
             modelBuilder.Entity<AccessToken>(entity =>

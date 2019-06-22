@@ -1,14 +1,20 @@
 <Project>
   <ItemGroup>
     <PackageReference Update="CommandLineParser" Version="2.5.0" />
-    <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.2" />
+    <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.3" />
+    
+    <!--
+    Cannot update to preview6
+    https://devblogs.microsoft.com/dotnet/announcing-entity-framework-core-3-0-preview-6-and-entity-framework-6-3-preview-6/
+    -->
     <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="3.0.0-preview5.19227.1" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="3.0.0-preview5.19227.1" />
-    <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.0.0-preview5.19227.9" />
-    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="3.0.0-preview5.19227.9" />
-    <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="3.0.0-preview5.19227.9" />
+    
+    <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.0.0-preview6.19304.6" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="3.0.0-preview6.19304.6" />
+    <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="3.0.0-preview6.19304.6" />
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.1.1" />
-    <PackageReference Update="Moq" Version="4.11.0" />
+    <PackageReference Update="Moq" Version="4.12.0" />
     <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.0-preview5" />
     <PackageReference Update="octokit" Version="0.32.0" />
     <PackageReference Update="StyleCop.Analyzers" Version="1.1.118" />

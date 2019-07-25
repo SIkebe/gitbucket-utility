@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Cake Ruleset" ToolsVersion="12.0">
+<RuleSet Name="GbUtil Ruleset" ToolsVersion="12.0">
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1056" Action="None" />
     <Rule Id="CA1303" Action="None" />

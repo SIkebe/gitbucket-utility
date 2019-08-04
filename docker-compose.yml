@@ -16,9 +16,7 @@ services:
       - GITBUCKET_DB_PASSWORD=gitbucket
       - GITBUCKET_BASE_URL=http://localhost:8080
     #  - GITBUCKET_HOME=./gitbucket
-    #entrypoint: ./wait-for-it.sh db:3306
-    command: ["sh", "-c", "java -jar /opt/gitbucket.war"]
-    #command: ./wait-for-it.sh db gitbucket gitbucket sh -c java -jar /opt/gitbucket.war
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; sleep 10; java -jar /opt/gitbucket.war'
 
   db:
     image: postgres:11.4-alpine

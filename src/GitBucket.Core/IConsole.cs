@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 
 namespace GitBucket.Core
@@ -13,7 +14,7 @@ namespace GitBucket.Core
         void WriteWarn(string value);
         void WriteWarnLine(string value);
         void WriteError(string value);
-        void WriteErrorLine(string value);
+        void WriteErrorLine(string? value);
         void ResetColor();
         string ReadLine();
         string GetPassword();

@@ -125,19 +125,22 @@ namespace GitBucket.Service.Tests
             _hasNewLineAtTheEndOfTheMessages = false;
         }
 
-        public void WriteErrorLine(string value)
+        public void WriteErrorLine(string? value)
         {
-            if (!ErrorMessages.Any())
+            if (value != null)
             {
-                ErrorMessages.Add(value);
-            }
-            else if (_hasNewLineAtTheEndOfTheMessages)
-            {
-                ErrorMessages.Add(value);
-            }
-            else
-            {
-                ErrorMessages[ErrorMessages.Count - 1] += value;
+                if (!ErrorMessages.Any())
+                {
+                    ErrorMessages.Add(value);
+                }
+                else if (_hasNewLineAtTheEndOfTheMessages)
+                {
+                    ErrorMessages.Add(value);
+                }
+                else
+                {
+                    ErrorMessages[ErrorMessages.Count - 1] += value;
+                }
             }
 
             _consoleKind = ConsoleKind.Normal;

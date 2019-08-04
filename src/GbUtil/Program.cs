@@ -92,10 +92,10 @@ namespace GbUtil
             string connectionString = "";
             if (requireDbConnection)
             {
-                connectionString = configuration.GetConnectionString("GitBucketConnection");
+                connectionString = configuration.GetSection("GbUtil_ConnectionStrings")?.Value;
                 if (string.IsNullOrEmpty(connectionString))
                 {
-                    throw new InvalidConfigurationException("PostgreSQL ConnectionString is not configured. Add \"ConnectionStrings: GitBucketConnection\" environment variable.");
+                    throw new InvalidConfigurationException("PostgreSQL ConnectionString is not configured. Add \"GbUtil_ConnectionStrings\" environment variable.");
                 }
             }
 
@@ -110,10 +110,10 @@ namespace GbUtil
 
         private static IGitHubClient CreateGitBucketClient(IConfiguration configuration, IConsole console)
         {
-            var gitbucketUri = configuration.GetSection("GitBucketUri")?.Value;
+            var gitbucketUri = configuration.GetSection("GbUtil_GitBucketUri")?.Value;
             if (string.IsNullOrEmpty(gitbucketUri))
             {
-                throw new InvalidConfigurationException("GitBucket URI is not configured. Add \"GitBucketUri\" environment variable.");
+                throw new InvalidConfigurationException("GitBucket URI is not configured. Add \"GbUtil_GitBucketUri\" environment variable.");
             }
 
             var user = configuration.GetSection("GbUtil_UserName")?.Value;

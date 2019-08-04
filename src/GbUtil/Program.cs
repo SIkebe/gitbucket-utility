@@ -116,18 +116,26 @@ namespace GbUtil
                 throw new InvalidConfigurationException("GitBucket URI is not configured. Add \"GitBucketUri\" environment variable.");
             }
 
-            console.Write("Enter your Username: ");
-            string user = console.ReadLine();
+            var user = configuration.GetSection("GbUtil_UserName")?.Value;
             if (string.IsNullOrEmpty(user))
             {
-                throw new InvalidConfigurationException("Username is required");
+                console.Write("Enter your Username: ");
+                user = console.ReadLine();
+                if (string.IsNullOrEmpty(user))
+                {
+                    throw new InvalidConfigurationException("Username is required");
+                }
             }
 
-            console.Write("Enter your Password: ");
-            string password = console.GetPassword();
+            var password = configuration.GetSection("GbUtil_Password")?.Value;
             if (string.IsNullOrEmpty(password))
             {
-                throw new InvalidConfigurationException("Password is required");
+                console.Write("Enter your Password: ");
+                password = console.GetPassword();
+                if (string.IsNullOrEmpty(password))
+                {
+                    throw new InvalidConfigurationException("Password is required");
+                }
             }
 
             return new GitHubClient(

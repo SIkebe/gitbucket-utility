@@ -17,6 +17,9 @@ namespace GbUtil.E2ETests
         [Fact]
         public async void Should_Copy_issues()
         {
+            await _fixture.GitBucketClient.Repository.Create(new NewRepository(GitBucketDefaults.Repository1) { AutoInit = true });
+            await _fixture.GitBucketClient.Repository.Create(new NewRepository(GitBucketDefaults.Repository2) { AutoInit = true });
+
             var sourceIssue = await _fixture.GitBucketClient.Issue.Create(GitBucketDefaults.Owner, GitBucketDefaults.Repository1, new NewIssue("First Issue title")
             {
                 Body = "First issue content."

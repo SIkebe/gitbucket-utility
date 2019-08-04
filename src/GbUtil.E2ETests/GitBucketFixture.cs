@@ -1,16 +1,15 @@
 using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using GitBucket.Core;
 using Octokit;
 using Octokit.Internal;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using Xunit;
+using OpenQA.Selenium.Support.UI;
 
 namespace GbUtil.E2ETests
 {
-    public class GitBucketFixture : IDisposable, IAsyncLifetime
+    public class GitBucketFixture : IDisposable
     {
         private bool disposedValue = false;
 
@@ -43,6 +42,9 @@ namespace GbUtil.E2ETests
             Driver.FindElement(By.Id("password")).SendKeys(GitBucketDefaults.Password);
 
             Driver.FindElement(By.XPath("/html/body/div/div/div/div/div/ul/li/form/input[2]")).Click();
+            var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 15));
+            wait.Until(drv => drv.FindElement(By.LinkText("Pull requests")));
+            Driver.Quit();
         }
 
         ~GitBucketFixture()
@@ -60,7 +62,7 @@ namespace GbUtil.E2ETests
             // Comment this out if you want to watch or interact with the browser (e.g., for debugging)
             if (!Debugger.IsAttached)
             {
-                //opts.AddArgument("--headless");
+                opts.AddArgument("--headless");
             }
 
             var driver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), opts, TimeSpan.FromSeconds(60));
@@ -83,27 +85,10 @@ namespace GbUtil.E2ETests
             return output;
         }
 
-        public async Task InitializeAsync()
-        {
-            await GitBucketClient.Repository.Create(new NewRepository(GitBucketDefaults.Repository1) { AutoInit = true });
-            await GitBucketClient.Repository.Create(new NewRepository(GitBucketDefaults.Repository2) { AutoInit = true });
-        }
-
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Called just before Dispose().
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task DisposeAsync()
-        {
-            // Not Implemented.
-            // await GitBucketClient.Repository.Delete(GitBucketDefaults.Owner, GitBucketDefaults.Repository);
-            return Task.CompletedTask;
         }
 
         protected virtual void Dispose(bool disposing)

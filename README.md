@@ -4,7 +4,7 @@ Utilities for GitBucket
 [![Build status](https://ci.appveyor.com/api/projects/status/q1hfisqpa09662l5/?svg=true)](https://ci.appveyor.com/project/SIkebe/gitbucket-utility/)
 
 ## Requirements
-* [.NET Core 2.1.X SDK](https://www.microsoft.com/net/download/windows)
+* [.NET Core 3.0.X SDK](https://www.microsoft.com/net/download/windows)
 * GitBucket 4.31.X+ (using PostgreSQL as backend DB)
 
 ## Preparation

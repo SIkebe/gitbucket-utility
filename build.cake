@@ -46,7 +46,19 @@ Task("Run-Unit-Tests")
     .Does(() =>
 {
     DotNetCoreTest(
-        "./GbUtil.sln",
+        "./src/GitBucket.Service.Tests/GitBucket.Service.Tests.csproj",
+        new DotNetCoreTestSettings 
+        {
+            Configuration = configuration 
+        }); 
+});
+
+Task("Run-E2E-Tests")
+    .IsDependentOn("Clean")
+    .Does(() =>
+{
+    DotNetCoreTest(
+        "./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj",
         new DotNetCoreTestSettings 
         {
             Configuration = configuration 

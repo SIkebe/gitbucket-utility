@@ -30,20 +30,9 @@ namespace GbUtil.E2ETests
                     new SimpleJsonSerializer()
                 ));
 
+            // Initialize GitBucket correctly
             Driver = CreateChromeDriver();
-            Driver.Navigate().GoToUrl(new Uri(GitBucketDefaults.BaseUri));
-
-            Driver.FindElement(By.Id("signin")).Click();
-
-            Driver.FindElement(By.Id("userName")).Clear();
-            Driver.FindElement(By.Id("userName")).SendKeys(GitBucketDefaults.Owner);
-
-            Driver.FindElement(By.Id("password")).Clear();
-            Driver.FindElement(By.Id("password")).SendKeys(GitBucketDefaults.Password);
-
-            Driver.FindElement(By.XPath("/html/body/div/div/div/div/div/ul/li/form/input[2]")).Click();
-            var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 15));
-            wait.Until(drv => drv.FindElement(By.LinkText("Pull requests")));
+            Login();
             Driver.Quit();
         }
 
@@ -54,21 +43,6 @@ namespace GbUtil.E2ETests
 
         public IWebDriver Driver { get; set; }
         public IGitHubClient GitBucketClient { get; set; }
-
-        public static IWebDriver CreateChromeDriver()
-        {
-            var opts = new ChromeOptions();
-
-            // Comment this out if you want to watch or interact with the browser (e.g., for debugging)
-            if (!Debugger.IsAttached)
-            {
-                opts.AddArgument("--headless");
-            }
-
-            var driver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), opts, TimeSpan.FromSeconds(60));
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
-            return driver;
-        }
 
         public static string Execute(string arguments)
         {
@@ -102,6 +76,38 @@ namespace GbUtil.E2ETests
                 Driver?.Dispose();
                 disposedValue = true;
             }
+        }
+
+        private static IWebDriver CreateChromeDriver()
+        {
+            var opts = new ChromeOptions();
+
+            // Comment this out if you want to watch or interact with the browser (e.g., for debugging)
+            if (!Debugger.IsAttached)
+            {
+                opts.AddArgument("--headless");
+            }
+
+            var driver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), opts, TimeSpan.FromSeconds(60));
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            return driver;
+        }
+
+        private void Login()
+        {
+            Driver.Navigate().GoToUrl(new Uri(GitBucketDefaults.BaseUri));
+
+            Driver.FindElement(By.Id("signin")).Click();
+
+            Driver.FindElement(By.Id("userName")).Clear();
+            Driver.FindElement(By.Id("userName")).SendKeys(GitBucketDefaults.Owner);
+
+            Driver.FindElement(By.Id("password")).Clear();
+            Driver.FindElement(By.Id("password")).SendKeys(GitBucketDefaults.Password);
+
+            Driver.FindElement(By.XPath("/html/body/div/div/div/div/div/ul/li/form/input[2]")).Click();
+            var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 15));
+            wait.Until(drv => drv.FindElement(By.LinkText("Pull requests")));
         }
     }
 }

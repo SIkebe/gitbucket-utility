@@ -15,8 +15,6 @@ namespace GbUtil.E2ETests
 
         public GitBucketFixture()
         {
-            Debug.WriteLine("test1");
-
             Environment.SetEnvironmentVariable("GbUtil_ConnectionStrings", GitBucketDefaults.ConnectionStrings);
             Environment.SetEnvironmentVariable("GbUtil_GitBucketUri", GitBucketDefaults.ApiEndpoint);
             Environment.SetEnvironmentVariable("GbUtil_UserName", GitBucketDefaults.Owner);
@@ -33,7 +31,6 @@ namespace GbUtil.E2ETests
             // Initialize GitBucket correctly
             Driver = CreateChromeDriver();
             Login();
-            Driver.Quit();
         }
 
         ~GitBucketFixture()
@@ -43,21 +40,6 @@ namespace GbUtil.E2ETests
 
         public IWebDriver Driver { get; set; }
         public IGitHubClient GitBucketClient { get; set; }
-
-        public static string Execute(string arguments)
-        {
-            using var process = new Process();
-            process.StartInfo.FileName = "dotnet";
-            process.StartInfo.Arguments = @$"""{GitBucketDefaults.GbUtilDll}"" {arguments}";
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.RedirectStandardOutput = true;
-
-            process.Start();
-
-            var output = process.StandardOutput.ReadToEnd();
-            process.WaitForExit();
-            return output;
-        }
 
         public void Dispose()
         {

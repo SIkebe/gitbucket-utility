@@ -9,8 +9,12 @@ build_script:
   - ps: docker version
   - ps: docker-compose version
 
+  # https://github.com/docker/compose/issues/4024
   # https://github.com/docker/for-win/issues/598
   - ps: Get-NetNat
+  - ps: Stop-Service docker
+  - ps: Get-ContainerNetwork | Remove-ContainerNetwork
+  - ps: Start-Service docker
   - ps: .\build.ps1 --target="Run-All-Tests" --verbosity=diagnostic
 
 # Tests

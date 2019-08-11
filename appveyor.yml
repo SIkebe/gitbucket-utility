@@ -6,7 +6,7 @@ install:
   - choco install docker-compose
 # Build script
 build_script:
-  - ps: .\build.ps1 --target="Run-Unit-Tests"
+  - ps: .\build.ps1 --target="Run-All-Tests"
 
 # Tests
 test: off

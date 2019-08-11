@@ -8,7 +8,7 @@ install:
 build_script:
   - ps: docker version
   - ps: docker-compose version
-  - ps: .\build.ps1 --target="Run-All-Tests"
+  - ps: .\build.ps1 --target="Run-All-Tests" --verbosity=diagnostic
 
 # Tests
 test: off

@@ -15,6 +15,7 @@ build_script:
   #- ps: Stop-Service docker
   #- ps: Get-ContainerNetwork | Remove-ContainerNetwork
   #- ps: Start-Service docker
+  - ps: docker-compose up -d
   - ps: .\build.ps1 --target="Run-All-Tests" --verbosity=diagnostic
 
 # Tests

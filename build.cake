@@ -60,7 +60,7 @@ Task("Run-E2E-Tests")
     .Does(ctx =>
 {
     Information("Recreating docker containers...");
-    DockerComposeUp(new DockerComposeUpSettings { ForceRecreate = true, DetachedMode = true });
+    //DockerComposeUp(new DockerComposeUpSettings { ForceRecreate = true, DetachedMode = true });
 
     bool gitbucketStarted = false;
     int count = 0;

@@ -8,6 +8,7 @@ install:
 build_script:
   - ps: docker version
   - ps: docker-compose version
+  - ps: Get-NetNat | Remove-NetNat
   - ps: .\build.ps1 --target="Run-All-Tests" --verbosity=diagnostic
 
 # Tests

@@ -2,22 +2,11 @@
 image: Visual Studio 2017
 init:
   - git config --global core.autocrlf true
-install:
-  - choco install docker-cli docker-compose
+#install:
+#  - choco install docker-cli docker-compose
 # Build script
 build_script:
-  - ps: docker version
-  - ps: docker-compose version
-
-  # https://github.com/docker/compose/issues/4024
-  # https://github.com/docker/for-win/issues/598
-  #- ps: Get-NetNat
-  #- ps: Stop-Service docker
-  #- ps: Get-ContainerNetwork | Remove-ContainerNetwork
-  #- ps: Start-Service docker
-  - ps: docker network ls
-  - ps: docker-compose up -d
-  - ps: .\build.ps1 --target="Run-All-Tests" --verbosity=diagnostic
+  - ps: .\build.ps1 --target="Run-Unit-Tests" --verbosity=diagnostic
 
 # Tests
 test: off

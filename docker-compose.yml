@@ -27,7 +27,3 @@ services:
       - POSTGRES_DB=gitbucket
       - POSTGRES_USER=gitbucket
       - POSTGRES_PASSWORD=gitbucket
-networks: 
-  default:
-    external:
-      name: nat

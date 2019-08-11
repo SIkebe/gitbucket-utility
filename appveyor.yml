@@ -6,6 +6,8 @@ install:
   - choco install docker-desktop docker-compose
 # Build script
 build_script:
+  - ps: docker version
+  - ps: docker-compose version
   - ps: .\build.ps1 --target="Run-All-Tests"
 
 # Tests

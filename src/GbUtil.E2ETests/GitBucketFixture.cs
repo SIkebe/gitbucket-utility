@@ -47,6 +47,23 @@ namespace GbUtil.E2ETests
             GC.SuppressFinalize(this);
         }
 
+        public void Login()
+        {
+            Driver.Navigate().GoToUrl(new Uri(GitBucketDefaults.BaseUri));
+
+            Driver.FindElement(By.Id("signin")).Click();
+
+            Driver.FindElement(By.Id("userName")).Clear();
+            Driver.FindElement(By.Id("userName")).SendKeys(GitBucketDefaults.Owner);
+
+            Driver.FindElement(By.Id("password")).Clear();
+            Driver.FindElement(By.Id("password")).SendKeys(GitBucketDefaults.Password);
+
+            Driver.FindElement(By.XPath("/html/body/div/div/div/div/div/ul/li/form/input[2]")).Click();
+            var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 15));
+            wait.Until(drv => drv.FindElement(By.LinkText("Pull requests")));
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -73,23 +90,6 @@ namespace GbUtil.E2ETests
             var driver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), opts, TimeSpan.FromSeconds(60));
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
             return driver;
-        }
-
-        private void Login()
-        {
-            Driver.Navigate().GoToUrl(new Uri(GitBucketDefaults.BaseUri));
-
-            Driver.FindElement(By.Id("signin")).Click();
-
-            Driver.FindElement(By.Id("userName")).Clear();
-            Driver.FindElement(By.Id("userName")).SendKeys(GitBucketDefaults.Owner);
-
-            Driver.FindElement(By.Id("password")).Clear();
-            Driver.FindElement(By.Id("password")).SendKeys(GitBucketDefaults.Password);
-
-            Driver.FindElement(By.XPath("/html/body/div/div/div/div/div/ul/li/form/input[2]")).Click();
-            var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 15));
-            wait.Until(drv => drv.FindElement(By.LinkText("Pull requests")));
         }
     }
 }

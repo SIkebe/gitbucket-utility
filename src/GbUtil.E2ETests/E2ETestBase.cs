@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Octokit;
@@ -45,6 +46,32 @@ namespace GbUtil.E2ETests
             var output = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
             return output;
+        }
+
+        protected static void RemoveReadonlyAttribute(DirectoryInfo directoryInfo)
+        {
+            if (directoryInfo is null)
+            {
+                throw new ArgumentNullException(nameof(directoryInfo));
+            }
+
+            if ((directoryInfo.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+            {
+                directoryInfo.Attributes = FileAttributes.Normal;
+            }
+
+            foreach (var fi in directoryInfo.GetFiles())
+            {
+                if ((fi.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+                {
+                    fi.Attributes = FileAttributes.Normal;
+                }
+            }
+
+            foreach (var di in directoryInfo.GetDirectories())
+            {
+                RemoveReadonlyAttribute(di);
+            }
         }
     }
 }

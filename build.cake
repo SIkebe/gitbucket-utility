@@ -116,7 +116,7 @@ Task("Publish")
     }
 
     DotNetCoreNuGetPush(
-        "./packages/GbUtil.0.6.1.nupkg",
+        "./packages/GbUtil.0.7.0.nupkg",
         new DotNetCoreNuGetPushSettings 
         {
             ApiKey = apiKey,

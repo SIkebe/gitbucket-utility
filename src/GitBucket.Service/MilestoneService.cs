@@ -26,6 +26,8 @@ namespace GitBucket.Service
 
         public async Task<int> ShowMilestones(MilestoneOptions options)
         {
+            if (options == null) throw new ArgumentNullException(nameof(options));
+
             var milestones = await FindMilestones(options);
             if (milestones.Count == 0)
             {

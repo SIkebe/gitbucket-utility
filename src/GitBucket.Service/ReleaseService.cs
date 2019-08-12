@@ -27,6 +27,16 @@ namespace GitBucket.Service
 
         public async Task<int> Execute(ReleaseOptions options, IGitHubClient gitBucketClient)
         {
+            if (options == null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+
+            if (gitBucketClient == null)
+            {
+                throw new ArgumentNullException(nameof(gitBucketClient));
+            }
+
             var pullRequestSource = options.FromPullRequest ? "pull requests" : "issues";
             var issues = await FindIssuesRelatedToMileStone(options);
             if (!issues.Any())
@@ -35,7 +45,7 @@ namespace GitBucket.Service
                 return await Task.FromResult(1);
             }
 
-            if (issues.Any(i => !i.Closed))
+            if (!options.Force && issues.Any(i => !i.Closed))
             {
                 _console.WriteWarnLine($"There are unclosed {pullRequestSource} in \"{options.MileStone}\".");
                 _console.WriteWarn("Do you want to continue?([Y]es/[N]o): ");

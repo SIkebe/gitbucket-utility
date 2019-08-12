@@ -3,13 +3,12 @@ using System.Collections.Generic;
 
 namespace GitBucket.Core.Models
 {
-    public partial class IssueLabel
+    public partial class IssueOutlineView
     {
         public string UserName { get; set; }
         public string RepositoryName { get; set; }
-        public int IssueId { get; set; }
-        public int LabelId { get; set; }
-
-        public virtual Issue Issue { get; set; }
+        public int? IssueId { get; set; }
+        public long? CommentCount { get; set; }
+        public int? Priority { get; set; }
     }
 }

@@ -89,13 +89,13 @@ namespace GbUtil
             IConfiguration configuration,
             bool requireDbConnection = false)
         {
-            string connectionString = "";
+            string? connectionString = "";
             if (requireDbConnection)
             {
-                connectionString = configuration.GetConnectionString("GitBucketConnection");
+                connectionString = configuration.GetSection("GbUtil_ConnectionStrings")?.Value;
                 if (string.IsNullOrEmpty(connectionString))
                 {
-                    throw new InvalidConfigurationException("PostgreSQL ConnectionString is not configured. Add \"ConnectionStrings: GitBucketConnection\" environment variable.");
+                    throw new InvalidConfigurationException("PostgreSQL ConnectionString is not configured. Add \"GbUtil_ConnectionStrings\" environment variable.");
                 }
             }
 
@@ -110,24 +110,32 @@ namespace GbUtil
 
         private static IGitHubClient CreateGitBucketClient(IConfiguration configuration, IConsole console)
         {
-            var gitbucketUri = configuration.GetSection("GitBucketUri")?.Value;
+            var gitbucketUri = configuration.GetSection("GbUtil_GitBucketUri")?.Value;
             if (string.IsNullOrEmpty(gitbucketUri))
             {
-                throw new InvalidConfigurationException("GitBucket URI is not configured. Add \"GitBucketUri\" environment variable.");
+                throw new InvalidConfigurationException("GitBucket URI is not configured. Add \"GbUtil_GitBucketUri\" environment variable.");
             }
 
-            console.Write("Enter your Username: ");
-            string user = console.ReadLine();
+            var user = configuration.GetSection("GbUtil_UserName")?.Value;
             if (string.IsNullOrEmpty(user))
             {
-                throw new InvalidConfigurationException("Username is required");
+                console.Write("Enter your Username: ");
+                user = console.ReadLine();
+                if (string.IsNullOrEmpty(user))
+                {
+                    throw new InvalidConfigurationException("Username is required");
+                }
             }
 
-            console.Write("Enter your Password: ");
-            string password = console.GetPassword();
+            var password = configuration.GetSection("GbUtil_Password")?.Value;
             if (string.IsNullOrEmpty(password))
             {
-                throw new InvalidConfigurationException("Password is required");
+                console.Write("Enter your Password: ");
+                password = console.GetPassword();
+                if (string.IsNullOrEmpty(password))
+                {
+                    throw new InvalidConfigurationException("Password is required");
+                }
             }
 
             return new GitHubClient(
@@ -138,30 +146,6 @@ namespace GbUtil
                     new HttpClientAdapter(() => new GitBucketMessageHandler()),
                     new SimpleJsonSerializer()
                 ));
-        }
-    }
-
-    public class GitBucketMessageHandler : DelegatingHandler
-    {
-        public GitBucketMessageHandler() : base(new HttpClientHandler())
-        {
-        }
-
-        protected async override Task<HttpResponseMessage> SendAsync(
-            HttpRequestMessage request,
-            CancellationToken cancellationToken = default)
-        {
-            if (request != null && request.Content != null)
-            {
-                var contentType = request.Content.Headers.ContentType.MediaType;
-                if (contentType == "application/x-www-form-urlencoded")
-                {
-                    // GitBucket doesn't accept Content-Type: application/x-www-form-urlencoded
-                    request.Content.Headers.ContentType.MediaType = "application/json";
-                }
-            }
-
-            return await base.SendAsync(request, cancellationToken);
         }
     }
 }

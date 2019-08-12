@@ -2,10 +2,11 @@
 image: Visual Studio 2017
 init:
   - git config --global core.autocrlf true
-
+#install:
+#  - choco install docker-cli docker-compose
 # Build script
 build_script:
-  - ps: .\build.ps1 --target="Run-Unit-Tests"
+  - ps: .\build.ps1 --target="Run-Unit-Tests" --verbosity=diagnostic
 
 # Tests
 test: off

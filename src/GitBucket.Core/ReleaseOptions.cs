@@ -28,5 +28,8 @@ namespace GitBucket.Core
 
         [Option("title", Required = false, HelpText = "The title of the new pull request. Default value is the same as milestone.")]
         public string Title { get; set; }
+
+        [Option('f', "force", Required = false, HelpText = "Force the output/creating PR if specified.")]
+        public bool Force { get; set; }
     }
 }

@@ -1,7 +1,8 @@
 <Project>
   <ItemGroup>
-    <PackageReference Update="CommandLineParser" Version="2.5.0" />
-    <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.3" />    
+    <PackageReference Update="CommandLineParser" Version="2.6.0" />
+    <PackageReference Update="libgit2sharp" Version="0.26.0" />
+    <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.4" />    
     <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="3.0.0-preview7.19362.6" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="3.0.0-preview7.19362.6" />    
     <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.0.0-preview7.19362.4" />
@@ -11,6 +12,9 @@
     <PackageReference Update="Moq" Version="4.12.0" />
     <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.0-preview7" />
     <PackageReference Update="octokit" Version="0.32.0" />
+    <PackageReference Update="Selenium.Support" Version="3.141.0" />
+    <PackageReference Update="Selenium.WebDriver" Version="3.141.0" />
+    <PackageReference Update="Selenium.WebDriver.ChromeDriver" Version="76.0.3809.68" />
     <PackageReference Update="StyleCop.Analyzers" Version="1.1.118" />
     <PackageReference Update="xunit" Version="2.4.1" />
     <PackageReference Update="xunit.runner.visualstudio" Version="2.4.1" />

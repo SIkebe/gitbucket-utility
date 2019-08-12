@@ -9,7 +9,7 @@ namespace GitBucket.Core
         [Option('o', "owner", Required = true, Separator = ':', HelpText = @"The owner names of the repositories to show milestones. Use "":"" for separator.")]
         public IEnumerable<string> Owners { get; set; } = new List<string>();
 
-        [Option('r', "repository", Required = false, HelpText = @"The repository names to show milestones. Use "":"" for separator.")]
+        [Option('r', "repository", Required = false, Separator = ':', HelpText = @"The repository names to show milestones. Use "":"" for separator.")]
         public IEnumerable<string> Repositories { get; set; } = new List<string>();
 
         [Option('c', "includeClosed", Required = false, HelpText = "Whether show closed milestones.")]

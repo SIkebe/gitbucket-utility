@@ -1,3 +1,5 @@
+#addin nuget:?package=Cake.Docker&version=0.10.1
+
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
@@ -42,15 +44,52 @@ Task("Build")
 });
 
 Task("Run-Unit-Tests")
-    .IsDependentOn("Clean")
+    .IsDependentOn("Build")
     .Does(() =>
 {
     DotNetCoreTest(
-        "./GbUtil.sln",
+        "./src/GitBucket.Service.Tests/GitBucket.Service.Tests.csproj",
         new DotNetCoreTestSettings 
         {
             Configuration = configuration 
         }); 
+});
+
+Task("Run-E2E-Tests")
+    .IsDependentOn("Build")
+    .Does(async (ctx) =>
+{
+    Information("Recreating docker containers...");
+    DockerComposeUp(new DockerComposeUpSettings { ForceRecreate = true, DetachedMode = true });
+
+    bool gitbucketStarted = false;
+    int count = 0;
+    var runner = new GenericDockerComposeRunner<DockerComposeLogsSettings>(ctx.FileSystem, ctx.Environment, ctx.ProcessRunner, ctx.Tools);
+    IEnumerable<string> dockerComposeLogs() => runner.RunWithResult("logs", new DockerComposeLogsSettings(), r => r.ToArray(), Array.Empty<string>());
+
+    do
+    {
+        await System.Threading.Tasks.Task.Delay(1000);
+        Information($"Waiting for GitBucket to have started...{count + 1}");
+        var logs = dockerComposeLogs();
+        gitbucketStarted = logs.Any(log => log.IndexOf("oejs.Server:main: Started") > 0);
+
+        count++;
+        if (30 < count)
+        {
+            throw new Exception("Exceeded the maximum number of attempts.");
+        }
+    }
+    while(!gitbucketStarted);
+
+    DotNetCoreTest(
+        "./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj",
+        new DotNetCoreTestSettings 
+        {
+            Configuration = configuration 
+        });
+
+    DockerComposeRm(new DockerComposeRmSettings { Force = true, Volumes = true, Stop = true }, Array.Empty<string>());
 });
 
 Task("Pack")
@@ -91,6 +130,10 @@ Task("Publish")
 
 Task("Default")
     .IsDependentOn("Build");
+
+Task("Run-All-Tests")
+    .IsDependentOn("Run-Unit-Tests")
+    .IsDependentOn("Run-E2E-Tests");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION

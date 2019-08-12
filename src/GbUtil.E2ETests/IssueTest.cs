@@ -98,7 +98,7 @@ First issue content.
         {
             // Arange
             await InitializeAsync(createMultipleIssues: true);
-            var createdAt = SourceIssue1.CreatedAt.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss");
+            var createdAt = SourceIssue1.CreatedAt.LocalDateTime.ToString("yyyy-MM-dd HH:mm:");
 
             // Act
             var output = Execute($"issue -t move -s {Repository1.FullName} -d {Repository2.FullName} -n 1:2");
@@ -112,18 +112,24 @@ The issue has been successfully moved to http://localhost:8080/{Repository2.Full
 Close the original one manually.
 ", output);
             Assert.Equal("Second Issue title", newIssues[0].Title);
-            Assert.Equal(@$"*From @root on {createdAt}*
+            Assert.StartsWith(@$"*From @root on {createdAt}", newIssues[0].Body, StringComparison.OrdinalIgnoreCase);
+            Assert.EndsWith(@$"*
 
 Second issue content.
 
-*Copied from original issue: {Repository1.FullName}#2*", newIssues[0].Body);
+*Copied from original issue: {Repository1.FullName}#2*",
+newIssues[0].Body,
+StringComparison.OrdinalIgnoreCase);
 
             Assert.Equal("First Issue title", newIssues[1].Title);
-            Assert.Equal(@$"*From @root on {createdAt}*
+            Assert.StartsWith(@$"*From @root on {createdAt}", newIssues[1].Body, StringComparison.OrdinalIgnoreCase);
+            Assert.EndsWith(@$"*
 
 First issue content.
 
-*Copied from original issue: {Repository1.FullName}#1*", newIssues[1].Body);
+*Copied from original issue: {Repository1.FullName}#1*",
+ newIssues[1].Body,
+ StringComparison.OrdinalIgnoreCase);
 
             var sourceComments1 = await GitBucketFixture.GitBucketClient.Issue.Comment.GetAllForIssue(GitBucketDefaults.Owner, Repository1.Name, 1);
             Assert.Single(sourceComments1);

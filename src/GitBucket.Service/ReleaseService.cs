@@ -45,7 +45,7 @@ namespace GitBucket.Service
                 return await Task.FromResult(1);
             }
 
-            if (issues.Any(i => !i.Closed))
+            if (!options.Force && issues.Any(i => !i.Closed))
             {
                 _console.WriteWarnLine($"There are unclosed {pullRequestSource} in \"{options.MileStone}\".");
                 _console.WriteWarn("Do you want to continue?([Y]es/[N]o): ");

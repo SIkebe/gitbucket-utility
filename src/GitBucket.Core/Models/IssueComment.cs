@@ -14,5 +14,7 @@ namespace GitBucket.Core.Models
         public string Content { get; set; }
         public DateTime RegisteredDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+
+        public virtual Issue Issue { get; set; }
     }
 }

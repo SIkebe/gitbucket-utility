@@ -5,7 +5,7 @@ Utilities for GitBucket
 
 ## Requirements
 * [.NET Core 3.0.X SDK](https://www.microsoft.com/net/download/windows)
-* GitBucket 4.31.X+ (using PostgreSQL as backend DB)
+* GitBucket 4.32.X+ (using PostgreSQL as backend DB)
 
 ## Preparation
 ```cmd

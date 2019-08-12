@@ -69,7 +69,7 @@ Task("Run-E2E-Tests")
 
     do
     {
-        await System.Threading.Tasks.Task.Delay(1000);
+        await System.Threading.Tasks.Task.Delay(1500);
         Information($"Waiting for GitBucket to have started...{count + 1}");
         var logs = dockerComposeLogs();
         gitbucketStarted = logs.Any(log => log.IndexOf("oejs.Server:main: Started") > 0);

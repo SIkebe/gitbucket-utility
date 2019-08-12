@@ -24,6 +24,7 @@ namespace GitBucket.Core
         public virtual DbSet<AccountExtraMailAddress> AccountExtraMailAddress { get; set; }
         public virtual DbSet<AccountFederation> AccountFederation { get; set; }
         public virtual DbSet<AccountWebHook> AccountWebHook { get; set; }
+        public virtual DbSet<AccountWebHookEvent> AccountWebHookEvent { get; set; }
         public virtual DbSet<Activity> Activity { get; set; }
         public virtual DbSet<Collaborator> Collaborator { get; set; }
         public virtual DbSet<CommitComment> CommitComment { get; set; }
@@ -38,9 +39,11 @@ namespace GitBucket.Core
         public virtual DbSet<IssueId> IssueId { get; set; }
         public virtual DbSet<IssueLabel> IssueLabel { get; set; }
         public virtual DbSet<IssueNotification> IssueNotification { get; set; }
+        public virtual DbSet<IssueOutlineView> IssueOutlineView { get; set; }
         public virtual DbSet<Label> Label { get; set; }
         public virtual DbSet<Milestone> Milestone { get; set; }
         public virtual DbSet<NotificationsAccount> NotificationsAccount { get; set; }
+        public virtual DbSet<Pages> Pages { get; set; }
         public virtual DbSet<Plugin> Plugin { get; set; }
         public virtual DbSet<Priority> Priority { get; set; }
         public virtual DbSet<ProtectedBranch> ProtectedBranch { get; set; }
@@ -57,8 +60,7 @@ namespace GitBucket.Core
 
         public string ConnectionString { get; }
 
-        // Unable to generate entity type for table 'public.issue_outline_view'. Please see the warning messages.
-        // Unable to generate entity type for table 'public.account_web_hook_event'. Please see the warning messages.
+        // The column 'public.repository.allow_fork' would normally be mapped to a non-nullable bool property, but it has a default constraint. Such a column is mapped to a nullable bool property to allow a difference between setting the property to false and invoking the default constraint. See https://go.microsoft.com/fwlink/?linkid=851278 for details.
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (optionsBuilder == null)
@@ -78,8 +80,6 @@ namespace GitBucket.Core
             {
                 throw new ArgumentNullException(nameof(modelBuilder));
             }
-
-            modelBuilder.HasAnnotation("ProductVersion", "3.0.0-preview5.19227.1");
 
             modelBuilder.Entity<AccessToken>(entity =>
             {
@@ -243,6 +243,28 @@ namespace GitBucket.Core
                     .HasForeignKey(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("idx_account_web_hook_fk0");
+            });
+
+            modelBuilder.Entity<AccountWebHookEvent>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("account_web_hook_event");
+
+                entity.Property(e => e.Event)
+                    .IsRequired()
+                    .HasColumnName("event")
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.Url)
+                    .IsRequired()
+                    .HasColumnName("url")
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.UserName)
+                    .IsRequired()
+                    .HasColumnName("user_name")
+                    .HasMaxLength(100);
             });
 
             modelBuilder.Entity<Activity>(entity =>
@@ -679,12 +701,10 @@ namespace GitBucket.Core
 
             modelBuilder.Entity<Issue>(entity =>
             {
-                entity.HasKey(e => new { e.IssueId, e.UserName, e.RepositoryName })
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.IssueId })
                     .HasName("idx_issue_pk");
 
                 entity.ToTable("issue");
-
-                entity.Property(e => e.IssueId).HasColumnName("issue_id");
 
                 entity.Property(e => e.UserName)
                     .HasColumnName("user_name")
@@ -693,6 +713,8 @@ namespace GitBucket.Core
                 entity.Property(e => e.RepositoryName)
                     .HasColumnName("repository_name")
                     .HasMaxLength(100);
+
+                entity.Property(e => e.IssueId).HasColumnName("issue_id");
 
                 entity.Property(e => e.AssignedUserName)
                     .HasColumnName("assigned_user_name")
@@ -788,6 +810,12 @@ namespace GitBucket.Core
                     .IsRequired()
                     .HasColumnName("user_name")
                     .HasMaxLength(100);
+
+                entity.HasOne(d => d.Issue)
+                    .WithMany(p => p.IssueComment)
+                    .HasForeignKey(d => new { d.UserName, d.RepositoryName, d.IssueId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("idx_issue_comment_fk0");
             });
 
             modelBuilder.Entity<IssueId>(entity =>
@@ -832,6 +860,12 @@ namespace GitBucket.Core
                 entity.Property(e => e.IssueId).HasColumnName("issue_id");
 
                 entity.Property(e => e.LabelId).HasColumnName("label_id");
+
+                entity.HasOne(d => d.Issue)
+                    .WithMany(p => p.IssueLabel)
+                    .HasForeignKey(d => new { d.UserName, d.RepositoryName, d.IssueId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("idx_issue_label_fk0");
             });
 
             modelBuilder.Entity<IssueNotification>(entity =>
@@ -856,6 +890,27 @@ namespace GitBucket.Core
                     .HasMaxLength(100);
 
                 entity.Property(e => e.Subscribed).HasColumnName("subscribed");
+            });
+
+            modelBuilder.Entity<IssueOutlineView>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("issue_outline_view");
+
+                entity.Property(e => e.CommentCount).HasColumnName("comment_count");
+
+                entity.Property(e => e.IssueId).HasColumnName("issue_id");
+
+                entity.Property(e => e.Priority).HasColumnName("priority");
+
+                entity.Property(e => e.RepositoryName)
+                    .HasColumnName("repository_name")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.UserName)
+                    .HasColumnName("user_name")
+                    .HasMaxLength(100);
             });
 
             modelBuilder.Entity<Label>(entity =>
@@ -954,6 +1009,27 @@ namespace GitBucket.Core
                     .HasForeignKey<NotificationsAccount>(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("idx_notifications_account_fk0");
+            });
+
+            modelBuilder.Entity<Pages>(entity =>
+            {
+                entity.HasKey(e => new { e.UserName, e.RepositoryName })
+                    .HasName("idx_pages_pk");
+
+                entity.ToTable("pages");
+
+                entity.Property(e => e.UserName)
+                    .HasColumnName("user_name")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.RepositoryName)
+                    .HasColumnName("repository_name")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Source)
+                    .IsRequired()
+                    .HasColumnName("source")
+                    .HasMaxLength(100);
             });
 
             modelBuilder.Entity<Plugin>(entity =>
@@ -1105,6 +1181,8 @@ namespace GitBucket.Core
                     .HasColumnName("commit_id_to")
                     .HasMaxLength(40);
 
+                entity.Property(e => e.IsDraft).HasColumnName("is_draft");
+
                 entity.Property(e => e.RequestBranch)
                     .IsRequired()
                     .HasColumnName("request_branch")
@@ -1119,6 +1197,12 @@ namespace GitBucket.Core
                     .IsRequired()
                     .HasColumnName("request_user_name")
                     .HasMaxLength(100);
+
+                entity.HasOne(d => d.Issue)
+                    .WithOne(p => p.PullRequestNavigation)
+                    .HasForeignKey<PullRequest>(d => new { d.UserName, d.RepositoryName, d.IssueId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("idx_pull_request_fk0");
             });
 
             modelBuilder.Entity<ReleaseAsset>(entity =>
@@ -1442,6 +1526,10 @@ namespace GitBucket.Core
                     .HasForeignKey(d => new { d.UserName, d.RepositoryName, d.Url })
                     .HasConstraintName("idx_web_hook_event_fk0");
             });
+
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

@@ -5,6 +5,12 @@ namespace GitBucket.Core.Models
 {
     public partial class Issue
     {
+        public Issue()
+        {
+            IssueComment = new HashSet<IssueComment>();
+            IssueLabel = new HashSet<IssueLabel>();
+        }
+
         public string UserName { get; set; }
         public string RepositoryName { get; set; }
         public int IssueId { get; set; }
@@ -23,5 +29,8 @@ namespace GitBucket.Core.Models
         public virtual Account OpenedUserNameNavigation { get; set; }
         public virtual Priority Priority { get; set; }
         public virtual Repository Repository { get; set; }
+        public virtual PullRequest PullRequestNavigation { get; set; }
+        public virtual ICollection<IssueComment> IssueComment { get; set; }
+        public virtual ICollection<IssueLabel> IssueLabel { get; set; }
     }
 }

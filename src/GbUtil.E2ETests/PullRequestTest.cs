@@ -116,7 +116,7 @@ The highest priority among them is """".
             await GitBucketFixture.GitBucketClient.Issue.Labels.AddToIssue(GitBucketDefaults.Owner, Repository.Name, issue2.Number, new[] { "Bug" });
 
             // Create milestone v1.0.0 and set above issues to it
-            CreateMilestone();
+            GitBucketFixture.CreateMilestone(Repository, "v1.0.0");
             SetMilestone(issue1);
             SetMilestone(issue2);
         }
@@ -155,19 +155,6 @@ The highest priority among them is """".
                     }
                 }
             }
-        }
-
-        private void CreateMilestone()
-        {
-            GitBucketFixture.Driver.Navigate().GoToUrl(new Uri($"{GitBucketDefaults.BaseUri}{Repository.FullName}/issues/milestones"));
-            GitBucketFixture.Driver.FindElement(By.LinkText("Create a new milestone.")).Click();
-
-            GitBucketFixture.Driver.FindElement(By.Id("title")).Clear();
-            GitBucketFixture.Driver.FindElement(By.Id("title")).SendKeys("v1.0.0");
-
-            GitBucketFixture.Driver.FindElement(By.CssSelector("body > div.wrapper > div.content-wrapper > div > form > div > input")).Click();
-            var wait = new WebDriverWait(GitBucketFixture.Driver, new TimeSpan(0, 0, 15));
-            wait.Until(drv => drv.FindElement(By.XPath("/html/body/div[1]/div[2]/div/div[2]/a")));
         }
 
         private void CreateDevelopBranch(UsernamePasswordCredentials credentials)

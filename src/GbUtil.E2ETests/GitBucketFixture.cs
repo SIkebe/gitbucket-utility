@@ -64,6 +64,41 @@ namespace GbUtil.E2ETests
             wait.Until(drv => drv.FindElement(By.LinkText("Pull requests")));
         }
 
+        public void CreateMilestone(Octokit.Repository repository, string title, string description = "", string dueDate = "")
+        {
+            if (repository is null)
+            {
+                throw new ArgumentNullException(nameof(repository));
+            }
+
+            if (string.IsNullOrEmpty(title))
+            {
+                throw new ArgumentNullException(nameof(title));
+            }
+
+            Driver.Navigate().GoToUrl(new Uri($"{GitBucketDefaults.BaseUri}{repository.FullName}/issues/milestones"));
+            Driver.FindElement(By.CssSelector("body > div.wrapper > div.content-wrapper > div > div.pull-right > a")).Click();
+
+            Driver.FindElement(By.Id("title")).Clear();
+            Driver.FindElement(By.Id("title")).SendKeys(title);
+
+            if (!string.IsNullOrEmpty(description))
+            {
+                Driver.FindElement(By.Id("description")).Clear();
+                Driver.FindElement(By.Id("description")).SendKeys(description);
+            }
+
+            if (!string.IsNullOrEmpty(description))
+            {
+                Driver.FindElement(By.Name("dueDate")).Clear();
+                Driver.FindElement(By.Name("dueDate")).SendKeys(dueDate);
+            }
+
+            Driver.FindElement(By.CssSelector("body > div.wrapper > div.content-wrapper > div > form > div > input")).Click();
+            var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 15));
+            wait.Until(drv => drv.FindElement(By.XPath("/html/body/div[1]/div[2]/div/div[2]/a")));
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)

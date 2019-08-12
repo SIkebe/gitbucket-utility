@@ -14,6 +14,7 @@ namespace GitBucket.Core.Models
         public string RequestBranch { get; set; }
         public string CommitIdFrom { get; set; }
         public string CommitIdTo { get; set; }
+        public bool IsDraft { get; set; }
 
         public virtual Issue Issue { get; set; }
     }

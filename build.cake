@@ -57,7 +57,7 @@ Task("Run-Unit-Tests")
 
 Task("Run-E2E-Tests")
     .IsDependentOn("Build")
-    .Does(ctx =>
+    .Does(async (ctx) =>
 {
     Information("Recreating docker containers...");
     DockerComposeUp(new DockerComposeUpSettings { ForceRecreate = true, DetachedMode = true });
@@ -69,6 +69,7 @@ Task("Run-E2E-Tests")
 
     do
     {
+        await System.Threading.Tasks.Task.Delay(1000);
         Information($"Waiting for GitBucket to have started...{count + 1}");
         var logs = dockerComposeLogs();
         gitbucketStarted = logs.Any(log => log.IndexOf("oejs.Server:main: Started") > 0);

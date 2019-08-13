@@ -40,7 +40,7 @@ Task("Build")
         new DotNetCoreBuildSettings 
         {
             Configuration = configuration 
-        }); 
+        });
 });
 
 Task("Run-Unit-Tests")
@@ -52,7 +52,7 @@ Task("Run-Unit-Tests")
         new DotNetCoreTestSettings 
         {
             Configuration = configuration 
-        }); 
+        });
 });
 
 Task("Run-E2E-Tests")
@@ -102,7 +102,7 @@ Task("Pack")
         {
             OutputDirectory = "./packages",
             Configuration = configuration 
-        }); 
+        });
 });
 
 Task("Publish")
@@ -121,7 +121,7 @@ Task("Publish")
         {
             ApiKey = apiKey,
             Source = "https://api.nuget.org/v3/index.json",
-        }); 
+        });
 });
 
 //////////////////////////////////////////////////////////////////////

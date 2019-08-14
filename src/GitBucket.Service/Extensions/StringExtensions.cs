@@ -8,7 +8,7 @@ namespace System
         {
             if (string.IsNullOrEmpty(self)) return self;
 
-            return char.ToUpperInvariant(self.First()) + self.Substring(1, self.Length - 1);
+            return char.ToUpperInvariant(self.First()) + self[1..];
         }
     }
 }

@@ -75,7 +75,7 @@ Task("Run-E2E-Tests")
         gitbucketStarted = logs.Any(log => log.IndexOf("oejs.Server:main: Started") > 0);
 
         count++;
-        if (30 < count)
+        if (60 < count)
         {
             throw new Exception("Exceeded the maximum number of attempts.");
         }

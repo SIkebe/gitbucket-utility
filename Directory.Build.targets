@@ -10,7 +10,7 @@
     <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="3.0.0-preview8.19405.4" />
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Update="Moq" Version="4.12.0" />
-    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.0-preview7" />
+    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.0-preview8" />
     <PackageReference Update="octokit" Version="0.32.0" />
     <PackageReference Update="Selenium.Support" Version="3.141.0" />
     <PackageReference Update="Selenium.WebDriver" Version="3.141.0" />

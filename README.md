@@ -131,4 +131,5 @@ A new pull request has been successfully created!
 |`-b`|`--base`|`false`|The name of the branch you want the changes pulled into. Default value is "master".|
 |`-h`|`--head`|`false`|The name of the branch where your changes are implemented. Default value is "develop".|
 |`-t`|`--title`|`false`|The title of the new pull request. Default value is the same as milestone.|
-|`-f`|`--force`|`false`|Force the output/creating PR if specified.|
+|`-f`|`--force`|`false`|if specified, force the output/creating PR.|
+|-|`--draft`|`false`|If specified, create draft pull request.|

@@ -64,6 +64,21 @@ The highest priority among them is """".
         }
 
         [Fact]
+        public async Task Should_Create_Draft_PullRequest()
+        {
+            // Arrange
+            await PrepareForPR();
+
+            // Act
+            _ = Execute($"release -o {GitBucketDefaults.Owner} -r {Repository.Name} -m v1.0.0 --create-pr --draft -f");
+
+            // Assert
+            GitBucketFixture.Driver.Navigate().GoToUrl(new Uri($"{GitBucketDefaults.BaseUri}{Repository.FullName}/pull/3"));
+            var mergeButton = GitBucketFixture.Driver.FindElement(By.Id("merge-pull-request-button"));
+            Assert.False(mergeButton.Enabled);
+        }
+
+        [Fact]
         public async Task Should_Output_ReleaseNote()
         {
             // Arrange

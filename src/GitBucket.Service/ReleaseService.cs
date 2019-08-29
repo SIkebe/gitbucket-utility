@@ -144,6 +144,18 @@ namespace GitBucket.Service
                 // https://github.com/gitbucket/gitbucket/issues/2306
             }
 
+            if (options.Draft)
+            {
+                // Get the latest pr in the repo
+                var latest = _context.Set<Core.Models.PullRequest>()
+                    .Where(p => p.UserName == options.Owner && p.RepositoryName == options.Repository && p.RequestBranch == options.Head && p.Branch == options.Base)
+                    .OrderByDescending(p => p.IssueId)
+                    .First();
+
+                latest.IsDraft = true;
+                await _context.SaveChangesAsync();
+            }
+
             _console.WriteLine($"A new pull request has been successfully created!");
             return await Task.FromResult(0);
         }

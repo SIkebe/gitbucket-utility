@@ -2,6 +2,7 @@
 Utilities for GitBucket  
 
 [![Build status](https://ci.appveyor.com/api/projects/status/q1hfisqpa09662l5/?svg=true)](https://ci.appveyor.com/project/SIkebe/gitbucket-utility/)
+[![NuGet version](https://badge.fury.io/nu/gbutil.svg)](https://badge.fury.io/nu/gbutil)
 
 ## Requirements
 * [.NET Core 3.0.X SDK](https://www.microsoft.com/net/download/windows)

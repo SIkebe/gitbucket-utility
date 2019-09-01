@@ -2,6 +2,7 @@
 Utilities for GitBucket  
 
 [![Build status](https://ci.appveyor.com/api/projects/status/q1hfisqpa09662l5/?svg=true)](https://ci.appveyor.com/project/SIkebe/gitbucket-utility/)
+[![NuGet version](https://badge.fury.io/nu/gbutil.svg)](https://badge.fury.io/nu/gbutil)
 
 ## Requirements
 * [.NET Core 3.0.X SDK](https://www.microsoft.com/net/download/windows)
@@ -11,7 +12,7 @@ Utilities for GitBucket
 ```cmd
 # Required
 dotnet tool install --global gbutil --version 0.7.0
-setx GbUtil_ConnectionStrings Host=host;Username=username;Password=password;Database=gitbucket
+setx GbUtil_ConnectionStrings Host=host;Username=username;Password=password;Database=gitbucket;port=XXXX
 setx GbUtil_GitBucketUri http://localhost:8080/gitbucket/api/v3/
 
 # Optional
@@ -131,4 +132,5 @@ A new pull request has been successfully created!
 |`-b`|`--base`|`false`|The name of the branch you want the changes pulled into. Default value is "master".|
 |`-h`|`--head`|`false`|The name of the branch where your changes are implemented. Default value is "develop".|
 |`-t`|`--title`|`false`|The title of the new pull request. Default value is the same as milestone.|
-|`-f`|`--force`|`false`|Force the output/creating PR if specified.|
+|`-f`|`--force`|`false`|if specified, force the output/creating PR.|
+|-|`--draft`|`false`|If specified, create draft pull request.|

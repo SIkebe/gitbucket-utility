@@ -31,5 +31,8 @@ namespace GitBucket.Core
 
         [Option('f', "force", Required = false, HelpText = "Force the output/creating PR if specified.")]
         public bool Force { get; set; }
+
+        [Option("draft", Required = false, Default = false, HelpText = "If specified, create draft pull request.")]
+        public bool Draft { get; set; }
     }
 }

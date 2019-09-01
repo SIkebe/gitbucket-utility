@@ -224,6 +224,7 @@ The highest priority among them is ""high"".
             {
                 Base = "release/v1.0.0",
                 CreatePullRequest = true,
+                Draft = true, // TODO
                 FromPullRequest = true,
                 Head = "master2",
                 MileStone = "v1.0.0",

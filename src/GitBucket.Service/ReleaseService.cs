@@ -186,6 +186,7 @@ namespace GitBucket.Service
                     l.UserName.ToLower() == options.Owner.ToLower() &&
                     l.RepositoryName.ToLower() == options.Repository.ToLower() &&
                     issueLabels.Select(i => i.LabelId).Contains(l.LabelId))
+                .OrderBy(i => i.LabelId)
                 .AsNoTracking();
 
 #pragma warning restore CA1304 // Specify CultureInfo

@@ -14,7 +14,7 @@
     <PackageReference Update="octokit" Version="0.32.0" />
     <PackageReference Update="Selenium.Support" Version="3.141.0" />
     <PackageReference Update="Selenium.WebDriver" Version="3.141.0" />
-    <PackageReference Update="Selenium.WebDriver.ChromeDriver" Version="76.0.3809.12600" />
+    <PackageReference Update="Selenium.WebDriver.ChromeDriver" Version="77.0.3865.4000" />
     <PackageReference Update="StyleCop.Analyzers" Version="1.1.118" />
     <PackageReference Update="xunit" Version="2.4.1" />
     <PackageReference Update="xunit.runner.visualstudio" Version="2.4.1" />

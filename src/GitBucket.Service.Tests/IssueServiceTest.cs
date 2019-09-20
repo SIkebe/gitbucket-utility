@@ -85,7 +85,7 @@ namespace GitBucket.Service.Tests
             // Given
             var labels = new List<Label>
             {
-                new Label(url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
+                new Label(id:1, url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
             };
 
             var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
@@ -210,7 +210,8 @@ namespace GitBucket.Service.Tests
                         createdAt:new DateTimeOffset(new DateTime(2018, 1, 1)),
                         updatedAt:new DateTimeOffset(new DateTime(2018, 1, 2)),
                         user:_user1,
-                        reactions:new ReactionSummary()
+                        reactions:new ReactionSummary(),
+                        authorAssociation:AuthorAssociation.Collaborator
                     )
                 }));
 
@@ -273,7 +274,7 @@ namespace GitBucket.Service.Tests
             // Given
             var labels = new List<Label>
             {
-                new Label(url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
+                new Label(id:1, url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
             };
 
             var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
@@ -400,7 +401,8 @@ namespace GitBucket.Service.Tests
                         createdAt:new DateTimeOffset(new DateTime(2018, 1, 1)),
                         updatedAt:new DateTimeOffset(new DateTime(2018, 1, 2)),
                         user:_user1,
-                        reactions:new ReactionSummary()
+                        reactions:new ReactionSummary(),
+                        authorAssociation:AuthorAssociation.Collaborator
                     )
                 }));
 
@@ -598,7 +600,7 @@ namespace GitBucket.Service.Tests
             // Given
             var labels = new List<Label>
             {
-                new Label(url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
+                new Label(id:1, url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
             };
 
             var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
@@ -723,7 +725,8 @@ namespace GitBucket.Service.Tests
                         createdAt:new DateTimeOffset(new DateTime(2018, 1, 1)),
                         updatedAt:new DateTimeOffset(new DateTime(2018, 1, 2)),
                         user:_user1,
-                        reactions:new ReactionSummary()
+                        reactions:new ReactionSummary(),
+                        authorAssociation:AuthorAssociation.Collaborator
                     )
                 }));
 
@@ -781,7 +784,7 @@ namespace GitBucket.Service.Tests
             // Given
             var labels = new List<Label>
             {
-                new Label(url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
+                new Label(id:1, url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
             };
 
             var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
@@ -908,7 +911,8 @@ namespace GitBucket.Service.Tests
                         createdAt:new DateTimeOffset(new DateTime(2018, 1, 1)),
                         updatedAt:new DateTimeOffset(new DateTime(2018, 1, 2)),
                         user:_user1,
-                        reactions:new ReactionSummary()
+                        reactions:new ReactionSummary(),
+                        authorAssociation:AuthorAssociation.Collaborator
                     )
                 }));
 

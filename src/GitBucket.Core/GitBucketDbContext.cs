@@ -512,7 +512,9 @@ namespace GitBucket.Core
                     .HasColumnName("repository_name")
                     .HasMaxLength(100);
 
-                entity.Property(e => e.DeployKeyId).HasColumnName("deploy_key_id");
+                entity.Property(e => e.DeployKeyId)
+                    .HasColumnName("deploy_key_id")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.AllowWrite).HasColumnName("allow_write");
 
@@ -932,7 +934,9 @@ namespace GitBucket.Core
                     .HasColumnName("repository_name")
                     .HasMaxLength(100);
 
-                entity.Property(e => e.LabelId).HasColumnName("label_id");
+                entity.Property(e => e.LabelId)
+                    .HasColumnName("label_id")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Color)
                     .IsRequired()
@@ -971,7 +975,9 @@ namespace GitBucket.Core
                     .HasColumnName("repository_name")
                     .HasMaxLength(100);
 
-                entity.Property(e => e.MilestoneId).HasColumnName("milestone_id");
+                entity.Property(e => e.MilestoneId)
+                    .HasColumnName("milestone_id")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.ClosedDate).HasColumnName("closed_date");
 
@@ -1065,7 +1071,9 @@ namespace GitBucket.Core
                     .HasColumnName("repository_name")
                     .HasMaxLength(100);
 
-                entity.Property(e => e.PriorityId).HasColumnName("priority_id");
+                entity.Property(e => e.PriorityId)
+                    .HasColumnName("priority_id")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Color)
                     .IsRequired()
@@ -1404,7 +1412,9 @@ namespace GitBucket.Core
                     .HasColumnName("user_name")
                     .HasMaxLength(100);
 
-                entity.Property(e => e.SshKeyId).HasColumnName("ssh_key_id");
+                entity.Property(e => e.SshKeyId)
+                    .HasColumnName("ssh_key_id")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.PublicKey)
                     .IsRequired()

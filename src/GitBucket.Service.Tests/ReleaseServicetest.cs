@@ -378,7 +378,6 @@ The highest priority among them is ""high"".
             var highPriority = new Core.Models.Priority
             {
                 Ordering = 0,
-                PriorityId = 0,
                 PriorityName = "high",
                 RepositoryName = options.Repository,
                 UserName = options.Owner,
@@ -387,7 +386,6 @@ The highest priority among them is ""high"".
             var defaultPriority = new Core.Models.Priority
             {
                 Ordering = 1,
-                PriorityId = 1,
                 PriorityName = "default",
                 RepositoryName = options.Repository,
                 UserName = options.Owner,

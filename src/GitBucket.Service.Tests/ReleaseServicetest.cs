@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using GitBucket.Core;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -13,8 +14,7 @@ namespace GitBucket.Service.Tests
     {
         public FakeConsole FakeConsole { get; } = new FakeConsole("yes");
 
-#pragma warning disable xUnit1004 // Test methods should not be skipped
-        [Fact(Skip ="In-Memory DB is not available.")]
+        [Fact]
         public async void Milestone_Has_No_Issue()
         {
             // Given
@@ -37,7 +37,7 @@ namespace GitBucket.Service.Tests
             Assert.Equal("There are no issues related to \"v1.0.0\".", FakeConsole.WarnMessages[0]);
         }
 
-        [Fact(Skip = "In-Memory DB is not available.")]
+        [Fact]
         public async void Milestone_Has_No_PullRequest()
         {
             // Given
@@ -60,7 +60,7 @@ namespace GitBucket.Service.Tests
             Assert.Equal("There are no pull requests related to \"v1.0.0\".", FakeConsole.WarnMessages[0]);
         }
 
-        [Fact(Skip = "In-Memory DB is not available.")]
+        [Fact]
         public async void Milestone_Has_Unclosed_Issue()
         {
             // Given
@@ -100,7 +100,7 @@ namespace GitBucket.Service.Tests
             Assert.Equal("Do you want to continue?([Y]es/[N]o): no", console.WarnMessages[1]);
         }
 
-        [Fact(Skip = "In-Memory DB is not available.")]
+        [Fact]
         public async void Milestone_Has_Issue_Without_Labels()
         {
             // Given
@@ -142,7 +142,7 @@ namespace GitBucket.Service.Tests
             Assert.Empty(FakeConsole.ErrorMessages);
         }
 
-        [Fact(Skip = "In-Memory DB is not available.")]
+        [Fact]
         public async void PullRequest_Already_Exists()
         {
             // Given
@@ -168,7 +168,7 @@ namespace GitBucket.Service.Tests
             Assert.Empty(FakeConsole.ErrorMessages);
         }
 
-        [Fact(Skip = "In-Memory DB is not available.")]
+        [Fact]
         public async void Should_Create_PullRequest()
         {
             // Given
@@ -216,7 +216,65 @@ The highest priority among them is ""high"".
             Assert.Empty(FakeConsole.ErrorMessages);
         }
 
-        [Fact(Skip = "In-Memory DB is not available.")]
+        [Fact]
+        public async void Should_Create_Draft_PullRequest()
+        {
+            // Given
+            var options = new ReleaseOptions { Draft = true, CreatePullRequest = true, MileStone = "v1.0.0", Owner = "root", Repository = "test" };
+            var dbContext = EnsureDbCreated(options);
+            dbContext.PullRequest.AddRange(new List<Core.Models.PullRequest>
+            {
+                new Core.Models.PullRequest { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 1 },
+                new Core.Models.PullRequest { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 2 }
+            });
+            dbContext.SaveChanges();
+
+            var service = new ReleaseService(dbContext, FakeConsole);
+            var gitbucketClient = new Mock<IGitHubClient>();
+            gitbucketClient
+                .Setup(g => g.PullRequest.GetAllForRepository(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>()));
+
+            gitbucketClient
+                .Setup(g => g.PullRequest.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewPullRequest>()))
+                .ThrowsAsync(new InvalidCastException("Ignore InvalidCastException because of escaped response."));
+
+            // When
+            var result = await service.Execute(options, gitbucketClient.Object);
+
+            // Then
+            Assert.Equal(0, result);
+
+            gitbucketClient
+                .Verify(g => g.PullRequest.Create(
+                    It.Is<string>(o => o == "root"),
+                    It.Is<string>(r => r == "test"),
+                    It.Is<NewPullRequest>(p =>
+                        p.Title == "v1.0.0" &&
+                        p.Head == "develop" &&
+                        p.Base == "master" &&
+                        p.Body == @"As part of this release we had 3 issues closed.
+The highest priority among them is ""high"".
+
+### Bug
+* Found a bug! #1
+* Another bug #2
+
+### Enhancement
+* Some improvement on build #3
+
+")));
+
+            Assert.Single(FakeConsole.Messages);
+            Assert.Equal("A new pull request has been successfully created!", FakeConsole.Messages[0]);
+            Assert.Empty(FakeConsole.WarnMessages);
+            Assert.Empty(FakeConsole.ErrorMessages);
+
+            var isDraft = dbContext.PullRequest.Where(p => p.IssueId == 2).Select(p => p.IsDraft).Single();
+            Assert.True(isDraft);
+        }
+
+        [Fact]
         public async void Should_Create_PullRequest_With_Different_Options()
         {
             // Given
@@ -224,7 +282,6 @@ The highest priority among them is ""high"".
             {
                 Base = "release/v1.0.0",
                 CreatePullRequest = true,
-                Draft = true, // TODO
                 FromPullRequest = true,
                 Head = "master2",
                 MileStone = "v1.0.0",
@@ -272,7 +329,7 @@ The highest priority among them is ""default"".
             Assert.Empty(FakeConsole.ErrorMessages);
         }
 
-        [Fact(Skip = "In-Memory DB is not available.")]
+        [Fact]
         public async void Should_Output_ReleaseNote()
         {
             // Given
@@ -302,7 +359,6 @@ The highest priority among them is ""high"".
             Assert.Empty(FakeConsole.WarnMessages);
             Assert.Empty(FakeConsole.ErrorMessages);
         }
-#pragma warning restore xUnit1004 // Test methods should not be skipped
 
         private static GitBucketDbContext EnsureDbCreated(ReleaseOptions options)
         {

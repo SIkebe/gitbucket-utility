@@ -5,7 +5,7 @@
     <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.4" />    
     <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="3.0.0-rc1.19456.14" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="3.0.0" />    
-    <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.0.0-rc1.19456.10" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.0.0" />
     <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="3.0.0" />
     <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.3.0" />

@@ -3,7 +3,7 @@ image: Visual Studio 2019
 init:
   - git config --global core.autocrlf false
 install:
-  - choco install docker-cli docker-compose
+  - choco install docker-cli docker-compose docker-desktop
 # Build script
 build_script:
   - ps: .\build.ps1 --target="Run-E2E-Tests" --verbosity=diagnostic

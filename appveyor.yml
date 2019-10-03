@@ -4,6 +4,7 @@ init:
   - git config --global core.autocrlf false
 install:
   - choco install docker-cli docker-compose docker-desktop
+  - ps: Restart-Computer -Force
 # Build script
 build_script:
   - ps: .\build.ps1 --target="Run-E2E-Tests" --verbosity=diagnostic

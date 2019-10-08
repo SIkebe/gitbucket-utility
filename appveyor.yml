@@ -4,8 +4,8 @@ init:
   - git config --global core.autocrlf false
 #install:
   - choco install docker-cli docker-compose
-  - ps: Restart-Computer
-  - ps: Start-Sleep -s 10
+  - ps: cd "C:\Program Files\Docker\Docker"
+  - ps: ./DockerCli.exe -SwitchDaemon
   - ps: docker info
   - ps: docker-compose version
 # Build script

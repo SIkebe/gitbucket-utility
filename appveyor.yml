@@ -3,7 +3,7 @@ image: Visual Studio 2019
 init:
   - git config --global core.autocrlf false
 #install:
-  - choco install docker docker-compose
+  - choco install docker-cli docker-compose
   - ps: docker info
   - ps: docker-compose version
   - ps: Start-Service docker

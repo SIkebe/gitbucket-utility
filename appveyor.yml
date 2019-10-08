@@ -6,7 +6,7 @@ init:
 #  - choco install docker-cli docker-compose
 # Build script
 build_script:
-  - ps: .\build.ps1 --target="Run-Unit-Tests" --verbosity=diagnostic
+  - ps: .\build.ps1 --target="Run-E2E-Tests" --verbosity=diagnostic
 
 # Tests
 test: off

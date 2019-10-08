@@ -1,5 +1,5 @@
 # Build script
-image: Windows Server 2019
+image: Visual Studio 2019
 init:
   - git config --global core.autocrlf false
 #install:

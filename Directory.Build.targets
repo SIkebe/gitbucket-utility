@@ -11,7 +11,7 @@
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.3.0" />
     <PackageReference Update="Moq" Version="4.13.0" />
     <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.1" />
-    <PackageReference Update="octokit" Version="0.35.0" />
+    <PackageReference Update="octokit" Version="0.36.0" />
     <PackageReference Update="Selenium.Support" Version="3.141.0" />
     <PackageReference Update="Selenium.WebDriver" Version="3.141.0" />
     <PackageReference Update="Selenium.WebDriver.ChromeDriver" Version="77.0.3865.4000" />

@@ -4,9 +4,9 @@ init:
   - git config --global core.autocrlf false
 #install:
   - choco install docker-cli docker-compose
+  - ps: Start-Service docker
   - ps: docker info
   - ps: docker-compose version
-  - ps: Start-Service docker
 # Build script
 build_script:
   - ps: .\build.ps1 --target="Run-E2E-Tests" --verbosity=diagnostic

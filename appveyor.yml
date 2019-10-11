@@ -1,7 +1,7 @@
 # Build script
-image: Visual Studio 2017
+image: Visual Studio 2019
 init:
-  - git config --global core.autocrlf true
+  - git config --global core.autocrlf false
 #install:
 #  - choco install docker-cli docker-compose
 # Build script
@@ -21,7 +21,8 @@ branches:
     - /release/.*/
     - /hotfix/.*/
     - /feature/.*/
+    - /dependabot/.*/
 
 # Build cache
 cache:
-- tools -> build.cake, build.config
+- tools -> build.cake

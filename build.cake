@@ -40,7 +40,7 @@ Task("Build")
         new DotNetCoreBuildSettings 
         {
             Configuration = configuration 
-        }); 
+        });
 });
 
 Task("Run-Unit-Tests")
@@ -52,7 +52,7 @@ Task("Run-Unit-Tests")
         new DotNetCoreTestSettings 
         {
             Configuration = configuration 
-        }); 
+        });
 });
 
 Task("Run-E2E-Tests")
@@ -75,7 +75,7 @@ Task("Run-E2E-Tests")
         gitbucketStarted = logs.Any(log => log.IndexOf("oejs.Server:main: Started") > 0);
 
         count++;
-        if (30 < count)
+        if (60 < count)
         {
             throw new Exception("Exceeded the maximum number of attempts.");
         }
@@ -102,7 +102,7 @@ Task("Pack")
         {
             OutputDirectory = "./packages",
             Configuration = configuration 
-        }); 
+        });
 });
 
 Task("Publish")
@@ -116,12 +116,12 @@ Task("Publish")
     }
 
     DotNetCoreNuGetPush(
-        "./packages/GbUtil.0.7.0.nupkg",
+        "./packages/GbUtil.0.8.0.nupkg",
         new DotNetCoreNuGetPushSettings 
         {
             ApiKey = apiKey,
             Source = "https://api.nuget.org/v3/index.json",
-        }); 
+        });
 });
 
 //////////////////////////////////////////////////////////////////////

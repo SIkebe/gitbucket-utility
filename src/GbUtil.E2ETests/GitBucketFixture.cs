@@ -20,6 +20,9 @@ namespace GbUtil.E2ETests
             Environment.SetEnvironmentVariable("GbUtil_UserName", GitBucketDefaults.Owner);
             Environment.SetEnvironmentVariable("GbUtil_Password", GitBucketDefaults.Password);
 
+            // Ensure Chrome driver can start under proxy environment
+            Environment.SetEnvironmentVariable("no_proxy", "localhost");
+
             GitBucketClient = new GitHubClient(new Connection(
                     new ProductHeaderValue("gbutil"),
                     new Uri(GitBucketDefaults.ApiEndpoint),

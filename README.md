@@ -10,14 +10,18 @@ Utilities for GitBucket
 
 ## Preparation
 ```cmd
-# Required
+# [Required]
 dotnet tool install --global gbutil --version 0.7.0
 setx GbUtil_ConnectionStrings Host=host;Username=username;Password=password;Database=gitbucket;port=XXXX
 setx GbUtil_GitBucketUri http://localhost:8080/gitbucket/api/v3/
 
-# Optional
-setx GbUtil_UserName root
-setx GbUtil_Password root
+# [Optional]
+# You can use your personal access token for authentication/authorization...
+setx GbUtil_UserName <personal access token>
+
+# ...or username and password credentials.
+setx GbUtil_UserName <user name>
+setx GbUtil_Password <password>
 ```
 
 ## Usage

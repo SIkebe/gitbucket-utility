@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,13 +15,24 @@ namespace GitBucket.Core
             HttpRequestMessage request,
             CancellationToken cancellationToken = default)
         {
-            if (request != null && request.Content != null)
+            if (request != null)
             {
-                var contentType = request.Content.Headers.ContentType.MediaType;
-                if (contentType == "application/x-www-form-urlencoded")
+                if (request.Content != null)
                 {
-                    // GitBucket doesn't accept Content-Type: application/x-www-form-urlencoded
-                    request.Content.Headers.ContentType.MediaType = "application/json";
+                    var contentType = request.Content.Headers.ContentType.MediaType;
+                    if (contentType == "application/x-www-form-urlencoded")
+                    {
+                        // GitBucket doesn't accept Content-Type: application/x-www-form-urlencoded
+                        request.Content.Headers.ContentType.MediaType = "application/json";
+                    }
+                }
+
+                // GitBucket deals with "token" case sensitive while GitHub doesn't.
+                // octokit.net uses "Token" instead of "token".
+                if (request.Headers?.Authorization?.Scheme == "Token")
+                {
+                    var token = request.Headers.Authorization.Parameter;
+                    request.Headers.Authorization = new AuthenticationHeaderValue("token", token);
                 }
             }
 

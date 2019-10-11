@@ -11,7 +11,7 @@ Utilities for GitBucket
 ## Preparation
 ```cmd
 # [Required]
-dotnet tool install --global gbutil --version 0.7.0
+dotnet tool install --global gbutil --version 0.8.0
 setx GbUtil_ConnectionStrings Host=host;Username=username;Password=password;Database=gitbucket;port=XXXX
 setx GbUtil_GitBucketUri http://localhost:8080/gitbucket/api/v3/
 

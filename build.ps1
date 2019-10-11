@@ -77,5 +77,6 @@ $env:DOTNET_CLI_TELEMETRY_OPTOUT=1
 # RUN BUILD SCRIPT
 ###########################################################################
 & dotnet tool restore
+& dotnet format
 & dotnet cake ./build.cake $args
 exit $LASTEXITCODE

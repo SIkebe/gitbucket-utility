@@ -116,33 +116,44 @@ namespace GbUtil
                 throw new InvalidConfigurationException("GitBucket URI is not configured. Add \"GbUtil_GitBucketUri\" environment variable.");
             }
 
-            var user = configuration.GetSection("GbUtil_UserName")?.Value;
-            if (string.IsNullOrEmpty(user))
+            Credentials credentials;
+            var token = configuration.GetSection("GbUtil_AccessToken")?.Value;
+            if (!string.IsNullOrEmpty(token))
             {
-                console.Write("Enter your Username: ");
-                user = console.ReadLine();
+                credentials = new Credentials(token);
+            }
+            else
+            {
+                var user = configuration.GetSection("GbUtil_UserName")?.Value;
                 if (string.IsNullOrEmpty(user))
                 {
-                    throw new InvalidConfigurationException("Username is required");
+                    console.Write("Enter your Username: ");
+                    user = console.ReadLine();
+                    if (string.IsNullOrEmpty(user))
+                    {
+                        throw new InvalidConfigurationException("Username is required");
+                    }
                 }
-            }
 
-            var password = configuration.GetSection("GbUtil_Password")?.Value;
-            if (string.IsNullOrEmpty(password))
-            {
-                console.Write("Enter your Password: ");
-                password = console.GetPassword();
+                var password = configuration.GetSection("GbUtil_Password")?.Value;
                 if (string.IsNullOrEmpty(password))
                 {
-                    throw new InvalidConfigurationException("Password is required");
+                    console.Write("Enter your Password: ");
+                    password = console.GetPassword();
+                    if (string.IsNullOrEmpty(password))
+                    {
+                        throw new InvalidConfigurationException("Password is required");
+                    }
                 }
+
+                credentials = new Credentials(user, password);
             }
 
             return new GitHubClient(
                 new Connection(
                     new ProductHeaderValue("gbutil"),
                     new Uri(gitbucketUri),
-                    new InMemoryCredentialStore(new Credentials(user, password)),
+                    new InMemoryCredentialStore(credentials),
                     new HttpClientAdapter(() => new GitBucketMessageHandler()),
                     new SimpleJsonSerializer()
                 ));

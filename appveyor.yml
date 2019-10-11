@@ -21,6 +21,7 @@ branches:
     - /release/.*/
     - /hotfix/.*/
     - /feature/.*/
+    - /dependabot/.*/
 
 # Build cache
 cache:

@@ -152,7 +152,7 @@ namespace GbUtil.E2ETests
             }
         }
 
-        protected void CreateBranch(string name)
+        protected void CreateBranch(string branchName)
         {
             // git clone http://localhost:8080/git/root/<repository-name>.git
             LibGit2Sharp.Repository.Clone($"{GitBucketDefaults.BaseUri}git/{Repository.FullName}.git", WorkingDir, new CloneOptions
@@ -164,15 +164,15 @@ namespace GbUtil.E2ETests
             using var repo = new LibGit2Sharp.Repository(WorkingDir);
 
             // git checkout -b <new-branch>
-            repo.CreateBranch("develop");
-            var localBranch = Commands.Checkout(repo, name);
+            repo.CreateBranch(branchName);
+            var localBranch = Commands.Checkout(repo, branchName);
 
             // git branch -u origin/<new-branch>
             Remote remote = repo.Network.Remotes["origin"];
             repo.Branches.Update(localBranch, b => b.Remote = remote.Name, b => b.UpstreamBranch = localBranch.CanonicalName);
 
             // git push origin <new-branch>
-            repo.Network.Push(repo.Branches[name], new PushOptions
+            repo.Network.Push(repo.Branches[branchName], new PushOptions
             {
                 CredentialsProvider = new CredentialsHandler((url, usernameFromUrl, types) => Credentials)
             });

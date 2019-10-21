@@ -82,14 +82,14 @@ Task("Run-E2E-Tests")
     }
     while(!gitbucketStarted);
 
-    DotNetCoreTest(
-        "./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj",
-        new DotNetCoreTestSettings 
-        {
-            Configuration = configuration 
-        });
-
-    DockerComposeRm(new DockerComposeRmSettings { Force = true, Volumes = true, Stop = true }, Array.Empty<string>());
+    try
+    {
+        DotNetCoreTest("./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj", new DotNetCoreTestSettings { Configuration = configuration });
+    }
+    finally
+    {
+        DockerComposeRm(new DockerComposeRmSettings { Force = true, Volumes = true, Stop = true }, Array.Empty<string>());
+    }
 });
 
 Task("Pack")

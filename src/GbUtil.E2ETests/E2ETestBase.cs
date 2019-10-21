@@ -154,11 +154,14 @@ namespace GbUtil.E2ETests
 
         protected void CreateBranch(string branchName)
         {
-            // git clone http://localhost:8080/git/root/<repository-name>.git
-            LibGit2Sharp.Repository.Clone($"{GitBucketDefaults.BaseUri}git/{Repository.FullName}.git", WorkingDir, new CloneOptions
+            if (!Directory.Exists(WorkingDir))
             {
-                CredentialsProvider = (url, user, cred) => Credentials
-            });
+                // git clone http://localhost:8080/git/root/<repository-name>.git
+                LibGit2Sharp.Repository.Clone($"{GitBucketDefaults.BaseUri}git/{Repository.FullName}.git", WorkingDir, new CloneOptions
+                {
+                    CredentialsProvider = (url, user, cred) => Credentials
+                });
+            }
 
             // TODO: Use Web API to create a new branch if implemented in GitBucket
             using var repo = new LibGit2Sharp.Repository(WorkingDir);

@@ -87,7 +87,7 @@ The highest priority among them is """".
             // Create base and target branch
             Repository = await CreateRepository(autoInit: true);
             CreateBranch("develop");
-            await UpdateReadme();
+            await UpdateReadme("develop");
 
             // Create issues which target milestone v1.0.0
             var issue1 = await GitBucketFixture.GitBucketClient.Issue.Create(GitBucketDefaults.Owner, Repository.Name, new NewIssue("Bump to v1.0.0"));

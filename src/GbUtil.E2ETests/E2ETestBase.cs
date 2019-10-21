@@ -99,24 +99,27 @@ namespace GbUtil.E2ETests
             {
                 if (disposing)
                 {
-                    var directoryInfo = new DirectoryInfo(WorkingDir);
-                    RemoveReadonlyAttribute(directoryInfo);
-                    directoryInfo.Delete(recursive: true);
+                    if (Directory.Exists(WorkingDir))
+                    {
+                        var directoryInfo = new DirectoryInfo(WorkingDir);
+                        RemoveReadonlyAttribute(directoryInfo);
+                        directoryInfo.Delete(recursive: true);
+                    }
                 }
 
                 disposedValue = true;
             }
         }
 
-        protected async Task UpdateReadme()
+        protected async Task UpdateReadme(string branchName)
         {
-            var contents = await GitBucketFixture.GitBucketClient.Repository.Content.GetAllContentsByRef(GitBucketDefaults.Owner, Repository.Name, "develop");
+            var contents = await GitBucketFixture.GitBucketClient.Repository.Content.GetAllContentsByRef(GitBucketDefaults.Owner, Repository.Name, branchName);
             var readme = contents.Where(c => c.Name == "README.md").Single();
             await GitBucketFixture.GitBucketClient.Repository.Content.UpdateFile(
                 GitBucketDefaults.Owner,
                 Repository.Name,
                 "README.md",
-                new UpdateFileRequest("New commit message.", "New file content.", readme.Sha, "develop"));
+                new UpdateFileRequest("New commit message.", "New file content.", readme.Sha, branchName));
         }
 
         protected void SetMilestone(Issue issue)

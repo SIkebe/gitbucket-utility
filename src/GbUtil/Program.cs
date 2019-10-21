@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using CommandLine;
 using GbUtil.Extensions;
@@ -31,7 +29,7 @@ namespace GbUtil
                     .AddEnvironmentVariables()
                     .Build();
 
-                var options = Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
+                var options = Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions, CompareOptions>(args)
                     .WithNotParsed(errors =>
                     {
                         if (errors.Any(e =>
@@ -42,10 +40,11 @@ namespace GbUtil
                             throw new InvalidConfigurationException($"Failed to parse arguments.");
                         }
                     })
-                    .MapResult<ReleaseOptions, MilestoneOptions, IssueOptions, CommandLineOptionsBase?>(
+                    .MapResult<ReleaseOptions, MilestoneOptions, IssueOptions, CompareOptions, CommandLineOptionsBase?>(
                         (ReleaseOptions options) => options,
                         (MilestoneOptions options) => options,
                         (IssueOptions options) => options,
+                        (CompareOptions options) => options,
                         _ => null
                     );
 
@@ -65,6 +64,8 @@ namespace GbUtil
                         => await scope.ServiceProvider.GetRequiredService<IMilestoneService>().ShowMilestones(milestoneOptions),
                     IssueOptions issueOptions
                         => await scope.ServiceProvider.GetRequiredService<IIssueService>().Execute(issueOptions, CreateGitBucketClient(configuration, console)),
+                    CompareOptions compareOptions
+                        => await scope.ServiceProvider.GetRequiredService<ICompareService>().Execute(compareOptions, CreateGitBucketClient(configuration, console)),
                     _ => 1
                 };
 
@@ -104,6 +105,7 @@ namespace GbUtil
                 .AddTransient<IReleaseService, ReleaseService>()
                 .AddTransient<IMilestoneService, MilestoneService>()
                 .AddTransient<IIssueService, IssueService>()
+                .AddTransient<ICompareService, CompareService>()
                 .AddTransient<IConsole, GbUtilConsole>()
                 .BuildServiceProvider();
         }

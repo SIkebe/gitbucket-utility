@@ -138,3 +138,25 @@ A new pull request has been successfully created!
 |`-t`|`--title`|`false`|The title of the new pull request. Default value is the same as milestone.|
 |`-f`|`--force`|`false`|if specified, force the output/creating PR.|
 |-|`--draft`|`false`|If specified, create draft pull request.|
+
+-----
+
+### `gbutil compare`
+
+```powershell
+gbutil compare -o|--owner [--compare1] [--compare2]
+```
+Compare two branches per repository owned by the specified owner.
+
+```powershell
+> gbutil compare -o root
+develop in root/test1 has commits which has not merged into master.
+develop in root/test2 has commits which has not merged into master.
+```
+
+### Options
+|Short name|Long name|Required|Abstract|
+|:-|:-|:-:|:-|
+|`-o`|`--owner`|`true`|The owner name of the repository.|
+|-|`--compare1`|`false`|The name of the branch you want to compare the changes. Default value is "master".|
+|-|`--compare2`|`false`|The name of the another branch where you want to compare the changes.. Default value is "develop".|

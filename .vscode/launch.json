@@ -16,7 +16,12 @@
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
             "console": "externalTerminal",
             "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart"
+            "internalConsoleOptions": "openOnSessionStart",
+            "env": {
+                "GbUtil_GitBucketUri": "http://localhost:8080/api/v3/",
+                "GbUtil_UserName": "root",
+                "GbUtil_Password": "root"
+            }
         },
         {
             "name": ".NET Core Attach",

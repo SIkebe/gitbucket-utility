@@ -489,19 +489,19 @@ The highest priority among them is ""high"".
             dbContext.SaveChanges();
             return dbContext;
         }
-    }
 
-    public sealed class FakePullRequest : Octokit.PullRequest
-    {
-        public FakePullRequest(GitReference head, GitReference @base)
+        private sealed class FakePullRequest : Octokit.PullRequest
         {
-            Head = head;
-            Base = @base;
+            public FakePullRequest(GitReference head, GitReference @base)
+            {
+                Head = head;
+                Base = @base;
+            }
         }
-    }
 
-    public sealed class FakeGitReference : Octokit.GitReference
-    {
-        public FakeGitReference(string @ref) => Ref = @ref;
+        private sealed class FakeGitReference : Octokit.GitReference
+        {
+            public FakeGitReference(string @ref) => Ref = @ref;
+        }
     }
 }

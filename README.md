@@ -17,7 +17,7 @@ setx GbUtil_GitBucketUri http://localhost:8080/gitbucket/api/v3/
 
 # [Optional]
 # You can use your personal access token for authentication/authorization...
-setx GbUtil_UserName <personal access token>
+setx GbUtil_AccessToken <personal access token>
 
 # ...or username and password credentials.
 setx GbUtil_UserName <user name>

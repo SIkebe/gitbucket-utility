@@ -2,9 +2,9 @@
   <ItemGroup>
     <PackageReference Update="CommandLineParser" Version="2.6.0" />
     <PackageReference Update="libgit2sharp" Version="0.27.0-preview-0029" />
-    <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7" />    
+    <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="3.1.0-preview2.19525.5" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.0-preview2.19525.5" />    
+    <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.0-preview2.19525.5" />
     <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.0-preview2.19525.4" />
     <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="3.1.0-preview2.19525.4" />
     <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="3.1.0-preview2.19525.4" />

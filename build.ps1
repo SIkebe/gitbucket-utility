@@ -7,13 +7,6 @@ $PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
 $DotNetVersion= (Get-Content .\global.json | ConvertFrom-Json).sdk.version
 "Using .NET Core SDK " + $DotNetVersion | Write-Output
 
-# Make sure tools folder exists
-$ToolPath = Join-Path $PSScriptRoot "tools"
-if (!(Test-Path $ToolPath)) {
-    Write-Verbose "Creating tools directory..."
-    New-Item -Path $ToolPath -Type Directory -Force | out-null
-}
-
 ###########################################################################
 # INSTALL .NET CORE CLI
 ###########################################################################

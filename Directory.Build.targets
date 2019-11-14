@@ -1,21 +1,21 @@
 <Project>
   <ItemGroup>
     <PackageReference Update="CommandLineParser" Version="2.6.0" />
-    <PackageReference Update="libgit2sharp" Version="0.26.1" />
-    <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7" />    
-    <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="3.0.0" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="3.0.0" />    
-    <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.0.0" />
-    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="3.0.0" />
-    <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
+    <PackageReference Update="libgit2sharp" Version="0.27.0-preview-0029" />
+    <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="3.1.0-preview2.19525.5" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.0-preview2.19525.5" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.0-preview2.19525.4" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="3.1.0-preview2.19525.4" />
+    <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="3.1.0-preview2.19525.4" />
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.4.0" />
     <PackageReference Update="Moq" Version="4.13.1" />
-    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.1" />
+    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.0-preview2" />
     <PackageReference Update="octokit" Version="0.36.0" />
-    <PackageReference Update="Selenium.Support" Version="3.141.0" />
-    <PackageReference Update="Selenium.WebDriver" Version="3.141.0" />
+    <PackageReference Update="Selenium.Support" Version="4.0.0-alpha03" />
+    <PackageReference Update="Selenium.WebDriver" Version="4.0.0-alpha03" />
     <PackageReference Update="Selenium.WebDriver.ChromeDriver" Version="78.0.3904.7000" />
-    <PackageReference Update="StyleCop.Analyzers" Version="1.1.118" />
+    <PackageReference Update="StyleCop.Analyzers" Version="1.2.0-beta.113" />
     <PackageReference Update="xunit" Version="2.4.1" />
     <PackageReference Update="xunit.runner.visualstudio" Version="2.4.1" />
   </ItemGroup>

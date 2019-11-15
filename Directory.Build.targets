@@ -3,14 +3,14 @@
     <PackageReference Update="CommandLineParser" Version="2.6.0" />
     <PackageReference Update="libgit2sharp" Version="0.27.0-preview-0029" />
     <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="3.1.0-preview2.19525.5" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.0-preview2.19525.5" />
-    <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.0-preview2.19525.4" />
-    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="3.1.0-preview2.19525.4" />
-    <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="3.1.0-preview2.19525.4" />
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="3.1.0-preview3.19554.8" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.0-preview3.19554.8" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.0-preview3.19553.2" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="3.1.0-preview3.19553.2" />
+    <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="3.1.0-preview3.19553.2" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.5.0-preview-20191115-01" />
     <PackageReference Update="Moq" Version="4.13.1" />
-    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.0-preview2" />
+    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.0-preview3" />
     <PackageReference Update="octokit" Version="0.36.0" />
     <PackageReference Update="Selenium.Support" Version="4.0.0-alpha03" />
     <PackageReference Update="Selenium.WebDriver" Version="4.0.0-alpha03" />

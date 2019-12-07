@@ -8,27 +8,14 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
 //////////////////////////////////////////////////////////////////////
-// PREPARATION
-//////////////////////////////////////////////////////////////////////
-
-// Define directories.
-var buildDirectories = GetDirectories("./src/**/bin/" + configuration);
-
-//////////////////////////////////////////////////////////////////////
 // TASKS
 //////////////////////////////////////////////////////////////////////
 
 Task("Clean")
     .Does(() =>
 {
+    var buildDirectories = GetDirectories("./src/**/bin/" + configuration) + GetDirectories("./src/**/obj/" + configuration);
     CleanDirectories(buildDirectories);
-});
-
-Task("Restore")
-    .IsDependentOn("Clean")
-    .Does(() =>
-{
-    DotNetCoreRestore();
 });
 
 Task("Build")
@@ -82,14 +69,14 @@ Task("Run-E2E-Tests")
     }
     while(!gitbucketStarted);
 
-    DotNetCoreTest(
-        "./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj",
-        new DotNetCoreTestSettings 
-        {
-            Configuration = configuration 
-        });
-
-    DockerComposeRm(new DockerComposeRmSettings { Force = true, Volumes = true, Stop = true }, Array.Empty<string>());
+    try
+    {
+        DotNetCoreTest("./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj", new DotNetCoreTestSettings { Configuration = configuration });
+    }
+    finally
+    {
+        DockerComposeRm(new DockerComposeRmSettings { Force = true, Volumes = true, Stop = true }, Array.Empty<string>());
+    }
 });
 
 Task("Pack")

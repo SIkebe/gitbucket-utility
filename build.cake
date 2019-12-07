@@ -8,27 +8,14 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
 //////////////////////////////////////////////////////////////////////
-// PREPARATION
-//////////////////////////////////////////////////////////////////////
-
-// Define directories.
-var buildDirectories = GetDirectories("./src/**/bin/" + configuration);
-
-//////////////////////////////////////////////////////////////////////
 // TASKS
 //////////////////////////////////////////////////////////////////////
 
 Task("Clean")
     .Does(() =>
 {
+    var buildDirectories = GetDirectories("./src/**/bin/" + configuration) + GetDirectories("./src/**/obj/" + configuration);
     CleanDirectories(buildDirectories);
-});
-
-Task("Restore")
-    .IsDependentOn("Clean")
-    .Does(() =>
-{
-    DotNetCoreRestore();
 });
 
 Task("Build")

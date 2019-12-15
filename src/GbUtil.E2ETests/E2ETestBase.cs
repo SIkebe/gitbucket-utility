@@ -55,8 +55,19 @@ namespace GbUtil.E2ETests
         protected static string Execute(string arguments)
         {
             using var process = new Process();
-            process.StartInfo.FileName = "dotnet";
-            process.StartInfo.Arguments = $@"""{GbUtilDll}"" {arguments}";
+            var useSingleFileExe = Environment.GetEnvironmentVariable("GbUtil_UseSingleFileExe");
+            var singleFileExePath = Environment.GetEnvironmentVariable("GbUtil_SingleFileExePath");
+            if (useSingleFileExe == "true" && File.Exists(singleFileExePath))
+            {
+                process.StartInfo.FileName = singleFileExePath;
+                process.StartInfo.Arguments = $@"{arguments}";
+            }
+            else
+            {
+                process.StartInfo.FileName = "dotnet";
+                process.StartInfo.Arguments = $@"""{GbUtilDll}"" {arguments}";
+            }
+
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
 

@@ -46,6 +46,22 @@ Task("Run-E2E-Tests")
     .IsDependentOn("Build")
     .Does(async (ctx) =>
 {
+    await RunE2ETests(ctx);
+});
+
+Task("Run-E2E-Tests-Using-SingleFileExe")
+    .IsDependentOn("Publish-SingleFile")
+    .IsDependentOn("Build")
+    .Does(async (ctx) =>
+{
+    var path = MakeAbsolute(File("./executable/GbUtil.exe"));
+    Environment.SetEnvironmentVariable("GbUtil_UseSingleFileExe", "true");
+    Environment.SetEnvironmentVariable("GbUtil_SingleFileExePath", path.FullPath);
+    await RunE2ETests(ctx);
+});
+
+async Task RunE2ETests(ICakeContext ctx)
+{
     Information("Recreating docker containers...");
     DockerComposeUp(new DockerComposeUpSettings { ForceRecreate = true, DetachedMode = true });
 
@@ -77,7 +93,7 @@ Task("Run-E2E-Tests")
     {
         DockerComposeRm(new DockerComposeRmSettings { Force = true, Volumes = true, Stop = true }, Array.Empty<string>());
     }
-});
+}
 
 Task("Pack")
     .IsDependentOn("Clean")
@@ -108,6 +124,24 @@ Task("Publish")
         {
             ApiKey = apiKey,
             Source = "https://api.nuget.org/v3/index.json",
+        });
+});
+
+Task("Publish-SingleFile")
+    .Does(() =>
+{
+    CleanDirectory("executable");
+
+    DotNetCorePublish(
+        "./src/GbUtil/GbUtil.csproj",
+        new DotNetCorePublishSettings 
+        {
+            Configuration = configuration,
+            OutputDirectory = "executable",
+            Runtime = "win-x64",
+            ArgumentCustomization = args => args
+                .Append("/p:PublishSingleFile=true")
+                .Append("/p:PublishTrimmed=true")
         });
 });
 

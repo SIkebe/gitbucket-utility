@@ -1,6 +1,6 @@
 <Project>
   <ItemGroup>
-    <PackageReference Update="CommandLineParser" Version="2.6.0" />
+    <PackageReference Update="CommandLineParser" Version="2.7.82" />
     <PackageReference Update="libgit2sharp" Version="0.27.0-preview-0034" />
     <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="3.1.0" />

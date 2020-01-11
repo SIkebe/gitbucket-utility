@@ -31,8 +31,9 @@ namespace GbUtil.E2ETests
                     new SimpleJsonSerializer()
                 ));
 
-            // Initialize GitBucket correctly
             Driver = CreateChromeDriver();
+
+            // Initialize GitBucket correctly
             Login();
         }
 

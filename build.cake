@@ -154,7 +154,8 @@ Task("Default")
 
 Task("Run-All-Tests")
     .IsDependentOn("Run-Unit-Tests")
-    .IsDependentOn("Run-E2E-Tests");
+    .IsDependentOn("Run-E2E-Tests")
+    .IsDependentOn("Run-E2E-Tests-Using-SingleFileExe");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION

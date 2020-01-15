@@ -98,8 +98,8 @@ The highest priority among them is """".
 
             // Create milestone v1.0.0 and set above issues to it
             GitBucketFixture.CreateMilestone(Repository, "v1.0.0");
-            SetMilestone(issue1);
-            SetMilestone(issue2);
+            SetMilestone(issue1, Repository, "v1.0.0");
+            SetMilestone(issue2, Repository, "v1.0.0");
         }
     }
 }

@@ -30,7 +30,31 @@ namespace GitBucket.Service.Tests
                 DueDate = new DateTime(2018, 7, 8),
                 ClosedDate = null,
                 Description = "Implement xxx feature",
-                UserName = "root"
+                UserName = "root",
+                Issue = new[]
+                {
+                    new Issue
+                    {
+                        IssueId = 1,
+                        AssignedUserName = "user1",
+                        UserName = "root",
+                        RepositoryName = "test1",
+                    },
+                    new Issue
+                    {
+                        IssueId = 2,
+                        AssignedUserName = "user2",
+                        UserName = "root",
+                        RepositoryName = "test1",
+                    },
+                    new Issue
+                    {
+                        IssueId = 3,
+                        AssignedUserName = "user1",
+                        UserName = "root",
+                        RepositoryName = "test1",
+                    }
+                }
             });
 
             dbContext.SaveChanges();
@@ -49,7 +73,7 @@ namespace GitBucket.Service.Tests
             Assert.Equal("There are 1 open milestone.", FakeConsole.Messages[0]);
             Assert.Equal(string.Empty, FakeConsole.Messages[1]);
 
-            Assert.Equal("* root/test1, v0.1.0, 2018/07/08, Implement xxx feature", FakeConsole.Messages[2]);
+            Assert.Equal("* [root/test1], [v0.1.0], [2018/07/08], [Implement xxx feature], [user1, user2]", FakeConsole.Messages[2]);
         }
 
         [Fact]
@@ -70,7 +94,17 @@ namespace GitBucket.Service.Tests
                 DueDate = new DateTime(2018, 7, 1),
                 ClosedDate = new DateTime(2018, 7, 1),
                 Description = "Implement xxx feature",
-                UserName = "root"
+                UserName = "root",
+                Issue = new[]
+                {
+                    new Issue
+                    {
+                        IssueId = 1,
+                        AssignedUserName = "user1",
+                        UserName = "root",
+                        RepositoryName = "test1",
+                    }
+                }
             });
 
             dbContext.SaveChanges();
@@ -89,7 +123,7 @@ namespace GitBucket.Service.Tests
             Assert.Equal("There are 1 milestone.", FakeConsole.Messages[0]);
             Assert.Equal(string.Empty, FakeConsole.Messages[1]);
 
-            Assert.Equal("* root/test1, v0.1.0, 2018/07/01, Implement xxx feature", FakeConsole.Messages[2]);
+            Assert.Equal("* [root/test1], [v0.1.0], [2018/07/01], [Implement xxx feature], [user1]", FakeConsole.Messages[2]);
         }
 
         [Fact]
@@ -110,7 +144,17 @@ namespace GitBucket.Service.Tests
                 DueDate = new DateTime(2018, 6, 30),
                 ClosedDate = null,
                 Description = "Implement xxx feature",
-                UserName = "root"
+                UserName = "root",
+                Issue = new[]
+                {
+                    new Issue
+                    {
+                        IssueId = 1,
+                        AssignedUserName = "user1",
+                        UserName = "root",
+                        RepositoryName = "test1",
+                    }
+                }
             });
 
             dbContext.SaveChanges();
@@ -129,7 +173,7 @@ namespace GitBucket.Service.Tests
             Assert.Equal("There are 1 open milestone.", FakeConsole.Messages[0]);
             Assert.Equal(string.Empty, FakeConsole.Messages[1]);
 
-            Assert.Equal("* root/test1, v0.1.0, 2018/06/30, Implement xxx feature", FakeConsole.ErrorMessages[0]);
+            Assert.Equal("* [root/test1], [v0.1.0], [2018/06/30], [Implement xxx feature], [user1]", FakeConsole.ErrorMessages[0]);
         }
 
         [Fact]
@@ -150,7 +194,17 @@ namespace GitBucket.Service.Tests
                 DueDate = new DateTime(2018, 7, 7),
                 ClosedDate = null,
                 Description = "Implement xxx feature",
-                UserName = "root"
+                UserName = "root",
+                Issue = new[]
+                {
+                    new Issue
+                    {
+                        IssueId = 1,
+                        AssignedUserName = "user1",
+                        UserName = "root",
+                        RepositoryName = "test1",
+                    }
+                }
             });
 
             dbContext.SaveChanges();
@@ -169,7 +223,7 @@ namespace GitBucket.Service.Tests
             Assert.Equal("There are 1 open milestone.", FakeConsole.Messages[0]);
             Assert.Equal(string.Empty, FakeConsole.Messages[1]);
 
-            Assert.Equal("* root/test1, v0.1.0, 2018/07/07, Implement xxx feature", FakeConsole.WarnMessages[0]);
+            Assert.Equal("* [root/test1], [v0.1.0], [2018/07/07], [Implement xxx feature], [user1]", FakeConsole.WarnMessages[0]);
         }
 
         [Fact]
@@ -190,7 +244,17 @@ namespace GitBucket.Service.Tests
                 DueDate = new DateTime(2018, 7, 1),
                 ClosedDate = null,
                 Description = "Implement xxx feature",
-                UserName = "root"
+                UserName = "root",
+                Issue = new[]
+                {
+                    new Issue
+                    {
+                        IssueId = 1,
+                        AssignedUserName = "user1",
+                        UserName = "root",
+                        RepositoryName = "test1",
+                    }
+                }
             });
 
             dbContext.SaveChanges();
@@ -209,7 +273,7 @@ namespace GitBucket.Service.Tests
             Assert.Equal("There are 1 open milestone.", FakeConsole.Messages[0]);
             Assert.Equal(string.Empty, FakeConsole.Messages[1]);
 
-            Assert.Equal("* root/test1, v0.1.0, 2018/07/01, Implement xxx feature", FakeConsole.WarnMessages[0]);
+            Assert.Equal("* [root/test1], [v0.1.0], [2018/07/01], [Implement xxx feature], [user1]", FakeConsole.WarnMessages[0]);
         }
 
         [Fact]
@@ -232,7 +296,17 @@ namespace GitBucket.Service.Tests
                     DueDate = new DateTime(2018, 6, 30),
                     ClosedDate = null,
                     Description = "Error",
-                    UserName = "root"
+                    UserName = "root",
+                    Issue = new[]
+                    {
+                        new Issue
+                        {
+                            IssueId = 1,
+                            AssignedUserName = "user1",
+                            UserName = "root",
+                            RepositoryName = "test1",
+                        }
+                    }
                 },
                 new Milestone
                 {
@@ -242,7 +316,17 @@ namespace GitBucket.Service.Tests
                     DueDate = new DateTime(2018, 7, 1),
                     ClosedDate = new DateTime(2018, 7, 1),
                     Description = "Closed",
-                    UserName = "root"
+                    UserName = "root",
+                    Issue = new[]
+                    {
+                        new Issue
+                        {
+                            IssueId = 2,
+                            AssignedUserName = "user1",
+                            UserName = "root",
+                            RepositoryName = "test1",
+                        }
+                    }
                 },
                 new Milestone
                 {
@@ -252,7 +336,17 @@ namespace GitBucket.Service.Tests
                     DueDate = new DateTime(2018, 7, 7),
                     ClosedDate = null,
                     Description = "Warn",
-                    UserName = "root"
+                    UserName = "root",
+                    Issue = new[]
+                    {
+                        new Issue
+                        {
+                            IssueId = 3,
+                            AssignedUserName = "user1",
+                            UserName = "root",
+                            RepositoryName = "test1",
+                        }
+                    }
                 },
                 new Milestone
                 {
@@ -262,7 +356,17 @@ namespace GitBucket.Service.Tests
                     DueDate = new DateTime(2018, 7, 8),
                     ClosedDate = null,
                     Description = "Info",
-                    UserName = "root"
+                    UserName = "root",
+                    Issue = new[]
+                    {
+                        new Issue
+                        {
+                            IssueId = 4,
+                            AssignedUserName = "user1",
+                            UserName = "root",
+                            RepositoryName = "test1",
+                        }
+                    }
                 }
             });
 
@@ -282,10 +386,10 @@ namespace GitBucket.Service.Tests
             Assert.Equal("There are 4 milestones.", FakeConsole.Messages[0]);
             Assert.Equal(string.Empty, FakeConsole.Messages[1]);
 
-            Assert.Equal("* root/test1, v0.1.0, 2018/06/30, Error", FakeConsole.ErrorMessages[0]);
-            Assert.Equal("* root/test1, v0.2.0, 2018/07/01, Closed", FakeConsole.Messages[2]);
-            Assert.Equal("* root/test1, v0.3.0, 2018/07/07, Warn", FakeConsole.WarnMessages[0]);
-            Assert.Equal("* root/test1, v0.4.0, 2018/07/08, Info", FakeConsole.Messages[3]);
+            Assert.Equal("* [root/test1], [v0.1.0], [2018/06/30], [Error], [user1]", FakeConsole.ErrorMessages[0]);
+            Assert.Equal("* [root/test1], [v0.2.0], [2018/07/01], [Closed], [user1]", FakeConsole.Messages[2]);
+            Assert.Equal("* [root/test1], [v0.3.0], [2018/07/07], [Warn], [user1]", FakeConsole.WarnMessages[0]);
+            Assert.Equal("* [root/test1], [v0.4.0], [2018/07/08], [Info], [user1]", FakeConsole.Messages[3]);
         }
 
         [Fact]

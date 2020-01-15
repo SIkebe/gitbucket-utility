@@ -139,9 +139,8 @@ Task("Publish-SingleFile")
             Configuration = configuration,
             OutputDirectory = "executable",
             Runtime = "win-x64",
-            ArgumentCustomization = args => args
-                .Append("/p:PublishSingleFile=true")
-                .Append("/p:PublishTrimmed=true")
+            PublishSingleFile = true,
+            PublishTrimmed = true,
         });
 });
 

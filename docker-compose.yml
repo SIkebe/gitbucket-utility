@@ -2,11 +2,13 @@ version: '3.7'
 
 services:
   gitbucket:
-    image: gitbucket/gitbucket
+    build:
+      context: .
+      dockerfile: Dockerfile-GitBucket
     restart: always
     ports:
       - 8080:8080
-    #volumes:
+    # volumes:
     #  - ./docker:/gitbucket
     depends_on:
       - db

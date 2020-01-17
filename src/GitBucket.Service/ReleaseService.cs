@@ -128,6 +128,8 @@ namespace GitBucket.Service
             try
             {
                 // Create new pull request
+                // GitBucket v4.34.0 is going to allow "isDraft" parameter
+                // https://github.com/gitbucket/gitbucket/pull/2388
                 await gitBucketClient.PullRequest.Create(
                     options.Owner,
                     options.Repository,
@@ -144,15 +146,15 @@ namespace GitBucket.Service
                 // https://github.com/gitbucket/gitbucket/issues/2306
             }
 
+            var allPRs = await gitBucketClient.PullRequest.GetAllForRepository(options.Owner, options.Repository);
+            var latest = allPRs.OrderByDescending(p => p.Number).First();
+
             if (options.Draft)
             {
-                // Get the latest pr in the repo
-                var latest = _context.Set<Core.Models.PullRequest>()
-                    .Where(p => p.UserName == options.Owner && p.RepositoryName == options.Repository && p.RequestBranch == options.Head && p.Branch == options.Base)
-                    .OrderByDescending(p => p.IssueId)
-                    .First();
-
-                latest.IsDraft = true;
+                var newPR = _context.Set<Core.Models.PullRequest>()
+                    .Where(p => p.UserName == options.Owner && p.RepositoryName == options.Repository && p.IssueId == latest.Number)
+                    .Single();
+                newPR.IsDraft = true;
                 await _context.SaveChangesAsync();
             }
 

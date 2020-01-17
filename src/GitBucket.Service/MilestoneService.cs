@@ -81,6 +81,7 @@ namespace GitBucket.Service
                 .OrderBy(m => m.DueDate)
                 .ThenBy(m => m.UserName)
                 .ThenBy(m => m.RepositoryName)
+                .Include(m => m.Issue)
                 .AsNoTracking()
                 .ToListAsync();
 #pragma warning restore CA1304 // Specify CultureInfo

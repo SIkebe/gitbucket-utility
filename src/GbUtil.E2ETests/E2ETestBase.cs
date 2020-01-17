@@ -133,16 +133,14 @@ namespace GbUtil.E2ETests
                 new UpdateFileRequest("New commit message.", "New file content.", readme.Sha, branchName));
         }
 
-        protected void SetMilestone(Issue issue)
+        protected void SetMilestone(Issue issue, Octokit.Repository repository, string milestone)
         {
-            if (issue is null)
-            {
-                throw new ArgumentNullException(nameof(issue));
-            }
+            if (issue is null) throw new ArgumentNullException(nameof(issue));
+            if (repository is null) throw new ArgumentNullException(nameof(repository));
 
-            GitBucketFixture.Driver.Navigate().GoToUrl(new Uri($"{GitBucketDefaults.BaseUri}{Repository.FullName}/issues/{issue.Number}"));
+            GitBucketFixture.Driver.Navigate().GoToUrl(new Uri($"{GitBucketDefaults.BaseUri}{repository.FullName}/issues/{issue.Number}"));
             var wait = new WebDriverWait(GitBucketFixture.Driver, new TimeSpan(0, 0, 15));
-            wait.Until(drv => drv.Title == $"{issue.Title} - Issue #{issue.Number} - {Repository.FullName}");
+            wait.Until(drv => drv.Title == $"{issue.Title} - Issue #{issue.Number} - {repository.FullName}");
 
             // GitBucket issue page has multiple elements whose id is "test".
             // Milestone dropdown is the fourth of them.
@@ -154,7 +152,7 @@ namespace GbUtil.E2ETests
                 var dataTitle = dropdownMenu.GetAttribute("data-title");
                 if (!string.IsNullOrEmpty(dataTitle))
                 {
-                    if (dataTitle.Contains("v1.0.0", StringComparison.OrdinalIgnoreCase))
+                    if (dataTitle.Contains(milestone, StringComparison.OrdinalIgnoreCase))
                     {
                         dropdownMenu.Click();
                         break;

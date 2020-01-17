@@ -177,8 +177,12 @@ namespace GitBucket.Service.Tests
             var service = new ReleaseService(dbContext, FakeConsole);
             var gitbucketClient = new Mock<IGitHubClient>();
             gitbucketClient
-                .Setup(g => g.PullRequest.GetAllForRepository(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>()));
+                .SetupSequence(g => g.PullRequest.GetAllForRepository(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>()))
+                .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>
+                {
+                    new FakePullRequest(new FakeGitReference("develop"), new FakeGitReference("master"))
+                }));
 
             gitbucketClient
                 .Setup(g => g.PullRequest.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewPullRequest>()))
@@ -232,8 +236,12 @@ The highest priority among them is ""high"".
             var service = new ReleaseService(dbContext, FakeConsole);
             var gitbucketClient = new Mock<IGitHubClient>();
             gitbucketClient
-                .Setup(g => g.PullRequest.GetAllForRepository(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>()));
+                .SetupSequence(g => g.PullRequest.GetAllForRepository(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>()))
+                .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>
+                {
+                    new FakePullRequest(new FakeGitReference("develop"), new FakeGitReference("master"), 2)
+                }));
 
             gitbucketClient
                 .Setup(g => g.PullRequest.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewPullRequest>()))
@@ -294,8 +302,16 @@ The highest priority among them is ""high"".
             var service = new ReleaseService(dbContext, FakeConsole);
             var gitbucketClient = new Mock<IGitHubClient>();
             gitbucketClient
-                .Setup(g => g.PullRequest.GetAllForRepository(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>()));
+                .SetupSequence(g => g.PullRequest.GetAllForRepository(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>
+                {
+                    new FakePullRequest(new FakeGitReference("improve-performance"), new FakeGitReference("master"))
+                }))
+                .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>
+                {
+                    new FakePullRequest(new FakeGitReference("improve-performance"), new FakeGitReference("master")),
+                    new FakePullRequest(new FakeGitReference("release/v1.0.0"), new FakeGitReference("master"), 2)
+                }));
 
             gitbucketClient
                 .Setup(g => g.PullRequest.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewPullRequest>()))
@@ -493,10 +509,11 @@ The highest priority among them is ""high"".
 
     public sealed class FakePullRequest : Octokit.PullRequest
     {
-        public FakePullRequest(GitReference head, GitReference @base)
+        public FakePullRequest(GitReference head, GitReference @base, int number = 1)
         {
             Head = head;
             Base = @base;
+            Number = number;
         }
     }
 

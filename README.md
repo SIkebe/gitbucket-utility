@@ -6,7 +6,7 @@ Utilities for GitBucket
 
 ## Requirements
 * [.NET Core 3.1.X SDK](https://www.microsoft.com/net/download/windows) ※Required only if you use dotnet tool version.
-* GitBucket 4.32.X+ (using PostgreSQL as backend DB)
+* GitBucket 4.33.X+ (using PostgreSQL as backend DB)
 
 ## Preparation
 ```cmd
@@ -89,9 +89,9 @@ Show unclosed (by default) milestones.
 > gbutil milestone -o ikebe:root
 There are 3 open milestones.
 
-* root/test, v1.0.0, 2018/07/01, Bugfix for #123
-* ikebe/RepeatableTimer, v0.2.0, 2018/08/01, Implement xxx feature
-* ikebe/RepeatableTimer, v0.3.0, 
+* [root/test], [v1.0.0], [2018/07/01], [Bugfix for #123], [ikebe]
+* [ikebe/RepeatableTimer], [v0.2.0], [2018/08/01], [Implement xxx feature], [ikebe]
+* [ikebe/RepeatableTimer], [v0.3.0], [2019/12/31], [vNext], [user1, user2]
 ```
 
 ### Options

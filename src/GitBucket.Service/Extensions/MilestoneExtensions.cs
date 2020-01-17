@@ -1,4 +1,6 @@
 using System;
+using System.Globalization;
+using System.Linq;
 
 namespace GitBucket.Core.Models
 {
@@ -11,7 +13,13 @@ namespace GitBucket.Core.Models
                 throw new ArgumentNullException(nameof(milestone));
             }
 
-            return $"* {milestone.UserName}/{milestone.RepositoryName}, {milestone.Title}, {milestone.DueDate?.ToString("yyyy/MM/dd")}, {milestone.Description}";
+            var assignees = milestone.Issue.Any()
+                ? milestone.Issue?.Select(i => i.AssignedUserName).Distinct().OrderBy(a => a).Aggregate((current, next) => $"{current}, {next}")
+                : string.Empty;
+
+            var description = milestone.Description?.Replace(Environment.NewLine, " ", ignoreCase: true, CultureInfo.InvariantCulture);
+            description = description?.Length > 30 ? description.Substring(0, 30) + "..." : description;
+            return @$"* [{milestone.UserName}/{milestone.RepositoryName}], [{milestone.Title}], [{milestone.DueDate?.ToString("yyyy/MM/dd")}], [{description}], [{assignees}]";
         }
     }
 }

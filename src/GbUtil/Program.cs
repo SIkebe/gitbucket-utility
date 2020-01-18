@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using CommandLine;
 using GbUtil.Extensions;
@@ -11,6 +9,7 @@ using GitBucket.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 using Octokit;
 using Octokit.Internal;
 
@@ -56,7 +55,7 @@ namespace GbUtil
                     return 0;
                 }
 
-                var requireDbConnection = options is ReleaseOptions || options is MilestoneOptions;
+                var requireDbConnection = options is ReleaseOptions || options is MilestoneOptions || options is BackupOptions;
                 using var scope = CreateServiceProvider(configuration, requireDbConnection).CreateScope();
                 var result = options switch
                 {
@@ -67,7 +66,7 @@ namespace GbUtil
                     IssueOptions issueOptions
                         => await scope.ServiceProvider.GetRequiredService<IIssueService>().Execute(issueOptions, CreateGitBucketClient(configuration, console)),
                     BackupOptions backupOptions
-                        => scope.ServiceProvider.GetRequiredService<IBackupService>().Backup(backupOptions),
+                        => scope.ServiceProvider.GetRequiredService<IBackupService>().Backup(backupOptions, configuration.GetSection("GbUtil_ConnectionStrings").Value),
                     _ => 1
                 };
 
@@ -78,14 +77,12 @@ namespace GbUtil
                 console.WriteWarnLine(ex.Message);
                 return 1;
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
             {
                 console.WriteErrorLine(ex.Message);
                 console.WriteErrorLine(ex.StackTrace);
                 return 1;
             }
-#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private static ServiceProvider CreateServiceProvider(
@@ -99,6 +96,16 @@ namespace GbUtil
                 if (string.IsNullOrEmpty(connectionString))
                 {
                     throw new InvalidConfigurationException("PostgreSQL ConnectionString is not configured. Add \"GbUtil_ConnectionStrings\" environment variable.");
+                }
+
+                try
+                {
+                    using var sqlConnection = new NpgsqlConnection(connectionString);
+                    sqlConnection.Open();
+                }
+                catch (Exception)
+                {
+                    throw new InvalidConfigurationException("Cannot open connection with PostgreSQL.");
                 }
             }
 

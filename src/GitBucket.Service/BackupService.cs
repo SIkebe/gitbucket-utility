@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using GitBucket.Core;
 using LibGit2Sharp;
+using Npgsql;
 
 namespace GitBucket.Service
 {
     public interface IBackupService
     {
-        int Backup(BackupOptions options);
+        int Backup(BackupOptions options, string connectionString);
     }
 
     /// <summary>
@@ -32,8 +34,9 @@ namespace GitBucket.Service
         ///  - update all repositories a second time, this time it should be ultra-fast
         /// </summary>
         /// <param name="options">The BackupOptions.</param>
+        /// <param name="connectionString">The connectionString.</param>
         /// <returns>Return code.</returns>
-        public int Backup(BackupOptions options)
+        public int Backup(BackupOptions options, string connectionString)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
 
@@ -45,6 +48,11 @@ namespace GitBucket.Service
             _console.WriteLine("Update repositories: phase 1");
             UpdateRepositories(options);
             _console.WriteLine("Update repositories: phase 1, terminated");
+
+            if (PgDumpAvailable(options))
+            {
+                DumpDatabase(options, connectionString);
+            }
 
             // Export the GitBucket configuration
             _console.WriteLine("Configuration backup");
@@ -152,6 +160,75 @@ namespace GitBucket.Service
             _console.WriteLine($"cloning {source} into {dest}");
 
             LibGit2Sharp.Repository.Clone(source, dest, new CloneOptions { IsBare = true });
+        }
+
+        /// <summary>
+        /// Check if pg_dump is available.
+        /// </summary>
+        /// <param name="options">The BackupOptions.</param>
+        /// <returns>true if available, false if not.</returns>
+        private bool PgDumpAvailable(BackupOptions options)
+        {
+            _console.WriteLine("Checking pg_dump existence...");
+
+            using var process = new Process();
+            process.StartInfo.FileName = string.IsNullOrEmpty(options.PgDump) ? "pg_dump" : options.PgDump;
+            process.StartInfo.Arguments = "--help";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+
+            try
+            {
+                process.Start();
+                var output = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
+
+                if (process.ExitCode != 0 || !output.Contains("pg_dump dumps a database as a text file", StringComparison.OrdinalIgnoreCase))
+                {
+                    _console.WriteWarnLine($"Cannot found valid pg_dump.");
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _console.WriteWarnLine(ex.ToString());
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Export the GitBucket database as a plain text dump using pg_dump.
+        /// </summary>
+        /// <param name="options">The BackupOptions.</param>
+        /// <param name="connectionString">The connectionString.</param>
+        private void DumpDatabase(BackupOptions options, string connectionString)
+        {
+            _console.WriteLine("Database backup");
+
+            var builder = new NpgsqlConnectionStringBuilder(connectionString);
+            var outputFile = Path.Combine(options.Destination, $"{builder.Database}_{DateTime.Now.ToString("yyyyMMddHHmmss")}.sql");
+
+            using var process = new Process();
+            process.StartInfo.FileName = string.IsNullOrEmpty(options.PgDump) ? "pg_dump" : options.PgDump;
+            process.StartInfo.Arguments = $"--host={builder.Host} --port={builder.Port} --username={builder.Username} --dbname={builder.Database} --file={outputFile} --format=plain";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.Environment.Add("PGPASSWORD", builder.Password);
+
+            try
+            {
+                process.Start();
+                var output = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
+
+                _console.WriteLine($"The database dump is available in {outputFile}");
+            }
+            catch (Exception ex)
+            {
+                _console.WriteWarnLine(ex.ToString());
+            }
         }
     }
 }

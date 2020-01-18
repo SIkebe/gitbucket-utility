@@ -12,6 +12,9 @@ namespace GitBucket.Core
         [Option('d', "dest", Required = true, HelpText = "The backup destination folder path.")]
         public string Destination { get; set; }
 
+        [Option("pgdump", Required = false, HelpText = "The path of pg_dump executable. If pd_dump is not on your PATH, you need to specify this.")]
+        public string PgDump { get; set; }
+
         /// <summary>
         /// Gets the GitBucket configuration file path.
         /// </summary>

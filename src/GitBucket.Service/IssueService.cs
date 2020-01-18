@@ -65,7 +65,7 @@ namespace GitBucket.Service
                     destRepository.Name,
                     new NewIssue(sourceIssue.Title)
                     {
-                        Body = $"*From @{sourceIssue.User.Login} on {sourceIssue.CreatedAt.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss")}*" + Environment.NewLine + Environment.NewLine
+                        Body = $"*From @{sourceIssue.User.Login} on {sourceIssue.CreatedAt.LocalDateTime:yyyy-MM-dd HH:mm:ss}*" + Environment.NewLine + Environment.NewLine
                             + sourceIssue.Body + Environment.NewLine + Environment.NewLine
                             + $"*Copied from original issue: {sourceRepository.FullName}#{issueNumber}*"
                     });
@@ -90,7 +90,7 @@ namespace GitBucket.Service
                         destRepository.Owner.Login,
                         destRepository.Name,
                         newIssue.Number,
-                        $"*From @{comment.User.Login} on {comment.CreatedAt.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss")}*" + Environment.NewLine + Environment.NewLine
+                        $"*From @{comment.User.Login} on {comment.CreatedAt.LocalDateTime:yyyy-MM-dd HH:mm:ss}*" + Environment.NewLine + Environment.NewLine
                             + comment.Body);
                 }
 

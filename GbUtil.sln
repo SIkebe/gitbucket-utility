@@ -11,6 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitBucket.Core", "src\GitBu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{91763804-E40A-4186-A548-4E148F0F66A5}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		build.cake = build.cake
 		build.ps1 = build.ps1
@@ -26,11 +27,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitBucket.Service.Tests", "src\GitBucket.Service.Tests\GitBucket.Service.Tests.csproj", "{0FFAA976-E8F5-46A2-9B3A-7C3A478F295F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GbUtil.E2ETests", "src\GbUtil.E2ETests\GbUtil.E2ETests.csproj", "{8240EBE3-ED13-42AA-B8E5-7693114DFEDA}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FACC4AD1-8D75-4BA4-A686-DED812B6A969}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

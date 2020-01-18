@@ -59,11 +59,15 @@ namespace GitBucket.Service
             File.Copy(options.GitBucketHomeConfigurationFile, options.DestinationConfigurationFile, overwrite: true);
 
             // Export the GitBucket data directory (avatars, ...)
+            // data directory exists only if there are some files uploaded by users.
             if (Directory.Exists(options.GitBucketHomeDataDir))
             {
                 _console.WriteLine("Avatars backup");
                 CopyEntireDirectory(options.GitBucketHomeDataDir, options.DestinationDataDir);
             }
+
+            _console.WriteLine("Plugins backup");
+            CopyEntireDirectory(options.GitBucketPluginsDataDir, options.DestinationPluginsDir);
 
             _console.WriteLine("Update repositories: phase 2");
             UpdateRepositories(options);

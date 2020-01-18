@@ -31,6 +31,11 @@ namespace GitBucket.Core
         public string GitBucketHomeDataDir => Path.Combine(GitBucketHome, "data");
 
         /// <summary>
+        /// Gets the GitBucket plugins folder path.
+        /// </summary>
+        public string GitBucketPluginsDataDir => Path.Combine(GitBucketHome, "plugins");
+
+        /// <summary>
         /// Gets the backup repository root folder path.
         /// </summary>
         public string DestinationRepositoriesDir => Path.Combine(Destination, "repositories");
@@ -44,5 +49,10 @@ namespace GitBucket.Core
         /// Gets the backup configuration file path.
         /// </summary>
         public string DestinationConfigurationFile => Path.Combine(Destination, "gitbucket.conf");
+
+        /// <summary>
+        /// Gets the backup plugins folder path.
+        /// </summary>
+        public string DestinationPluginsDir => Path.Combine(Destination, "plugins");
     }
 }

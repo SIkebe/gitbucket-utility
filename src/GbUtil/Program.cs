@@ -31,7 +31,7 @@ namespace GbUtil
                     .AddEnvironmentVariables()
                     .Build();
 
-                var options = Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions>(args)
+                var options = Parser.Default.ParseArguments<ReleaseOptions, MilestoneOptions, IssueOptions, BackupOptions>(args)
                     .WithNotParsed(errors =>
                     {
                         if (errors.Any(e =>
@@ -42,10 +42,11 @@ namespace GbUtil
                             throw new InvalidConfigurationException($"Failed to parse arguments.");
                         }
                     })
-                    .MapResult<ReleaseOptions, MilestoneOptions, IssueOptions, CommandLineOptionsBase?>(
+                    .MapResult<ReleaseOptions, MilestoneOptions, IssueOptions, BackupOptions, CommandLineOptionsBase?>(
                         (ReleaseOptions options) => options,
                         (MilestoneOptions options) => options,
                         (IssueOptions options) => options,
+                        (BackupOptions options) => options,
                         _ => null
                     );
 
@@ -65,6 +66,8 @@ namespace GbUtil
                         => await scope.ServiceProvider.GetRequiredService<IMilestoneService>().ShowMilestones(milestoneOptions),
                     IssueOptions issueOptions
                         => await scope.ServiceProvider.GetRequiredService<IIssueService>().Execute(issueOptions, CreateGitBucketClient(configuration, console)),
+                    BackupOptions backupOptions
+                        => scope.ServiceProvider.GetRequiredService<IBackupService>().Backup(backupOptions),
                     _ => 1
                 };
 
@@ -104,6 +107,7 @@ namespace GbUtil
                 .AddTransient<IReleaseService, ReleaseService>()
                 .AddTransient<IMilestoneService, MilestoneService>()
                 .AddTransient<IIssueService, IssueService>()
+                .AddTransient<IBackupService, BackupService>()
                 .AddTransient<IConsole, GbUtilConsole>()
                 .BuildServiceProvider();
         }

@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "GbUtil": {
-      "commandName": "Project",
-      "commandLineArgs": "issue -t copy -s root/test1 -d root/test2 -n 1"
-    }
-  }
-}

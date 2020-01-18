@@ -15,4 +15,8 @@
     <PackageReference Include="StyleCop.Analyzers" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
 </Project>

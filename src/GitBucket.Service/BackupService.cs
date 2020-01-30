@@ -187,7 +187,7 @@ namespace GitBucket.Service
                 var output = process.StandardOutput.ReadToEnd();
                 process.WaitForExit();
 
-                if (process.ExitCode != 0 || !output.Contains("pg_dump dumps a database as a text file", StringComparison.OrdinalIgnoreCase))
+                if (process.ExitCode != 0 || !output.Contains("pg_dump [OPTION]... [DBNAME]", StringComparison.OrdinalIgnoreCase))
                 {
                     _console.WriteWarnLine($"Cannot found valid pg_dump.");
                     return false;

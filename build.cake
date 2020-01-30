@@ -141,6 +141,9 @@ Task("Publish-SingleFile")
             Runtime = "win-x64",
             PublishSingleFile = true,
             PublishTrimmed = true,
+
+            // https://github.com/dotnet/sdk/issues/3685
+            ArgumentCustomization = args => args.Append("/p:IncludeSymbolsInSingleFile=true"),
         });
 });
 

@@ -58,6 +58,10 @@ namespace GitBucket.Service
             _console.WriteLine("Configuration backup");
             File.Copy(options.GitBucketHomeConfigurationFile, options.DestinationConfigurationFile, overwrite: true);
 
+            // Export the GitBucket database configuration
+            _console.WriteLine("Database configuration backup");
+            File.Copy(options.GitBucketHomeDatabaseConfigurationFile, options.DestinationDatabaseConfigurationFile, overwrite: true);
+
             // Export the GitBucket data directory (avatars, ...)
             // data directory exists only if there are some files uploaded by users.
             if (Directory.Exists(options.GitBucketHomeDataDir))

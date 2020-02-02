@@ -89,9 +89,9 @@ namespace GitBucket.Service
         /// <param name="options">The BackupOptions.</param>
         private void UpdateRepositories(BackupOptions options)
         {
-            foreach (var oweners in Directory.EnumerateDirectories(options.DestinationRepositoriesDir))
+            foreach (var owener in Directory.EnumerateDirectories(options.DestinationRepositoriesDir))
             {
-                foreach (var repositoryPath in Directory.EnumerateDirectories(oweners, "*.git", SearchOption.TopDirectoryOnly))
+                foreach (var repositoryPath in Directory.EnumerateDirectories(owener, "*.git", SearchOption.TopDirectoryOnly))
                 {
                     _console.WriteLine($"updating {repositoryPath}");
                     using var repo = new LibGit2Sharp.Repository(repositoryPath);
@@ -103,7 +103,7 @@ namespace GitBucket.Service
         }
 
         /// <summary>
-        /// Clone all repositories in repositoryBackupFolder.
+        /// Clone all repositories, comments, diff, lfs-files, releases into repositoryBackupFolder.
         /// </summary>
         /// <param name="options">The BackupOptions.</param>
         private void CloneRepositories(BackupOptions options)
@@ -115,11 +115,20 @@ namespace GitBucket.Service
                 var owner = new DirectoryInfo(ownerPath).Name;
                 Directory.CreateDirectory(Path.Combine(options.DestinationRepositoriesDir, owner));
 
-                var repositories = Directory.EnumerateDirectories(ownerPath, "*.git", SearchOption.TopDirectoryOnly);
+                var repositories = Directory.EnumerateDirectories(ownerPath, "*", SearchOption.TopDirectoryOnly);
                 foreach (var repositoryPath in repositories)
                 {
                     var repository = new DirectoryInfo(repositoryPath).Name;
-                    CreateClone(owner, repository, options);
+                    if (repository.Contains(".git", StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Backup git bare repository
+                        CreateClone(owner, repository, options);
+                    }
+                    else
+                    {
+                        // Backup comments, diff, lfs, releases
+                        CopyEntireDirectory(repositoryPath, Path.Combine(options.DestinationRepositoriesDir, owner, repository));
+                    }
                 }
             }
 

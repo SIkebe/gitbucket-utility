@@ -7,6 +7,7 @@
     <ToolCommandName>gbutil</ToolCommandName>
     <Authors>SIkebe</Authors>
     <Product>gitbucket-utility</Product>
+    <PackageProjectUrl>https://github.com/SIkebe/gitbucket-utility</PackageProjectUrl>
     <Copyright>MIT</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>

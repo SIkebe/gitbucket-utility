@@ -92,46 +92,11 @@ namespace GitBucket.Service.Tests
 
             mockGitBucketClient
                 .Setup(m => m.Repository.Get(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync((string owner, string repository) => new Repository
+                .ReturnsAsync((string owner, string repository) => new FakeRepository
                 (
-                    url: "",
-                    htmlUrl: "",
-                    cloneUrl: "",
-                    gitUrl: "",
-                    sshUrl: "",
-                    svnUrl: "",
-                    mirrorUrl: "",
-                    id: 0,
-                    nodeId: "",
                     owner: _rootUser,
-                    name: repository,
-                    fullName: owner + "/" + repository,
-                    description: "",
-                    homepage: "",
-                    language: "",
-                    @private: true,
-                    fork: false,
-                    forksCount: 0,
-                    stargazersCount: 0,
-                    defaultBranch: "master",
-                    openIssuesCount: 1,
-                    pushedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
-                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
-                    updatedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
-                    permissions: null,
-                    parent: null,
-                    source: null,
-                    license: null,
-                    hasIssues: true,
-                    hasWiki: true,
-                    hasDownloads: true,
-                    hasPages: true,
-                    subscribersCount: 1,
-                    size: 100,
-                    allowRebaseMerge: true,
-                    allowSquashMerge: true,
-                    allowMergeCommit: true,
-                    archived: false
+                    repository: repository,
+                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1))
                 ));
 
             mockGitBucketClient
@@ -281,46 +246,11 @@ namespace GitBucket.Service.Tests
 
             mockGitBucketClient
                 .Setup(m => m.Repository.Get(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync((string owner, string repository) => new Repository
+                .ReturnsAsync((string owner, string repository) => new FakeRepository
                 (
-                    url: "",
-                    htmlUrl: "",
-                    cloneUrl: "",
-                    gitUrl: "",
-                    sshUrl: "",
-                    svnUrl: "",
-                    mirrorUrl: "",
-                    id: 0,
-                    nodeId: "",
                     owner: _rootUser,
-                    name: repository,
-                    fullName: owner + "/" + repository,
-                    description: "",
-                    homepage: "",
-                    language: "",
-                    @private: true,
-                    fork: false,
-                    forksCount: 0,
-                    stargazersCount: 0,
-                    defaultBranch: "master",
-                    openIssuesCount: 1,
-                    pushedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
-                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
-                    updatedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
-                    permissions: null,
-                    parent: null,
-                    source: null,
-                    license: null,
-                    hasIssues: true,
-                    hasWiki: true,
-                    hasDownloads: true,
-                    hasPages: true,
-                    subscribersCount: 1,
-                    size: 100,
-                    allowRebaseMerge: true,
-                    allowSquashMerge: true,
-                    allowMergeCommit: true,
-                    archived: false
+                    repository: repository,
+                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1))
                 ));
 
             mockGitBucketClient
@@ -531,46 +461,11 @@ namespace GitBucket.Service.Tests
 
             mockGitBucketClient
                 .Setup(m => m.Repository.Get(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync((string owner, string repository) => new Repository
+                .ReturnsAsync((string owner, string repository) => new FakeRepository
                 (
-                    url: "",
-                    htmlUrl: "",
-                    cloneUrl: "",
-                    gitUrl: "",
-                    sshUrl: "",
-                    svnUrl: "",
-                    mirrorUrl: "",
-                    id: 0,
-                    nodeId: "",
                     owner: _rootUser,
-                    name: repository,
-                    fullName: owner + "/" + repository,
-                    description: "",
-                    homepage: "",
-                    language: "",
-                    @private: true,
-                    fork: false,
-                    forksCount: 0,
-                    stargazersCount: 0,
-                    defaultBranch: "master",
-                    openIssuesCount: 1,
-                    pushedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
-                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
-                    updatedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
-                    permissions: null,
-                    parent: null,
-                    source: null,
-                    license: null,
-                    hasIssues: true,
-                    hasWiki: true,
-                    hasDownloads: true,
-                    hasPages: true,
-                    subscribersCount: 1,
-                    size: 100,
-                    allowRebaseMerge: true,
-                    allowSquashMerge: true,
-                    allowMergeCommit: true,
-                    archived: false
+                    repository: repository,
+                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1))
                 ));
 
             var options = new IssueOptions
@@ -607,46 +502,11 @@ namespace GitBucket.Service.Tests
 
             mockGitBucketClient
                 .Setup(m => m.Repository.Get(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync((string owner, string repository) => new Repository
+                .ReturnsAsync((string owner, string repository) => new FakeRepository
                 (
-                    url: "",
-                    htmlUrl: "",
-                    cloneUrl: "",
-                    gitUrl: "",
-                    sshUrl: "",
-                    svnUrl: "",
-                    mirrorUrl: "",
-                    id: 0,
-                    nodeId: "",
                     owner: _rootUser,
-                    name: repository,
-                    fullName: owner + "/" + repository,
-                    description: "",
-                    homepage: "",
-                    language: "",
-                    @private: true,
-                    fork: false,
-                    forksCount: 0,
-                    stargazersCount: 0,
-                    defaultBranch: "master",
-                    openIssuesCount: 1,
-                    pushedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
-                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
-                    updatedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
-                    permissions: null,
-                    parent: null,
-                    source: null,
-                    license: null,
-                    hasIssues: true,
-                    hasWiki: true,
-                    hasDownloads: true,
-                    hasPages: true,
-                    subscribersCount: 1,
-                    size: 100,
-                    allowRebaseMerge: true,
-                    allowSquashMerge: true,
-                    allowMergeCommit: true,
-                    archived: false
+                    repository: repository,
+                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1))
                 ));
 
             mockGitBucketClient
@@ -791,46 +651,11 @@ namespace GitBucket.Service.Tests
 
             mockGitBucketClient
                 .Setup(m => m.Repository.Get(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync((string owner, string repository) => new Repository
+                .ReturnsAsync((string owner, string repository) => new FakeRepository
                 (
-                    url: "",
-                    htmlUrl: "",
-                    cloneUrl: "",
-                    gitUrl: "",
-                    sshUrl: "",
-                    svnUrl: "",
-                    mirrorUrl: "",
-                    id: 0,
-                    nodeId: "",
                     owner: _rootUser,
-                    name: repository,
-                    fullName: owner + "/" + repository,
-                    description: "",
-                    homepage: "",
-                    language: "",
-                    @private: true,
-                    fork: false,
-                    forksCount: 0,
-                    stargazersCount: 0,
-                    defaultBranch: "master",
-                    openIssuesCount: 1,
-                    pushedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
-                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
-                    updatedAt: new DateTimeOffset(new DateTime(2018, 7, 1)),
-                    permissions: null,
-                    parent: null,
-                    source: null,
-                    license: null,
-                    hasIssues: true,
-                    hasWiki: true,
-                    hasDownloads: true,
-                    hasPages: true,
-                    subscribersCount: 1,
-                    size: 100,
-                    allowRebaseMerge: true,
-                    allowSquashMerge: true,
-                    allowMergeCommit: true,
-                    archived: false
+                    repository: repository,
+                    createdAt: new DateTimeOffset(new DateTime(2018, 7, 1))
                 ));
 
             mockGitBucketClient

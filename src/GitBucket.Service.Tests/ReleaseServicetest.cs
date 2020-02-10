@@ -506,19 +506,4 @@ The highest priority among them is ""high"".
             return dbContext;
         }
     }
-
-    public sealed class FakePullRequest : Octokit.PullRequest
-    {
-        public FakePullRequest(GitReference head, GitReference @base, int number = 1)
-        {
-            Head = head;
-            Base = @base;
-            Number = number;
-        }
-    }
-
-    public sealed class FakeGitReference : Octokit.GitReference
-    {
-        public FakeGitReference(string @ref) => Ref = @ref;
-    }
 }

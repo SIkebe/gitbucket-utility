@@ -56,7 +56,10 @@ namespace GitBucket.Service
 
             // Export the GitBucket configuration
             _console.WriteLine("Configuration backup");
-            File.Copy(options.GitBucketHomeConfigurationFile, options.DestinationConfigurationFile, overwrite: true);
+            if (File.Exists(options.GitBucketHomeConfigurationFile))
+            {
+                File.Copy(options.GitBucketHomeConfigurationFile, options.DestinationConfigurationFile, overwrite: true);
+            }
 
             // Export the GitBucket database configuration
             _console.WriteLine("Database configuration backup");
@@ -132,7 +135,7 @@ namespace GitBucket.Service
                 }
             }
 
-            _console.WriteLine("All repositories, cloned");
+            _console.WriteLine("All repositories cloned");
         }
 
         /// <summary>

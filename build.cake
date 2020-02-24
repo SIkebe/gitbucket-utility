@@ -134,6 +134,7 @@ Task("Pack")
     .IsDependentOn("Clean")
     .Does(() =>
 {
+    CleanDirectory("packages");
     DotNetCorePack(
         "./src/GbUtil/GbUtil.csproj",
         new DotNetCorePackSettings 
@@ -154,7 +155,7 @@ Task("Publish")
     }
 
     DotNetCoreNuGetPush(
-        "./packages/GbUtil.0.8.0.nupkg",
+        "./packages/GbUtil.0.9.0.nupkg",
         new DotNetCoreNuGetPushSettings 
         {
             ApiKey = apiKey,

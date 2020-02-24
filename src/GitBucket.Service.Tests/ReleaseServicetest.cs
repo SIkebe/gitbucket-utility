@@ -188,6 +188,8 @@ namespace GitBucket.Service.Tests
                 .Setup(g => g.PullRequest.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewPullRequest>()))
                 .ThrowsAsync(new InvalidCastException("Ignore InvalidCastException because of escaped response."));
 
+            gitbucketClient.Setup(g => g.Issue.Labels.AddToIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string[]>()));
+
             // When
             var result = await service.Execute(options, gitbucketClient.Object);
 
@@ -213,6 +215,13 @@ The highest priority among them is ""high"".
 * Some improvement on build #3
 
 ")));
+
+            gitbucketClient
+                .Verify(g => g.Issue.Labels.AddToIssue(
+                    It.Is<string>(o => o == "root"),
+                    It.Is<string>(r => r == "test"),
+                    It.Is<int>(r => r == 1),
+                    It.Is<string[]>(p => Enumerable.SequenceEqual(p, new[] { "Bug", "Enhancement" }))));
 
             Assert.Single(FakeConsole.Messages);
             Assert.Equal("A new pull request has been successfully created!", FakeConsole.Messages[0]);
@@ -246,6 +255,8 @@ The highest priority among them is ""high"".
             gitbucketClient
                 .Setup(g => g.PullRequest.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewPullRequest>()))
                 .ThrowsAsync(new InvalidCastException("Ignore InvalidCastException because of escaped response."));
+
+            gitbucketClient.Setup(g => g.Issue.Labels.AddToIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string[]>()));
 
             // When
             var result = await service.Execute(options, gitbucketClient.Object);
@@ -316,6 +327,8 @@ The highest priority among them is ""high"".
             gitbucketClient
                 .Setup(g => g.PullRequest.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewPullRequest>()))
                 .ThrowsAsync(new InvalidCastException("Ignore InvalidCastException because of escaped response."));
+
+            gitbucketClient.Setup(g => g.Issue.Labels.AddToIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string[]>()));
 
             // When
             var result = await service.Execute(options, gitbucketClient.Object);

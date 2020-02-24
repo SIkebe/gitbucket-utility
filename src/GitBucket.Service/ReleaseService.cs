@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GitBucket.Core;
+using GitBucket.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Octokit;
 
@@ -67,14 +68,51 @@ namespace GitBucket.Service
                 return await Task.FromResult(1);
             }
 
+            var labels = FindLabels(options, issueLabels);
             if (options.CreatePullRequest)
             {
-                return await CreatePullRequest(options, issues, issueLabels, pullRequestSource, gitBucketClient);
+                return await CreatePullRequest(options, issues, issueLabels, pullRequestSource, labels, gitBucketClient);
             }
             else
             {
-                return await OutputReleaseNote(options, issues, issueLabels, pullRequestSource);
+                return await OutputReleaseNote(issues, issueLabels, pullRequestSource, labels);
             }
+        }
+
+        private static string CreateReleaseNote(
+            List<Core.Models.Issue> issues,
+            List<Core.Models.IssueLabel> issueLabels,
+            string pullRequestSource,
+            List<Core.Models.Label> labels)
+        {
+            var highestPriority = issues
+                .OrderBy(i => i.Priority?.Ordering)
+                .First()
+                .Priority?.PriorityName;
+
+            var builder = new StringBuilder();
+            builder.AppendLine($"As part of this release we had {issues.Count} {pullRequestSource} closed.");
+            builder.AppendLine($"The highest priority among them is \"{highestPriority}\".");
+            builder.AppendLine("");
+            foreach (var label in labels)
+            {
+                builder.AppendLine($"### {label.LabelName.ConvertFirstCharToUpper()}");
+
+                var ids = issueLabels
+                    .Where(l => l.LabelId == label.LabelId)
+                    .Select(i => i.IssueId)
+                    .OrderBy(i => i);
+
+                foreach (var issueId in ids)
+                {
+                    var issue = issues.Where(i => i.IssueId == issueId).Single();
+                    builder.AppendLine($"* {issue.Title} #{issue.IssueId}");
+                }
+
+                builder.AppendLine("");
+            }
+
+            return builder.ToString();
         }
 
         private async Task<List<GitBucket.Core.Models.IssueLabel>> FindIssueLabels(
@@ -113,6 +151,7 @@ namespace GitBucket.Service
             List<Core.Models.Issue> issues,
             List<Core.Models.IssueLabel> issueLabels,
             string pullRequestSource,
+            List<Core.Models.Label> labels,
             IGitHubClient gitBucketClient)
         {
             // Check if specified pull request already exists
@@ -123,7 +162,7 @@ namespace GitBucket.Service
                 return await Task.FromResult(1);
             }
 
-            var releaseNote = CreateReleaseNote(options, issues, issueLabels, pullRequestSource);
+            var releaseNote = CreateReleaseNote(issues, issueLabels, pullRequestSource, labels);
 
             try
             {
@@ -158,69 +197,43 @@ namespace GitBucket.Service
                 await _context.SaveChangesAsync();
             }
 
+            // Add all labels which corresponding issues have.
+            // If there is not the same name label, GitBucket creates one automatically.
+            await gitBucketClient.Issue.Labels.AddToIssue(
+                options.Owner,
+                options.Repository,
+                latest.Number,
+                labels.Select(l => l.LabelName).ToArray());
+
             _console.WriteLine($"A new pull request has been successfully created!");
             return await Task.FromResult(0);
         }
 
         private async Task<int> OutputReleaseNote(
-            ReleaseOptions options,
             List<Core.Models.Issue> issues,
             List<Core.Models.IssueLabel> issueLabels,
-            string pullRequestSource)
+            string pullRequestSource,
+            List<Core.Models.Label> labels)
         {
-            var releaseNote = CreateReleaseNote(options, issues, issueLabels, pullRequestSource);
+            var releaseNote = CreateReleaseNote(issues, issueLabels, pullRequestSource, labels);
             _console.WriteLine(releaseNote);
             return await Task.FromResult(0);
         }
 
-        private string CreateReleaseNote(
-            ReleaseOptions options,
-            List<Core.Models.Issue> issues,
-            List<Core.Models.IssueLabel> issueLabels,
-            string pullRequestSource)
+        private List<Core.Models.Label> FindLabels(ReleaseOptions options, List<IssueLabel> issueLabels)
         {
 #pragma warning disable CA1304 // Specify CultureInfo
 
-            // "String.Equals(String, StringComparison)" causes client side evaluation.
-            // https://github.com/aspnet/EntityFrameworkCore/issues/1222
-            var labels = _context.Set<Core.Models.Label>()
+            return _context.Set<Core.Models.Label>()
                 .Where(l =>
                     l.UserName.ToLower() == options.Owner.ToLower() &&
                     l.RepositoryName.ToLower() == options.Repository.ToLower() &&
                     issueLabels.Select(i => i.LabelId).Contains(l.LabelId))
                 .OrderBy(i => i.LabelId)
-                .AsNoTracking();
+                .AsNoTracking()
+                .ToList();
 
 #pragma warning restore CA1304 // Specify CultureInfo
-
-            var highestPriority = issues
-                .OrderBy(i => i.Priority?.Ordering)
-                .First()
-                .Priority?.PriorityName;
-
-            var builder = new StringBuilder();
-            builder.AppendLine($"As part of this release we had {issues.Count} {pullRequestSource} closed.");
-            builder.AppendLine($"The highest priority among them is \"{highestPriority}\".");
-            builder.AppendLine("");
-            foreach (var label in labels)
-            {
-                builder.AppendLine($"### {label.LabelName.ConvertFirstCharToUpper()}");
-
-                var ids = issueLabels
-                    .Where(l => l.LabelId == label.LabelId)
-                    .Select(i => i.IssueId)
-                    .OrderBy(i => i);
-
-                foreach (var issueId in ids)
-                {
-                    var issue = issues.Where(i => i.IssueId == issueId).Single();
-                    builder.AppendLine($"* {issue.Title} #{issue.IssueId}");
-                }
-
-                builder.AppendLine("");
-            }
-
-            return builder.ToString();
         }
     }
 }

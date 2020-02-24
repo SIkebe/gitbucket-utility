@@ -15,7 +15,10 @@ Task("Clean")
     .Does(() =>
 {
     var buildDirectories = GetDirectories("./src/**/bin/" + configuration) + GetDirectories("./src/**/obj/" + configuration);
-    CleanDirectories(buildDirectories);
+    foreach (var dir in buildDirectories)
+    {
+        DeleteDirectoryWithReadonlyFiles(dir.FullPath);
+    }
 });
 
 Task("Build")
@@ -63,6 +66,8 @@ Task("Run-E2E-Tests-Using-SingleFileExe")
 async Task RunE2ETests(ICakeContext ctx)
 {
     Information("Recreating docker containers...");
+    DockerComposeRm(new DockerComposeRmSettings { Force = true, Stop = true, Volumes = true });
+    DeleteDirectoryWithReadonlyFiles("docker");
     DockerComposeUp(new DockerComposeUpSettings { ForceRecreate = true, DetachedMode = true });
 
     bool gitbucketStarted = false;
@@ -92,6 +97,36 @@ async Task RunE2ETests(ICakeContext ctx)
     finally
     {
         DockerComposeRm(new DockerComposeRmSettings { Force = true, Volumes = true, Stop = true }, Array.Empty<string>());
+    }
+}
+
+static void DeleteDirectoryWithReadonlyFiles(string path)
+{
+    var directoryInfo = new DirectoryInfo(path);
+    RemoveReadonlyAttribute(directoryInfo);
+    directoryInfo.Delete(recursive: true);
+}
+
+static void RemoveReadonlyAttribute(DirectoryInfo directoryInfo)
+{
+    if (directoryInfo is null)
+    {
+        throw new ArgumentNullException(nameof(directoryInfo));
+    }
+    if ((directoryInfo.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+    {
+        directoryInfo.Attributes = FileAttributes.Normal;
+    }
+    foreach (var fi in directoryInfo.GetFiles())
+    {
+        if ((fi.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+        {
+            fi.Attributes = FileAttributes.Normal;
+        }
+    }
+    foreach (var di in directoryInfo.GetDirectories())
+    {
+        RemoveReadonlyAttribute(di);
     }
 }
 

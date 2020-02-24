@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using LibGit2Sharp;
 using Octokit;
@@ -32,6 +33,7 @@ namespace GbUtil.E2ETests
             Assert.Equal("develop", pr.Head.Ref);
             Assert.Equal("v1.0.0", pr.Title);
             Assert.Equal(ItemState.Open, pr.State);
+            Assert.True(Enumerable.SequenceEqual(pr.Labels.Select(l => l.Name).OrderBy(l => l), new[] { "Bug", "Enhancement" }.OrderBy(l => l)));
             Assert.Equal(@"As part of this release we had 2 issues closed.
 The highest priority among them is """".
 

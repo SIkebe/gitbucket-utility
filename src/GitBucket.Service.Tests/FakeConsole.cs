@@ -40,7 +40,7 @@ namespace GitBucket.Service.Tests
             }
             else
             {
-                Messages[Messages.Count - 1] += value;
+                Messages[^1] += value;
             }
 
             _consoleKind = ConsoleKind.Normal;
@@ -59,7 +59,7 @@ namespace GitBucket.Service.Tests
             }
             else
             {
-                Messages[Messages.Count - 1] += value;
+                Messages[^1] += value;
             }
 
             _consoleKind = ConsoleKind.Normal;
@@ -79,7 +79,7 @@ namespace GitBucket.Service.Tests
             }
             else
             {
-                WarnMessages[WarnMessages.Count - 1] += value;
+                WarnMessages[^1] += value;
             }
 
             _consoleKind = ConsoleKind.Warn;
@@ -98,7 +98,7 @@ namespace GitBucket.Service.Tests
             }
             else
             {
-                WarnMessages[WarnMessages.Count - 1] += value;
+                WarnMessages[^1] += value;
             }
 
             _consoleKind = ConsoleKind.Normal;
@@ -118,7 +118,7 @@ namespace GitBucket.Service.Tests
             }
             else
             {
-                ErrorMessages[ErrorMessages.Count - 1] += value;
+                ErrorMessages[^1] += value;
             }
 
             _consoleKind = ConsoleKind.Error;
@@ -139,7 +139,7 @@ namespace GitBucket.Service.Tests
                 }
                 else
                 {
-                    ErrorMessages[ErrorMessages.Count - 1] += value;
+                    ErrorMessages[^1] += value;
                 }
             }
 
@@ -157,7 +157,7 @@ namespace GitBucket.Service.Tests
                 case ConsoleKind.Warn:
                     if (!_hasNewLineAtTheEndOfTheMessages)
                     {
-                        WarnMessages[WarnMessages.Count - 1] += _input;
+                        WarnMessages[^1] += _input;
                     }
                     else
                     {
@@ -169,7 +169,7 @@ namespace GitBucket.Service.Tests
                 case ConsoleKind.Error:
                     if (!_hasNewLineAtTheEndOfTheMessages)
                     {
-                        ErrorMessages[ErrorMessages.Count - 1] += _input;
+                        ErrorMessages[^1] += _input;
                     }
                     else
                     {
@@ -181,7 +181,7 @@ namespace GitBucket.Service.Tests
                 default:
                     if (!_hasNewLineAtTheEndOfTheMessages)
                     {
-                        Messages[Messages.Count - 1] += _input;
+                        Messages[^1] += _input;
                     }
                     else
                     {

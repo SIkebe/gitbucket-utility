@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="libgit2sharp" />
     <PackageReference Include="octokit" />
   </ItemGroup>
 

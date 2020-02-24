@@ -141,3 +141,23 @@ A new pull request has been successfully created!
 |-|`--title`|`false`|The title of the new pull request. Default value is the same as milestone.|
 |`-f`|`--force`|`false`|if specified, force the output/creating PR.|
 |-|`--draft`|`false`|If specified, create draft pull request.|
+
+-----
+
+### `gbutil backup`
+
+```powershell
+gbutil backup --home --dest [--pgdump]
+```
+Backup GitBucket repositories and metadata.
+
+```powershell
+> gbutil backup --home "C:\gitbucket" --dest "C:\gitbucket-bk" --pgdump "C:\Program Files\PostgreSQL\12\bin\pg_dump.exe"
+```
+
+### Options
+|Short name|Long name|Required|Abstract|
+|:-|:-|:-:|:-|
+|-|`--home`|`true`|GITBUCKET_HOME|
+|-|`--dest`|`true`|The backup destination folder path.|
+|-|`--pgdump`|`false`|The path to the pg_dump executable. If pd_dump is not on your PATH, you need to specify this.|

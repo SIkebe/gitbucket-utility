@@ -13,7 +13,7 @@ Utilities for GitBucket
 # [Required]
 
 # Install as a dotnet tool or download exe from GitHub Release page.
-dotnet tool install --global gbutil --version 0.8.0
+dotnet tool install --global gbutil --version 0.9.0
 
 setx GbUtil_ConnectionStrings Host=host;Username=username;Password=password;Database=gitbucket;port=XXXX
 setx GbUtil_GitBucketUri http://localhost:8080/gitbucket/api/v3/
@@ -159,5 +159,5 @@ Backup GitBucket repositories and metadata.
 |Short name|Long name|Required|Abstract|
 |:-|:-|:-:|:-|
 |-|`--home`|`true`|GITBUCKET_HOME|
-|-|`--dest`|`true`|The backup destination folder path.|
+|`-d`|`--dest`|`true`|The backup destination folder path.|
 |-|`--pgdump`|`false`|The path to the pg_dump executable. If pd_dump is not on your PATH, you need to specify this.|

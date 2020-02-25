@@ -147,7 +147,7 @@ A new pull request has been successfully created!
 ### `gbutil backup`
 
 ```powershell
-gbutil backup --home --dest [--pgdump]
+gbutil backup --home -d|--dest [--pgdump]
 ```
 Backup GitBucket repositories and metadata.
 

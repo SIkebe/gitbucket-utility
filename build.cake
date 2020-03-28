@@ -65,6 +65,7 @@ Task("Run-E2E-Tests-Using-SingleFileExe")
 
 async Task RunE2ETests(ICakeContext ctx)
 {
+    System.IO.Directory.CreateDirectory("docker");
     Information("Recreating docker containers...");
     DockerComposeRm(new DockerComposeRmSettings { Force = true, Stop = true, Volumes = true });
     DeleteDirectoryWithReadonlyFiles("docker");

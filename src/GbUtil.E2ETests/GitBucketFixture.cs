@@ -53,7 +53,7 @@ namespace GbUtil.E2ETests
 
         public void Login()
         {
-            Driver.Navigate().GoToUrl(new Uri(GitBucketDefaults.BaseUri));
+            Driver.Navigate().GoToUrl(new Uri($"{GitBucketDefaults.BaseUri}signin?redirect=%2F"));
 
             Driver.FindElement(By.Id("signin")).Click();
 

@@ -57,7 +57,7 @@ namespace GbUtil.E2ETests
             using var process = new Process();
             var useSingleFileExe = Environment.GetEnvironmentVariable("GbUtil_UseSingleFileExe");
             var singleFileExePath = Environment.GetEnvironmentVariable("GbUtil_SingleFileExePath");
-            if (useSingleFileExe == "true" && File.Exists(singleFileExePath))
+            if (useSingleFileExe == "true" && !(singleFileExePath is null) && File.Exists(singleFileExePath))
             {
                 process.StartInfo.FileName = singleFileExePath;
                 process.StartInfo.Arguments = $@"{arguments}";

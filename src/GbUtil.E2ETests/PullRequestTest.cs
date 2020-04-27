@@ -43,7 +43,9 @@ The highest priority among them is """".
 ### Bug
 * Found a bug #2
 
-", pr.Body);
+",
+                pr.Body,
+                ignoreLineEndingDifferences: true);
         }
 
         [Fact]
@@ -81,7 +83,9 @@ The highest priority among them is """".
 * Found a bug #2
 
 
-", output);
+",
+                output,
+                ignoreLineEndingDifferences: true);
         }
 
         private async Task PrepareForPR()

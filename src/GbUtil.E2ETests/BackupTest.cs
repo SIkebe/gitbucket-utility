@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -20,9 +19,7 @@ namespace GbUtil.E2ETests
             await CreateRepository(autoInit: true);
 
             var gitbucketHome = Path.GetFullPath("../../../../../docker");
-            var destination = Path.Combine(
-                Path.GetDirectoryName(Assembly.GetAssembly(typeof(BackupTest))!.Location)!,
-                Guid.NewGuid().ToString());
+            var destination = Path.Combine(gitbucketHome, Guid.NewGuid().ToString());
 
             var repos = await GitBucketFixture.GitBucketClient.Repository.GetAllForUser(GitBucketDefaults.Owner);
 

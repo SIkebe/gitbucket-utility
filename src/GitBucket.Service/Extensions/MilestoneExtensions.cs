@@ -19,7 +19,7 @@ namespace GitBucket.Core.Models
 
             var description = milestone.Description?.Replace(Environment.NewLine, " ", ignoreCase: true, CultureInfo.InvariantCulture);
             description = description?.Length > 30 ? description.Substring(0, 30) + "..." : description;
-            return @$"* [{milestone.UserName}/{milestone.RepositoryName}], [{milestone.Title}], [{milestone.DueDate?.ToString("yyyy/MM/dd")}], [{description}], [{assignees}]";
+            return $@"* [{milestone.UserName}/{milestone.RepositoryName}], [{milestone.Title}], [{milestone.DueDate?.ToString("yyyy/MM/dd")}], [{description}], [{assignees}]";
         }
     }
 }

@@ -1,0 +1,28 @@
+name: Build and Run Unit Tests
+
+on: [push, pull_request]
+
+jobs:
+  linux:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build and Run Unit Tests Linux
+        run: .\build.ps1 -target=Run-Unit-Tests
+        shell: pwsh
+
+  windows:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build and Run Unit Tests On Windows
+        run: .\build.ps1 -target=Run-Unit-Tests
+        shell: powershell
+  
+  macOS:
+    runs-on: macos-10.15
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build and Run Unit Tests On macOS
+        run: .\build.ps1 -target=Run-Unit-Tests
+        shell: pwsh

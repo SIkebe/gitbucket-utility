@@ -1,7 +1,6 @@
 # gitbucket-utility
 Utilities for GitBucket  
-
-[![Build status](https://ci.appveyor.com/api/projects/status/q1hfisqpa09662l5/?svg=true)](https://ci.appveyor.com/project/SIkebe/gitbucket-utility/)
+[![Build status](https://github.com/SIkebe/gitbucket-utility/workflows/Build%20and%20Run%20Unit%20Tests/badge.svg)](https://github.com/SIkebe/gitbucket-utility/actions?query=workflow%3A%22Build+and+Run+Unit+Tests%22)
 [![NuGet version](https://badge.fury.io/nu/gbutil.svg)](https://badge.fury.io/nu/gbutil)
 
 ## Requirements

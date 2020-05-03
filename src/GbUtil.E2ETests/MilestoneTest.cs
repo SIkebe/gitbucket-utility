@@ -55,7 +55,9 @@ namespace GbUtil.E2ETests
 * [{repository1.FullName}], [v1.1.0], [2019/08/13], [Second milestone in repository...], [user1, user2]
 * [{repository2.FullName}], [v1.0.0], [2019/08/14], [First milestone in repository2...], [root]
 * [{repository2.FullName}], [v1.1.0], [2019/08/15], [Second milestone in repository...], []
-", output1);
+",
+                output1,
+                ignoreLineEndingDifferences: true);
         }
     }
 }

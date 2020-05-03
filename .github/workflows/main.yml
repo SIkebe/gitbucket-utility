@@ -8,5 +8,5 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Run Unit Tests
-      run: dotnet test src/GbUtil.E2ETests/GbUtil.E2ETests.csproj
+      run: dotnet test src/GitBucket.Service.Tests/GitBucket.Service.Tests.csproj
       shell: bash

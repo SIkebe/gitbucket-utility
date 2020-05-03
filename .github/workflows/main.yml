@@ -8,5 +8,5 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Run Unit Tests
-      run: .\build.ps1 -target=Run-Unit-Tests
-      shell: powershell
+      run: dotnet test src/GbUtil.E2ETests/GbUtil.E2ETests.csproj
+      shell: bash

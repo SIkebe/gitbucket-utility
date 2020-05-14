@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using GitBucket.Core;
 using LibGit2Sharp;
 using Octokit;
-using OpenQA.Selenium;
 using Xunit;
 
 namespace GbUtil.E2ETests
@@ -58,9 +58,13 @@ The highest priority among them is """".
             _ = Execute($"release -o {GitBucketDefaults.Owner} -r {Repository.Name} -m v1.0.0 --create-pr --draft -f");
 
             // Assert
-            GitBucketFixture.Driver.Navigate().GoToUrl(new Uri($"{GitBucketDefaults.BaseUri}{Repository.FullName}/pull/3"));
-            var mergeButton = GitBucketFixture.Driver.FindElement(By.Id("merge-pull-request-button"));
-            Assert.False(mergeButton.Enabled);
+            using var dbContext = new GitBucketDbContext(GitBucketDefaults.ConnectionStrings);
+            var pr = dbContext.PullRequest
+                .Where(p => p.UserName == GitBucketDefaults.Owner)
+                .Where(p => p.RepositoryName == Repository.Name)
+                .Where(p => p.Issue.Title == "v1.0.0")
+                .Single();
+            Assert.True(pr.IsDraft);
         }
 
         [Fact]
@@ -103,9 +107,9 @@ The highest priority among them is """".
             await GitBucketFixture.GitBucketClient.Issue.Labels.AddToIssue(GitBucketDefaults.Owner, Repository.Name, issue2.Number, new[] { "Bug" });
 
             // Create milestone v1.0.0 and set above issues to it
-            GitBucketFixture.CreateMilestone(Repository, "v1.0.0");
-            SetMilestone(issue1, Repository, "v1.0.0");
-            SetMilestone(issue2, Repository, "v1.0.0");
+            CreateMilestone(GitBucketDefaults.Owner, Repository.Name, "v1.0.0");
+            SetMilestone(GitBucketDefaults.Owner, Repository.Name, issue1.Number, "v1.0.0");
+            SetMilestone(GitBucketDefaults.Owner, Repository.Name, issue2.Number, "v1.0.0");
         }
     }
 }

@@ -9,9 +9,6 @@
     <PackageReference Include="libgit2sharp" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="octokit" />
-    <PackageReference Include="Selenium.Support" />
-    <PackageReference Include="Selenium.WebDriver" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" />
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" />
   </ItemGroup>

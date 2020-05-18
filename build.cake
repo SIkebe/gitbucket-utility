@@ -4,6 +4,7 @@
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
 
+var rid = Argument("rid", "win-x64");
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
@@ -57,7 +58,7 @@ Task("Run-E2E-Tests-Using-SingleFileExe")
     .IsDependentOn("Build")
     .Does(async (ctx) =>
 {
-    var path = MakeAbsolute(File("./executable/GbUtil.exe"));
+    var path = MakeAbsolute(File("./executable/GbUtil"));
     Environment.SetEnvironmentVariable("GbUtil_UseSingleFileExe", "true");
     Environment.SetEnvironmentVariable("GbUtil_SingleFileExePath", path.FullPath);
     await RunE2ETests(ctx);
@@ -175,7 +176,7 @@ Task("Publish-SingleFile")
         {
             Configuration = configuration,
             OutputDirectory = "executable",
-            Runtime = "win-x64",
+            Runtime = rid,
             PublishSingleFile = true,
             PublishTrimmed = true,
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -19,8 +20,7 @@ namespace GbUtil.E2ETests
             await CreateRepository(autoInit: true);
 
             var gitbucketHome = Path.GetFullPath("../../../../../docker");
-            var destination = Path.Combine(gitbucketHome, Guid.NewGuid().ToString());
-
+            var destination = Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(typeof(BackupTest))!.Location)!, Guid.NewGuid().ToString());
             var repos = await GitBucketFixture.GitBucketClient.Repository.GetAllForUser(GitBucketDefaults.Owner);
 
             // Act
@@ -42,13 +42,13 @@ namespace GbUtil.E2ETests
             Assert.True(output.Contains("Update repositories: phase 1, terminated", StringComparison.OrdinalIgnoreCase));
             Assert.True(output.Contains("Checking pg_dump existence...", StringComparison.OrdinalIgnoreCase));
             Assert.True(output.Contains("Database backup", StringComparison.OrdinalIgnoreCase));
-            Assert.True(output.Contains($"The database dump is available in {destination}\\", StringComparison.OrdinalIgnoreCase));
+            Assert.True(output.Contains($"The database dump is available in {destination}", StringComparison.OrdinalIgnoreCase));
             Assert.True(output.Contains("Configuration backup", StringComparison.OrdinalIgnoreCase));
             Assert.True(output.Contains("Database configuration backup", StringComparison.OrdinalIgnoreCase));
             Assert.True(output.Contains("Plugins backup", StringComparison.OrdinalIgnoreCase));
             Assert.True(output.Contains("Update repositories: phase 2", StringComparison.OrdinalIgnoreCase));
             Assert.True(output.Contains("Update repositories: phase 2, terminated", StringComparison.OrdinalIgnoreCase));
-            Assert.True(output.Contains($"Update process ended, backup available under: {destination}\\repositories", StringComparison.OrdinalIgnoreCase));
+            Assert.True(output.Contains($"Update process ended, backup available under: {destination}{Path.DirectorySeparatorChar}repositories", StringComparison.OrdinalIgnoreCase));
 
             var directoryInfo = new DirectoryInfo(destination);
             RemoveReadonlyAttribute(directoryInfo);

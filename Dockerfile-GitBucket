@@ -1,4 +1,4 @@
-FROM adoptopenjdk:11-jre-hotspot
+FROM adoptopenjdk:14-jre-hotspot
 
 ADD https://github.com/gitbucket/gitbucket/releases/download/4.33.0/gitbucket.war /opt/gitbucket.war
 

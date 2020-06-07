@@ -6,7 +6,7 @@ jobs:
   linux-e2e:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Install PostgreSQL
         run: |
           sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
@@ -22,7 +22,7 @@ jobs:
   linux-e2e-scd:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Install PostgreSQL
         run: |
           sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
@@ -38,7 +38,7 @@ jobs:
   windows:
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Build and Run Unit Tests On Windows
         run: .\build.ps1 -target=Run-Unit-Tests
         shell: powershell
@@ -46,7 +46,7 @@ jobs:
   macOS:
     runs-on: macos-10.15
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Build and Run Unit Tests On macOS
         run: .\build.ps1 -target=Run-Unit-Tests
         shell: pwsh

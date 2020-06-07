@@ -27,7 +27,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu: [ubuntu-18.04, ubuntu-20.04]
+        # libgit2sharp does not fully support Ubuntu 20.04 yet. https://github.com/libgit2/libgit2sharp/issues/1747
+        ubuntu: [ubuntu-18.04]
     runs-on: ${{ matrix.ubuntu }}
     steps:
       - uses: actions/checkout@v2

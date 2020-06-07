@@ -40,7 +40,7 @@ jobs:
         shell: bash
       - name: Build and Run E2E Tests Using SingleFileExe On Linux
         run: |
-          .\build.ps1 -target=Run-E2E-Tests-Using-SingleFileExe -rid="ubuntu.18.04-x64"
+          .\build.ps1 -target=Run-E2E-Tests-Using-SingleFileExe -rid=linux-x64
         shell: pwsh
 
   windows:

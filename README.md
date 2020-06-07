@@ -1,6 +1,6 @@
 # gitbucket-utility
 Utilities for GitBucket  
-[![Build status](https://github.com/SIkebe/gitbucket-utility/workflows/Build%20and%20Run%20Unit%20Tests/badge.svg)](https://github.com/SIkebe/gitbucket-utility/actions?query=workflow%3A%22Build+and+Run+Unit+Tests%22)
+[![Build status](https://github.com/SIkebe/gitbucket-utility/workflows/CI/badge.svg)](https://github.com/SIkebe/gitbucket-utility/actions?query=workflow%3A%22CI%22)
 [![NuGet version](https://badge.fury.io/nu/gbutil.svg)](https://badge.fury.io/nu/gbutil)
 
 ## Requirements

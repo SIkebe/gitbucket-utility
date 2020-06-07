@@ -4,6 +4,7 @@
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <VersionPrefix>0.9.0</VersionPrefix>
+    <DebugType>embedded</DebugType>
 
     <!-- https://github.com/OmniSharp/omnisharp-vscode/issues/3207
          https://github.com/OmniSharp/omnisharp-roslyn/issues/1589 -->

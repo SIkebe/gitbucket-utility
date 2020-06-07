@@ -1,12 +1,16 @@
-name: Build and Run Unit Tests
+name: CI
 
 on: [push, pull_request]
 
 jobs:
   linux-e2e:
-    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        ubuntu: [ubuntu-18.04, ubuntu-20.04]
+    runs-on: ${{ matrix.ubuntu }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Install PostgreSQL
         run: |
           sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
@@ -20,9 +24,14 @@ jobs:
         shell: pwsh
 
   linux-e2e-scd:
-    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        # libgit2sharp does not fully support Ubuntu 20.04 yet. https://github.com/libgit2/libgit2sharp/issues/1747
+        ubuntu: [ubuntu-18.04]
+    runs-on: ${{ matrix.ubuntu }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Install PostgreSQL
         run: |
           sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
@@ -38,7 +47,7 @@ jobs:
   windows:
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Build and Run Unit Tests On Windows
         run: .\build.ps1 -target=Run-Unit-Tests
         shell: powershell
@@ -46,7 +55,7 @@ jobs:
   macOS:
     runs-on: macos-10.15
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Build and Run Unit Tests On macOS
         run: .\build.ps1 -target=Run-Unit-Tests
         shell: pwsh

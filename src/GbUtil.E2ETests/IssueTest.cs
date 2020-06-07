@@ -2,12 +2,13 @@ using System;
 using System.Threading.Tasks;
 using Octokit;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace GbUtil.E2ETests
 {
     public class IssueTest : E2ETestBase
     {
-        public IssueTest(GitBucketFixture fixture) : base(fixture)
+        public IssueTest(GitBucketFixture fixture, ITestOutputHelper output) : base(fixture, output)
         {
         }
 

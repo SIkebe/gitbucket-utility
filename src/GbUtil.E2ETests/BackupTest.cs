@@ -3,12 +3,13 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace GbUtil.E2ETests
 {
     public class BackupTest : E2ETestBase
     {
-        public BackupTest(GitBucketFixture fixture) : base(fixture)
+        public BackupTest(GitBucketFixture fixture, ITestOutputHelper output) : base(fixture, output)
         {
         }
 
@@ -25,6 +26,9 @@ namespace GbUtil.E2ETests
 
             // Act
             var output = Execute($"backup --home {gitbucketHome} --dest {destination}");
+            Output.WriteLine("---------- test output start ----------");
+            Output.WriteLine(output);
+            Output.WriteLine("---------- test output end ----------");
 
             // Assert
             foreach (var repo in repos)

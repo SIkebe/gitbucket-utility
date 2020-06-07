@@ -9,6 +9,7 @@ using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
 using Octokit;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace GbUtil.E2ETests
 {
@@ -16,9 +17,10 @@ namespace GbUtil.E2ETests
     {
         private bool disposedValue = false;
 
-        public E2ETestBase(GitBucketFixture fixture)
+        public E2ETestBase(GitBucketFixture fixture, ITestOutputHelper output)
         {
             GitBucketFixture = fixture;
+            Output = output;
             Credentials = new UsernamePasswordCredentials { Username = GitBucketDefaults.Owner, Password = GitBucketDefaults.Password };
             WorkingDir = Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(typeof(E2ETestBase))!.Location)!, Guid.NewGuid().ToString());
         }
@@ -38,6 +40,7 @@ namespace GbUtil.E2ETests
         public string WorkingDir { get; }
 
         public GitBucketFixture GitBucketFixture { get; set; }
+        public ITestOutputHelper Output { get; }
 
         public void Dispose()
         {

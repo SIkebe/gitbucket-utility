@@ -5,12 +5,13 @@ using GitBucket.Core;
 using LibGit2Sharp;
 using Octokit;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace GbUtil.E2ETests
 {
     public class PullRequestTest : E2ETestBase
     {
-        public PullRequestTest(GitBucketFixture fixture) : base(fixture)
+        public PullRequestTest(GitBucketFixture fixture, ITestOutputHelper output) : base(fixture, output)
         {
         }
 

@@ -2,12 +2,13 @@
 using System.Threading.Tasks;
 using Octokit;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace GbUtil.E2ETests
 {
     public class MilestoneTest : E2ETestBase
     {
-        public MilestoneTest(GitBucketFixture fixture) : base(fixture)
+        public MilestoneTest(GitBucketFixture fixture, ITestOutputHelper output) : base(fixture, output)
         {
         }
 

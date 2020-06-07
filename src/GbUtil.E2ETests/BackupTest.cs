@@ -9,11 +9,8 @@ namespace GbUtil.E2ETests
 {
     public class BackupTest : E2ETestBase
     {
-        private readonly ITestOutputHelper _output;
-
-        public BackupTest(GitBucketFixture fixture, ITestOutputHelper output) : base(fixture)
+        public BackupTest(GitBucketFixture fixture, ITestOutputHelper output) : base(fixture, output)
         {
-            _output = output;
         }
 
         [Fact]
@@ -29,9 +26,9 @@ namespace GbUtil.E2ETests
 
             // Act
             var output = Execute($"backup --home {gitbucketHome} --dest {destination}");
-            _output.WriteLine("---------- test output start ----------");
-            _output.WriteLine(output);
-            _output.WriteLine("---------- test output end ----------");
+            Output.WriteLine("---------- test output start ----------");
+            Output.WriteLine(output);
+            Output.WriteLine("---------- test output end ----------");
 
             // Assert
             foreach (var repo in repos)

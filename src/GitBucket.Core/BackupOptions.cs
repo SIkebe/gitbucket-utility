@@ -1,5 +1,5 @@
-using CommandLine;
 using System.IO;
+using CommandLine;
 
 namespace GitBucket.Core
 {

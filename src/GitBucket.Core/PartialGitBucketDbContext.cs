@@ -11,5 +11,18 @@ namespace GitBucket.Core
         public GitBucketDbContext(string connectionString) => ConnectionString = connectionString;
 
         public string ConnectionString { get; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (optionsBuilder is null)
+            {
+                throw new System.ArgumentNullException(nameof(optionsBuilder));
+            }
+
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseNpgsql(ConnectionString);
+            }
+        }
     }
 }

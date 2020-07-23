@@ -54,19 +54,6 @@ namespace GitBucket.Core
         public virtual DbSet<WebHook> WebHooks { get; set; }
         public virtual DbSet<WebHookEvent> WebHookEvents { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (optionsBuilder is null)
-            {
-                throw new System.ArgumentNullException(nameof(optionsBuilder));
-            }
-
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseNpgsql(ConnectionString);
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             if (modelBuilder is null)

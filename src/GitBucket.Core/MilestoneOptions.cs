@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using CommandLine;
 
+#nullable disable
+
 namespace GitBucket.Core
 {
     [Verb("milestone", HelpText = "Show milestones")]

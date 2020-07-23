@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace GitBucket.Core.Models
 {
-    public partial class Versions
+    public partial class Version
     {
         public string ModuleId { get; set; }
-        public string Version { get; set; }
+        public string Version1 { get; set; }
     }
 }

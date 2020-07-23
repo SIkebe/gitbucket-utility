@@ -38,7 +38,7 @@ namespace GitBucket.Service
                 throw new ArgumentNullException(nameof(gitBucketClient));
             }
 
-            var pullRequestSource = options.FromPullRequest ? "pull requests" : "issues";
+            string pullRequestSource = options.FromPullRequest ? "pull requests" : "issues";
             var issues = await FindIssuesRelatedToMileStone(options);
             if (!issues.Any())
             {
@@ -50,7 +50,7 @@ namespace GitBucket.Service
             {
                 _console.WriteWarnLine($"There are unclosed {pullRequestSource} in \"{options.MileStone}\".");
                 _console.WriteWarn("Do you want to continue?([Y]es/[N]o): ");
-                string yesOrNo = _console.ReadLine();
+                var yesOrNo = _console.ReadLine();
 
                 if (!string.Equals(yesOrNo, "y", StringComparison.OrdinalIgnoreCase)
                 && !string.Equals(yesOrNo, "yes", StringComparison.OrdinalIgnoreCase))

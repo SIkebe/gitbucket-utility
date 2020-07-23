@@ -23,12 +23,12 @@ namespace GitBucket.Service.Tests
             Error
         }
 
-        public List<string> Messages { get; } = new List<string>();
-        public List<string> WarnMessages { get; } = new List<string>();
-        public List<string> ErrorMessages { get; } = new List<string>();
+        public List<string?> Messages { get; } = new();
+        public List<string?> WarnMessages { get; } = new();
+        public List<string?> ErrorMessages { get; } = new();
         public ConsoleColor ForegroundColor { get; set; } = ConsoleColor.Gray;
 
-        public void Write(string value)
+        public void Write(string? value)
         {
             if (!Messages.Any())
             {
@@ -47,7 +47,7 @@ namespace GitBucket.Service.Tests
             _hasNewLineAtTheEndOfTheMessages = false;
         }
 
-        public void WriteLine(string value)
+        public void WriteLine(string? value)
         {
             if (!Messages.Any())
             {
@@ -67,7 +67,7 @@ namespace GitBucket.Service.Tests
             ResetColor();
         }
 
-        public void WriteWarn(string value)
+        public void WriteWarn(string? value)
         {
             if (!WarnMessages.Any())
             {
@@ -86,7 +86,7 @@ namespace GitBucket.Service.Tests
             _hasNewLineAtTheEndOfTheMessages = false;
         }
 
-        public void WriteWarnLine(string value)
+        public void WriteWarnLine(string? value)
         {
             if (!WarnMessages.Any())
             {
@@ -106,7 +106,7 @@ namespace GitBucket.Service.Tests
             ResetColor();
         }
 
-        public void WriteError(string value)
+        public void WriteError(string? value)
         {
             if (!ErrorMessages.Any())
             {
@@ -196,7 +196,7 @@ namespace GitBucket.Service.Tests
             return _input;
         }
 
-        public string GetPassword()
+        public string? GetPassword()
         {
             throw new NotImplementedException();
         }

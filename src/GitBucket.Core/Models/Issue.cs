@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace GitBucket.Core.Models
 {
     public partial class Issue
     {
         public Issue()
         {
-            IssueComment = new HashSet<IssueComment>();
-            IssueLabel = new HashSet<IssueLabel>();
+            IssueComments = new HashSet<IssueComment>();
+            IssueLabels = new HashSet<IssueLabel>();
         }
 
         public string UserName { get; set; }
@@ -30,7 +32,7 @@ namespace GitBucket.Core.Models
         public virtual Priority Priority { get; set; }
         public virtual Repository Repository { get; set; }
         public virtual PullRequest PullRequestNavigation { get; set; }
-        public virtual ICollection<IssueComment> IssueComment { get; set; }
-        public virtual ICollection<IssueLabel> IssueLabel { get; set; }
+        public virtual ICollection<IssueComment> IssueComments { get; set; }
+        public virtual ICollection<IssueLabel> IssueLabels { get; set; }
     }
 }

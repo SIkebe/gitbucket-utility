@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Nullable>disable</Nullable>
     <NoWarn>CA2227</NoWarn>
   </PropertyGroup>
 

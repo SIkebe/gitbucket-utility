@@ -25,7 +25,6 @@ namespace GitBucket.Core
         public virtual DbSet<AccountFederation> AccountFederation { get; set; }
         public virtual DbSet<AccountWebHook> AccountWebHook { get; set; }
         public virtual DbSet<AccountWebHookEvent> AccountWebHookEvent { get; set; }
-        public virtual DbSet<Activity> Activity { get; set; }
         public virtual DbSet<Collaborator> Collaborator { get; set; }
         public virtual DbSet<CommitComment> CommitComment { get; set; }
         public virtual DbSet<CommitStatus> CommitStatus { get; set; }
@@ -84,10 +83,6 @@ namespace GitBucket.Core
             modelBuilder.Entity<AccessToken>(entity =>
             {
                 entity.ToTable("access_token");
-
-                entity.HasIndex(e => e.AccessTokenId)
-                    .HasName("access_token_access_token_id_key")
-                    .IsUnique();
 
                 entity.HasIndex(e => e.TokenHash)
                     .HasName("idx_access_token_token_hash")
@@ -267,57 +262,6 @@ namespace GitBucket.Core
                     .HasMaxLength(100);
             });
 
-            modelBuilder.Entity<Activity>(entity =>
-            {
-                entity.ToTable("activity");
-
-                entity.HasIndex(e => e.ActivityId)
-                    .HasName("activity_activity_id_key")
-                    .IsUnique();
-
-                entity.Property(e => e.ActivityId).HasColumnName("activity_id");
-
-                entity.Property(e => e.ActivityDate).HasColumnName("activity_date");
-
-                entity.Property(e => e.ActivityType)
-                    .IsRequired()
-                    .HasColumnName("activity_type")
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.ActivityUserName)
-                    .IsRequired()
-                    .HasColumnName("activity_user_name")
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.AdditionalInfo).HasColumnName("additional_info");
-
-                entity.Property(e => e.Message)
-                    .IsRequired()
-                    .HasColumnName("message");
-
-                entity.Property(e => e.RepositoryName)
-                    .IsRequired()
-                    .HasColumnName("repository_name")
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.UserName)
-                    .IsRequired()
-                    .HasColumnName("user_name")
-                    .HasMaxLength(100);
-
-                entity.HasOne(d => d.ActivityUserNameNavigation)
-                    .WithMany(p => p.Activity)
-                    .HasForeignKey(d => d.ActivityUserName)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("idx_activity_fk1");
-
-                entity.HasOne(d => d.Repository)
-                    .WithMany(p => p.Activity)
-                    .HasForeignKey(d => new { d.UserName, d.RepositoryName })
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("idx_activity_fk0");
-            });
-
             modelBuilder.Entity<Collaborator>(entity =>
             {
                 entity.HasKey(e => new { e.UserName, e.RepositoryName, e.CollaboratorName })
@@ -362,10 +306,6 @@ namespace GitBucket.Core
                     .HasName("idx_commit_comment_pk");
 
                 entity.ToTable("commit_comment");
-
-                entity.HasIndex(e => e.CommentId)
-                    .HasName("commit_comment_comment_id_key")
-                    .IsUnique();
 
                 entity.Property(e => e.CommentId).HasColumnName("comment_id");
 
@@ -426,10 +366,6 @@ namespace GitBucket.Core
             modelBuilder.Entity<CommitStatus>(entity =>
             {
                 entity.ToTable("commit_status");
-
-                entity.HasIndex(e => e.CommitStatusId)
-                    .HasName("commit_status_commit_status_id_key")
-                    .IsUnique();
 
                 entity.HasIndex(e => new { e.UserName, e.RepositoryName, e.CommitId, e.Context })
                     .HasName("idx_commit_status_1")
@@ -587,10 +523,6 @@ namespace GitBucket.Core
                     .HasName("idx_gist_comment_pk");
 
                 entity.ToTable("gist_comment");
-
-                entity.HasIndex(e => e.CommentId)
-                    .HasName("gist_comment_comment_id_key")
-                    .IsUnique();
 
                 entity.HasIndex(e => new { e.UserName, e.RepositoryName, e.CommentId })
                     .HasName("idx_gist_comment_1")
@@ -776,10 +708,6 @@ namespace GitBucket.Core
                     .HasName("idx_issue_comment_pk");
 
                 entity.ToTable("issue_comment");
-
-                entity.HasIndex(e => e.CommentId)
-                    .HasName("issue_comment_comment_id_key")
-                    .IsUnique();
 
                 entity.Property(e => e.CommentId).HasColumnName("comment_id");
 

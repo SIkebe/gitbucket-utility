@@ -26,14 +26,6 @@ namespace GitBucket.Core
                         request.Content.Headers.ContentType.MediaType = "application/json";
                     }
                 }
-
-                // GitBucket deals with "token" case sensitive while GitHub doesn't.
-                // octokit.net uses "Token" instead of "token".
-                if (request.Headers?.Authorization?.Scheme == "Token")
-                {
-                    var token = request.Headers.Authorization.Parameter;
-                    request.Headers.Authorization = new AuthenticationHeaderValue("token", token);
-                }
             }
 
             return await base.SendAsync(request, cancellationToken);

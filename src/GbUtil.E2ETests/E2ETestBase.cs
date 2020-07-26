@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using GitBucket.Core;
 using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
 using Octokit;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace GbUtil.E2ETests
 {
@@ -17,9 +17,10 @@ namespace GbUtil.E2ETests
     {
         private bool disposedValue = false;
 
-        public E2ETestBase(GitBucketFixture fixture)
+        public E2ETestBase(GitBucketFixture fixture, ITestOutputHelper output)
         {
             GitBucketFixture = fixture;
+            Output = output;
             Credentials = new UsernamePasswordCredentials { Username = GitBucketDefaults.Owner, Password = GitBucketDefaults.Password };
             WorkingDir = Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(typeof(E2ETestBase))!.Location)!, Guid.NewGuid().ToString());
         }
@@ -39,6 +40,7 @@ namespace GbUtil.E2ETests
         public string WorkingDir { get; }
 
         public GitBucketFixture GitBucketFixture { get; set; }
+        public ITestOutputHelper Output { get; }
 
         public void Dispose()
         {
@@ -52,12 +54,27 @@ namespace GbUtil.E2ETests
             return await GitBucketFixture.GitBucketClient.Repository.Create(new NewRepository(repository) { AutoInit = autoInit });
         }
 
+        protected static void CreateMilestone(string owner, string repository, string title, string? description = null, DateTime? dueDate = null)
+        {
+            using var dbContext = new GitBucketDbContext(GitBucketDefaults.ConnectionStrings);
+            dbContext.Milestone.Add(new GitBucket.Core.Models.Milestone
+            {
+                UserName = owner,
+                RepositoryName = repository,
+                Title = title,
+                Description = description,
+                DueDate = dueDate,
+            });
+
+            dbContext.SaveChanges();
+        }
+
         protected static string Execute(string arguments)
         {
             using var process = new Process();
             var useSingleFileExe = Environment.GetEnvironmentVariable("GbUtil_UseSingleFileExe");
             var singleFileExePath = Environment.GetEnvironmentVariable("GbUtil_SingleFileExePath");
-            if (useSingleFileExe == "true" && File.Exists(singleFileExePath))
+            if (useSingleFileExe == "true" && !(singleFileExePath is null) && File.Exists(singleFileExePath))
             {
                 process.StartInfo.FileName = singleFileExePath;
                 process.StartInfo.Arguments = $@"{arguments}";
@@ -104,6 +121,25 @@ namespace GbUtil.E2ETests
             }
         }
 
+        protected static void SetMilestone(string owner, string repository, int issueNumber, string milestoneTitle)
+        {
+            using var dbContext = new GitBucketDbContext(GitBucketDefaults.ConnectionStrings);
+            var milestone = dbContext.Milestone
+                .Where(m => m.UserName == owner)
+                .Where(m => m.RepositoryName == repository)
+                .Where(m => m.Title == milestoneTitle)
+                .Single();
+
+            var target = dbContext.Issue
+                .Where(i => i.UserName == owner)
+                .Where(i => i.RepositoryName == repository)
+                .Where(i => i.IssueId == issueNumber)
+                .Single();
+
+            target.Milestone = milestone;
+            dbContext.SaveChanges();
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -131,34 +167,6 @@ namespace GbUtil.E2ETests
                 Repository.Name,
                 "README.md",
                 new UpdateFileRequest("New commit message.", "New file content.", readme.Sha, branchName));
-        }
-
-        protected void SetMilestone(Issue issue, Octokit.Repository repository, string milestone)
-        {
-            if (issue is null) throw new ArgumentNullException(nameof(issue));
-            if (repository is null) throw new ArgumentNullException(nameof(repository));
-
-            GitBucketFixture.Driver.Navigate().GoToUrl(new Uri($"{GitBucketDefaults.BaseUri}{repository.FullName}/issues/{issue.Number}"));
-            var wait = new WebDriverWait(GitBucketFixture.Driver, new TimeSpan(0, 0, 15));
-            wait.Until(drv => drv.Title == $"{issue.Title} - Issue #{issue.Number} - {repository.FullName}");
-
-            // GitBucket issue page has multiple elements whose id is "test".
-            // Milestone dropdown is the fourth of them.
-            var tests = GitBucketFixture.Driver.FindElements(By.XPath(@"//*[@id=""test""]"));
-            tests[3].Click();
-            var dropdownMenus = GitBucketFixture.Driver.FindElements(By.XPath("//ul[@class='dropdown-menu pull-right']//li/a"));
-            foreach (var dropdownMenu in dropdownMenus)
-            {
-                var dataTitle = dropdownMenu.GetAttribute("data-title");
-                if (!string.IsNullOrEmpty(dataTitle))
-                {
-                    if (dataTitle.Contains(milestone, StringComparison.OrdinalIgnoreCase))
-                    {
-                        dropdownMenu.Click();
-                        break;
-                    }
-                }
-            }
         }
 
         protected void CreateBranch(string branchName)

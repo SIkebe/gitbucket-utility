@@ -1,5 +1,5 @@
-﻿using Octokit;
-using System;
+﻿using System;
+using Octokit;
 
 namespace GitBucket.Service.Tests
 {

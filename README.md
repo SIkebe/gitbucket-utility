@@ -1,7 +1,6 @@
 # gitbucket-utility
 Utilities for GitBucket  
-
-[![Build status](https://ci.appveyor.com/api/projects/status/q1hfisqpa09662l5/?svg=true)](https://ci.appveyor.com/project/SIkebe/gitbucket-utility/)
+[![Build status](https://github.com/SIkebe/gitbucket-utility/workflows/CI/badge.svg)](https://github.com/SIkebe/gitbucket-utility/actions?query=workflow%3A%22CI%22)
 [![NuGet version](https://badge.fury.io/nu/gbutil.svg)](https://badge.fury.io/nu/gbutil)
 
 ## Requirements
@@ -13,7 +12,7 @@ Utilities for GitBucket
 # [Required]
 
 # Install as a dotnet tool or download exe from GitHub Release page.
-dotnet tool install --global gbutil --version 0.9.0
+dotnet tool install --global gbutil --version 0.10.0
 
 setx GbUtil_ConnectionStrings Host=host;Username=username;Password=password;Database=gitbucket;port=XXXX
 setx GbUtil_GitBucketUri http://localhost:8080/gitbucket/api/v3/
@@ -147,7 +146,7 @@ A new pull request has been successfully created!
 ### `gbutil backup`
 
 ```powershell
-gbutil backup --home --dest [--pgdump]
+gbutil backup --home -d|--dest [--pgdump]
 ```
 Backup GitBucket repositories and metadata.
 

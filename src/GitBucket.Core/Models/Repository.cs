@@ -7,7 +7,6 @@ namespace GitBucket.Core.Models
     {
         public Repository()
         {
-            Activity = new HashSet<Activity>();
             Collaborator = new HashSet<Collaborator>();
             CommitComment = new HashSet<CommitComment>();
             CommitStatus = new HashSet<CommitStatus>();
@@ -43,7 +42,6 @@ namespace GitBucket.Core.Models
 
         public virtual Account UserNameNavigation { get; set; }
         public virtual IssueId IssueId { get; set; }
-        public virtual ICollection<Activity> Activity { get; set; }
         public virtual ICollection<Collaborator> Collaborator { get; set; }
         public virtual ICollection<CommitComment> CommitComment { get; set; }
         public virtual ICollection<CommitStatus> CommitStatus { get; set; }

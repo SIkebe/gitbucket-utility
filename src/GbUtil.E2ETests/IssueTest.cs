@@ -2,12 +2,13 @@ using System;
 using System.Threading.Tasks;
 using Octokit;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace GbUtil.E2ETests
 {
     public class IssueTest : E2ETestBase
     {
-        public IssueTest(GitBucketFixture fixture) : base(fixture)
+        public IssueTest(GitBucketFixture fixture, ITestOutputHelper output) : base(fixture, output)
         {
         }
 
@@ -26,15 +27,18 @@ namespace GbUtil.E2ETests
             var output = Execute($"issue -t copy -s {Repository1.FullName} -d {Repository2.FullName} -n {SourceIssue1.Number}");
 
             // Assert
-            Assert.Equal(@$"The issue has been successfully copied to http://localhost:8080/{Repository2.FullName}/issues/1 .
-", output);
+            Assert.Equal(
+                $@"The issue has been successfully copied to http://localhost:8080/{Repository2.FullName}/issues/1 .{Environment.NewLine}",
+                output,
+                ignoreLineEndingDifferences: true);
 
             var newIssue = await GitBucketFixture.GitBucketClient.Issue.Get(GitBucketDefaults.Owner, Repository2.Name, 1);
             Assert.Equal("First Issue title", newIssue.Title);
-            Assert.Equal(@$"First issue content.
+            Assert.Equal($@"First issue content.
 
 *Copied from original issue: {Repository1.FullName}#1*",
-                newIssue.Body);
+                newIssue.Body,
+                ignoreLineEndingDifferences: true);
         }
 
         [Fact]
@@ -47,22 +51,27 @@ namespace GbUtil.E2ETests
             var output = Execute($"issue -t copy -s {Repository1.FullName} -d {Repository2.FullName} -n 1:2");
 
             // Assert
-            Assert.Equal(@$"The issue has been successfully copied to http://localhost:8080/{Repository2.FullName}/issues/1 .
+            Assert.Equal($@"The issue has been successfully copied to http://localhost:8080/{Repository2.FullName}/issues/1 .
 The issue has been successfully copied to http://localhost:8080/{Repository2.FullName}/issues/2 .
-", output);
+",
+                output,
+                ignoreLineEndingDifferences: true);
 
             var newIssues = await GitBucketFixture.GitBucketClient.Issue.GetAllForRepository(GitBucketDefaults.Owner, Repository2.Name);
             Assert.Equal(2, newIssues.Count);
             Assert.Equal("Second Issue title", newIssues[0].Title);
-            Assert.Equal(@$"Second issue content.
+            Assert.Equal($@"Second issue content.
 
 *Copied from original issue: {Repository1.FullName}#2*",
-                newIssues[0].Body);
+                newIssues[0].Body,
+                ignoreLineEndingDifferences: true);
+
             Assert.Equal("First Issue title", newIssues[1].Title);
-            Assert.Equal(@$"First issue content.
+            Assert.Equal($@"First issue content.
 
 *Copied from original issue: {Repository1.FullName}#1*",
-                newIssues[1].Body);
+                newIssues[1].Body,
+                ignoreLineEndingDifferences: true);
         }
 
         [Fact]
@@ -77,15 +86,20 @@ The issue has been successfully copied to http://localhost:8080/{Repository2.Ful
 
             // Assert
             var newIssue = await GitBucketFixture.GitBucketClient.Issue.Get(GitBucketDefaults.Owner, Repository2.Name, 1);
-            Assert.Equal(@$"The issue has been successfully moved to http://localhost:8080/{Repository2.FullName}/issues/1 .
+            Assert.Equal($@"The issue has been successfully moved to http://localhost:8080/{Repository2.FullName}/issues/1 .
 Close the original one manually.
-", output);
+",
+                output,
+                ignoreLineEndingDifferences: true);
+
             Assert.Equal("First Issue title", newIssue.Title);
-            Assert.Equal(@$"*From @root on {createdAt}*
+            Assert.Equal($@"*From @root on {createdAt}*
 
 First issue content.
 
-*Copied from original issue: {Repository1.FullName}#1*", newIssue.Body);
+*Copied from original issue: {Repository1.FullName}#1*",
+                newIssue.Body,
+                ignoreLineEndingDifferences: true);
 
             var sourceComments = await GitBucketFixture.GitBucketClient.Issue.Comment.GetAllForIssue(GitBucketDefaults.Owner, Repository1.Name, 1);
             Assert.Single(sourceComments);
@@ -105,30 +119,25 @@ First issue content.
             // Assert
             var newIssues = await GitBucketFixture.GitBucketClient.Issue.GetAllForRepository(GitBucketDefaults.Owner, Repository2.Name);
             Assert.Equal(2, newIssues.Count);
-            Assert.Equal(@$"The issue has been successfully moved to http://localhost:8080/{Repository2.FullName}/issues/1 .
+            Assert.Equal($@"The issue has been successfully moved to http://localhost:8080/{Repository2.FullName}/issues/1 .
 Close the original one manually.
 The issue has been successfully moved to http://localhost:8080/{Repository2.FullName}/issues/2 .
 Close the original one manually.
-", output);
+",
+                output,
+                ignoreLineEndingDifferences: true);
+
             Assert.Equal("Second Issue title", newIssues[0].Title);
-            Assert.StartsWith(@$"*From @root on {createdAt}", newIssues[0].Body, StringComparison.OrdinalIgnoreCase);
-            Assert.EndsWith(@$"*
-
-Second issue content.
-
-*Copied from original issue: {Repository1.FullName}#2*",
-newIssues[0].Body,
-StringComparison.OrdinalIgnoreCase);
+            Assert.StartsWith($@"*From @root on {createdAt}", newIssues[0].Body, StringComparison.OrdinalIgnoreCase);
+            Assert.EndsWith($@"*Second issue content.*Copied from original issue: {Repository1.FullName}#2*",
+                newIssues[0].Body.Replace($"{Environment.NewLine}", "", StringComparison.OrdinalIgnoreCase),
+                StringComparison.OrdinalIgnoreCase);
 
             Assert.Equal("First Issue title", newIssues[1].Title);
-            Assert.StartsWith(@$"*From @root on {createdAt}", newIssues[1].Body, StringComparison.OrdinalIgnoreCase);
-            Assert.EndsWith(@$"*
-
-First issue content.
-
-*Copied from original issue: {Repository1.FullName}#1*",
- newIssues[1].Body,
- StringComparison.OrdinalIgnoreCase);
+            Assert.StartsWith($@"*From @root on {createdAt}", newIssues[1].Body, StringComparison.OrdinalIgnoreCase);
+            Assert.EndsWith($@"*First issue content.*Copied from original issue: {Repository1.FullName}#1*",
+                newIssues[1].Body.Replace($"{Environment.NewLine}", "", StringComparison.OrdinalIgnoreCase),
+                StringComparison.OrdinalIgnoreCase);
 
             var sourceComments1 = await GitBucketFixture.GitBucketClient.Issue.Comment.GetAllForIssue(GitBucketDefaults.Owner, Repository1.Name, 1);
             Assert.Single(sourceComments1);

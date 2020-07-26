@@ -2,7 +2,7 @@
 $DotNetInstallerUri = 'https://dot.net/v1/dotnet-install.ps1';
 $DotNetUnixInstallerUri = 'https://dot.net/v1/dotnet-install.sh'
 $DotNetChannel = 'LTS'
-$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+$BootstrapperRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
 
 $DotNetVersion= (Get-Content .\global.json | ConvertFrom-Json).sdk.version
 "Using .NET Core SDK " + $DotNetVersion | Write-Output
@@ -40,7 +40,7 @@ if (Get-Command dotnet -ErrorAction SilentlyContinue) {
 }
 
 if($FoundDotNetCliVersion -ne $DotNetVersion) {
-    $InstallPath = Join-Path $PSScriptRoot ".dotnet"
+    $InstallPath = Join-Path $BootstrapperRoot ".dotnet"
     if (!(Test-Path $InstallPath)) {
         New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null;
     }

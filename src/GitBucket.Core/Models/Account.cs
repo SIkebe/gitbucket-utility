@@ -10,7 +10,6 @@ namespace GitBucket.Core.Models
             AccessToken = new HashSet<AccessToken>();
             AccountFederation = new HashSet<AccountFederation>();
             AccountWebHook = new HashSet<AccountWebHook>();
-            Activity = new HashSet<Activity>();
             Collaborator = new HashSet<Collaborator>();
             CommitStatusCreatorNavigation = new HashSet<CommitStatus>();
             CommitStatusUserNameNavigation = new HashSet<CommitStatus>();
@@ -42,7 +41,6 @@ namespace GitBucket.Core.Models
         public virtual ICollection<AccessToken> AccessToken { get; set; }
         public virtual ICollection<AccountFederation> AccountFederation { get; set; }
         public virtual ICollection<AccountWebHook> AccountWebHook { get; set; }
-        public virtual ICollection<Activity> Activity { get; set; }
         public virtual ICollection<Collaborator> Collaborator { get; set; }
         public virtual ICollection<CommitStatus> CommitStatusCreatorNavigation { get; set; }
         public virtual ICollection<CommitStatus> CommitStatusUserNameNavigation { get; set; }

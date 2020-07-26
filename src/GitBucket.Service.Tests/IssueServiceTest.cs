@@ -212,7 +212,7 @@ namespace GitBucket.Service.Tests
                 It.Is<string>(r => r == "test2"),
                 It.Is<NewIssue>(i =>
                     i.Title == "Found a bug" &&
-                    i.Body == "*From @root on 2018-07-01 00:00:00*\r\n\r\nOriginal Issue Comment.\r\n\r\n*Copied from original issue: root/test1#1*")));
+                    i.Body == $"*From @root on 2018-07-01 00:00:00*{Environment.NewLine}{Environment.NewLine}Original Issue Comment.{Environment.NewLine}{Environment.NewLine}*Copied from original issue: root/test1#1*")));
 
             mockGitBucketClient.Verify(g => g.Issue.Labels.AddToIssue(
                 It.Is<string>(o => o == "root"),
@@ -224,7 +224,7 @@ namespace GitBucket.Service.Tests
                 It.Is<string>(o => o == "root"),
                 It.Is<string>(r => r == "test2"),
                 It.Is<int>(n => n == 1),
-                It.Is<string>(c => c == "*From @user1 on 2018-01-01 00:00:00*\r\n\r\nThis is a comment by root.")));
+                It.Is<string>(c => c == $"*From @user1 on 2018-01-01 00:00:00*{Environment.NewLine}{Environment.NewLine}This is a comment by root.")));
 
             mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
                 It.Is<string>(o => o == "root"),
@@ -370,7 +370,7 @@ namespace GitBucket.Service.Tests
                 It.Is<string>(r => r == "test2"),
                 It.Is<NewIssue>(i =>
                     i.Title == "Found a bug" &&
-                    i.Body == "*From @root on 2018-07-01 00:00:00*\r\n\r\nOriginal Issue Comment.\r\n\r\n*Copied from original issue: root/test1#1*")));
+                    i.Body == $"*From @root on 2018-07-01 00:00:00*{Environment.NewLine}{Environment.NewLine}Original Issue Comment.{Environment.NewLine}{Environment.NewLine}*Copied from original issue: root/test1#1*")));
 
             mockGitBucketClient.Verify(g => g.Issue.Labels.AddToIssue(
                 It.Is<string>(o => o == "root"),
@@ -382,7 +382,7 @@ namespace GitBucket.Service.Tests
                 It.Is<string>(o => o == "root"),
                 It.Is<string>(r => r == "test2"),
                 It.Is<int>(n => n == 1),
-                It.Is<string>(c => c == "*From @user1 on 2018-01-01 00:00:00*\r\n\r\nThis is a comment by root.")));
+                It.Is<string>(c => c == $"*From @user1 on 2018-01-01 00:00:00*{Environment.NewLine}{Environment.NewLine}This is a comment by root.")));
 
             mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
                 It.Is<string>(o => o == "root"),
@@ -401,7 +401,7 @@ namespace GitBucket.Service.Tests
                 It.Is<string>(r => r == "test2"),
                 It.Is<NewIssue>(i =>
                     i.Title == "Found a bug" &&
-                    i.Body == "*From @root on 2018-07-01 00:00:00*\r\n\r\nOriginal Issue Comment.\r\n\r\n*Copied from original issue: root/test1#2*")));
+                    i.Body == $"*From @root on 2018-07-01 00:00:00*{Environment.NewLine}{Environment.NewLine}Original Issue Comment.{Environment.NewLine}{Environment.NewLine}*Copied from original issue: root/test1#2*")));
 
             mockGitBucketClient.Verify(g => g.Issue.Labels.AddToIssue(
                 It.Is<string>(o => o == "root"),
@@ -413,7 +413,7 @@ namespace GitBucket.Service.Tests
                 It.Is<string>(o => o == "root"),
                 It.Is<string>(r => r == "test2"),
                 It.Is<int>(n => n == 2),
-                It.Is<string>(c => c == "*From @user1 on 2018-01-01 00:00:00*\r\n\r\nThis is a comment by root.")));
+                It.Is<string>(c => c == $"*From @user1 on 2018-01-01 00:00:00*{Environment.NewLine}{Environment.NewLine}This is a comment by root.")));
 
             mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
                 It.Is<string>(o => o == "root"),
@@ -623,7 +623,7 @@ namespace GitBucket.Service.Tests
                 It.Is<string>(r => r == "test2"),
                 It.Is<NewIssue>(i =>
                     i.Title == "Found a bug" &&
-                    i.Body == "Original Issue Comment.\r\n\r\n*Copied from original issue: root/test1#1*")));
+                    i.Body == $"Original Issue Comment.{Environment.NewLine}{Environment.NewLine}*Copied from original issue: root/test1#1*")));
 
             mockGitBucketClient.Verify(g => g.Issue.Labels.AddToIssue(
                 It.Is<string>(o => o == "root"),
@@ -776,7 +776,7 @@ namespace GitBucket.Service.Tests
                 It.Is<string>(r => r == "test2"),
                 It.Is<NewIssue>(i =>
                     i.Title == "Found a bug" &&
-                    i.Body == "Original Issue Comment.\r\n\r\n*Copied from original issue: root/test1#1*")));
+                    i.Body == $"Original Issue Comment.{Environment.NewLine}{Environment.NewLine}*Copied from original issue: root/test1#1*")));
 
             mockGitBucketClient.Verify(g => g.Issue.Labels.AddToIssue(
                 It.Is<string>(o => o == "root"),
@@ -801,7 +801,7 @@ namespace GitBucket.Service.Tests
                 It.Is<string>(r => r == "test2"),
                 It.Is<NewIssue>(i =>
                     i.Title == "Found a bug" &&
-                    i.Body == "Original Issue Comment.\r\n\r\n*Copied from original issue: root/test1#2*")));
+                    i.Body == $"Original Issue Comment.{Environment.NewLine}{Environment.NewLine}*Copied from original issue: root/test1#2*")));
 
             mockGitBucketClient.Verify(g => g.Issue.Comment.Create(
                 It.Is<string>(o => o == "root"),

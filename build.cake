@@ -4,6 +4,7 @@
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
 
+var rid = Argument("rid", "win-x64");
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
@@ -57,7 +58,7 @@ Task("Run-E2E-Tests-Using-SingleFileExe")
     .IsDependentOn("Build")
     .Does(async (ctx) =>
 {
-    var path = MakeAbsolute(File("./executable/GbUtil.exe"));
+    var path = MakeAbsolute(File("./executable/GbUtil"));
     Environment.SetEnvironmentVariable("GbUtil_UseSingleFileExe", "true");
     Environment.SetEnvironmentVariable("GbUtil_SingleFileExePath", path.FullPath);
     await RunE2ETests(ctx);
@@ -65,6 +66,7 @@ Task("Run-E2E-Tests-Using-SingleFileExe")
 
 async Task RunE2ETests(ICakeContext ctx)
 {
+    System.IO.Directory.CreateDirectory("docker");
     Information("Recreating docker containers...");
     DockerComposeRm(new DockerComposeRmSettings { Force = true, Stop = true, Volumes = true });
     DeleteDirectoryWithReadonlyFiles("docker");
@@ -155,7 +157,7 @@ Task("Publish")
     }
 
     DotNetCoreNuGetPush(
-        "./packages/GbUtil.0.9.0.nupkg",
+        "./packages/GbUtil.0.10.0.nupkg",
         new DotNetCoreNuGetPushSettings 
         {
             ApiKey = apiKey,
@@ -174,12 +176,9 @@ Task("Publish-SingleFile")
         {
             Configuration = configuration,
             OutputDirectory = "executable",
-            Runtime = "win-x64",
+            Runtime = rid,
             PublishSingleFile = true,
             PublishTrimmed = true,
-
-            // https://github.com/dotnet/sdk/issues/3685
-            ArgumentCustomization = args => args.Append("/p:IncludeSymbolsInSingleFile=true"),
         });
 });
 

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using Octokit;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace GitBucket.Service.Tests
 {
@@ -184,8 +185,10 @@ namespace GitBucket.Service.Tests
                     new FakePullRequest(new FakeGitReference("develop"), new FakeGitReference("master"))
                 }));
 
+            var body = string.Empty;
             gitbucketClient
                 .Setup(g => g.PullRequest.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewPullRequest>()))
+                .Callback((string owner, string name, NewPullRequest newPullRequest) => body = newPullRequest.Body)
                 .ThrowsAsync(new InvalidCastException("Ignore InvalidCastException because of escaped response."));
 
             gitbucketClient.Setup(g => g.Issue.Labels.AddToIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string[]>()));
@@ -203,8 +206,9 @@ namespace GitBucket.Service.Tests
                     It.Is<NewPullRequest>(p =>
                         p.Title == "v1.0.0" &&
                         p.Head == "develop" &&
-                        p.Base == "master" &&
-                        p.Body == @"As part of this release we had 3 issues closed.
+                        p.Base == "master")));
+
+            Assert.Equal(@"As part of this release we had 3 issues closed.
 The highest priority among them is ""high"".
 
 ### Bug
@@ -214,7 +218,9 @@ The highest priority among them is ""high"".
 ### Enhancement
 * Some improvement on build #3
 
-")));
+",
+                body,
+                ignoreLineEndingDifferences: true);
 
             gitbucketClient
                 .Verify(g => g.Issue.Labels.AddToIssue(
@@ -252,8 +258,10 @@ The highest priority among them is ""high"".
                     new FakePullRequest(new FakeGitReference("develop"), new FakeGitReference("master"), 2)
                 }));
 
+            var body = string.Empty;
             gitbucketClient
                 .Setup(g => g.PullRequest.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewPullRequest>()))
+                .Callback((string owner, string name, NewPullRequest newPullRequest) => body = newPullRequest.Body)
                 .ThrowsAsync(new InvalidCastException("Ignore InvalidCastException because of escaped response."));
 
             gitbucketClient.Setup(g => g.Issue.Labels.AddToIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string[]>()));
@@ -271,8 +279,9 @@ The highest priority among them is ""high"".
                     It.Is<NewPullRequest>(p =>
                         p.Title == "v1.0.0" &&
                         p.Head == "develop" &&
-                        p.Base == "master" &&
-                        p.Body == @"As part of this release we had 3 issues closed.
+                        p.Base == "master")));
+
+            Assert.Equal(@"As part of this release we had 3 issues closed.
 The highest priority among them is ""high"".
 
 ### Bug
@@ -282,7 +291,9 @@ The highest priority among them is ""high"".
 ### Enhancement
 * Some improvement on build #3
 
-")));
+",
+                body,
+                ignoreLineEndingDifferences: true);
 
             Assert.Single(FakeConsole.Messages);
             Assert.Equal("A new pull request has been successfully created!", FakeConsole.Messages[0]);
@@ -324,8 +335,10 @@ The highest priority among them is ""high"".
                     new FakePullRequest(new FakeGitReference("release/v1.0.0"), new FakeGitReference("master"), 2)
                 }));
 
+            var body = string.Empty;
             gitbucketClient
                 .Setup(g => g.PullRequest.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewPullRequest>()))
+                .Callback((string owner, string name, NewPullRequest newPullRequest) => body = newPullRequest.Body)
                 .ThrowsAsync(new InvalidCastException("Ignore InvalidCastException because of escaped response."));
 
             gitbucketClient.Setup(g => g.Issue.Labels.AddToIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string[]>()));
@@ -343,14 +356,17 @@ The highest priority among them is ""high"".
                     It.Is<NewPullRequest>(p =>
                         p.Title == "Amazing PR" &&
                         p.Head == "master2" &&
-                        p.Base == "release/v1.0.0" &&
-                        p.Body == @"As part of this release we had 1 pull requests closed.
+                        p.Base == "release/v1.0.0")));
+
+            Assert.Equal(@"As part of this release we had 1 pull requests closed.
 The highest priority among them is ""default"".
 
 ### Bug
 * Fix a bug #4
 
-")));
+",
+                body,
+                ignoreLineEndingDifferences: true);
 
             Assert.Single(FakeConsole.Messages);
             Assert.Equal("A new pull request has been successfully created!", FakeConsole.Messages[0]);
@@ -383,7 +399,9 @@ The highest priority among them is ""high"".
 ### Enhancement
 * Some improvement on build #3
 
-", FakeConsole.Messages[0]);
+",
+                FakeConsole.Messages[0],
+                ignoreLineEndingDifferences: true);
 
             Assert.Empty(FakeConsole.WarnMessages);
             Assert.Empty(FakeConsole.ErrorMessages);

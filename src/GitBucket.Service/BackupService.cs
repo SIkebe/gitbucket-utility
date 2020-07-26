@@ -228,7 +228,7 @@ namespace GitBucket.Service
             _console.WriteLine("Database backup");
 
             var builder = new NpgsqlConnectionStringBuilder(connectionString);
-            var outputFile = Path.Combine(options.Destination, $"{builder.Database}_{DateTime.Now.ToString("yyyyMMddHHmmss")}.sql");
+            var outputFile = Path.Combine(options.Destination, $"{builder.Database}_{DateTime.Now:yyyyMMddHHmmss}.sql");
 
             using var process = new Process();
             process.StartInfo.FileName = string.IsNullOrEmpty(options.PgDump) ? "pg_dump" : options.PgDump;

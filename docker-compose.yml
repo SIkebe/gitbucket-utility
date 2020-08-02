@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  gitbucket:
+  gitbucket-postgres:
     build:
       context: .
       dockerfile: Dockerfile-GitBucket
@@ -9,24 +9,54 @@ services:
     ports:
       - 8080:8080
     volumes:
-     - ./docker:/gitbucket
+     - ./docker/gitbucket/postgres:/gitbucket
     depends_on:
-      - db
+      - postgres
     environment:
-      - GITBUCKET_DB_URL=jdbc:postgresql://db/gitbucket
+      - GITBUCKET_DB_URL=jdbc:postgresql://postgres/gitbucket
       - GITBUCKET_DB_USER=gitbucket
       - GITBUCKET_DB_PASSWORD=gitbucket
       - GITBUCKET_BASE_URL=http://localhost:8080
       - GITBUCKET_HOME=./gitbucket
-    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; sleep 10; java -jar /opt/gitbucket.war'
+    command: bash -c 'while !</dev/tcp/postgres/5432; do sleep 1; done; sleep 10; java -jar /opt/gitbucket.war'
 
-  db:
+  gitbucket-mysql:
+    build:
+      context: .
+      dockerfile: Dockerfile-GitBucket
+    restart: always
+    ports:
+      - 8081:8080
+    volumes:
+     - ./docker/gitbucket/mysql:/gitbucket
+    depends_on:
+      - mysql
+    environment:
+      - GITBUCKET_DB_URL=jdbc:mysql://mysql/gitbucket?useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true
+      - GITBUCKET_DB_USER=gitbucket
+      - GITBUCKET_DB_PASSWORD=gitbucket
+      - GITBUCKET_BASE_URL=http://localhost:8081
+      - GITBUCKET_HOME=./gitbucket
+    command: bash -c 'while !</dev/tcp/mysql/3306; do sleep 1; done; sleep 10; java -jar /opt/gitbucket.war'
+
+  postgres:
     image: postgres:12.3-alpine
     restart: always
     ports:
-      - "3306:5432"
+      - "5432:5432"
     environment:
       - POSTGRES_DB=gitbucket
       - POSTGRES_USER=gitbucket
       - POSTGRES_PASSWORD=gitbucket
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --locale=C
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=gitbucket
+      - MYSQL_DATABASE=gitbucket
+      - MYSQL_USER=gitbucket
+      - MYSQL_PASSWORD=gitbucket

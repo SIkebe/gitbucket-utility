@@ -50,6 +50,9 @@ Task("Run-E2E-Tests")
     .IsDependentOn("Build")
     .Does(async (ctx) =>
 {
+    Environment.SetEnvironmentVariable("GbUtil_ConnectionStrings", "Host=localhost;Port=5432;Username=gitbucket;Password=gitbucket;Database=gitbucket";
+    Environment.SetEnvironmentVariable("GbUtil_GitBucketUri", "http://localhost:8080/api/v3/";
+    Environment.SetEnvironmentVariable("GbUtil_BaseUri", "http://localhost:8080/";
     await RunE2ETests(ctx);
 });
 
@@ -59,6 +62,9 @@ Task("Run-E2E-Tests-Using-SingleFileExe")
     .Does(async (ctx) =>
 {
     var path = MakeAbsolute(File("./executable/GbUtil"));
+    Environment.SetEnvironmentVariable("GbUtil_ConnectionStrings", "Host=localhost;Port=5432;Username=gitbucket;Password=gitbucket;Database=gitbucket";
+    Environment.SetEnvironmentVariable("GbUtil_GitBucketUri", "http://localhost:8080/api/v3/";
+    Environment.SetEnvironmentVariable("GbUtil_BaseUri", "http://localhost:8080/";
     Environment.SetEnvironmentVariable("GbUtil_UseSingleFileExe", "true");
     Environment.SetEnvironmentVariable("GbUtil_SingleFileExePath", path.FullPath);
     await RunE2ETests(ctx);

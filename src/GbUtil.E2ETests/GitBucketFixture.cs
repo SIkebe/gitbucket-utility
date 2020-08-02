@@ -9,8 +9,6 @@ namespace GbUtil.E2ETests
     {
         public GitBucketFixture()
         {
-            Environment.SetEnvironmentVariable("GbUtil_ConnectionStrings", GitBucketDefaults.ConnectionStrings);
-            Environment.SetEnvironmentVariable("GbUtil_GitBucketUri", GitBucketDefaults.ApiEndpoint);
             Environment.SetEnvironmentVariable("GbUtil_UserName", GitBucketDefaults.Owner);
             Environment.SetEnvironmentVariable("GbUtil_Password", GitBucketDefaults.Password);
 

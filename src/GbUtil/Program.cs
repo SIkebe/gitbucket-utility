@@ -9,6 +9,7 @@ using GitBucket.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MySql.Data.MySqlClient;
 using Npgsql;
 using Octokit;
 using Octokit.Internal;
@@ -90,26 +91,43 @@ namespace GbUtil
             bool requireDbConnection = false)
         {
             string? connectionString = "";
+            bool usePostgreSQL = true;
             if (requireDbConnection)
             {
                 connectionString = configuration.GetSection("GbUtil_ConnectionStrings")?.Value;
                 if (string.IsNullOrEmpty(connectionString))
                 {
-                    throw new InvalidConfigurationException("PostgreSQL ConnectionString is not configured. Add \"GbUtil_ConnectionStrings\" environment variable.");
+                    throw new InvalidConfigurationException("ConnectionString is not configured. Add \"GbUtil_ConnectionStrings\" environment variable.");
                 }
 
-                try
+                var dbms = configuration.GetSection("GbUtil_DBMS")?.Value.ToLowerInvariant();
+                if (dbms == "mysql")
                 {
-                    using var sqlConnection = new NpgsqlConnection(connectionString);
-                    sqlConnection.Open();
+                    usePostgreSQL = false;
                 }
-                catch (Exception)
+
+                if (usePostgreSQL)
                 {
-                    throw new InvalidConfigurationException("Cannot open connection with PostgreSQL.");
+                    EnsureConnectionToPostgreSQL(connectionString);
+                }
+                else
+                {
+                    EnsureConnectionToMySQL(connectionString);
                 }
             }
 
-            return new ServiceCollection()
+            if (usePostgreSQL)
+            {
+                return CreateServiceCollectionWithPostgreSQL(requireDbConnection, connectionString);
+            }
+            else
+            {
+                return CreateServiceCollectionWithMySQL(requireDbConnection, connectionString);
+            }
+        }
+
+        private static ServiceProvider CreateServiceCollectionWithPostgreSQL(bool requireDbConnection, string connectionString)
+            => new ServiceCollection()
                 .AddScopedIf<DbContext>(requireDbConnection, _ => new GitBucketDbContext(connectionString))
                 .AddTransient<IReleaseService, ReleaseService>()
                 .AddTransient<IMilestoneService, MilestoneService>()
@@ -117,6 +135,41 @@ namespace GbUtil
                 .AddTransient<IBackupService, BackupService>()
                 .AddTransient<IConsole, GbUtilConsole>()
                 .BuildServiceProvider();
+
+        private static ServiceProvider CreateServiceCollectionWithMySQL(bool requireDbConnection, string connectionString)
+            => new ServiceCollection()
+                .AddScopedIf<DbContext>(requireDbConnection, _ => new MySqlDbContext(connectionString))
+                .AddTransient<IReleaseService, ReleaseService>()
+                .AddTransient<IMilestoneService, MilestoneService>()
+                .AddTransient<IIssueService, IssueService>()
+                .AddTransient<IBackupService, BackupService>()
+                .AddTransient<IConsole, GbUtilConsole>()
+                .BuildServiceProvider();
+
+        private static void EnsureConnectionToPostgreSQL(string connectionString)
+        {
+            try
+            {
+                using var sqlConnection = new NpgsqlConnection(connectionString);
+                sqlConnection.Open();
+            }
+            catch (Exception)
+            {
+                throw new InvalidConfigurationException("Cannot open connection with PostgreSQL.");
+            }
+        }
+
+        private static void EnsureConnectionToMySQL(string connectionString)
+        {
+            try
+            {
+                using var sqlConnection = new MySqlConnection(connectionString);
+                sqlConnection.Open();
+            }
+            catch (Exception)
+            {
+                throw new InvalidConfigurationException("Cannot open connection with MySQL.");
+            }
         }
 
         private static IGitHubClient CreateGitBucketClient(IConfiguration configuration, IConsole console)

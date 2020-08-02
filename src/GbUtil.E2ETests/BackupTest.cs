@@ -20,7 +20,7 @@ namespace GbUtil.E2ETests
             await CreateRepository(autoInit: true);
             await CreateRepository(autoInit: true);
 
-            var gitbucketHome = Path.GetFullPath("../../../../../docker");
+            var gitbucketHome = Path.GetFullPath("../../../../../docker/gitbucket/postgres");
             var destination = Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(typeof(BackupTest))!.Location)!, Guid.NewGuid().ToString());
             var repos = await GitBucketFixture.GitBucketClient.Repository.GetAllForUser(GitBucketDefaults.Owner);
 

@@ -100,7 +100,7 @@ namespace GbUtil
                     throw new InvalidConfigurationException("ConnectionString is not configured. Add \"GbUtil_ConnectionStrings\" environment variable.");
                 }
 
-                var dbms = configuration.GetSection("GbUtil_DBMS")?.Value.ToLowerInvariant();
+                var dbms = configuration.GetSection("GbUtil_DBMS")?.Value?.ToLowerInvariant();
                 if (dbms == "mysql")
                 {
                     usePostgreSQL = false;

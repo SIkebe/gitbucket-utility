@@ -12,7 +12,7 @@ namespace GitBucket.Service.Tests
     {
         private readonly string _input;
         private ConsoleKind _consoleKind = ConsoleKind.Normal;
-        private bool _hasNewLineAtTheEndOfTheMessages = false;
+        private bool _hasNewLineAtTheEndOfTheMessages;
 
         public FakeConsole(string input = "test") => _input = input;
 

@@ -15,7 +15,7 @@ namespace GbUtil.E2ETests
 {
     public abstract class E2ETestBase : IClassFixture<GitBucketFixture>, IDisposable
     {
-        private bool disposedValue = false;
+        private bool disposedValue;
 
         public E2ETestBase(GitBucketFixture fixture, ITestOutputHelper output)
         {

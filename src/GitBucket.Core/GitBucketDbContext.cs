@@ -65,8 +65,7 @@ namespace GitBucket.Core
             {
                 entity.ToTable("access_token");
 
-                entity.HasIndex(x => x.AccessTokenId, "access_token_access_token_id_key")
-                    .IsUnique();
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.HasIndex(x => x.TokenHash, "idx_access_token_token_hash")
                     .IsUnique();
@@ -99,6 +98,8 @@ namespace GitBucket.Core
                     .HasName("idx_account_pk");
 
                 entity.ToTable("account");
+
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.HasIndex(x => x.MailAddress, "idx_account_1")
                     .IsUnique();
@@ -152,6 +153,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("account_extra_mail_address");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.HasIndex(x => x.ExtraMailAddress, "idx_account_extra_mail_address_1")
                     .IsUnique();
 
@@ -170,6 +173,8 @@ namespace GitBucket.Core
                     .HasName("idx_account_federation_pk");
 
                 entity.ToTable("account_federation");
+
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.Property(e => e.Issuer)
                     .HasMaxLength(100)
@@ -197,6 +202,8 @@ namespace GitBucket.Core
                     .HasName("idx_account_web_hook_pk");
 
                 entity.ToTable("account_web_hook");
+
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
@@ -227,6 +234,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("account_web_hook_event");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.Property(e => e.Event)
                     .IsRequired()
                     .HasMaxLength(30)
@@ -243,62 +252,14 @@ namespace GitBucket.Core
                     .HasColumnName("user_name");
             });
 
-            modelBuilder.Entity<Activity>(entity =>
-            {
-                entity.ToTable("activity");
-
-                entity.HasIndex(x => x.ActivityId, "activity_activity_id_key")
-                    .IsUnique();
-
-                entity.Property(e => e.ActivityId).HasColumnName("activity_id");
-
-                entity.Property(e => e.ActivityDate).HasColumnName("activity_date");
-
-                entity.Property(e => e.ActivityType)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .HasColumnName("activity_type");
-
-                entity.Property(e => e.ActivityUserName)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .HasColumnName("activity_user_name");
-
-                entity.Property(e => e.AdditionalInfo).HasColumnName("additional_info");
-
-                entity.Property(e => e.Message)
-                    .IsRequired()
-                    .HasColumnName("message");
-
-                entity.Property(e => e.RepositoryName)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .HasColumnName("repository_name");
-
-                entity.Property(e => e.UserName)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .HasColumnName("user_name");
-
-                entity.HasOne(d => d.ActivityUserNameNavigation)
-                    .WithMany(p => p.Activities)
-                    .HasForeignKey(x => x.ActivityUserName)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("idx_activity_fk1");
-
-                entity.HasOne(d => d.Repository)
-                    .WithMany(p => p.Activities)
-                    .HasForeignKey(x => new { x.UserName, x.RepositoryName })
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("idx_activity_fk0");
-            });
-
             modelBuilder.Entity<Collaborator>(entity =>
             {
                 entity.HasKey(x => new { x.UserName, x.RepositoryName, x.CollaboratorName })
                     .HasName("idx_collaborator_pk");
 
                 entity.ToTable("collaborator");
+
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
@@ -338,8 +299,7 @@ namespace GitBucket.Core
 
                 entity.ToTable("commit_comment");
 
-                entity.HasIndex(x => x.CommentId, "commit_comment_comment_id_key")
-                    .IsUnique();
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.Property(e => e.CommentId).HasColumnName("comment_id");
 
@@ -401,8 +361,7 @@ namespace GitBucket.Core
             {
                 entity.ToTable("commit_status");
 
-                entity.HasIndex(x => x.CommitStatusId, "commit_status_commit_status_id_key")
-                    .IsUnique();
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.HasIndex(x => new { x.UserName, x.RepositoryName, x.CommitId, x.Context }, "idx_commit_status_1")
                     .IsUnique();
@@ -472,6 +431,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("deploy_key");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.HasIndex(x => x.DeployKeyId, "deploy_key_deploy_key_id_key")
                     .IsUnique();
 
@@ -511,6 +472,8 @@ namespace GitBucket.Core
                     .HasName("idx_gist_pk");
 
                 entity.ToTable("gist");
+
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
@@ -559,8 +522,7 @@ namespace GitBucket.Core
 
                 entity.ToTable("gist_comment");
 
-                entity.HasIndex(x => x.CommentId, "gist_comment_comment_id_key")
-                    .IsUnique();
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.HasIndex(x => new { x.UserName, x.RepositoryName, x.CommentId }, "idx_gist_comment_1")
                     .IsUnique();
@@ -610,6 +572,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("gpg_key");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.HasIndex(x => x.KeyId, "gpg_key_key_id_key")
                     .IsUnique();
 
@@ -646,6 +610,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("group_member");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.Property(e => e.GroupName)
                     .HasMaxLength(100)
                     .HasColumnName("group_name");
@@ -675,6 +641,8 @@ namespace GitBucket.Core
                     .HasName("idx_issue_pk");
 
                 entity.ToTable("issue");
+
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
@@ -745,8 +713,7 @@ namespace GitBucket.Core
 
                 entity.ToTable("issue_comment");
 
-                entity.HasIndex(x => x.CommentId, "issue_comment_comment_id_key")
-                    .IsUnique();
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.Property(e => e.CommentId).HasColumnName("comment_id");
 
@@ -794,6 +761,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("issue_id");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
                     .HasColumnName("user_name");
@@ -817,6 +786,8 @@ namespace GitBucket.Core
                     .HasName("idx_issue_label_pk");
 
                 entity.ToTable("issue_label");
+
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
@@ -844,6 +815,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("issue_notification");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
                     .HasColumnName("user_name");
@@ -867,6 +840,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("issue_outline_view");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.Property(e => e.CommentCount).HasColumnName("comment_count");
 
                 entity.Property(e => e.IssueId).HasColumnName("issue_id");
@@ -888,6 +863,8 @@ namespace GitBucket.Core
                     .HasName("idx_label_pk");
 
                 entity.ToTable("label");
+
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.HasIndex(x => x.LabelId, "label_label_id_key")
                     .IsUnique();
@@ -929,6 +906,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("milestone");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.HasIndex(x => x.MilestoneId, "milestone_milestone_id_key")
                     .IsUnique();
 
@@ -969,6 +948,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("notifications_account");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
                     .HasColumnName("user_name");
@@ -989,6 +970,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("pages");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
                     .HasColumnName("user_name");
@@ -1007,6 +990,8 @@ namespace GitBucket.Core
             {
                 entity.ToTable("plugin");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.Property(e => e.PluginId)
                     .HasMaxLength(100)
                     .HasColumnName("plugin_id");
@@ -1023,6 +1008,8 @@ namespace GitBucket.Core
                     .HasName("idx_priority_pk");
 
                 entity.ToTable("priority");
+
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.HasIndex(x => x.PriorityId, "priority_priority_id_key")
                     .IsUnique();
@@ -1072,6 +1059,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("protected_branch");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
                     .HasColumnName("user_name");
@@ -1098,6 +1087,8 @@ namespace GitBucket.Core
                     .HasName("idx_protected_branch_require_context_pk");
 
                 entity.ToTable("protected_branch_require_context");
+
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
@@ -1127,6 +1118,8 @@ namespace GitBucket.Core
                     .HasName("idx_pull_request_pk");
 
                 entity.ToTable("pull_request");
+
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
@@ -1184,6 +1177,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("release_asset");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.HasIndex(x => x.ReleaseAssetId, "release_asset_release_asset_id_key")
                     .IsUnique();
 
@@ -1236,6 +1231,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("release_tag");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
                     .HasColumnName("user_name");
@@ -1277,6 +1274,8 @@ namespace GitBucket.Core
                     .HasName("idx_repository_pk");
 
                 entity.ToTable("repository");
+
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
@@ -1367,6 +1366,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("ssh_key");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.HasIndex(x => x.SshKeyId, "ssh_key_ssh_key_id_key")
                     .IsUnique();
 
@@ -1401,6 +1402,8 @@ namespace GitBucket.Core
 
                 entity.ToTable("versions");
 
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
+
                 entity.Property(e => e.ModuleId)
                     .HasMaxLength(100)
                     .HasColumnName("module_id");
@@ -1417,6 +1420,8 @@ namespace GitBucket.Core
                     .HasName("idx_watch_pk");
 
                 entity.ToTable("watch");
+
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
@@ -1442,6 +1447,8 @@ namespace GitBucket.Core
                     .HasName("idx_web_hook_pk");
 
                 entity.ToTable("web_hook");
+
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
@@ -1476,6 +1483,8 @@ namespace GitBucket.Core
                     .HasName("idx_web_hook_event_pk");
 
                 entity.ToTable("web_hook_event");
+
+                entity.HasAnnotation("Relational:IsTableExcludedFromMigrations", false);
 
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)

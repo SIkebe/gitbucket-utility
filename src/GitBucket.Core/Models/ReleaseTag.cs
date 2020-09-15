@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace GitBucket.Core.Models
 {
     public partial class ReleaseTag
     {
         public ReleaseTag()
         {
-            ReleaseAsset = new HashSet<ReleaseAsset>();
+            ReleaseAssets = new HashSet<ReleaseAsset>();
         }
 
         public string UserName { get; set; }
@@ -20,6 +22,6 @@ namespace GitBucket.Core.Models
         public DateTime UpdatedDate { get; set; }
 
         public virtual Repository Repository { get; set; }
-        public virtual ICollection<ReleaseAsset> ReleaseAsset { get; set; }
+        public virtual ICollection<ReleaseAsset> ReleaseAssets { get; set; }
     }
 }

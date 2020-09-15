@@ -22,7 +22,7 @@ namespace GitBucket.Service.Tests
 
             var dbContext = new GitBucketDbContext(dbContextOptions);
             var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
-            dbContext.Milestone.Add(new Milestone
+            dbContext.Milestones.Add(new Milestone
             {
                 MilestoneId = 1,
                 Title = "v0.1.0",
@@ -31,7 +31,7 @@ namespace GitBucket.Service.Tests
                 ClosedDate = null,
                 Description = "Implement xxx feature",
                 UserName = "root",
-                Issue = new[]
+                Issues = new[]
                 {
                     new Issue
                     {
@@ -86,7 +86,7 @@ namespace GitBucket.Service.Tests
 
             var dbContext = new GitBucketDbContext(dbContextOptions);
             var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1), IncludeClosed = true };
-            dbContext.Milestone.Add(new Milestone
+            dbContext.Milestones.Add(new Milestone
             {
                 MilestoneId = 1,
                 Title = "v0.1.0",
@@ -95,7 +95,7 @@ namespace GitBucket.Service.Tests
                 ClosedDate = new DateTime(2018, 7, 1),
                 Description = "Implement xxx feature",
                 UserName = "root",
-                Issue = new[]
+                Issues = new[]
                 {
                     new Issue
                     {
@@ -136,7 +136,7 @@ namespace GitBucket.Service.Tests
 
             var dbContext = new GitBucketDbContext(dbContextOptions);
             var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
-            dbContext.Milestone.Add(new Milestone
+            dbContext.Milestones.Add(new Milestone
             {
                 MilestoneId = 1,
                 Title = "v0.1.0",
@@ -145,7 +145,7 @@ namespace GitBucket.Service.Tests
                 ClosedDate = null,
                 Description = "Implement xxx feature",
                 UserName = "root",
-                Issue = new[]
+                Issues = new[]
                 {
                     new Issue
                     {
@@ -186,7 +186,7 @@ namespace GitBucket.Service.Tests
 
             var dbContext = new GitBucketDbContext(dbContextOptions);
             var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
-            dbContext.Milestone.Add(new Milestone
+            dbContext.Milestones.Add(new Milestone
             {
                 MilestoneId = 1,
                 Title = "v0.1.0",
@@ -195,7 +195,7 @@ namespace GitBucket.Service.Tests
                 ClosedDate = null,
                 Description = "Implement xxx feature",
                 UserName = "root",
-                Issue = new[]
+                Issues = new[]
                 {
                     new Issue
                     {
@@ -236,7 +236,7 @@ namespace GitBucket.Service.Tests
 
             var dbContext = new GitBucketDbContext(dbContextOptions);
             var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
-            dbContext.Milestone.Add(new Milestone
+            dbContext.Milestones.Add(new Milestone
             {
                 MilestoneId = 1,
                 Title = "v0.1.0",
@@ -245,7 +245,7 @@ namespace GitBucket.Service.Tests
                 ClosedDate = null,
                 Description = "Implement xxx feature",
                 UserName = "root",
-                Issue = new[]
+                Issues = new[]
                 {
                     new Issue
                     {
@@ -286,7 +286,7 @@ namespace GitBucket.Service.Tests
 
             var dbContext = new GitBucketDbContext(dbContextOptions);
             var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1), IncludeClosed = true };
-            dbContext.Milestone.AddRange(new List<Core.Models.Milestone>
+            dbContext.Milestones.AddRange(new List<Core.Models.Milestone>
             {
                 new Milestone
                 {
@@ -297,7 +297,7 @@ namespace GitBucket.Service.Tests
                     ClosedDate = null,
                     Description = "Error",
                     UserName = "root",
-                    Issue = new[]
+                    Issues = new[]
                     {
                         new Issue
                         {
@@ -317,7 +317,7 @@ namespace GitBucket.Service.Tests
                     ClosedDate = new DateTime(2018, 7, 1),
                     Description = "Closed",
                     UserName = "root",
-                    Issue = new[]
+                    Issues = new[]
                     {
                         new Issue
                         {
@@ -337,7 +337,7 @@ namespace GitBucket.Service.Tests
                     ClosedDate = null,
                     Description = "Warn",
                     UserName = "root",
-                    Issue = new[]
+                    Issues = new[]
                     {
                         new Issue
                         {
@@ -357,7 +357,7 @@ namespace GitBucket.Service.Tests
                     ClosedDate = null,
                     Description = "Info",
                     UserName = "root",
-                    Issue = new[]
+                    Issues = new[]
                     {
                         new Issue
                         {

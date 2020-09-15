@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Description>.NET Core Global tool for GitBucket utilities.</Description>
+    <Description>.NET Global tool for GitBucket utilities.</Description>
     <ToolCommandName>gbutil</ToolCommandName>
     <Authors>SIkebe</Authors>
     <Product>gitbucket-utility</Product>

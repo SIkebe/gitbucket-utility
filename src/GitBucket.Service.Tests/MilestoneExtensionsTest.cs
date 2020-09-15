@@ -18,7 +18,7 @@ namespace GitBucket.Service.Tests
                 RepositoryName = "test",
                 UserName = "root",
                 Title = "v1.0.0",
-                Issue = new[] { new Issue { AssignedUserName = "user1" }, }
+                Issues = new[] { new Issue { AssignedUserName = "user1" }, }
             };
 
             // When
@@ -39,7 +39,7 @@ namespace GitBucket.Service.Tests
                 RepositoryName = "test",
                 UserName = "root",
                 Title = "v1.0.0",
-                Issue = new[]
+                Issues = new[]
                 {
                     new Issue { AssignedUserName = "user1" },
                     new Issue { AssignedUserName = "user3" },
@@ -66,7 +66,7 @@ namespace GitBucket.Service.Tests
                 RepositoryName = "test",
                 UserName = "root",
                 Title = "v1.0.0",
-                Issue = new[] { new Issue { AssignedUserName = "user1" }, }
+                Issues = new[] { new Issue { AssignedUserName = "user1" }, }
             };
 
             // When
@@ -87,7 +87,7 @@ namespace GitBucket.Service.Tests
                 RepositoryName = "test",
                 UserName = "root",
                 Title = "v1.0.0",
-                Issue = new[] { new Issue { AssignedUserName = "user1" }, }
+                Issues = new[] { new Issue { AssignedUserName = "user1" }, }
             };
 
             // When
@@ -108,7 +108,7 @@ namespace GitBucket.Service.Tests
                 RepositoryName = "test",
                 UserName = "root",
                 Title = "v1.0.0",
-                Issue = Array.Empty<Issue>()
+                Issues = Array.Empty<Issue>()
             };
 
             // When
@@ -131,7 +131,7 @@ namespace GitBucket.Service.Tests
                 RepositoryName = "test",
                 UserName = "root",
                 Title = "v1.0.0",
-                Issue = new[] { new Issue { AssignedUserName = assignedUserName }, }
+                Issues = new[] { new Issue { AssignedUserName = assignedUserName }, }
             };
 
             // When
@@ -154,7 +154,7 @@ namespace GitBucket.Service.Tests
                 RepositoryName = "test",
                 UserName = "root",
                 Title = "v1.0.0",
-                Issue = new[] { new Issue { AssignedUserName = "user1" }, }
+                Issues = new[] { new Issue { AssignedUserName = "user1" }, }
             };
 
             // When
@@ -175,7 +175,7 @@ namespace GitBucket.Service.Tests
                 RepositoryName = "test",
                 UserName = "root",
                 Title = "v1.0.0",
-                Issue = new[] { new Issue { AssignedUserName = "user1" }, }
+                Issues = new[] { new Issue { AssignedUserName = "user1" }, }
             };
 
             // When

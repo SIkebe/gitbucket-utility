@@ -1,26 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace GitBucket.Core.Models
 {
     public partial class Account
     {
         public Account()
         {
-            AccessToken = new HashSet<AccessToken>();
-            AccountFederation = new HashSet<AccountFederation>();
-            AccountWebHook = new HashSet<AccountWebHook>();
-            Collaborator = new HashSet<Collaborator>();
-            CommitStatusCreatorNavigation = new HashSet<CommitStatus>();
-            CommitStatusUserNameNavigation = new HashSet<CommitStatus>();
-            Gist = new HashSet<Gist>();
-            GistComment = new HashSet<GistComment>();
-            GpgKey = new HashSet<GpgKey>();
-            GroupMemberGroupNameNavigation = new HashSet<GroupMember>();
-            GroupMemberUserNameNavigation = new HashSet<GroupMember>();
-            Issue = new HashSet<Issue>();
-            Repository = new HashSet<Repository>();
-            SshKey = new HashSet<SshKey>();
+            AccessTokens = new HashSet<AccessToken>();
+            AccountFederations = new HashSet<AccountFederation>();
+            AccountWebHooks = new HashSet<AccountWebHook>();
+            Collaborators = new HashSet<Collaborator>();
+            CommitStatusCreatorNavigations = new HashSet<CommitStatus>();
+            CommitStatusUserNameNavigations = new HashSet<CommitStatus>();
+            GistComments = new HashSet<GistComment>();
+            Gists = new HashSet<Gist>();
+            GpgKeys = new HashSet<GpgKey>();
+            GroupMemberGroupNameNavigations = new HashSet<GroupMember>();
+            GroupMemberUserNameNavigations = new HashSet<GroupMember>();
+            Issues = new HashSet<Issue>();
+            Repositories = new HashSet<Repository>();
+            SshKeys = new HashSet<SshKey>();
         }
 
         public string UserName { get; set; }
@@ -38,19 +40,19 @@ namespace GitBucket.Core.Models
         public string Description { get; set; }
 
         public virtual NotificationsAccount NotificationsAccount { get; set; }
-        public virtual ICollection<AccessToken> AccessToken { get; set; }
-        public virtual ICollection<AccountFederation> AccountFederation { get; set; }
-        public virtual ICollection<AccountWebHook> AccountWebHook { get; set; }
-        public virtual ICollection<Collaborator> Collaborator { get; set; }
-        public virtual ICollection<CommitStatus> CommitStatusCreatorNavigation { get; set; }
-        public virtual ICollection<CommitStatus> CommitStatusUserNameNavigation { get; set; }
-        public virtual ICollection<Gist> Gist { get; set; }
-        public virtual ICollection<GistComment> GistComment { get; set; }
-        public virtual ICollection<GpgKey> GpgKey { get; set; }
-        public virtual ICollection<GroupMember> GroupMemberGroupNameNavigation { get; set; }
-        public virtual ICollection<GroupMember> GroupMemberUserNameNavigation { get; set; }
-        public virtual ICollection<Issue> Issue { get; set; }
-        public virtual ICollection<Repository> Repository { get; set; }
-        public virtual ICollection<SshKey> SshKey { get; set; }
+        public virtual ICollection<AccessToken> AccessTokens { get; set; }
+        public virtual ICollection<AccountFederation> AccountFederations { get; set; }
+        public virtual ICollection<AccountWebHook> AccountWebHooks { get; set; }
+        public virtual ICollection<Collaborator> Collaborators { get; set; }
+        public virtual ICollection<CommitStatus> CommitStatusCreatorNavigations { get; set; }
+        public virtual ICollection<CommitStatus> CommitStatusUserNameNavigations { get; set; }
+        public virtual ICollection<GistComment> GistComments { get; set; }
+        public virtual ICollection<Gist> Gists { get; set; }
+        public virtual ICollection<GpgKey> GpgKeys { get; set; }
+        public virtual ICollection<GroupMember> GroupMemberGroupNameNavigations { get; set; }
+        public virtual ICollection<GroupMember> GroupMemberUserNameNavigations { get; set; }
+        public virtual ICollection<Issue> Issues { get; set; }
+        public virtual ICollection<Repository> Repositories { get; set; }
+        public virtual ICollection<SshKey> SshKeys { get; set; }
     }
 }

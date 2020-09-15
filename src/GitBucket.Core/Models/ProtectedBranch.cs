@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace GitBucket.Core.Models
 {
     public partial class ProtectedBranch
     {
         public ProtectedBranch()
         {
-            ProtectedBranchRequireContext = new HashSet<ProtectedBranchRequireContext>();
+            ProtectedBranchRequireContexts = new HashSet<ProtectedBranchRequireContext>();
         }
 
         public string UserName { get; set; }
@@ -16,6 +18,6 @@ namespace GitBucket.Core.Models
         public bool StatusCheckAdmin { get; set; }
 
         public virtual Repository Repository { get; set; }
-        public virtual ICollection<ProtectedBranchRequireContext> ProtectedBranchRequireContext { get; set; }
+        public virtual ICollection<ProtectedBranchRequireContext> ProtectedBranchRequireContexts { get; set; }
     }
 }

@@ -71,7 +71,7 @@ namespace GitBucket.Service.Tests
                 .Options;
 
             var dbContext = new GitBucketDbContext(dbContextOptions);
-            dbContext.Issue.Add(new Core.Models.Issue
+            dbContext.Issues.Add(new Core.Models.Issue
             {
                 Closed = false,
                 Milestone = new Core.Models.Milestone
@@ -111,7 +111,7 @@ namespace GitBucket.Service.Tests
                 .Options;
 
             var dbContext = new GitBucketDbContext(dbContextOptions);
-            dbContext.Issue.Add(new Core.Models.Issue
+            dbContext.Issues.Add(new Core.Models.Issue
             {
                 Milestone = new Core.Models.Milestone
                 {
@@ -241,7 +241,7 @@ The highest priority among them is ""high"".
             // Given
             var options = new ReleaseOptions { Draft = true, CreatePullRequest = true, MileStone = "v1.0.0", Owner = "root", Repository = "test" };
             var dbContext = EnsureDbCreated(options);
-            dbContext.PullRequest.AddRange(new List<Core.Models.PullRequest>
+            dbContext.PullRequests.AddRange(new List<Core.Models.PullRequest>
             {
                 new Core.Models.PullRequest { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 1 },
                 new Core.Models.PullRequest { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 2 }
@@ -300,7 +300,7 @@ The highest priority among them is ""high"".
             Assert.Empty(FakeConsole.WarnMessages);
             Assert.Empty(FakeConsole.ErrorMessages);
 
-            var isDraft = dbContext.PullRequest.Where(p => p.IssueId == 2).Select(p => p.IsDraft).Single();
+            var isDraft = dbContext.PullRequests.Where(p => p.IssueId == 2).Select(p => p.IsDraft).Single();
             Assert.True(isDraft);
         }
 
@@ -438,7 +438,7 @@ The highest priority among them is ""high"".
                 UserName = options.Owner,
             };
 
-            dbContext.Issue.AddRange(new List<Core.Models.Issue>
+            dbContext.Issues.AddRange(new List<Core.Models.Issue>
             {
                 new Core.Models.Issue
                 {
@@ -483,7 +483,7 @@ The highest priority among them is ""high"".
                 }
             });
 
-            dbContext.IssueLabel.AddRange(new List<Core.Models.IssueLabel>
+            dbContext.IssueLabels.AddRange(new List<Core.Models.IssueLabel>
             {
                 new Core.Models.IssueLabel
                 {
@@ -515,7 +515,7 @@ The highest priority among them is ""high"".
                 }
             });
 
-            dbContext.Label.AddRange(new List<Core.Models.Label>
+            dbContext.Labels.AddRange(new List<Core.Models.Label>
             {
                 new Core.Models.Label
                 {

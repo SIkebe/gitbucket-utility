@@ -4,14 +4,14 @@
     <PackageReference Update="CommandLineParser" Version="2.8.0" />
     <PackageReference Update="libgit2sharp" Version="0.27.0-preview-0034" />
     <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="3.1.8" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.8" />
-    <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.8" />
-    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="3.1.8" />
-    <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="3.1.8" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="5.0.0-rc.1.20451.13" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.0-rc.1.20451.13" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0-rc.1.20451.14" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="5.0.0-rc.1.20451.14" />
+    <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="5.0.0-rc.1.20451.14" />
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Update="Moq" Version="4.14.5" />
-    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
+    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.0-rc1" />
     <PackageReference Update="octokit" Version="0.48.0" />
     <PackageReference Update="StyleCop.Analyzers" Version="1.2.0-beta.205" />
     <PackageReference Update="xunit" Version="2.4.1" />

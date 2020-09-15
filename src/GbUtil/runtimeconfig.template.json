@@ -1,5 +1,5 @@
 {
-    // Rollforward across major versions of .NET Core
+    // Rollforward across major versions of .NET
     // The default setting will only rollforward across minor versions
     // https://github.com/dotnet/core-setup/blob/master/Documentation/design-docs/roll-forward-on-no-candidate-fx.md
     "rollForwardOnNoCandidateFx": 2

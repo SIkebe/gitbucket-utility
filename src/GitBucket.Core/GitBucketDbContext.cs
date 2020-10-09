@@ -1,4 +1,4 @@
-﻿using GitBucket.Core.Models;
+using GitBucket.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 #nullable disable

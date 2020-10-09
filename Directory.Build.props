@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <VersionPrefix>0.10.0</VersionPrefix>
     <DebugType>embedded</DebugType>
+    <AnalysisLevel>preview</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
 
     <!-- https://github.com/OmniSharp/omnisharp-vscode/issues/3207
          https://github.com/OmniSharp/omnisharp-roslyn/issues/1589 -->

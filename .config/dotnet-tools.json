@@ -9,7 +9,7 @@
       ]
     },
     "cake.tool": {
-      "version": "0.38.5",
+      "version": "1.0.0-rc0001",
       "commands": [
         "dotnet-cake"
       ]

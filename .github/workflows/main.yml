@@ -20,7 +20,7 @@ jobs:
         shell: bash
       - name: Build and Run E2E Tests On Linux
         run: |
-          .\build.ps1 -target=Run-E2E-Tests
+          .\build.ps1 --target Run-E2E-Tests
         shell: pwsh
 
   linux-e2e-scd:
@@ -41,7 +41,7 @@ jobs:
         shell: bash
       - name: Build and Run E2E Tests Using SingleFileExe On Linux
         run: |
-          .\build.ps1 -target=Run-E2E-Tests-Using-SingleFileExe -rid=linux-x64
+          .\build.ps1 --target Run-E2E-Tests-Using-SingleFileExe --rid linux-x64
         shell: pwsh
 
   windows:
@@ -49,13 +49,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build and Run Unit Tests On Windows
-        run: .\build.ps1 -target=Run-Unit-Tests
+        run: .\build.ps1 --target Run-Unit-Tests
         shell: powershell
-  
+
   macOS:
     runs-on: macos-10.15
     steps:
       - uses: actions/checkout@v2
       - name: Build and Run Unit Tests On macOS
-        run: .\build.ps1 -target=Run-Unit-Tests
+        run: .\build.ps1 --target Run-Unit-Tests
         shell: pwsh

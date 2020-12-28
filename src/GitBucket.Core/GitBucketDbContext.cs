@@ -20,6 +20,7 @@ namespace GitBucket.Core
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<AccountExtraMailAddress> AccountExtraMailAddresses { get; set; }
         public virtual DbSet<AccountFederation> AccountFederations { get; set; }
+        public virtual DbSet<AccountPreference> AccountPreferences { get; set; }
         public virtual DbSet<AccountWebHook> AccountWebHooks { get; set; }
         public virtual DbSet<AccountWebHookEvent> AccountWebHookEvents { get; set; }
         public virtual DbSet<Collaborator> Collaborators { get; set; }
@@ -60,6 +61,8 @@ namespace GitBucket.Core
             {
                 throw new System.ArgumentNullException(nameof(modelBuilder));
             }
+
+            modelBuilder.HasAnnotation("Relational:Collation", "C");
 
             modelBuilder.Entity<AccessToken>(entity =>
             {
@@ -186,6 +189,29 @@ namespace GitBucket.Core
                     .HasForeignKey(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("idx_account_federation_fk0");
+            });
+
+            modelBuilder.Entity<AccountPreference>(entity =>
+            {
+                entity.HasKey(e => e.UserName)
+                    .HasName("idx_account_preference_pk");
+
+                entity.ToTable("account_preference");
+
+                entity.Property(e => e.UserName)
+                    .HasMaxLength(100)
+                    .HasColumnName("user_name");
+
+                entity.Property(e => e.HighlighterTheme)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnName("highlighter_theme")
+                    .HasDefaultValueSql("'prettify'::character varying");
+
+                entity.HasOne(d => d.UserNameNavigation)
+                    .WithOne(p => p.AccountPreference)
+                    .HasForeignKey<AccountPreference>(d => d.UserName)
+                    .HasConstraintName("idx_account_preference_fk0");
             });
 
             modelBuilder.Entity<AccountWebHook>(entity =>
@@ -1373,10 +1399,16 @@ namespace GitBucket.Core
 
             modelBuilder.Entity<WebHook>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Url })
+                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Url, e.HookId })
                     .HasName("idx_web_hook_pk");
 
                 entity.ToTable("web_hook");
+
+                entity.HasIndex(e => new { e.UserName, e.RepositoryName, e.Url }, "idx_web_hook_1")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.HookId, "web_hook_hook_id_key")
+                    .IsUnique();
 
                 entity.Property(e => e.UserName)
                     .HasMaxLength(100)
@@ -1389,6 +1421,10 @@ namespace GitBucket.Core
                 entity.Property(e => e.Url)
                     .HasMaxLength(200)
                     .HasColumnName("url");
+
+                entity.Property(e => e.HookId)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("hook_id");
 
                 entity.Property(e => e.Ctype)
                     .HasMaxLength(10)
@@ -1430,6 +1466,7 @@ namespace GitBucket.Core
 
                 entity.HasOne(d => d.WebHook)
                     .WithMany(p => p.WebHookEvents)
+                    .HasPrincipalKey(p => new { p.UserName, p.RepositoryName, p.Url })
                     .HasForeignKey(d => new { d.UserName, d.RepositoryName, d.Url })
                     .HasConstraintName("idx_web_hook_event_fk0");
             });

@@ -38,7 +38,7 @@ namespace GitBucket.Service
                 throw new ArgumentNullException(nameof(gitBucketClient));
             }
 
-            string pullRequestSource = options.FromPullRequest ? "pull requests" : "issues";
+            var pullRequestSource = options.FromPullRequest ? "pull requests" : "issues";
             var issues = await FindIssuesRelatedToMileStone(options);
             if (!issues.Any())
             {

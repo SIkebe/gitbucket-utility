@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   gitbucket:
-    build:
-      context: .
-      dockerfile: Dockerfile-GitBucket
+    image: gitbucket/gitbucket:4.35.0
     restart: always
     ports:
       - 8080:8080

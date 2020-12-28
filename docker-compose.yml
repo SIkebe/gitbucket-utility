@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   gitbucket:
-    build:
-      context: .
-      dockerfile: Dockerfile-GitBucket
+    image: gitbucket/gitbucket:4.35.0
     restart: always
     ports:
       - 8080:8080
@@ -21,7 +19,7 @@ services:
     command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; sleep 10; java -jar /opt/gitbucket.war'
 
   db:
-    image: postgres:13-alpine
+    image: postgres:13.1-alpine
     restart: always
     ports:
       - "3306:5432"

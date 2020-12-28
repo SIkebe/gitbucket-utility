@@ -39,6 +39,7 @@ namespace GitBucket.Core.Models
         public bool? Removed { get; set; }
         public string Description { get; set; }
 
+        public virtual AccountPreference AccountPreference { get; set; }
         public virtual NotificationsAccount NotificationsAccount { get; set; }
         public virtual ICollection<AccessToken> AccessTokens { get; set; }
         public virtual ICollection<AccountFederation> AccountFederations { get; set; }

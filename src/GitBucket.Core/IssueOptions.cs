@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using CommandLine;
 
+#nullable disable
+
 namespace GitBucket.Core
 {
     [Verb("issue", HelpText = "Move or Copy issues to a different repository")]

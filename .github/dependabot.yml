@@ -21,13 +21,6 @@ updates:
   schedule:
     interval: daily
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: adoptopenjdk
-    versions:
-    - ">= 12.pre.jre.pre.hotspot.a, < 13"
-  - dependency-name: adoptopenjdk
-    versions:
-    - ">= 13.pre.jre.pre.hotspot.a, < 14"
-  - dependency-name: adoptopenjdk
-    versions:
-    - ">= 14.pre.jre.pre.hotspot.a, < 15"
+  target-branch: develop
+  reviewers:
+  - SIkebe

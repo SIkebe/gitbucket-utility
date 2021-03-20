@@ -2,19 +2,18 @@
 <Project>
   <ItemGroup>
     <PackageReference Update="CommandLineParser" Version="2.8.0" />
-    <PackageReference Update="libgit2sharp" Version="0.27.0-preview-0034" />
-    <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="3.1.6" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.6" />
-    <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.6" />
-    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="3.1.6" />
-    <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="3.1.6" />
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.6.1" />
-    <PackageReference Update="Moq" Version="4.14.5" />
-    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
-    <PackageReference Update="octokit" Version="0.48.0" />
-    <PackageReference Update="StyleCop.Analyzers" Version="1.2.0-beta.164" />
+    <PackageReference Update="libgit2sharp" Version="0.27.0-preview-0096" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="5.0.4" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.4" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+    <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.10.0-preview-20210219-03" />
+    <PackageReference Update="Moq" Version="4.16.1" />
+    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2" />
+    <PackageReference Update="octokit" Version="0.50.0" />
+    <PackageReference Update="StyleCop.Analyzers" Version="1.2.0-beta.333" />
     <PackageReference Update="xunit" Version="2.4.1" />
-    <PackageReference Update="xunit.runner.visualstudio" Version="2.4.2" />
+    <PackageReference Update="xunit.runner.visualstudio" Version="2.4.3" />
   </ItemGroup>
 </Project>

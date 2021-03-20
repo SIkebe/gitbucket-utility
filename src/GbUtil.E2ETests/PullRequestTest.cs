@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using GitBucket.Core;
@@ -60,7 +60,7 @@ The highest priority among them is """".
 
             // Assert
             using var dbContext = new GitBucketDbContext(GitBucketDefaults.ConnectionStrings);
-            var pr = dbContext.PullRequest
+            var pr = dbContext.PullRequests
                 .Where(p => p.UserName == GitBucketDefaults.Owner)
                 .Where(p => p.RepositoryName == Repository.Name)
                 .Where(p => p.Issue.Title == "v1.0.0")

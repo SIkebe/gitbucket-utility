@@ -14,7 +14,7 @@ namespace GitBucket.Core
             set => Console.ForegroundColor = value;
         }
 
-        public void Write(string value)
+        public void Write(string? value)
         {
             var color = ForegroundColor;
             ResetColor();
@@ -22,7 +22,7 @@ namespace GitBucket.Core
             ForegroundColor = color;
         }
 
-        public void WriteLine(string value)
+        public void WriteLine(string? value)
         {
             var color = ForegroundColor;
             ResetColor();
@@ -30,28 +30,28 @@ namespace GitBucket.Core
             ForegroundColor = color;
         }
 
-        public void WriteWarn(string value)
+        public void WriteWarn(string? value)
         {
             ForegroundColor = ConsoleColor.Yellow;
             Console.Write(value);
             ResetColor();
         }
 
-        public void WriteWarnLine(string value)
+        public void WriteWarnLine(string? value)
         {
             ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(value);
             ResetColor();
         }
 
-        public void WriteError(string value)
+        public void WriteError(string? value)
         {
             ForegroundColor = ConsoleColor.Red;
             Console.Write(value);
             ResetColor();
         }
 
-        public void WriteErrorLine(string value)
+        public void WriteErrorLine(string? value)
         {
             ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(value);
@@ -60,9 +60,9 @@ namespace GitBucket.Core
 
         public void ResetColor() => Console.ResetColor();
 
-        public string ReadLine() => Console.ReadLine();
+        public string? ReadLine() => Console.ReadLine();
 
-        public string GetPassword()
+        public string? GetPassword()
         {
             var builder = new StringBuilder();
             while (true)

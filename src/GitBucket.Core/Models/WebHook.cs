@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+
+#nullable disable
 
 namespace GitBucket.Core.Models
 {
@@ -7,7 +9,7 @@ namespace GitBucket.Core.Models
     {
         public WebHook()
         {
-            WebHookEvent = new HashSet<WebHookEvent>();
+            WebHookEvents = new HashSet<WebHookEvent>();
         }
 
         public string UserName { get; set; }
@@ -15,8 +17,9 @@ namespace GitBucket.Core.Models
         public string Url { get; set; }
         public string Token { get; set; }
         public string Ctype { get; set; }
+        public int HookId { get; set; }
 
         public virtual Repository Repository { get; set; }
-        public virtual ICollection<WebHookEvent> WebHookEvent { get; set; }
+        public virtual ICollection<WebHookEvent> WebHookEvents { get; set; }
     }
 }

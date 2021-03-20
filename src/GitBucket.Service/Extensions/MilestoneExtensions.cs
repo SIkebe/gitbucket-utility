@@ -13,8 +13,8 @@ namespace GitBucket.Core.Models
                 throw new ArgumentNullException(nameof(milestone));
             }
 
-            var assignees = milestone.Issue.Any()
-                ? milestone.Issue?.Select(i => i.AssignedUserName).Distinct().OrderBy(a => a).Aggregate((current, next) => $"{current}, {next}")
+            var assignees = milestone.Issues.Any()
+                ? milestone.Issues?.Select(i => i.AssignedUserName).Distinct().OrderBy(a => a).Aggregate((current, next) => $"{current}, {next}")
                 : string.Empty;
 
             var description = milestone.Description?.Replace(Environment.NewLine, " ", ignoreCase: true, CultureInfo.InvariantCulture);

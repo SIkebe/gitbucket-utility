@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,16 +19,16 @@ namespace GitBucket.Core
             {
                 if (request.Content != null)
                 {
-                    var contentType = request.Content.Headers.ContentType.MediaType;
+                    var contentType = request.Content.Headers.ContentType?.MediaType;
                     if (contentType == "application/x-www-form-urlencoded")
                     {
                         // GitBucket doesn't accept Content-Type: application/x-www-form-urlencoded
-                        request.Content.Headers.ContentType.MediaType = "application/json";
+                        request.Content.Headers.ContentType!.MediaType = "application/json";
                     }
                 }
             }
 
-            return await base.SendAsync(request, cancellationToken);
+            return await base.SendAsync(request!, cancellationToken);
         }
     }
 }

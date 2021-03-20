@@ -5,10 +5,10 @@ $DotNetChannel = 'LTS'
 $BootstrapperRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
 
 $DotNetVersion= (Get-Content .\global.json | ConvertFrom-Json).sdk.version
-"Using .NET Core SDK " + $DotNetVersion | Write-Output
+"Using .NET SDK " + $DotNetVersion | Write-Output
 
 ###########################################################################
-# INSTALL .NET CORE CLI
+# INSTALL .NET CLI
 ###########################################################################
 
 Function Remove-PathVariable([string]$VariableToRemove)
@@ -33,7 +33,7 @@ Function Remove-PathVariable([string]$VariableToRemove)
     }
 }
 
-# Get .NET Core CLI path if installed.
+# Get .NET CLI path if installed.
 $FoundDotNetCliVersion = $null;
 if (Get-Command dotnet -ErrorAction SilentlyContinue) {
     $FoundDotNetCliVersion = dotnet --version;

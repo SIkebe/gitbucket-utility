@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,7 +50,7 @@ namespace GitBucket.Service
             {
                 _console.WriteWarnLine($"There are unclosed {pullRequestSource} in \"{options.MileStone}\".");
                 _console.WriteWarn("Do you want to continue?([Y]es/[N]o): ");
-                string yesOrNo = _console.ReadLine();
+                var yesOrNo = _console.ReadLine();
 
                 if (!string.Equals(yesOrNo, "y", StringComparison.OrdinalIgnoreCase)
                 && !string.Equals(yesOrNo, "yes", StringComparison.OrdinalIgnoreCase))

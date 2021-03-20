@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+
+#nullable disable
 
 namespace GitBucket.Core.Models
 {
@@ -7,17 +9,17 @@ namespace GitBucket.Core.Models
     {
         public Repository()
         {
-            Collaborator = new HashSet<Collaborator>();
-            CommitComment = new HashSet<CommitComment>();
-            CommitStatus = new HashSet<CommitStatus>();
-            DeployKey = new HashSet<DeployKey>();
-            Issue = new HashSet<Issue>();
-            Label = new HashSet<Label>();
-            Milestone = new HashSet<Milestone>();
-            Priority = new HashSet<Priority>();
-            ProtectedBranch = new HashSet<ProtectedBranch>();
-            ReleaseTag = new HashSet<ReleaseTag>();
-            WebHook = new HashSet<WebHook>();
+            Collaborators = new HashSet<Collaborator>();
+            CommitComments = new HashSet<CommitComment>();
+            CommitStatuses = new HashSet<CommitStatus>();
+            DeployKeys = new HashSet<DeployKey>();
+            Issues = new HashSet<Issue>();
+            Labels = new HashSet<Label>();
+            Milestones = new HashSet<Milestone>();
+            Priorities = new HashSet<Priority>();
+            ProtectedBranches = new HashSet<ProtectedBranch>();
+            ReleaseTags = new HashSet<ReleaseTag>();
+            WebHooks = new HashSet<WebHook>();
         }
 
         public string UserName { get; set; }
@@ -42,16 +44,16 @@ namespace GitBucket.Core.Models
 
         public virtual Account UserNameNavigation { get; set; }
         public virtual IssueId IssueId { get; set; }
-        public virtual ICollection<Collaborator> Collaborator { get; set; }
-        public virtual ICollection<CommitComment> CommitComment { get; set; }
-        public virtual ICollection<CommitStatus> CommitStatus { get; set; }
-        public virtual ICollection<DeployKey> DeployKey { get; set; }
-        public virtual ICollection<Issue> Issue { get; set; }
-        public virtual ICollection<Label> Label { get; set; }
-        public virtual ICollection<Milestone> Milestone { get; set; }
-        public virtual ICollection<Priority> Priority { get; set; }
-        public virtual ICollection<ProtectedBranch> ProtectedBranch { get; set; }
-        public virtual ICollection<ReleaseTag> ReleaseTag { get; set; }
-        public virtual ICollection<WebHook> WebHook { get; set; }
+        public virtual ICollection<Collaborator> Collaborators { get; set; }
+        public virtual ICollection<CommitComment> CommitComments { get; set; }
+        public virtual ICollection<CommitStatus> CommitStatuses { get; set; }
+        public virtual ICollection<DeployKey> DeployKeys { get; set; }
+        public virtual ICollection<Issue> Issues { get; set; }
+        public virtual ICollection<Label> Labels { get; set; }
+        public virtual ICollection<Milestone> Milestones { get; set; }
+        public virtual ICollection<Priority> Priorities { get; set; }
+        public virtual ICollection<ProtectedBranch> ProtectedBranches { get; set; }
+        public virtual ICollection<ReleaseTag> ReleaseTags { get; set; }
+        public virtual ICollection<WebHook> WebHooks { get; set; }
     }
 }

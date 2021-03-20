@@ -1,6 +1,8 @@
 using System.IO;
 using CommandLine;
 
+#nullable disable
+
 namespace GitBucket.Core
 {
     [Verb("backup", HelpText = "Backup GitBucket repositories and metadata.")]

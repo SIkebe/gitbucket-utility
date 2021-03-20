@@ -5,12 +5,10 @@ using System.Collections.Generic;
 
 namespace GitBucket.Core.Models
 {
-    public partial class AccessToken
+    public partial class AccountPreference
     {
-        public int AccessTokenId { get; set; }
-        public string TokenHash { get; set; }
         public string UserName { get; set; }
-        public string Note { get; set; }
+        public string HighlighterTheme { get; set; }
 
         public virtual Account UserNameNavigation { get; set; }
     }

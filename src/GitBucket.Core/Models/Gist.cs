@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+
+#nullable disable
 
 namespace GitBucket.Core.Models
 {
@@ -7,7 +9,7 @@ namespace GitBucket.Core.Models
     {
         public Gist()
         {
-            GistComment = new HashSet<GistComment>();
+            GistComments = new HashSet<GistComment>();
         }
 
         public string UserName { get; set; }
@@ -21,6 +23,6 @@ namespace GitBucket.Core.Models
         public string Mode { get; set; }
 
         public virtual Account UserNameNavigation { get; set; }
-        public virtual ICollection<GistComment> GistComment { get; set; }
+        public virtual ICollection<GistComment> GistComments { get; set; }
     }
 }

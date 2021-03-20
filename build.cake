@@ -1,4 +1,4 @@
-#addin nuget:?package=Cake.Docker&version=0.11.0
+#addin nuget:?package=Cake.Docker&version=1.0.0
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -28,9 +28,9 @@ Task("Build")
 {
     DotNetCoreBuild(
         "./GbUtil.sln",
-        new DotNetCoreBuildSettings 
+        new DotNetCoreBuildSettings
         {
-            Configuration = configuration 
+            Configuration = configuration
         });
 });
 
@@ -40,9 +40,9 @@ Task("Run-Unit-Tests")
 {
     DotNetCoreTest(
         "./src/GitBucket.Service.Tests/GitBucket.Service.Tests.csproj",
-        new DotNetCoreTestSettings 
+        new DotNetCoreTestSettings
         {
-            Configuration = configuration 
+            Configuration = configuration
         });
 });
 
@@ -139,10 +139,10 @@ Task("Pack")
     CleanDirectory("packages");
     DotNetCorePack(
         "./src/GbUtil/GbUtil.csproj",
-        new DotNetCorePackSettings 
+        new DotNetCorePackSettings
         {
             OutputDirectory = "./packages",
-            Configuration = configuration 
+            Configuration = configuration
         });
 });
 
@@ -151,14 +151,14 @@ Task("Publish")
     .Does(() =>
 {
     var apiKey = EnvironmentVariable("NUGET_API_KEY");
-    if (string.IsNullOrEmpty(apiKey)) 
+    if (string.IsNullOrEmpty(apiKey))
     {
         throw new InvalidOperationException("Could not resolve NuGet API key.");
     }
 
     DotNetCoreNuGetPush(
-        "./packages/GbUtil.0.10.0.nupkg",
-        new DotNetCoreNuGetPushSettings 
+        "./packages/GbUtil.0.11.0.nupkg",
+        new DotNetCoreNuGetPushSettings
         {
             ApiKey = apiKey,
             Source = "https://api.nuget.org/v3/index.json",
@@ -172,7 +172,7 @@ Task("Publish-SingleFile")
 
     DotNetCorePublish(
         "./src/GbUtil/GbUtil.csproj",
-        new DotNetCorePublishSettings 
+        new DotNetCorePublishSettings
         {
             Configuration = configuration,
             OutputDirectory = "executable",

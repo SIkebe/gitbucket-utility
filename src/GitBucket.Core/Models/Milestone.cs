@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+
+#nullable disable
 
 namespace GitBucket.Core.Models
 {
@@ -7,7 +9,7 @@ namespace GitBucket.Core.Models
     {
         public Milestone()
         {
-            Issue = new HashSet<Issue>();
+            Issues = new HashSet<Issue>();
         }
 
         public string UserName { get; set; }
@@ -19,6 +21,6 @@ namespace GitBucket.Core.Models
         public DateTime? ClosedDate { get; set; }
 
         public virtual Repository Repository { get; set; }
-        public virtual ICollection<Issue> Issue { get; set; }
+        public virtual ICollection<Issue> Issues { get; set; }
     }
 }

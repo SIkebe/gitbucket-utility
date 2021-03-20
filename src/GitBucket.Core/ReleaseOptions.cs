@@ -1,5 +1,7 @@
 using CommandLine;
 
+#nullable disable
+
 namespace GitBucket.Core
 {
     [Verb("release", HelpText = "Output a release note")]

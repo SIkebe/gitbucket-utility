@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace GbUtil.E2ETests
 {
     public abstract class E2ETestBase : IClassFixture<GitBucketFixture>, IDisposable
     {
-        private bool disposedValue = false;
+        private bool disposedValue;
 
         public E2ETestBase(GitBucketFixture fixture, ITestOutputHelper output)
         {
@@ -57,7 +57,7 @@ namespace GbUtil.E2ETests
         protected static void CreateMilestone(string owner, string repository, string title, string? description = null, DateTime? dueDate = null)
         {
             using var dbContext = new GitBucketDbContext(GitBucketDefaults.ConnectionStrings);
-            dbContext.Milestone.Add(new GitBucket.Core.Models.Milestone
+            dbContext.Milestones.Add(new GitBucket.Core.Models.Milestone
             {
                 UserName = owner,
                 RepositoryName = repository,
@@ -124,13 +124,13 @@ namespace GbUtil.E2ETests
         protected static void SetMilestone(string owner, string repository, int issueNumber, string milestoneTitle)
         {
             using var dbContext = new GitBucketDbContext(GitBucketDefaults.ConnectionStrings);
-            var milestone = dbContext.Milestone
+            var milestone = dbContext.Milestones
                 .Where(m => m.UserName == owner)
                 .Where(m => m.RepositoryName == repository)
                 .Where(m => m.Title == milestoneTitle)
                 .Single();
 
-            var target = dbContext.Issue
+            var target = dbContext.Issues
                 .Where(i => i.UserName == owner)
                 .Where(i => i.RepositoryName == repository)
                 .Where(i => i.IssueId == issueNumber)

@@ -53,6 +53,7 @@ namespace GitBucket.Core
         public virtual DbSet<Version> Versions { get; set; }
         public virtual DbSet<Watch> Watches { get; set; }
         public virtual DbSet<WebHook> WebHooks { get; set; }
+        public virtual DbSet<WebHookBk> WebHookBks { get; set; }
         public virtual DbSet<WebHookEvent> WebHookEvents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -826,7 +827,7 @@ namespace GitBucket.Core
             {
                 entity.HasNoKey();
 
-                entity.ToTable("issue_outline_view");
+                entity.ToView("issue_outline_view");
 
                 entity.Property(e => e.CommentCount).HasColumnName("comment_count");
 
@@ -869,7 +870,7 @@ namespace GitBucket.Core
                     .IsRequired()
                     .HasMaxLength(6)
                     .HasColumnName("color")
-                    .IsFixedLength(true);
+                    .IsFixedLength();
 
                 entity.Property(e => e.LabelName)
                     .IsRequired()
@@ -1004,7 +1005,7 @@ namespace GitBucket.Core
                     .IsRequired()
                     .HasMaxLength(6)
                     .HasColumnName("color")
-                    .IsFixedLength(true);
+                    .IsFixedLength();
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(255)
@@ -1399,7 +1400,7 @@ namespace GitBucket.Core
 
             modelBuilder.Entity<WebHook>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Url, e.HookId })
+                entity.HasKey(e => e.HookId)
                     .HasName("idx_web_hook_pk");
 
                 entity.ToTable("web_hook");
@@ -1407,38 +1408,68 @@ namespace GitBucket.Core
                 entity.HasIndex(e => new { e.UserName, e.RepositoryName, e.Url }, "idx_web_hook_1")
                     .IsUnique();
 
-                entity.HasIndex(e => e.HookId, "web_hook_hook_id_key")
-                    .IsUnique();
-
-                entity.Property(e => e.UserName)
-                    .HasMaxLength(100)
-                    .HasColumnName("user_name");
-
-                entity.Property(e => e.RepositoryName)
-                    .HasMaxLength(100)
-                    .HasColumnName("repository_name");
-
-                entity.Property(e => e.Url)
-                    .HasMaxLength(200)
-                    .HasColumnName("url");
-
                 entity.Property(e => e.HookId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("hook_id");
+                    .HasColumnName("hook_id")
+                    .HasDefaultValueSql("nextval('web_hook_2_hook_id_seq'::regclass)");
 
                 entity.Property(e => e.Ctype)
                     .HasMaxLength(10)
                     .HasColumnName("ctype");
 
+                entity.Property(e => e.RepositoryName)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnName("repository_name");
+
                 entity.Property(e => e.Token)
                     .HasMaxLength(100)
                     .HasColumnName("token");
+
+                entity.Property(e => e.Url)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasColumnName("url");
+
+                entity.Property(e => e.UserName)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnName("user_name");
 
                 entity.HasOne(d => d.Repository)
                     .WithMany(p => p.WebHooks)
                     .HasForeignKey(d => new { d.UserName, d.RepositoryName })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("idx_web_hook_fk0");
+            });
+
+            modelBuilder.Entity<WebHookBk>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("web_hook_bk");
+
+                entity.Property(e => e.Ctype)
+                    .HasMaxLength(10)
+                    .HasColumnName("ctype");
+
+                entity.Property(e => e.RepositoryName)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnName("repository_name");
+
+                entity.Property(e => e.Token)
+                    .HasMaxLength(100)
+                    .HasColumnName("token");
+
+                entity.Property(e => e.Url)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasColumnName("url");
+
+                entity.Property(e => e.UserName)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnName("user_name");
             });
 
             modelBuilder.Entity<WebHookEvent>(entity =>

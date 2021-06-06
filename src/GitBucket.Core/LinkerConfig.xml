@@ -3,4 +3,5 @@
   <assembly fullname="System.Core">
     <type fullname="System.Linq.Expressions*" />
   </assembly>
+  <assembly fullname="Microsoft.EntityFrameworkCore*" />
 </linker>

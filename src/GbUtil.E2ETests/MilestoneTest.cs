@@ -49,6 +49,8 @@ namespace GbUtil.E2ETests
 
             // Act
             var output1 = Execute($"milestone -o {GitBucketDefaults.Owner} -r {repository1.Name}:{repository2.Name}");
+            Output.WriteLine("test log output");
+            Output.WriteLine(output1);
 
             // Assert
             Assert.Equal($@"There are 4 open milestones.

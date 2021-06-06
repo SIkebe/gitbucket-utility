@@ -10,4 +10,11 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
   </ItemGroup>
 
+  <ItemGroup>
+    <TrimmerRootAssembly Include="Microsoft.EntityFrameworkCore" />
+    <TrimmerRootAssembly Include="Microsoft.EntityFrameworkCore.Abstractions" />
+    <TrimmerRootAssembly Include="Microsoft.EntityFrameworkCore.Design" />
+    <TrimmerRootAssembly Include="Microsoft.EntityFrameworkCore.Relational" />
+  </ItemGroup>
+
 </Project>

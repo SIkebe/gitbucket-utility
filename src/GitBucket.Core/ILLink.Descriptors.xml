@@ -10,6 +10,6 @@
   </assembly>
   <assembly fullname="System.Core">
     <type fullname="System.Linq.Expressions*" />
-    <type fullname="System.Linq.Queryable"></type>
+    <type fullname="System.Linq.Queryable" />
   </assembly>
 </linker>

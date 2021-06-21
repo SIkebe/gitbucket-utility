@@ -2,6 +2,7 @@
 <linker>
   <assembly fullname="System.Core">
     <type fullname="System.Linq.Expressions*" />
+    <type fullname="System.Linq.Queryable" />
   </assembly>
   <assembly fullname="Microsoft.EntityFrameworkCore*" />
   <assembly fullname="mscorlib">

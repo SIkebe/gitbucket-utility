@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <linker>
   <assembly fullname="System.Core">
-    <type fullname="System.Linq.Expressions*" />
+    <type fullname="System.Linq.Expressions.Expression`1" />
     <type fullname="System.Linq.Queryable" />
   </assembly>
   <assembly fullname="Microsoft.EntityFrameworkCore*" />

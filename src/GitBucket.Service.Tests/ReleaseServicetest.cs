@@ -82,6 +82,8 @@ namespace GitBucket.Service.Tests
                 },
                 RepositoryName = options.Repository,
                 UserName = options.Owner,
+                OpenedUserName = "root",
+                Title = "Implement xxx feature",
             });
 
             dbContext.SaveChanges();
@@ -121,6 +123,8 @@ namespace GitBucket.Service.Tests
                 },
                 RepositoryName = options.Repository,
                 UserName = options.Owner,
+                OpenedUserName = "root",
+                Title = "Implement xxx feature",
             });
 
             dbContext.SaveChanges();
@@ -243,8 +247,8 @@ The highest priority among them is ""high"".
             var dbContext = EnsureDbCreated(options);
             dbContext.PullRequests.AddRange(new List<Core.Models.PullRequest>
             {
-                new Core.Models.PullRequest { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 1 },
-                new Core.Models.PullRequest { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 2 }
+                new Core.Models.PullRequest { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 1, CommitIdFrom = "test", CommitIdTo = "test", RequestRepositoryName = "test", RequestUserName = "root" },
+                new Core.Models.PullRequest { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 2, CommitIdFrom = "test", CommitIdTo = "test", RequestRepositoryName = "test", RequestUserName = "root" },
             });
             dbContext.SaveChanges();
 
@@ -428,6 +432,7 @@ The highest priority among them is ""high"".
                 PriorityName = "high",
                 RepositoryName = options.Repository,
                 UserName = options.Owner,
+                Color = "red",
             };
 
             var defaultPriority = new Core.Models.Priority
@@ -436,6 +441,7 @@ The highest priority among them is ""high"".
                 PriorityName = "default",
                 RepositoryName = options.Repository,
                 UserName = options.Owner,
+                Color = "red",
             };
 
             dbContext.Issues.AddRange(new List<Core.Models.Issue>
@@ -449,6 +455,7 @@ The highest priority among them is ""high"".
                     RepositoryName = options.Repository,
                     Title = "Found a bug!",
                     UserName = options.Owner,
+                    OpenedUserName = "root",
                 },
                 new Core.Models.Issue
                 {
@@ -459,6 +466,7 @@ The highest priority among them is ""high"".
                     RepositoryName = options.Repository,
                     Title = "Another bug",
                     UserName = options.Owner,
+                    OpenedUserName = "root",
                 },
                 new Core.Models.Issue
                 {
@@ -469,6 +477,7 @@ The highest priority among them is ""high"".
                     RepositoryName = options.Repository,
                     Title = "Some improvement on build",
                     UserName = options.Owner,
+                    OpenedUserName = "root",
                 },
                 new Core.Models.Issue
                 {
@@ -480,6 +489,7 @@ The highest priority among them is ""high"".
                     RepositoryName = options.Repository,
                     Title = "Fix a bug",
                     UserName = options.Owner,
+                    OpenedUserName = "root",
                 }
             });
 
@@ -523,6 +533,7 @@ The highest priority among them is ""high"".
                     LabelName = "Bug",
                     RepositoryName = options.Repository,
                     UserName = options.Owner,
+                    Color = "red",
                 },
                 new Core.Models.Label
                 {
@@ -530,6 +541,7 @@ The highest priority among them is ""high"".
                     LabelName = "Enhancement",
                     RepositoryName = options.Repository,
                     UserName = options.Owner,
+                    Color = "red",
                 }
             });
 

@@ -9,8 +9,8 @@
     <AnalysisLevel>preview</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <!-- <TrimMode>link</TrimMode> -->
-    <TrimMode>copyused</TrimMode>
+    <TrimMode>link</TrimMode>
+    <!--<TrimMode>copyused</TrimMode>-->
 
     <!-- https://github.com/OmniSharp/omnisharp-vscode/issues/3207
          https://github.com/OmniSharp/omnisharp-roslyn/issues/1589 -->

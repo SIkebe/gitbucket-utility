@@ -39,4 +39,10 @@
     <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="ILLink.Descriptors.xml">
+      <LogicalName>ILLink.Descriptors.xml</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

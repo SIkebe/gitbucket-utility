@@ -11,7 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <LinkerRootDescriptors Include="LinkerConfig.xml" />
+    <EmbeddedResource Include="ILLink.Descriptors.xml">
+      <LogicalName>ILLink.Descriptors.xml</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

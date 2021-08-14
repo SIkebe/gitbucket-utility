@@ -9,6 +9,8 @@
     <AnalysisLevel>preview</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+
+    <!-- https://github.com/SIkebe/gitbucket-utility/issues/363 -->
     <!-- <TrimMode>link</TrimMode> -->
     <TrimMode>copyused</TrimMode>
 

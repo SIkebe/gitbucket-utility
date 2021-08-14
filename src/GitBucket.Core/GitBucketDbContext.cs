@@ -1,4 +1,4 @@
-﻿using GitBucket.Core.Models;
+using GitBucket.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GitBucket.Core
@@ -1237,6 +1237,11 @@ namespace GitBucket.Core
                 entity.Property(e => e.Private).HasColumnName("private");
 
                 entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
+
+                entity.Property(e => e.SafeMode)
+                    .IsRequired()
+                    .HasColumnName("safe_mode")
+                    .HasDefaultValueSql("true");
 
                 entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
 

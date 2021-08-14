@@ -39,6 +39,7 @@ namespace GitBucket.Core.Models
         public string IssuesOption { get; set; } = null!;
         public string MergeOptions { get; set; } = null!;
         public string DefaultMergeOption { get; set; } = null!;
+        public bool? SafeMode { get; set; }
 
         public virtual Account UserNameNavigation { get; set; } = null!;
         public virtual IssueId IssueId { get; set; } = null!;

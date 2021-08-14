@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-#nullable disable
-
 namespace GitBucket.Core.Models
 {
     public partial class Account
@@ -25,22 +23,22 @@ namespace GitBucket.Core.Models
             SshKeys = new HashSet<SshKey>();
         }
 
-        public string UserName { get; set; }
-        public string MailAddress { get; set; }
-        public string Password { get; set; }
+        public string UserName { get; set; } = null!;
+        public string MailAddress { get; set; } = null!;
+        public string Password { get; set; } = null!;
         public bool Administrator { get; set; }
-        public string Url { get; set; }
+        public string? Url { get; set; }
         public DateTime RegisteredDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public DateTime? LastLoginDate { get; set; }
-        public string Image { get; set; }
+        public string? Image { get; set; }
         public bool GroupAccount { get; set; }
-        public string FullName { get; set; }
+        public string FullName { get; set; } = null!;
         public bool? Removed { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
-        public virtual AccountPreference AccountPreference { get; set; }
-        public virtual NotificationsAccount NotificationsAccount { get; set; }
+        public virtual AccountPreference AccountPreference { get; set; } = null!;
+        public virtual NotificationsAccount NotificationsAccount { get; set; } = null!;
         public virtual ICollection<AccessToken> AccessTokens { get; set; }
         public virtual ICollection<AccountFederation> AccountFederations { get; set; }
         public virtual ICollection<AccountWebHook> AccountWebHooks { get; set; }

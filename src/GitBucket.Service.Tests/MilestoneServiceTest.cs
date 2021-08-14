@@ -39,6 +39,8 @@ namespace GitBucket.Service.Tests
                         AssignedUserName = "user1",
                         UserName = "root",
                         RepositoryName = "test1",
+                        OpenedUserName = "root",
+                        Title = "Implement xxx feature",
                     },
                     new Issue
                     {
@@ -46,6 +48,8 @@ namespace GitBucket.Service.Tests
                         AssignedUserName = "user2",
                         UserName = "root",
                         RepositoryName = "test1",
+                        OpenedUserName = "root",
+                        Title = "Implement xxx feature",
                     },
                     new Issue
                     {
@@ -53,6 +57,8 @@ namespace GitBucket.Service.Tests
                         AssignedUserName = "user1",
                         UserName = "root",
                         RepositoryName = "test1",
+                        OpenedUserName = "root",
+                        Title = "Implement xxx feature",
                     }
                 }
             });
@@ -103,6 +109,8 @@ namespace GitBucket.Service.Tests
                         AssignedUserName = "user1",
                         UserName = "root",
                         RepositoryName = "test1",
+                        OpenedUserName = "root",
+                        Title = "Implement xxx feature",
                     }
                 }
             });
@@ -153,6 +161,8 @@ namespace GitBucket.Service.Tests
                         AssignedUserName = "user1",
                         UserName = "root",
                         RepositoryName = "test1",
+                        OpenedUserName = "root",
+                        Title = "Implement xxx feature",
                     }
                 }
             });
@@ -203,6 +213,8 @@ namespace GitBucket.Service.Tests
                         AssignedUserName = "user1",
                         UserName = "root",
                         RepositoryName = "test1",
+                        OpenedUserName = "root",
+                        Title = "Implement xxx feature",
                     }
                 }
             });
@@ -253,6 +265,8 @@ namespace GitBucket.Service.Tests
                         AssignedUserName = "user1",
                         UserName = "root",
                         RepositoryName = "test1",
+                        OpenedUserName = "root",
+                        Title = "Implement xxx feature",
                     }
                 }
             });
@@ -305,6 +319,8 @@ namespace GitBucket.Service.Tests
                             AssignedUserName = "user1",
                             UserName = "root",
                             RepositoryName = "test1",
+                            OpenedUserName = "root",
+                            Title = "Implement xxx feature",
                         }
                     }
                 },
@@ -325,6 +341,8 @@ namespace GitBucket.Service.Tests
                             AssignedUserName = "user1",
                             UserName = "root",
                             RepositoryName = "test1",
+                            OpenedUserName = "root",
+                            Title = "Implement xxx feature",
                         }
                     }
                 },
@@ -345,6 +363,8 @@ namespace GitBucket.Service.Tests
                             AssignedUserName = "user1",
                             UserName = "root",
                             RepositoryName = "test1",
+                            OpenedUserName = "root",
+                            Title = "Implement xxx feature",
                         }
                     }
                 },
@@ -365,6 +385,8 @@ namespace GitBucket.Service.Tests
                             AssignedUserName = "user1",
                             UserName = "root",
                             RepositoryName = "test1",
+                            OpenedUserName = "root",
+                            Title = "Implement xxx feature",
                         }
                     }
                 }

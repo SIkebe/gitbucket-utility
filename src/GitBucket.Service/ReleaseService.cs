@@ -137,7 +137,7 @@ namespace GitBucket.Service
             return await _context.Set<GitBucket.Core.Models.Issue>()
                 .Where(i => i.UserName.ToLower() == options.Owner.ToLower())
                 .Where(i => i.RepositoryName.ToLower() == options.Repository.ToLower())
-                .Where(i => i.Milestone.Title.ToLower() == options.MileStone.ToLower())
+                .Where(i => i.Milestone!.Title.ToLower() == options.MileStone.ToLower())
                 .Where(i => i.PullRequest == options.FromPullRequest)
                 .Include(i => i.Milestone)
                 .Include(i => i.Priority)

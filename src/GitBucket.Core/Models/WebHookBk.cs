@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace GitBucket.Core.Models
 {
-    public partial class IssueNotification
+    public partial class WebHookBk
     {
         public string UserName { get; set; } = null!;
         public string RepositoryName { get; set; } = null!;
-        public int IssueId { get; set; }
-        public string NotificationUserName { get; set; } = null!;
-        public bool Subscribed { get; set; }
+        public string Url { get; set; } = null!;
+        public string? Token { get; set; }
+        public string? Ctype { get; set; }
     }
 }

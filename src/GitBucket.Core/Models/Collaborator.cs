@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
 
-#nullable disable
-
 namespace GitBucket.Core.Models
 {
     public partial class Collaborator
     {
-        public string UserName { get; set; }
-        public string RepositoryName { get; set; }
-        public string CollaboratorName { get; set; }
-        public string Role { get; set; }
+        public string UserName { get; set; } = null!;
+        public string RepositoryName { get; set; } = null!;
+        public string CollaboratorName { get; set; } = null!;
+        public string Role { get; set; } = null!;
 
-        public virtual Account CollaboratorNameNavigation { get; set; }
-        public virtual Repository Repository { get; set; }
+        public virtual Account CollaboratorNameNavigation { get; set; } = null!;
+        public virtual Repository Repository { get; set; } = null!;
     }
 }

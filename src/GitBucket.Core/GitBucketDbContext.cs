@@ -1,8 +1,6 @@
 using GitBucket.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
-#nullable disable
-
 namespace GitBucket.Core
 {
     public partial class GitBucketDbContext : DbContext
@@ -16,44 +14,45 @@ namespace GitBucket.Core
         {
         }
 
-        public virtual DbSet<AccessToken> AccessTokens { get; set; }
-        public virtual DbSet<Account> Accounts { get; set; }
-        public virtual DbSet<AccountExtraMailAddress> AccountExtraMailAddresses { get; set; }
-        public virtual DbSet<AccountFederation> AccountFederations { get; set; }
-        public virtual DbSet<AccountPreference> AccountPreferences { get; set; }
-        public virtual DbSet<AccountWebHook> AccountWebHooks { get; set; }
-        public virtual DbSet<AccountWebHookEvent> AccountWebHookEvents { get; set; }
-        public virtual DbSet<Collaborator> Collaborators { get; set; }
-        public virtual DbSet<CommitComment> CommitComments { get; set; }
-        public virtual DbSet<CommitStatus> CommitStatuses { get; set; }
-        public virtual DbSet<DeployKey> DeployKeys { get; set; }
-        public virtual DbSet<Gist> Gists { get; set; }
-        public virtual DbSet<GistComment> GistComments { get; set; }
-        public virtual DbSet<GpgKey> GpgKeys { get; set; }
-        public virtual DbSet<GroupMember> GroupMembers { get; set; }
-        public virtual DbSet<Issue> Issues { get; set; }
-        public virtual DbSet<IssueComment> IssueComments { get; set; }
-        public virtual DbSet<IssueId> IssueIds { get; set; }
-        public virtual DbSet<IssueLabel> IssueLabels { get; set; }
-        public virtual DbSet<IssueNotification> IssueNotifications { get; set; }
-        public virtual DbSet<IssueOutlineView> IssueOutlineViews { get; set; }
-        public virtual DbSet<Label> Labels { get; set; }
-        public virtual DbSet<Milestone> Milestones { get; set; }
-        public virtual DbSet<NotificationsAccount> NotificationsAccounts { get; set; }
-        public virtual DbSet<Page> Pages { get; set; }
-        public virtual DbSet<Plugin> Plugins { get; set; }
-        public virtual DbSet<Priority> Priorities { get; set; }
-        public virtual DbSet<ProtectedBranch> ProtectedBranches { get; set; }
-        public virtual DbSet<ProtectedBranchRequireContext> ProtectedBranchRequireContexts { get; set; }
-        public virtual DbSet<PullRequest> PullRequests { get; set; }
-        public virtual DbSet<ReleaseAsset> ReleaseAssets { get; set; }
-        public virtual DbSet<ReleaseTag> ReleaseTags { get; set; }
-        public virtual DbSet<Repository> Repositories { get; set; }
-        public virtual DbSet<SshKey> SshKeys { get; set; }
-        public virtual DbSet<Version> Versions { get; set; }
-        public virtual DbSet<Watch> Watches { get; set; }
-        public virtual DbSet<WebHook> WebHooks { get; set; }
-        public virtual DbSet<WebHookEvent> WebHookEvents { get; set; }
+        public virtual DbSet<AccessToken> AccessTokens { get; set; } = null!;
+        public virtual DbSet<Account> Accounts { get; set; } = null!;
+        public virtual DbSet<AccountExtraMailAddress> AccountExtraMailAddresses { get; set; } = null!;
+        public virtual DbSet<AccountFederation> AccountFederations { get; set; } = null!;
+        public virtual DbSet<AccountPreference> AccountPreferences { get; set; } = null!;
+        public virtual DbSet<AccountWebHook> AccountWebHooks { get; set; } = null!;
+        public virtual DbSet<AccountWebHookEvent> AccountWebHookEvents { get; set; } = null!;
+        public virtual DbSet<Collaborator> Collaborators { get; set; } = null!;
+        public virtual DbSet<CommitComment> CommitComments { get; set; } = null!;
+        public virtual DbSet<CommitStatus> CommitStatuses { get; set; } = null!;
+        public virtual DbSet<DeployKey> DeployKeys { get; set; } = null!;
+        public virtual DbSet<Gist> Gists { get; set; } = null!;
+        public virtual DbSet<GistComment> GistComments { get; set; } = null!;
+        public virtual DbSet<GpgKey> GpgKeys { get; set; } = null!;
+        public virtual DbSet<GroupMember> GroupMembers { get; set; } = null!;
+        public virtual DbSet<Issue> Issues { get; set; } = null!;
+        public virtual DbSet<IssueComment> IssueComments { get; set; } = null!;
+        public virtual DbSet<IssueId> IssueIds { get; set; } = null!;
+        public virtual DbSet<IssueLabel> IssueLabels { get; set; } = null!;
+        public virtual DbSet<IssueNotification> IssueNotifications { get; set; } = null!;
+        public virtual DbSet<IssueOutlineView> IssueOutlineViews { get; set; } = null!;
+        public virtual DbSet<Label> Labels { get; set; } = null!;
+        public virtual DbSet<Milestone> Milestones { get; set; } = null!;
+        public virtual DbSet<NotificationsAccount> NotificationsAccounts { get; set; } = null!;
+        public virtual DbSet<Page> Pages { get; set; } = null!;
+        public virtual DbSet<Plugin> Plugins { get; set; } = null!;
+        public virtual DbSet<Priority> Priorities { get; set; } = null!;
+        public virtual DbSet<ProtectedBranch> ProtectedBranches { get; set; } = null!;
+        public virtual DbSet<ProtectedBranchRequireContext> ProtectedBranchRequireContexts { get; set; } = null!;
+        public virtual DbSet<PullRequest> PullRequests { get; set; } = null!;
+        public virtual DbSet<ReleaseAsset> ReleaseAssets { get; set; } = null!;
+        public virtual DbSet<ReleaseTag> ReleaseTags { get; set; } = null!;
+        public virtual DbSet<Repository> Repositories { get; set; } = null!;
+        public virtual DbSet<SshKey> SshKeys { get; set; } = null!;
+        public virtual DbSet<Models.Version> Versions { get; set; } = null!;
+        public virtual DbSet<Watch> Watches { get; set; } = null!;
+        public virtual DbSet<WebHook> WebHooks { get; set; } = null!;
+        public virtual DbSet<WebHookBk> WebHookBks { get; set; } = null!;
+        public virtual DbSet<WebHookEvent> WebHookEvents { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -73,17 +72,13 @@ namespace GitBucket.Core
 
                 entity.Property(e => e.AccessTokenId).HasColumnName("access_token_id");
 
-                entity.Property(e => e.Note)
-                    .IsRequired()
-                    .HasColumnName("note");
+                entity.Property(e => e.Note).HasColumnName("note");
 
                 entity.Property(e => e.TokenHash)
-                    .IsRequired()
                     .HasMaxLength(40)
                     .HasColumnName("token_hash");
 
                 entity.Property(e => e.UserName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("user_name");
 
@@ -112,7 +107,6 @@ namespace GitBucket.Core
                 entity.Property(e => e.Description).HasColumnName("description");
 
                 entity.Property(e => e.FullName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("full_name");
 
@@ -125,12 +119,10 @@ namespace GitBucket.Core
                 entity.Property(e => e.LastLoginDate).HasColumnName("last_login_date");
 
                 entity.Property(e => e.MailAddress)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("mail_address");
 
                 entity.Property(e => e.Password)
-                    .IsRequired()
                     .HasMaxLength(200)
                     .HasColumnName("password");
 
@@ -180,7 +172,6 @@ namespace GitBucket.Core
                     .HasColumnName("subject");
 
                 entity.Property(e => e.UserName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("user_name");
 
@@ -203,7 +194,6 @@ namespace GitBucket.Core
                     .HasColumnName("user_name");
 
                 entity.Property(e => e.HighlighterTheme)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("highlighter_theme")
                     .HasDefaultValueSql("'prettify'::character varying");
@@ -251,17 +241,14 @@ namespace GitBucket.Core
                 entity.ToTable("account_web_hook_event");
 
                 entity.Property(e => e.Event)
-                    .IsRequired()
                     .HasMaxLength(30)
                     .HasColumnName("event");
 
                 entity.Property(e => e.Url)
-                    .IsRequired()
                     .HasMaxLength(200)
                     .HasColumnName("url");
 
                 entity.Property(e => e.UserName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("user_name");
             });
@@ -286,7 +273,6 @@ namespace GitBucket.Core
                     .HasColumnName("collaborator_name");
 
                 entity.Property(e => e.Role)
-                    .IsRequired()
                     .HasMaxLength(10)
                     .HasColumnName("role")
                     .HasDefaultValueSql("'ADMIN'::character varying");
@@ -314,18 +300,14 @@ namespace GitBucket.Core
                 entity.Property(e => e.CommentId).HasColumnName("comment_id");
 
                 entity.Property(e => e.CommentedUserName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("commented_user_name");
 
                 entity.Property(e => e.CommitId)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("commit_id");
 
-                entity.Property(e => e.Content)
-                    .IsRequired()
-                    .HasColumnName("content");
+                entity.Property(e => e.Content).HasColumnName("content");
 
                 entity.Property(e => e.FileName)
                     .HasMaxLength(260)
@@ -338,7 +320,6 @@ namespace GitBucket.Core
                 entity.Property(e => e.OldLineNumber).HasColumnName("old_line_number");
 
                 entity.Property(e => e.OriginalCommitId)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("original_commit_id");
 
@@ -349,14 +330,12 @@ namespace GitBucket.Core
                 entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
 
                 entity.Property(e => e.RepositoryName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("repository_name");
 
                 entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
 
                 entity.Property(e => e.UserName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("user_name");
 
@@ -377,17 +356,14 @@ namespace GitBucket.Core
                 entity.Property(e => e.CommitStatusId).HasColumnName("commit_status_id");
 
                 entity.Property(e => e.CommitId)
-                    .IsRequired()
                     .HasMaxLength(40)
                     .HasColumnName("commit_id");
 
                 entity.Property(e => e.Context)
-                    .IsRequired()
                     .HasMaxLength(255)
                     .HasColumnName("context");
 
                 entity.Property(e => e.Creator)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("creator");
 
@@ -396,12 +372,10 @@ namespace GitBucket.Core
                 entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
 
                 entity.Property(e => e.RepositoryName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("repository_name");
 
                 entity.Property(e => e.State)
-                    .IsRequired()
                     .HasMaxLength(10)
                     .HasColumnName("state");
 
@@ -412,7 +386,6 @@ namespace GitBucket.Core
                 entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
 
                 entity.Property(e => e.UserName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("user_name");
 
@@ -456,12 +429,9 @@ namespace GitBucket.Core
 
                 entity.Property(e => e.AllowWrite).HasColumnName("allow_write");
 
-                entity.Property(e => e.PublicKey)
-                    .IsRequired()
-                    .HasColumnName("public_key");
+                entity.Property(e => e.PublicKey).HasColumnName("public_key");
 
                 entity.Property(e => e.Title)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("title");
 
@@ -490,7 +460,6 @@ namespace GitBucket.Core
                 entity.Property(e => e.Description).HasColumnName("description");
 
                 entity.Property(e => e.Mode)
-                    .IsRequired()
                     .HasMaxLength(10)
                     .HasColumnName("mode")
                     .HasDefaultValueSql("'PUBLIC'::character varying");
@@ -506,7 +475,6 @@ namespace GitBucket.Core
                 entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
 
                 entity.Property(e => e.Title)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("title");
 
@@ -532,25 +500,20 @@ namespace GitBucket.Core
                 entity.Property(e => e.CommentId).HasColumnName("comment_id");
 
                 entity.Property(e => e.CommentedUserName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("commented_user_name");
 
-                entity.Property(e => e.Content)
-                    .IsRequired()
-                    .HasColumnName("content");
+                entity.Property(e => e.Content).HasColumnName("content");
 
                 entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
 
                 entity.Property(e => e.RepositoryName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("repository_name");
 
                 entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
 
                 entity.Property(e => e.UserName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("user_name");
 
@@ -587,12 +550,9 @@ namespace GitBucket.Core
                     .ValueGeneratedOnAdd()
                     .HasColumnName("key_id");
 
-                entity.Property(e => e.PublicKey)
-                    .IsRequired()
-                    .HasColumnName("public_key");
+                entity.Property(e => e.PublicKey).HasColumnName("public_key");
 
                 entity.Property(e => e.Title)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("title");
 
@@ -661,7 +621,6 @@ namespace GitBucket.Core
                 entity.Property(e => e.MilestoneId).HasColumnName("milestone_id");
 
                 entity.Property(e => e.OpenedUserName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("opened_user_name");
 
@@ -671,9 +630,7 @@ namespace GitBucket.Core
 
                 entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
 
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasColumnName("title");
+                entity.Property(e => e.Title).HasColumnName("title");
 
                 entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
 
@@ -712,32 +669,26 @@ namespace GitBucket.Core
                 entity.Property(e => e.CommentId).HasColumnName("comment_id");
 
                 entity.Property(e => e.Action)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnName("action");
 
                 entity.Property(e => e.CommentedUserName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("commented_user_name");
 
-                entity.Property(e => e.Content)
-                    .IsRequired()
-                    .HasColumnName("content");
+                entity.Property(e => e.Content).HasColumnName("content");
 
                 entity.Property(e => e.IssueId).HasColumnName("issue_id");
 
                 entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
 
                 entity.Property(e => e.RepositoryName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("repository_name");
 
                 entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
 
                 entity.Property(e => e.UserName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("user_name");
 
@@ -826,7 +777,7 @@ namespace GitBucket.Core
             {
                 entity.HasNoKey();
 
-                entity.ToTable("issue_outline_view");
+                entity.ToView("issue_outline_view");
 
                 entity.Property(e => e.CommentCount).HasColumnName("comment_count");
 
@@ -866,13 +817,11 @@ namespace GitBucket.Core
                     .HasColumnName("label_id");
 
                 entity.Property(e => e.Color)
-                    .IsRequired()
                     .HasMaxLength(6)
                     .HasColumnName("color")
-                    .IsFixedLength(true);
+                    .IsFixedLength();
 
                 entity.Property(e => e.LabelName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("label_name");
 
@@ -912,7 +861,6 @@ namespace GitBucket.Core
                 entity.Property(e => e.DueDate).HasColumnName("due_date");
 
                 entity.Property(e => e.Title)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("title");
 
@@ -959,7 +907,6 @@ namespace GitBucket.Core
                     .HasColumnName("repository_name");
 
                 entity.Property(e => e.Source)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("source");
             });
@@ -973,7 +920,6 @@ namespace GitBucket.Core
                     .HasColumnName("plugin_id");
 
                 entity.Property(e => e.Version)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("version");
             });
@@ -1001,10 +947,9 @@ namespace GitBucket.Core
                     .HasColumnName("priority_id");
 
                 entity.Property(e => e.Color)
-                    .IsRequired()
                     .HasMaxLength(6)
                     .HasColumnName("color")
-                    .IsFixedLength(true);
+                    .IsFixedLength();
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(255)
@@ -1015,7 +960,6 @@ namespace GitBucket.Core
                 entity.Property(e => e.Ordering).HasColumnName("ordering");
 
                 entity.Property(e => e.PriorityName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("priority_name");
 
@@ -1100,34 +1044,28 @@ namespace GitBucket.Core
                 entity.Property(e => e.IssueId).HasColumnName("issue_id");
 
                 entity.Property(e => e.Branch)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("branch");
 
                 entity.Property(e => e.CommitIdFrom)
-                    .IsRequired()
                     .HasMaxLength(40)
                     .HasColumnName("commit_id_from");
 
                 entity.Property(e => e.CommitIdTo)
-                    .IsRequired()
                     .HasMaxLength(40)
                     .HasColumnName("commit_id_to");
 
                 entity.Property(e => e.IsDraft).HasColumnName("is_draft");
 
                 entity.Property(e => e.RequestBranch)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("request_branch");
 
                 entity.Property(e => e.RequestRepositoryName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("request_repository_name");
 
                 entity.Property(e => e.RequestUserName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("request_user_name");
 
@@ -1179,7 +1117,6 @@ namespace GitBucket.Core
                 entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
 
                 entity.Property(e => e.Uploader)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("uploader");
 
@@ -1210,14 +1147,12 @@ namespace GitBucket.Core
                     .HasColumnName("tag");
 
                 entity.Property(e => e.Author)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("author");
 
                 entity.Property(e => e.Content).HasColumnName("content");
 
                 entity.Property(e => e.Name)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("name");
 
@@ -1257,7 +1192,6 @@ namespace GitBucket.Core
                     .HasColumnName("default_branch");
 
                 entity.Property(e => e.DefaultMergeOption)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("default_merge_option")
                     .HasDefaultValueSql("'merge-commit'::character varying");
@@ -1273,7 +1207,6 @@ namespace GitBucket.Core
                     .HasColumnName("external_wiki_url");
 
                 entity.Property(e => e.IssuesOption)
-                    .IsRequired()
                     .HasMaxLength(10)
                     .HasColumnName("issues_option")
                     .HasDefaultValueSql("'DISABLE'::character varying");
@@ -1281,7 +1214,6 @@ namespace GitBucket.Core
                 entity.Property(e => e.LastActivityDate).HasColumnName("last_activity_date");
 
                 entity.Property(e => e.MergeOptions)
-                    .IsRequired()
                     .HasMaxLength(200)
                     .HasColumnName("merge_options")
                     .HasDefaultValueSql("'merge-commit,squash,rebase'::character varying");
@@ -1306,10 +1238,14 @@ namespace GitBucket.Core
 
                 entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
 
+                entity.Property(e => e.SafeMode)
+                    .IsRequired()
+                    .HasColumnName("safe_mode")
+                    .HasDefaultValueSql("true");
+
                 entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
 
                 entity.Property(e => e.WikiOption)
-                    .IsRequired()
                     .HasMaxLength(10)
                     .HasColumnName("wiki_option")
                     .HasDefaultValueSql("'DISABLE'::character varying");
@@ -1339,12 +1275,9 @@ namespace GitBucket.Core
                     .ValueGeneratedOnAdd()
                     .HasColumnName("ssh_key_id");
 
-                entity.Property(e => e.PublicKey)
-                    .IsRequired()
-                    .HasColumnName("public_key");
+                entity.Property(e => e.PublicKey).HasColumnName("public_key");
 
                 entity.Property(e => e.Title)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("title");
 
@@ -1355,7 +1288,7 @@ namespace GitBucket.Core
                     .HasConstraintName("idx_ssh_key_fk0");
             });
 
-            modelBuilder.Entity<Version>(entity =>
+            modelBuilder.Entity<Models.Version>(entity =>
             {
                 entity.HasKey(e => e.ModuleId)
                     .HasName("versions_pk");
@@ -1367,7 +1300,6 @@ namespace GitBucket.Core
                     .HasColumnName("module_id");
 
                 entity.Property(e => e.Version1)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("version");
             });
@@ -1392,14 +1324,13 @@ namespace GitBucket.Core
                     .HasColumnName("notification_user_name");
 
                 entity.Property(e => e.Notification)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnName("notification");
             });
 
             modelBuilder.Entity<WebHook>(entity =>
             {
-                entity.HasKey(e => new { e.UserName, e.RepositoryName, e.Url, e.HookId })
+                entity.HasKey(e => e.HookId)
                     .HasName("idx_web_hook_pk");
 
                 entity.ToTable("web_hook");
@@ -1407,38 +1338,62 @@ namespace GitBucket.Core
                 entity.HasIndex(e => new { e.UserName, e.RepositoryName, e.Url }, "idx_web_hook_1")
                     .IsUnique();
 
-                entity.HasIndex(e => e.HookId, "web_hook_hook_id_key")
-                    .IsUnique();
-
-                entity.Property(e => e.UserName)
-                    .HasMaxLength(100)
-                    .HasColumnName("user_name");
-
-                entity.Property(e => e.RepositoryName)
-                    .HasMaxLength(100)
-                    .HasColumnName("repository_name");
-
-                entity.Property(e => e.Url)
-                    .HasMaxLength(200)
-                    .HasColumnName("url");
-
                 entity.Property(e => e.HookId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("hook_id");
+                    .HasColumnName("hook_id")
+                    .HasDefaultValueSql("nextval('web_hook_2_hook_id_seq'::regclass)");
 
                 entity.Property(e => e.Ctype)
                     .HasMaxLength(10)
                     .HasColumnName("ctype");
 
+                entity.Property(e => e.RepositoryName)
+                    .HasMaxLength(100)
+                    .HasColumnName("repository_name");
+
                 entity.Property(e => e.Token)
                     .HasMaxLength(100)
                     .HasColumnName("token");
+
+                entity.Property(e => e.Url)
+                    .HasMaxLength(200)
+                    .HasColumnName("url");
+
+                entity.Property(e => e.UserName)
+                    .HasMaxLength(100)
+                    .HasColumnName("user_name");
 
                 entity.HasOne(d => d.Repository)
                     .WithMany(p => p.WebHooks)
                     .HasForeignKey(d => new { d.UserName, d.RepositoryName })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("idx_web_hook_fk0");
+            });
+
+            modelBuilder.Entity<WebHookBk>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("web_hook_bk");
+
+                entity.Property(e => e.Ctype)
+                    .HasMaxLength(10)
+                    .HasColumnName("ctype");
+
+                entity.Property(e => e.RepositoryName)
+                    .HasMaxLength(100)
+                    .HasColumnName("repository_name");
+
+                entity.Property(e => e.Token)
+                    .HasMaxLength(100)
+                    .HasColumnName("token");
+
+                entity.Property(e => e.Url)
+                    .HasMaxLength(200)
+                    .HasColumnName("url");
+
+                entity.Property(e => e.UserName)
+                    .HasMaxLength(100)
+                    .HasColumnName("user_name");
             });
 
             modelBuilder.Entity<WebHookEvent>(entity =>

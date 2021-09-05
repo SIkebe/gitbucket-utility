@@ -179,6 +179,7 @@ Task("Publish-SingleFile")
             Runtime = rid,
             PublishSingleFile = true,
             PublishTrimmed = true,
+            SelfContained = true,
         });
 });
 

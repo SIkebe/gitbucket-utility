@@ -1,34 +1,35 @@
 <Project>
 
-  <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <VersionPrefix>0.11.0</VersionPrefix>
-    <DebugType>embedded</DebugType>
-    <AnalysisLevel>preview</AnalysisLevel>
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <PropertyGroup>
+        <LangVersion>latest</LangVersion>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <VersionPrefix>0.11.0</VersionPrefix>
+        <DebugType>embedded</DebugType>
+        <AnalysisLevel>preview</AnalysisLevel>
+        <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+        <ImplicitUsings>true</ImplicitUsings>
 
-    <!-- https://github.com/SIkebe/gitbucket-utility/issues/363 -->
-    <!-- <TrimMode>link</TrimMode> -->
-    <TrimMode>copyused</TrimMode>
+        <!-- https://github.com/SIkebe/gitbucket-utility/issues/363 -->
+        <!-- <TrimMode>link</TrimMode> -->
+        <TrimMode>copyused</TrimMode>
 
-    <!-- https://github.com/OmniSharp/omnisharp-vscode/issues/3207
+        <!-- https://github.com/OmniSharp/omnisharp-vscode/issues/3207
          https://github.com/OmniSharp/omnisharp-roslyn/issues/1589 -->
-    <NoWarn>CS0579</NoWarn>
-  </PropertyGroup>
+        <NoWarn>CS0579</NoWarn>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)GbUtil.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)GbUtil.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="..\..\.editorconfig" Link=".editorconfig" />
+    </ItemGroup>
 
 </Project>

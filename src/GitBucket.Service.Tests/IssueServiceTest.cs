@@ -13,7 +13,7 @@ namespace GitBucket.Service.Tests
 {
     public class IssueServiceTest
     {
-        private readonly User _rootUser = new User
+        private readonly User _rootUser = new
         (
             avatarUrl: "",
             bio: "",
@@ -46,7 +46,7 @@ namespace GitBucket.Service.Tests
             suspendedAt: null
         );
 
-        private readonly User _user1 = new User
+        private readonly User _user1 = new
         (
             avatarUrl: "",
             bio: "",
@@ -283,7 +283,7 @@ namespace GitBucket.Service.Tests
                     reactions: null
                 ));
 
-            int invocationCount = 0;
+            var invocationCount = 0;
             mockGitBucketClient
                 .Setup(g => g.Issue.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewIssue>()))
                 .Callback(() => invocationCount++)
@@ -688,7 +688,7 @@ namespace GitBucket.Service.Tests
                     reactions: null
                 ));
 
-            int invocationCount = 0;
+            var invocationCount = 0;
             mockGitBucketClient
                 .Setup(g => g.Issue.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewIssue>()))
                 .Callback(() => invocationCount++)

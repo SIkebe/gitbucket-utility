@@ -89,7 +89,7 @@ namespace GbUtil
             IConfiguration configuration,
             bool requireDbConnection = false)
         {
-            string? connectionString = "";
+            var connectionString = "";
             if (requireDbConnection)
             {
                 connectionString = configuration.GetSection("GbUtil_ConnectionStrings")?.Value;

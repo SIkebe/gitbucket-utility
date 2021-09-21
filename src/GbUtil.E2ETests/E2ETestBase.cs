@@ -15,7 +15,7 @@ namespace GbUtil.E2ETests
 {
     public abstract class E2ETestBase : IClassFixture<GitBucketFixture>, IDisposable
     {
-        private bool disposedValue;
+        private bool _disposedValue;
 
         public E2ETestBase(GitBucketFixture fixture, ITestOutputHelper output)
         {
@@ -74,7 +74,7 @@ namespace GbUtil.E2ETests
             using var process = new Process();
             var useSingleFileExe = Environment.GetEnvironmentVariable("GbUtil_UseSingleFileExe");
             var singleFileExePath = Environment.GetEnvironmentVariable("GbUtil_SingleFileExePath");
-            if (useSingleFileExe == "true" && !(singleFileExePath is null) && File.Exists(singleFileExePath))
+            if (useSingleFileExe == "true" && singleFileExePath is not null && File.Exists(singleFileExePath))
             {
                 process.StartInfo.FileName = singleFileExePath;
                 process.StartInfo.Arguments = $@"{arguments}";
@@ -142,7 +142,7 @@ namespace GbUtil.E2ETests
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
                 if (disposing)
                 {
@@ -154,7 +154,7 @@ namespace GbUtil.E2ETests
                     }
                 }
 
-                disposedValue = true;
+                _disposedValue = true;
             }
         }
 
@@ -188,7 +188,7 @@ namespace GbUtil.E2ETests
             var localBranch = Commands.Checkout(repo, branchName);
 
             // git branch -u origin/<new-branch>
-            Remote remote = repo.Network.Remotes["origin"];
+            var remote = repo.Network.Remotes["origin"];
             repo.Branches.Update(localBranch, b => b.Remote = remote.Name, b => b.UpstreamBranch = localBranch.CanonicalName);
 
             // git push origin <new-branch>

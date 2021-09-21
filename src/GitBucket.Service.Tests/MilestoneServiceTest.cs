@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using GitBucket.Core;
 using GitBucket.Core.Models;
 using Microsoft.EntityFrameworkCore;

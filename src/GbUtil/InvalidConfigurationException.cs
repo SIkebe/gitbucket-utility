@@ -1,5 +1,3 @@
-using System;
-
 namespace GbUtil
 {
     public class InvalidConfigurationException : Exception

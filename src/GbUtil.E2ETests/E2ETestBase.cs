@@ -1,9 +1,5 @@
-using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using GitBucket.Core;
 using LibGit2Sharp;
 using LibGit2Sharp.Handlers;

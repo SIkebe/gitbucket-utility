@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using GitBucket.Core;
 
 namespace GitBucket.Service.Tests

@@ -1,4 +1,3 @@
-using System;
 using GitBucket.Core;
 using Octokit;
 using Octokit.Internal;

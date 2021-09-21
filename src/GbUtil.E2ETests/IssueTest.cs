@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using Octokit;
 using Xunit;
 using Xunit.Abstractions;

@@ -1,5 +1,3 @@
-using System;
-
 namespace GbUtil.E2ETests
 {
     public static class GitBucketDefaults

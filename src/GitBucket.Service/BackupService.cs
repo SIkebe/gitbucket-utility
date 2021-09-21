@@ -1,7 +1,4 @@
-using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using GitBucket.Core;
 using LibGit2Sharp;
 using Npgsql;

@@ -1,4 +1,3 @@
-using System;
 using GitBucket.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Xunit;

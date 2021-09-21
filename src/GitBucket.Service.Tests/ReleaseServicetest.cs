@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using GitBucket.Core;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Octokit;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace GitBucket.Service.Tests
 {

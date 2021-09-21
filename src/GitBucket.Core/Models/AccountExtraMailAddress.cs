@@ -1,8 +1,7 @@
-namespace GitBucket.Core.Models
+namespace GitBucket.Core.Models;
+
+public partial class AccountExtraMailAddress
 {
-    public partial class AccountExtraMailAddress
-    {
-        public string UserName { get; set; } = null!;
-        public string ExtraMailAddress { get; set; } = null!;
-    }
+    public string UserName { get; set; } = null!;
+    public string ExtraMailAddress { get; set; } = null!;
 }

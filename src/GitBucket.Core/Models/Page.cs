@@ -1,9 +1,8 @@
-namespace GitBucket.Core.Models
+namespace GitBucket.Core.Models;
+
+public partial class Page
 {
-    public partial class Page
-    {
-        public string UserName { get; set; } = null!;
-        public string RepositoryName { get; set; } = null!;
-        public string Source { get; set; } = null!;
-    }
+    public string UserName { get; set; } = null!;
+    public string RepositoryName { get; set; } = null!;
+    public string Source { get; set; } = null!;
 }

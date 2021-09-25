@@ -1,9 +1,6 @@
-using System;
+namespace GitBucket.Core;
 
-namespace GitBucket.Core
+public abstract class CommandLineOptionsBase
 {
-    public abstract class CommandLineOptionsBase
-    {
-        public DateTime ExecutedDate { get; set; } = DateTime.Now;
-    }
+    public DateTime ExecutedDate { get; set; } = DateTime.Now;
 }

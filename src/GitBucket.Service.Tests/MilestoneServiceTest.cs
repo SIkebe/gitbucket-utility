@@ -57,7 +57,7 @@ public class MilestoneServiceTest
                         OpenedUserName = "root",
                         Title = "Implement xxx feature",
                     }
-                }
+            }
         });
 
         dbContext.SaveChanges();
@@ -109,7 +109,7 @@ public class MilestoneServiceTest
                         OpenedUserName = "root",
                         Title = "Implement xxx feature",
                     }
-                }
+            }
         });
 
         dbContext.SaveChanges();
@@ -161,7 +161,7 @@ public class MilestoneServiceTest
                         OpenedUserName = "root",
                         Title = "Implement xxx feature",
                     }
-                }
+            }
         });
 
         dbContext.SaveChanges();
@@ -213,7 +213,7 @@ public class MilestoneServiceTest
                         OpenedUserName = "root",
                         Title = "Implement xxx feature",
                     }
-                }
+            }
         });
 
         dbContext.SaveChanges();
@@ -265,7 +265,7 @@ public class MilestoneServiceTest
                         OpenedUserName = "root",
                         Title = "Implement xxx feature",
                     }
-                }
+            }
         });
 
         dbContext.SaveChanges();

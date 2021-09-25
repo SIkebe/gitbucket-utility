@@ -56,13 +56,6 @@ public partial class GitBucketDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        if (modelBuilder is null)
-        {
-            throw new System.ArgumentNullException(nameof(modelBuilder));
-        }
-
-        modelBuilder.HasAnnotation("Relational:Collation", "C");
-
         modelBuilder.Entity<AccessToken>(entity =>
         {
             entity.ToTable("access_token");
@@ -116,7 +109,9 @@ public partial class GitBucketDbContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("image");
 
-            entity.Property(e => e.LastLoginDate).HasColumnName("last_login_date");
+            entity.Property(e => e.LastLoginDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("last_login_date");
 
             entity.Property(e => e.MailAddress)
                 .HasMaxLength(100)
@@ -126,11 +121,15 @@ public partial class GitBucketDbContext : DbContext
                 .HasMaxLength(200)
                 .HasColumnName("password");
 
-            entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
+            entity.Property(e => e.RegisteredDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("registered_date");
 
             entity.Property(e => e.Removed).HasColumnName("removed");
 
-            entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
+            entity.Property(e => e.UpdatedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_date");
 
             entity.Property(e => e.Url)
                 .HasMaxLength(200)
@@ -327,13 +326,17 @@ public partial class GitBucketDbContext : DbContext
 
             entity.Property(e => e.OriginalOldLine).HasColumnName("original_old_line");
 
-            entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
+            entity.Property(e => e.RegisteredDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("registered_date");
 
             entity.Property(e => e.RepositoryName)
                 .HasMaxLength(100)
                 .HasColumnName("repository_name");
 
-            entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
+            entity.Property(e => e.UpdatedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_date");
 
             entity.Property(e => e.UserName)
                 .HasMaxLength(100)
@@ -369,7 +372,9 @@ public partial class GitBucketDbContext : DbContext
 
             entity.Property(e => e.Description).HasColumnName("description");
 
-            entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
+            entity.Property(e => e.RegisteredDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("registered_date");
 
             entity.Property(e => e.RepositoryName)
                 .HasMaxLength(100)
@@ -383,7 +388,9 @@ public partial class GitBucketDbContext : DbContext
                 .HasMaxLength(200)
                 .HasColumnName("target_url");
 
-            entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
+            entity.Property(e => e.UpdatedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_date");
 
             entity.Property(e => e.UserName)
                 .HasMaxLength(100)
@@ -472,13 +479,17 @@ public partial class GitBucketDbContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("origin_user_name");
 
-            entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
+            entity.Property(e => e.RegisteredDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("registered_date");
 
             entity.Property(e => e.Title)
                 .HasMaxLength(100)
                 .HasColumnName("title");
 
-            entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
+            entity.Property(e => e.UpdatedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_date");
 
             entity.HasOne(d => d.UserNameNavigation)
                 .WithMany(p => p.Gists)
@@ -505,13 +516,17 @@ public partial class GitBucketDbContext : DbContext
 
             entity.Property(e => e.Content).HasColumnName("content");
 
-            entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
+            entity.Property(e => e.RegisteredDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("registered_date");
 
             entity.Property(e => e.RepositoryName)
                 .HasMaxLength(100)
                 .HasColumnName("repository_name");
 
-            entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
+            entity.Property(e => e.UpdatedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_date");
 
             entity.Property(e => e.UserName)
                 .HasMaxLength(100)
@@ -628,11 +643,15 @@ public partial class GitBucketDbContext : DbContext
 
             entity.Property(e => e.PullRequest).HasColumnName("pull_request");
 
-            entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
+            entity.Property(e => e.RegisteredDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("registered_date");
 
             entity.Property(e => e.Title).HasColumnName("title");
 
-            entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
+            entity.Property(e => e.UpdatedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_date");
 
             entity.HasOne(d => d.Milestone)
                 .WithMany(p => p.Issues)
@@ -680,13 +699,17 @@ public partial class GitBucketDbContext : DbContext
 
             entity.Property(e => e.IssueId).HasColumnName("issue_id");
 
-            entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
+            entity.Property(e => e.RegisteredDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("registered_date");
 
             entity.Property(e => e.RepositoryName)
                 .HasMaxLength(100)
                 .HasColumnName("repository_name");
 
-            entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
+            entity.Property(e => e.UpdatedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_date");
 
             entity.Property(e => e.UserName)
                 .HasMaxLength(100)
@@ -854,11 +877,15 @@ public partial class GitBucketDbContext : DbContext
                 .ValueGeneratedOnAdd()
                 .HasColumnName("milestone_id");
 
-            entity.Property(e => e.ClosedDate).HasColumnName("closed_date");
+            entity.Property(e => e.ClosedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("closed_date");
 
             entity.Property(e => e.Description).HasColumnName("description");
 
-            entity.Property(e => e.DueDate).HasColumnName("due_date");
+            entity.Property(e => e.DueDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("due_date");
 
             entity.Property(e => e.Title)
                 .HasMaxLength(100)
@@ -1106,7 +1133,9 @@ public partial class GitBucketDbContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("label");
 
-            entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
+            entity.Property(e => e.RegisteredDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("registered_date");
 
             entity.Property(e => e.ReleaseAssetId)
                 .ValueGeneratedOnAdd()
@@ -1114,7 +1143,9 @@ public partial class GitBucketDbContext : DbContext
 
             entity.Property(e => e.Size).HasColumnName("size");
 
-            entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
+            entity.Property(e => e.UpdatedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_date");
 
             entity.Property(e => e.Uploader)
                 .HasMaxLength(100)
@@ -1156,9 +1187,13 @@ public partial class GitBucketDbContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("name");
 
-            entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
+            entity.Property(e => e.RegisteredDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("registered_date");
 
-            entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
+            entity.Property(e => e.UpdatedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_date");
 
             entity.HasOne(d => d.Repository)
                 .WithMany(p => p.ReleaseTags)
@@ -1211,7 +1246,9 @@ public partial class GitBucketDbContext : DbContext
                 .HasColumnName("issues_option")
                 .HasDefaultValueSql("'DISABLE'::character varying");
 
-            entity.Property(e => e.LastActivityDate).HasColumnName("last_activity_date");
+            entity.Property(e => e.LastActivityDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("last_activity_date");
 
             entity.Property(e => e.MergeOptions)
                 .HasMaxLength(200)
@@ -1236,14 +1273,18 @@ public partial class GitBucketDbContext : DbContext
 
             entity.Property(e => e.Private).HasColumnName("private");
 
-            entity.Property(e => e.RegisteredDate).HasColumnName("registered_date");
+            entity.Property(e => e.RegisteredDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("registered_date");
 
             entity.Property(e => e.SafeMode)
                 .IsRequired()
                 .HasColumnName("safe_mode")
                 .HasDefaultValueSql("true");
 
-            entity.Property(e => e.UpdatedDate).HasColumnName("updated_date");
+            entity.Property(e => e.UpdatedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_date");
 
             entity.Property(e => e.WikiOption)
                 .HasMaxLength(10)

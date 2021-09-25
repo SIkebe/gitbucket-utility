@@ -44,7 +44,7 @@ public class MilestoneExtensionsTest
                     new Issue { AssignedUserName = "user3" },
                     new Issue { AssignedUserName = "user2" },
                     new Issue { AssignedUserName = "user2" },
-                }
+            }
         };
 
         // When

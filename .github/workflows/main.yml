@@ -44,7 +44,7 @@ jobs:
         shell: pwsh
 
   windows:
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v2.3.5
       - name: Build and Run Unit Tests On Windows

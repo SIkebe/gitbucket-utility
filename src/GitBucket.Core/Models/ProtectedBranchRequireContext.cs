@@ -1,11 +1,15 @@
-namespace GitBucket.Core.Models;
+using System;
+using System.Collections.Generic;
 
-public partial class ProtectedBranchRequireContext
+namespace GitBucket.Core.Models
 {
-    public string UserName { get; set; } = null!;
-    public string RepositoryName { get; set; } = null!;
-    public string Branch { get; set; } = null!;
-    public string Context { get; set; } = null!;
+    public partial class ProtectedBranchRequireContext
+    {
+        public string UserName { get; set; } = null!;
+        public string RepositoryName { get; set; } = null!;
+        public string Branch { get; set; } = null!;
+        public string Context { get; set; } = null!;
 
-    public virtual ProtectedBranch ProtectedBranch { get; set; } = null!;
+        public virtual ProtectedBranch ProtectedBranch { get; set; } = null!;
+    }
 }

@@ -1,10 +1,14 @@
-namespace GitBucket.Core.Models;
+using System;
+using System.Collections.Generic;
 
-public partial class IssueNotification
+namespace GitBucket.Core.Models
 {
-    public string UserName { get; set; } = null!;
-    public string RepositoryName { get; set; } = null!;
-    public int IssueId { get; set; }
-    public string NotificationUserName { get; set; } = null!;
-    public bool Subscribed { get; set; }
+    public partial class IssueNotification
+    {
+        public string UserName { get; set; } = null!;
+        public string RepositoryName { get; set; } = null!;
+        public int IssueId { get; set; }
+        public string NotificationUserName { get; set; } = null!;
+        public bool Subscribed { get; set; }
+    }
 }

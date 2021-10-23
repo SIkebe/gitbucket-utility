@@ -1,13 +1,17 @@
-namespace GitBucket.Core.Models;
+using System;
+using System.Collections.Generic;
 
-public partial class DeployKey
+namespace GitBucket.Core.Models
 {
-    public string UserName { get; set; } = null!;
-    public string RepositoryName { get; set; } = null!;
-    public int DeployKeyId { get; set; }
-    public string Title { get; set; } = null!;
-    public string PublicKey { get; set; } = null!;
-    public bool AllowWrite { get; set; }
+    public partial class DeployKey
+    {
+        public string UserName { get; set; } = null!;
+        public string RepositoryName { get; set; } = null!;
+        public int DeployKeyId { get; set; }
+        public string Title { get; set; } = null!;
+        public string PublicKey { get; set; } = null!;
+        public bool AllowWrite { get; set; }
 
-    public virtual Repository Repository { get; set; } = null!;
+        public virtual Repository Repository { get; set; } = null!;
+    }
 }

@@ -1,8 +1,12 @@
-namespace GitBucket.Core.Models;
+using System;
+using System.Collections.Generic;
 
-public partial class AccountWebHookEvent
+namespace GitBucket.Core.Models
 {
-    public string UserName { get; set; } = null!;
-    public string Url { get; set; } = null!;
-    public string Event { get; set; } = null!;
+    public partial class AccountWebHookEvent
+    {
+        public string UserName { get; set; } = null!;
+        public string Url { get; set; } = null!;
+        public string Event { get; set; } = null!;
+    }
 }

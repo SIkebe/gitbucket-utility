@@ -1,21 +1,25 @@
-namespace GitBucket.Core.Models;
+using System;
+using System.Collections.Generic;
 
-public partial class Priority
+namespace GitBucket.Core.Models
 {
-    public Priority()
+    public partial class Priority
     {
-        Issues = new HashSet<Issue>();
+        public Priority()
+        {
+            Issues = new HashSet<Issue>();
+        }
+
+        public string UserName { get; set; } = null!;
+        public string RepositoryName { get; set; } = null!;
+        public int PriorityId { get; set; }
+        public string PriorityName { get; set; } = null!;
+        public string? Description { get; set; }
+        public int Ordering { get; set; }
+        public bool IsDefault { get; set; }
+        public string Color { get; set; } = null!;
+
+        public virtual Repository Repository { get; set; } = null!;
+        public virtual ICollection<Issue> Issues { get; set; }
     }
-
-    public string UserName { get; set; } = null!;
-    public string RepositoryName { get; set; } = null!;
-    public int PriorityId { get; set; }
-    public string PriorityName { get; set; } = null!;
-    public string? Description { get; set; }
-    public int Ordering { get; set; }
-    public bool IsDefault { get; set; }
-    public string Color { get; set; } = null!;
-
-    public virtual Repository Repository { get; set; } = null!;
-    public virtual ICollection<Issue> Issues { get; set; }
 }

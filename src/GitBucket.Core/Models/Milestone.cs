@@ -1,20 +1,24 @@
-namespace GitBucket.Core.Models;
+using System;
+using System.Collections.Generic;
 
-public partial class Milestone
+namespace GitBucket.Core.Models
 {
-    public Milestone()
+    public partial class Milestone
     {
-        Issues = new HashSet<Issue>();
+        public Milestone()
+        {
+            Issues = new HashSet<Issue>();
+        }
+
+        public string UserName { get; set; } = null!;
+        public string RepositoryName { get; set; } = null!;
+        public int MilestoneId { get; set; }
+        public string Title { get; set; } = null!;
+        public string? Description { get; set; }
+        public DateTime? DueDate { get; set; }
+        public DateTime? ClosedDate { get; set; }
+
+        public virtual Repository Repository { get; set; } = null!;
+        public virtual ICollection<Issue> Issues { get; set; }
     }
-
-    public string UserName { get; set; } = null!;
-    public string RepositoryName { get; set; } = null!;
-    public int MilestoneId { get; set; }
-    public string Title { get; set; } = null!;
-    public string? Description { get; set; }
-    public DateTime? DueDate { get; set; }
-    public DateTime? ClosedDate { get; set; }
-
-    public virtual Repository Repository { get; set; } = null!;
-    public virtual ICollection<Issue> Issues { get; set; }
 }

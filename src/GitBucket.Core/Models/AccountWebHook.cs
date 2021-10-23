@@ -1,11 +1,15 @@
-namespace GitBucket.Core.Models;
+using System;
+using System.Collections.Generic;
 
-public partial class AccountWebHook
+namespace GitBucket.Core.Models
 {
-    public string UserName { get; set; } = null!;
-    public string Url { get; set; } = null!;
-    public string? Token { get; set; }
-    public string? Ctype { get; set; }
+    public partial class AccountWebHook
+    {
+        public string UserName { get; set; } = null!;
+        public string Url { get; set; } = null!;
+        public string? Token { get; set; }
+        public string? Ctype { get; set; }
 
-    public virtual Account UserNameNavigation { get; set; } = null!;
+        public virtual Account UserNameNavigation { get; set; } = null!;
+    }
 }

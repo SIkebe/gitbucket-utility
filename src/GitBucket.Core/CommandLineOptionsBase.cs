@@ -1,3 +1,5 @@
+using System;
+
 namespace GitBucket.Core;
 
 public abstract class CommandLineOptionsBase

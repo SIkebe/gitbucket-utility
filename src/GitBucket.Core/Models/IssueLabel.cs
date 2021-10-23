@@ -1,11 +1,15 @@
-namespace GitBucket.Core.Models;
+using System;
+using System.Collections.Generic;
 
-public partial class IssueLabel
+namespace GitBucket.Core.Models
 {
-    public string UserName { get; set; } = null!;
-    public string RepositoryName { get; set; } = null!;
-    public int IssueId { get; set; }
-    public int LabelId { get; set; }
+    public partial class IssueLabel
+    {
+        public string UserName { get; set; } = null!;
+        public string RepositoryName { get; set; } = null!;
+        public int IssueId { get; set; }
+        public int LabelId { get; set; }
 
-    public virtual Issue Issue { get; set; } = null!;
+        public virtual Issue Issue { get; set; } = null!;
+    }
 }

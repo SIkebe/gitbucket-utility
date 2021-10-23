@@ -1,22 +1,26 @@
-namespace GitBucket.Core.Models;
+using System;
+using System.Collections.Generic;
 
-public partial class Gist
+namespace GitBucket.Core.Models
 {
-    public Gist()
+    public partial class Gist
     {
-        GistComments = new HashSet<GistComment>();
+        public Gist()
+        {
+            GistComments = new HashSet<GistComment>();
+        }
+
+        public string UserName { get; set; } = null!;
+        public string RepositoryName { get; set; } = null!;
+        public string Title { get; set; } = null!;
+        public string? Description { get; set; }
+        public string? OriginUserName { get; set; }
+        public string? OriginRepositoryName { get; set; }
+        public DateTime RegisteredDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
+        public string Mode { get; set; } = null!;
+
+        public virtual Account UserNameNavigation { get; set; } = null!;
+        public virtual ICollection<GistComment> GistComments { get; set; }
     }
-
-    public string UserName { get; set; } = null!;
-    public string RepositoryName { get; set; } = null!;
-    public string Title { get; set; } = null!;
-    public string? Description { get; set; }
-    public string? OriginUserName { get; set; }
-    public string? OriginRepositoryName { get; set; }
-    public DateTime RegisteredDate { get; set; }
-    public DateTime UpdatedDate { get; set; }
-    public string Mode { get; set; } = null!;
-
-    public virtual Account UserNameNavigation { get; set; } = null!;
-    public virtual ICollection<GistComment> GistComments { get; set; }
 }

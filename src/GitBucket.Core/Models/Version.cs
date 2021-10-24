@@ -1,7 +1,11 @@
-namespace GitBucket.Core.Models;
+using System;
+using System.Collections.Generic;
 
-public partial class Version
+namespace GitBucket.Core.Models
 {
-    public string ModuleId { get; set; } = null!;
-    public string Version1 { get; set; } = null!;
+    public partial class Version
+    {
+        public string ModuleId { get; set; } = null!;
+        public string Version1 { get; set; } = null!;
+    }
 }

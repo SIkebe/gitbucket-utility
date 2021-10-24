@@ -1,12 +1,16 @@
-namespace GitBucket.Core.Models;
+using System;
+using System.Collections.Generic;
 
-public partial class Collaborator
+namespace GitBucket.Core.Models
 {
-    public string UserName { get; set; } = null!;
-    public string RepositoryName { get; set; } = null!;
-    public string CollaboratorName { get; set; } = null!;
-    public string Role { get; set; } = null!;
+    public partial class Collaborator
+    {
+        public string UserName { get; set; } = null!;
+        public string RepositoryName { get; set; } = null!;
+        public string CollaboratorName { get; set; } = null!;
+        public string Role { get; set; } = null!;
 
-    public virtual Account CollaboratorNameNavigation { get; set; } = null!;
-    public virtual Repository Repository { get; set; } = null!;
+        public virtual Account CollaboratorNameNavigation { get; set; } = null!;
+        public virtual Repository Repository { get; set; } = null!;
+    }
 }

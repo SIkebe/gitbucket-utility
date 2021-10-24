@@ -1,10 +1,14 @@
-namespace GitBucket.Core.Models;
+using System;
+using System.Collections.Generic;
 
-public partial class IssueId
+namespace GitBucket.Core.Models
 {
-    public string UserName { get; set; } = null!;
-    public string RepositoryName { get; set; } = null!;
-    public int IssueId1 { get; set; }
+    public partial class IssueId
+    {
+        public string UserName { get; set; } = null!;
+        public string RepositoryName { get; set; } = null!;
+        public int IssueId1 { get; set; }
 
-    public virtual Repository Repository { get; set; } = null!;
+        public virtual Repository Repository { get; set; } = null!;
+    }
 }

@@ -1,5 +1,7 @@
 #nullable enable
 
+using System;
+
 namespace GitBucket.Core;
 
 /// <summary>

@@ -1,9 +1,13 @@
-namespace GitBucket.Core.Models;
+using System;
+using System.Collections.Generic;
 
-public partial class Watch
+namespace GitBucket.Core.Models
 {
-    public string UserName { get; set; } = null!;
-    public string RepositoryName { get; set; } = null!;
-    public string NotificationUserName { get; set; } = null!;
-    public string Notification { get; set; } = null!;
+    public partial class Watch
+    {
+        public string UserName { get; set; } = null!;
+        public string RepositoryName { get; set; } = null!;
+        public string NotificationUserName { get; set; } = null!;
+        public string Notification { get; set; } = null!;
+    }
 }

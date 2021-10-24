@@ -1,7 +1,11 @@
-namespace GitBucket.Core.Models;
+using System;
+using System.Collections.Generic;
 
-public partial class Plugin
+namespace GitBucket.Core.Models
 {
-    public string PluginId { get; set; } = null!;
-    public string Version { get; set; } = null!;
+    public partial class Plugin
+    {
+        public string PluginId { get; set; } = null!;
+        public string Version { get; set; } = null!;
+    }
 }

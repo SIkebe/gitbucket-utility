@@ -1,9 +1,13 @@
-namespace GitBucket.Core.Models;
+using System;
+using System.Collections.Generic;
 
-public partial class AccountPreference
+namespace GitBucket.Core.Models
 {
-    public string UserName { get; set; } = null!;
-    public string HighlighterTheme { get; set; } = null!;
+    public partial class AccountPreference
+    {
+        public string UserName { get; set; } = null!;
+        public string HighlighterTheme { get; set; } = null!;
 
-    public virtual Account UserNameNavigation { get; set; } = null!;
+        public virtual Account UserNameNavigation { get; set; } = null!;
+    }
 }

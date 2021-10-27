@@ -8,7 +8,7 @@
     <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0-rc.2.21480.5" />
     <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="6.0.0-rc.2.21480.5" />
     <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="6.0.0-rc.2.21480.5" />
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Update="Moq" Version="4.16.1" />
     <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.0-rc.2" />
     <PackageReference Update="octokit" Version="0.50.0" />

@@ -48,3 +48,5 @@ dotnet_diagnostic.SA1629.severity = none
 
 # SA1208: System using directives should be placed before other using directives
 dotnet_diagnostic.SA1208.severity = none
+
+csharp_style_namespace_declarations=file_scoped:suggestion

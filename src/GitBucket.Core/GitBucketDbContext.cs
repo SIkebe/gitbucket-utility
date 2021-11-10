@@ -841,7 +841,8 @@ namespace GitBucket.Core
 
                 entity.Property(e => e.Color)
                     .HasMaxLength(6)
-                    .HasColumnName("color");
+                    .HasColumnName("color")
+                    .IsFixedLength();
 
                 entity.Property(e => e.LabelName)
                     .HasMaxLength(100)
@@ -974,7 +975,8 @@ namespace GitBucket.Core
 
                 entity.Property(e => e.Color)
                     .HasMaxLength(6)
-                    .HasColumnName("color");
+                    .HasColumnName("color")
+                    .IsFixedLength();
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(255)

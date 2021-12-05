@@ -6,9 +6,7 @@ jobs:
   linux-e2e:
     strategy:
       fail-fast: false
-      matrix:
-        ubuntu: [ubuntu-20.04]
-    runs-on: ${{ matrix.ubuntu }}
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2.4.0
       - name: Install PostgreSQL
@@ -19,16 +17,13 @@ jobs:
           sudo apt-get install postgresql-14
         shell: bash
       - name: Build and Run E2E Tests On Linux
-        run: |
-          .\build.ps1 --target Run-E2E-Tests
+        run: .\build.ps1 --target Run-E2E-Tests
         shell: pwsh
 
   linux-e2e-scd:
     strategy:
       fail-fast: false
-      matrix:
-        ubuntu: [ubuntu-20.04]
-    runs-on: ${{ matrix.ubuntu }}
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2.4.0
       - name: Install PostgreSQL
@@ -39,8 +34,7 @@ jobs:
           sudo apt-get install postgresql-14
         shell: bash
       - name: Build and Run E2E Tests Using SingleFileExe On Linux
-        run: |
-          .\build.ps1 --target Run-E2E-Tests-Using-SingleFileExe --rid linux-x64
+        run: .\build.ps1 --target Run-E2E-Tests-Using-SingleFileExe --rid linux-x64
         shell: pwsh
 
   windows:

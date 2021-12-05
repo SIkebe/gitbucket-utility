@@ -8,6 +8,8 @@
     <DebugType>embedded</DebugType>
     <AnalysisLevel>preview</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+
+    <!-- Include git2-8a0dc67.dll into the GbUtil.exe -->
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <ImplicitUsings>true</ImplicitUsings>
 

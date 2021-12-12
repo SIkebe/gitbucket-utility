@@ -53,16 +53,12 @@ The highest priority among them is """".
         await PrepareForPR();
 
         // Act
-        _ = Execute($"release -o {GitBucketDefaults.Owner} -r {Repository.Name} -m v1.0.0 --create-pr --draft -f");
+        _ = Execute($@"release -o {GitBucketDefaults.Owner} -r {Repository.Name} -m ""v1.0.0 draft"" --create-pr --draft -f");
 
         // Assert
-        using var dbContext = new GitBucketDbContext(GitBucketDefaults.ConnectionStrings);
-        var pr = dbContext.PullRequests
-            .Where(p => p.UserName == GitBucketDefaults.Owner)
-            .Where(p => p.RepositoryName == Repository.Name)
-            .Where(p => p.Issue.Title == "v1.0.0")
-            .Single();
-        Assert.True(pr.IsDraft);
+        var allPrs = await GitBucketFixture.GitBucketClient.PullRequest.GetAllForRepository(GitBucketDefaults.Owner, Repository.Name);
+        var pr = allPrs.Single(p => p.Title == "v1.0.0 draft");
+        Assert.True(pr.Draft);
     }
 
     [Fact]

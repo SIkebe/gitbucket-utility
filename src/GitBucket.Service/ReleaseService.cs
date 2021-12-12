@@ -163,17 +163,17 @@ public class ReleaseService : IReleaseService
         try
         {
             // Create new pull request
-            // GitBucket v4.34.0 is going to allow "isDraft" parameter
-            // https://github.com/gitbucket/gitbucket/pull/2388
             await gitBucketClient.PullRequest.Create(
                 options.Owner,
                 options.Repository,
                 new NewPullRequest(
                     title: options.Title ?? options.MileStone,
                     head: options.Head,
-                    baseRef: options.Base
-                )
-                { Body = releaseNote });
+                    baseRef: options.Base)
+                {
+                    Body = releaseNote,
+                    Draft = options.Draft,
+                });
         }
         catch (InvalidCastException)
         {
@@ -183,15 +183,6 @@ public class ReleaseService : IReleaseService
 
         var allPRs = await gitBucketClient.PullRequest.GetAllForRepository(options.Owner, options.Repository);
         var latest = allPRs.OrderByDescending(p => p.Number).First();
-
-        if (options.Draft)
-        {
-            var newPR = _context.Set<Core.Models.PullRequest>()
-                .Where(p => p.UserName == options.Owner && p.RepositoryName == options.Repository && p.IssueId == latest.Number)
-                .Single();
-            newPR.IsDraft = true;
-            await _context.SaveChangesAsync();
-        }
 
         // Add all labels which corresponding issues have.
         // If there is not the same name label, GitBucket creates one automatically.

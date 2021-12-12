@@ -186,9 +186,14 @@ public class ReleaseServiceTest
             }));
 
         var body = string.Empty;
+        bool? isDraft = null;
         gitbucketClient
             .Setup(g => g.PullRequest.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewPullRequest>()))
-            .Callback((string owner, string name, NewPullRequest newPullRequest) => body = newPullRequest.Body)
+            .Callback((string owner, string name, NewPullRequest newPullRequest) =>
+            {
+                body = newPullRequest.Body;
+                isDraft = newPullRequest.Draft;
+            })
             .ThrowsAsync(new InvalidCastException("Ignore InvalidCastException because of escaped response."));
 
         gitbucketClient.Setup(g => g.Issue.Labels.AddToIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string[]>()));
@@ -233,6 +238,7 @@ The highest priority among them is ""high"".
         Assert.Equal("A new pull request has been successfully created!", FakeConsole.Messages[0]);
         Assert.Empty(FakeConsole.WarnMessages);
         Assert.Empty(FakeConsole.ErrorMessages);
+        Assert.False(isDraft);
     }
 
     [Fact]
@@ -259,9 +265,14 @@ The highest priority among them is ""high"".
             }));
 
         var body = string.Empty;
+        bool? isDraft = null;
         gitbucketClient
             .Setup(g => g.PullRequest.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewPullRequest>()))
-            .Callback((string owner, string name, NewPullRequest newPullRequest) => body = newPullRequest.Body)
+            .Callback((string owner, string name, NewPullRequest newPullRequest) =>
+            {
+                body = newPullRequest.Body;
+                isDraft = newPullRequest.Draft;
+            })
             .ThrowsAsync(new InvalidCastException("Ignore InvalidCastException because of escaped response."));
 
         gitbucketClient.Setup(g => g.Issue.Labels.AddToIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string[]>()));
@@ -299,8 +310,6 @@ The highest priority among them is ""high"".
         Assert.Equal("A new pull request has been successfully created!", FakeConsole.Messages[0]);
         Assert.Empty(FakeConsole.WarnMessages);
         Assert.Empty(FakeConsole.ErrorMessages);
-
-        var isDraft = dbContext.PullRequests.Where(p => p.IssueId == 2).Select(p => p.IsDraft).Single();
         Assert.True(isDraft);
     }
 

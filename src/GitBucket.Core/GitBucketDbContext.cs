@@ -1396,7 +1396,7 @@ namespace GitBucket.Core
                     .HasColumnName("token");
 
                 entity.Property(e => e.Url)
-                    .HasMaxLength(200)
+                    .HasMaxLength(400)
                     .HasColumnName("url");
 
                 entity.Property(e => e.UserName)
@@ -1453,7 +1453,7 @@ namespace GitBucket.Core
                     .HasColumnName("repository_name");
 
                 entity.Property(e => e.Url)
-                    .HasMaxLength(200)
+                    .HasMaxLength(400)
                     .HasColumnName("url");
 
                 entity.Property(e => e.Event)

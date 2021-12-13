@@ -53,7 +53,7 @@ The highest priority among them is """".
         await PrepareForPR();
 
         // Act
-        _ = Execute($@"release -o {GitBucketDefaults.Owner} -r {Repository.Name} -m ""v1.0.0 draft"" --create-pr --draft -f");
+        _ = Execute($@"release -o {GitBucketDefaults.Owner} -r {Repository.Name} -m ""v1.0.0"" --title ""v1.0.0 draft"" --create-pr --draft -f");
 
         // Assert
         var allPrs = await GitBucketFixture.GitBucketClient.PullRequest.GetAllForRepository(GitBucketDefaults.Owner, Repository.Name);

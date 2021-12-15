@@ -3,7 +3,7 @@
   <ItemGroup>
     <PackageReference Update="CommandLineParser" Version="2.9.0-preview1" />
     <PackageReference Update="libgit2sharp" Version="0.27.0-preview-0158" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="6.0.0" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="6.0.1" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.1" />
     <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0" />
     <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />

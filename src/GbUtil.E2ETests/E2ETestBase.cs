@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Reflection;
-using GitBucket.Core;
 using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
 using Octokit;
@@ -48,21 +47,6 @@ public abstract class E2ETestBase : IClassFixture<GitBucketFixture>, IDisposable
     {
         var repository = Guid.NewGuid().ToString();
         return await GitBucketFixture.GitBucketClient.Repository.Create(new NewRepository(repository) { AutoInit = autoInit });
-    }
-
-    protected static void CreateMilestone(string owner, string repository, string title, string? description = null, DateTime? dueDate = null)
-    {
-        using var dbContext = new GitBucketDbContext(GitBucketDefaults.ConnectionStrings);
-        dbContext.Milestones.Add(new GitBucket.Core.Models.Milestone
-        {
-            UserName = owner,
-            RepositoryName = repository,
-            Title = title,
-            Description = description,
-            DueDate = dueDate,
-        });
-
-        dbContext.SaveChanges();
     }
 
     protected static string Execute(string arguments)
@@ -115,25 +99,6 @@ public abstract class E2ETestBase : IClassFixture<GitBucketFixture>, IDisposable
         {
             RemoveReadonlyAttribute(di);
         }
-    }
-
-    protected static void SetMilestone(string owner, string repository, int issueNumber, string milestoneTitle)
-    {
-        using var dbContext = new GitBucketDbContext(GitBucketDefaults.ConnectionStrings);
-        var milestone = dbContext.Milestones
-            .Where(m => m.UserName == owner)
-            .Where(m => m.RepositoryName == repository)
-            .Where(m => m.Title == milestoneTitle)
-            .Single();
-
-        var target = dbContext.Issues
-            .Where(i => i.UserName == owner)
-            .Where(i => i.RepositoryName == repository)
-            .Where(i => i.IssueId == issueNumber)
-            .Single();
-
-        target.Milestone = milestone;
-        dbContext.SaveChanges();
     }
 
     protected virtual void Dispose(bool disposing)

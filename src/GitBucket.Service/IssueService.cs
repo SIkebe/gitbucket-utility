@@ -16,8 +16,8 @@ public class IssueService : IIssueService
 
     public async Task<int> Execute(IssueOptions options, IGitHubClient gitBucketClient)
     {
-        if (options == null) throw new ArgumentNullException(nameof(options));
-        if (gitBucketClient == null) throw new ArgumentNullException(nameof(gitBucketClient));
+        ArgumentNullException.ThrowIfNull(options);
+        ArgumentNullException.ThrowIfNull(gitBucketClient);
 
         var sourceOwner = options.Source.First();
         var sourceRepositoryName = options.Source.Skip(1).First();

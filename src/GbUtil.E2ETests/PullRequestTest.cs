@@ -1,4 +1,3 @@
-using GitBucket.Core;
 using LibGit2Sharp;
 using Octokit;
 using Xunit;
@@ -53,16 +52,12 @@ The highest priority among them is """".
         await PrepareForPR();
 
         // Act
-        _ = Execute($"release -o {GitBucketDefaults.Owner} -r {Repository.Name} -m v1.0.0 --create-pr --draft -f");
+        _ = Execute($@"release -o {GitBucketDefaults.Owner} -r {Repository.Name} -m ""v1.0.0"" --title ""v1.0.0 draft"" --create-pr --draft -f");
 
         // Assert
-        using var dbContext = new GitBucketDbContext(GitBucketDefaults.ConnectionStrings);
-        var pr = dbContext.PullRequests
-            .Where(p => p.UserName == GitBucketDefaults.Owner)
-            .Where(p => p.RepositoryName == Repository.Name)
-            .Where(p => p.Issue.Title == "v1.0.0")
-            .Single();
-        Assert.True(pr.IsDraft);
+        var allPrs = await GitBucketFixture.GitBucketClient.PullRequest.GetAllForRepository(GitBucketDefaults.Owner, Repository.Name);
+        var pr = allPrs.Single(p => p.Title == "v1.0.0 draft");
+        Assert.True(pr.Draft);
     }
 
     [Fact]
@@ -96,17 +91,16 @@ The highest priority among them is """".
         Repository = await CreateRepository(autoInit: true);
         CreateBranch("develop");
         await UpdateReadme("develop");
+        var client = GitBucketFixture.GitBucketClient;
+
+        // Create milestone v1.0.0
+        var milestone = await client.Issue.Milestone.Create(GitBucketDefaults.Owner, Repository.Name, new NewMilestone("v1.0.0"));
 
         // Create issues which target milestone v1.0.0
-        var issue1 = await GitBucketFixture.GitBucketClient.Issue.Create(GitBucketDefaults.Owner, Repository.Name, new NewIssue("Bump to v1.0.0"));
-        await GitBucketFixture.GitBucketClient.Issue.Labels.AddToIssue(GitBucketDefaults.Owner, Repository.Name, issue1.Number, new[] { "Enhancement" });
+        var issue1 = await client.Issue.Create(GitBucketDefaults.Owner, Repository.Name, new NewIssue("Bump to v1.0.0") { Milestone = milestone.Number });
+        await client.Issue.Labels.AddToIssue(GitBucketDefaults.Owner, Repository.Name, issue1.Number, new[] { "Enhancement" });
 
-        var issue2 = await GitBucketFixture.GitBucketClient.Issue.Create(GitBucketDefaults.Owner, Repository.Name, new NewIssue("Found a bug"));
-        await GitBucketFixture.GitBucketClient.Issue.Labels.AddToIssue(GitBucketDefaults.Owner, Repository.Name, issue2.Number, new[] { "Bug" });
-
-        // Create milestone v1.0.0 and set above issues to it
-        CreateMilestone(GitBucketDefaults.Owner, Repository.Name, "v1.0.0");
-        SetMilestone(GitBucketDefaults.Owner, Repository.Name, issue1.Number, "v1.0.0");
-        SetMilestone(GitBucketDefaults.Owner, Repository.Name, issue2.Number, "v1.0.0");
+        var issue2 = await client.Issue.Create(GitBucketDefaults.Owner, Repository.Name, new NewIssue("Found a bug") { Milestone = milestone.Number });
+        await client.Issue.Labels.AddToIssue(GitBucketDefaults.Owner, Repository.Name, issue2.Number, new[] { "Bug" });
     }
 }

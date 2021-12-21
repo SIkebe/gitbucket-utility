@@ -35,7 +35,7 @@ public class BackupService : IBackupService
     /// <returns>Return code.</returns>
     public int Backup(BackupOptions options, string connectionString)
     {
-        if (options == null) throw new ArgumentNullException(nameof(options));
+        ArgumentNullException.ThrowIfNull(options);
 
         Directory.CreateDirectory(options.Destination);
         Directory.CreateDirectory(options.DestinationRepositoriesDir);

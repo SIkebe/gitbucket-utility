@@ -1,14 +1,11 @@
-using System.Linq;
+namespace System;
 
-namespace System
+public static class StringExtensions
 {
-    public static class StringExtensions
+    public static string ConvertFirstCharToUpper(this string self)
     {
-        public static string ConvertFirstCharToUpper(this string self)
-        {
-            if (string.IsNullOrEmpty(self)) return self;
+        if (string.IsNullOrEmpty(self)) return self;
 
-            return char.ToUpperInvariant(self.First()) + self[1..];
-        }
+        return char.ToUpperInvariant(self.First()) + self[1..];
     }
 }

@@ -26,9 +26,9 @@ Task("Build")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    DotNetCoreBuild(
+    DotNetBuild(
         "./GbUtil.sln",
-        new DotNetCoreBuildSettings
+        new DotNetBuildSettings
         {
             Configuration = configuration
         });
@@ -38,9 +38,9 @@ Task("Run-Unit-Tests")
     .IsDependentOn("Build")
     .Does(() =>
 {
-    DotNetCoreTest(
+    DotNetTest(
         "./src/GitBucket.Service.Tests/GitBucket.Service.Tests.csproj",
-        new DotNetCoreTestSettings
+        new DotNetTestSettings
         {
             Configuration = configuration
         });
@@ -94,7 +94,7 @@ async Task RunE2ETests(ICakeContext ctx)
 
     try
     {
-        DotNetCoreTest("./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj", new DotNetCoreTestSettings { Configuration = configuration });
+        DotNetTest("./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj", new DotNetTestSettings { Configuration = configuration });
     }
     finally
     {
@@ -137,9 +137,9 @@ Task("Pack")
     .Does(() =>
 {
     CleanDirectory("packages");
-    DotNetCorePack(
+    DotNetPack(
         "./src/GbUtil/GbUtil.csproj",
-        new DotNetCorePackSettings
+        new DotNetPackSettings
         {
             OutputDirectory = "./packages",
             Configuration = configuration
@@ -156,9 +156,9 @@ Task("Publish")
         throw new InvalidOperationException("Could not resolve NuGet API key.");
     }
 
-    DotNetCoreNuGetPush(
-        "./packages/GbUtil.0.11.0.nupkg",
-        new DotNetCoreNuGetPushSettings
+    DotNetNuGetPush(
+        "./packages/GbUtil.0.12.0.nupkg",
+        new DotNetNuGetPushSettings
         {
             ApiKey = apiKey,
             Source = "https://api.nuget.org/v3/index.json",
@@ -170,15 +170,16 @@ Task("Publish-SingleFile")
 {
     CleanDirectory("executable");
 
-    DotNetCorePublish(
+    DotNetPublish(
         "./src/GbUtil/GbUtil.csproj",
-        new DotNetCorePublishSettings
+        new DotNetPublishSettings
         {
             Configuration = configuration,
             OutputDirectory = "executable",
             Runtime = rid,
             PublishSingleFile = true,
             PublishTrimmed = true,
+            SelfContained = true,
         });
 });
 

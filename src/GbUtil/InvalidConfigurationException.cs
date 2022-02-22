@@ -1,21 +1,18 @@
-using System;
+namespace GbUtil;
 
-namespace GbUtil
+public class InvalidConfigurationException : Exception
 {
-    public class InvalidConfigurationException : Exception
+    public InvalidConfigurationException()
     {
-        public InvalidConfigurationException()
-        {
-        }
+    }
 
-        public InvalidConfigurationException(string message)
-            : base(message)
-        {
-        }
+    public InvalidConfigurationException(string message)
+        : base(message)
+    {
+    }
 
-        public InvalidConfigurationException(string message, Exception inner)
-            : base(message, inner)
-        {
-        }
+    public InvalidConfigurationException(string message, Exception inner)
+        : base(message, inner)
+    {
     }
 }

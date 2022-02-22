@@ -7,3 +7,5 @@
 /docker
 /executable
 launchSettings.json
+.vscode
+.metals

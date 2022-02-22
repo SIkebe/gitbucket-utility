@@ -6,9 +6,7 @@ jobs:
   linux-e2e:
     strategy:
       fail-fast: false
-      matrix:
-        ubuntu: [ubuntu-20.04]
-    runs-on: ${{ matrix.ubuntu }}
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Install PostgreSQL
@@ -16,19 +14,16 @@ jobs:
           sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
           curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
           sudo apt-get update
-          sudo apt-get install postgresql-13
+          sudo apt-get install postgresql-14
         shell: bash
       - name: Build and Run E2E Tests On Linux
-        run: |
-          .\build.ps1 --target Run-E2E-Tests
+        run: .\build.ps1 --target Run-E2E-Tests
         shell: pwsh
 
   linux-e2e-scd:
     strategy:
       fail-fast: false
-      matrix:
-        ubuntu: [ubuntu-20.04]
-    runs-on: ${{ matrix.ubuntu }}
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Install PostgreSQL
@@ -36,15 +31,14 @@ jobs:
           sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
           curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
           sudo apt-get update
-          sudo apt-get install postgresql-13
+          sudo apt-get install postgresql-14
         shell: bash
       - name: Build and Run E2E Tests Using SingleFileExe On Linux
-        run: |
-          .\build.ps1 --target Run-E2E-Tests-Using-SingleFileExe --rid linux-x64
+        run: .\build.ps1 --target Run-E2E-Tests-Using-SingleFileExe --rid linux-x64
         shell: pwsh
 
   windows:
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v2
       - name: Build and Run Unit Tests On Windows
@@ -52,7 +46,7 @@ jobs:
         shell: powershell
 
   macOS:
-    runs-on: macos-10.15
+    runs-on: macos-11
     steps:
       - uses: actions/checkout@v2
       - name: Build and Run Unit Tests On macOS

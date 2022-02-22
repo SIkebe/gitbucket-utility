@@ -1,14 +1,21 @@
 <Project>
 
   <PropertyGroup>
-    <LangVersion>9.0</LangVersion>
-    <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <VersionPrefix>0.11.0</VersionPrefix>
+    <VersionPrefix>0.12.0</VersionPrefix>
     <DebugType>embedded</DebugType>
     <AnalysisLevel>preview</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+
+    <!-- Include git2-8a0dc67.dll into the GbUtil.exe -->
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <ImplicitUsings>true</ImplicitUsings>
+
+    <!-- https://github.com/SIkebe/gitbucket-utility/issues/363 -->
+    <!-- <TrimMode>link</TrimMode> -->
+    <TrimMode>copyused</TrimMode>
 
     <!-- https://github.com/OmniSharp/omnisharp-vscode/issues/3207
          https://github.com/OmniSharp/omnisharp-roslyn/issues/1589 -->

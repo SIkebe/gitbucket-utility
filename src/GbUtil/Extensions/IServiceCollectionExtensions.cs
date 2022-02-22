@@ -1,51 +1,49 @@
-using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GbUtil.Extensions
+namespace GbUtil.Extensions;
+
+public static class IServiceCollectionExtensions
 {
-    public static class IServiceCollectionExtensions
+    public static IServiceCollection AddScopedIf<TService>(
+        this IServiceCollection services,
+        bool condition,
+        Func<IServiceProvider, TService> implementationFactory)
+        where TService : class
     {
-        public static IServiceCollection AddScopedIf<TService>(
-            this IServiceCollection services,
-            bool condition,
-            Func<IServiceProvider, TService> implementationFactory)
-            where TService : class
+        if (services == null)
         {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-
-            if (implementationFactory == null)
-            {
-                throw new ArgumentNullException(nameof(implementationFactory));
-            }
-
-            if (condition)
-            {
-                return services.AddScoped(typeof(TService), implementationFactory);
-            }
-
-            return services;
+            throw new ArgumentNullException(nameof(services));
         }
 
-        public static IServiceCollection AddTransientIf<TService, TImplementation>(
-            this IServiceCollection services,
-            bool condition)
-            where TService : class
-            where TImplementation : class, TService
+        if (implementationFactory == null)
         {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-
-            if (condition)
-            {
-                return services.AddTransient(typeof(TService), typeof(TImplementation));
-            }
-
-            return services;
+            throw new ArgumentNullException(nameof(implementationFactory));
         }
+
+        if (condition)
+        {
+            return services.AddScoped(typeof(TService), implementationFactory);
+        }
+
+        return services;
+    }
+
+    public static IServiceCollection AddTransientIf<TService, TImplementation>(
+        this IServiceCollection services,
+        bool condition)
+        where TService : class
+        where TImplementation : class, TService
+    {
+        if (services == null)
+        {
+            throw new ArgumentNullException(nameof(services));
+        }
+
+        if (condition)
+        {
+            return services.AddTransient(typeof(TService), typeof(TImplementation));
+        }
+
+        return services;
     }
 }

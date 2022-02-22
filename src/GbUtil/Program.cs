@@ -57,7 +57,7 @@ try
         IssueOptions issueOptions
             => await scope.ServiceProvider.GetRequiredService<IIssueService>().Execute(issueOptions, CreateGitBucketClient(configuration, console)),
         BackupOptions backupOptions
-            => scope.ServiceProvider.GetRequiredService<IBackupService>().Backup(backupOptions, configuration.GetSection("GbUtil_ConnectionStrings").Value),
+            => scope.ServiceProvider.GetRequiredService<IBackupService>().Backup(backupOptions, configuration.GetSection("GbUtil_ConnectionStrings").Value!),
         _ => 1
     };
 

@@ -8,7 +8,7 @@ jobs:
       fail-fast: false
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install PostgreSQL
         run: |
           sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
@@ -25,7 +25,7 @@ jobs:
       fail-fast: false
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install PostgreSQL
         run: |
           sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
@@ -40,7 +40,7 @@ jobs:
   windows:
     runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build and Run Unit Tests On Windows
         run: .\build.ps1 --target Run-Unit-Tests
         shell: powershell
@@ -48,7 +48,7 @@ jobs:
   macOS:
     runs-on: macos-11
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build and Run Unit Tests On macOS
         run: .\build.ps1 --target Run-Unit-Tests
         shell: pwsh

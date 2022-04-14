@@ -5,6 +5,7 @@ on:
     types: [opened, synchronize, reopened]
     branches:
       - master
+      - develop
 
 jobs:
   linux-e2e:

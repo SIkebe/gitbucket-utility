@@ -42,7 +42,7 @@ public partial class Repository
     public bool? SafeMode { get; set; }
 
     public virtual Account UserNameNavigation { get; set; } = null!;
-    public virtual IssueId IssueId { get; set; } = null!;
+    public virtual IssueId? IssueId { get; set; }
     public virtual ICollection<Collaborator> Collaborators { get; set; }
     public virtual ICollection<CommitComment> CommitComments { get; set; }
     public virtual ICollection<CommitStatus> CommitStatuses { get; set; }

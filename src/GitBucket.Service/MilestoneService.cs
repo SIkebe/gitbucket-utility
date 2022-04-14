@@ -64,9 +64,6 @@ public class MilestoneService : IMilestoneService
 
     private async Task<List<Milestone>> FindMilestones(MilestoneOptions options)
     {
-#pragma warning disable CA1304 // Specify CultureInfo
-        // "String.Equals(String, StringComparison)" causes client side evaluation.
-        // https://github.com/aspnet/EntityFrameworkCore/issues/1222
         var owners = options.Owners.Select(o => o.ToLower());
         var repositories = options.Repositories.Select(r => r.ToLower());
 
@@ -80,6 +77,5 @@ public class MilestoneService : IMilestoneService
             .Include(m => m.Issues)
             .AsNoTracking()
             .ToListAsync();
-#pragma warning restore CA1304 // Specify CultureInfo
     }
 }

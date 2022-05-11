@@ -6,7 +6,7 @@
     <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="7.0.0-preview.2.22153.1" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.0-preview.2.22153.1" />
     <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0-preview.3.22175.4" />
-    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="7.0.0-preview.3.22175.4" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="7.0.0-preview.4.22229.4" />
     <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="7.0.0-preview.3.22175.4" />
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.2.0-preview-20220401-08" />
     <PackageReference Update="Moq" Version="4.17.2" />

@@ -29,7 +29,7 @@ public partial class Issue
     public virtual Account OpenedUserNameNavigation { get; set; } = null!;
     public virtual Priority? Priority { get; set; }
     public virtual Repository Repository { get; set; } = null!;
-    public virtual PullRequest PullRequestNavigation { get; set; } = null!;
+    public virtual PullRequest? PullRequestNavigation { get; set; }
     public virtual ICollection<IssueComment> IssueComments { get; set; }
     public virtual ICollection<IssueLabel> IssueLabels { get; set; }
 }

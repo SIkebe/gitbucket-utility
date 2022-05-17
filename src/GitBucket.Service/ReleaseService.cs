@@ -200,8 +200,6 @@ public class ReleaseService : IReleaseService
 
     private List<Core.Models.Label> FindLabels(ReleaseOptions options, List<IssueLabel> issueLabels)
     {
-#pragma warning disable CA1304 // Specify CultureInfo
-
         return _context.Set<Core.Models.Label>()
             .Where(l =>
                 l.UserName.ToLower() == options.Owner.ToLower() &&
@@ -210,7 +208,5 @@ public class ReleaseService : IReleaseService
             .OrderBy(i => i.LabelId)
             .AsNoTracking()
             .ToList();
-
-#pragma warning restore CA1304 // Specify CultureInfo
     }
 }

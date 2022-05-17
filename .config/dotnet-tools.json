@@ -3,13 +3,13 @@
   "isRoot": true,
   "tools": {
     "dotnet-ef": {
-      "version": "7.0.0-preview.1.22076.6",
+      "version": "7.0.0-preview.4.22229.2",
       "commands": [
         "dotnet-ef"
       ]
     },
     "cake.tool": {
-      "version": "2.1.0",
+      "version": "2.2.0",
       "commands": [
         "dotnet-cake"
       ]

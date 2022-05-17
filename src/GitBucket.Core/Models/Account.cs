@@ -37,8 +37,8 @@ public partial class Account
     public bool? Removed { get; set; }
     public string? Description { get; set; }
 
-    public virtual AccountPreference AccountPreference { get; set; } = null!;
-    public virtual NotificationsAccount NotificationsAccount { get; set; } = null!;
+    public virtual AccountPreference? AccountPreference { get; set; }
+    public virtual NotificationsAccount? NotificationsAccount { get; set; }
     public virtual ICollection<AccessToken> AccessTokens { get; set; }
     public virtual ICollection<AccountFederation> AccountFederations { get; set; }
     public virtual ICollection<AccountWebHook> AccountWebHooks { get; set; }

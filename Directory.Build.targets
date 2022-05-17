@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
   <ItemGroup>
-    <PackageReference Update="CommandLineParser" Version="2.9.0-preview1" />
+    <PackageReference Update="CommandLineParser" Version="2.9.1" />
     <PackageReference Update="libgit2sharp" Version="0.27.0-preview-0182" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="7.0.0-preview.4.22229.2" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.0-preview.4.22229.2" />

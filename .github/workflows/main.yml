@@ -14,6 +14,13 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '7.0.x'
+          include-prerelease: true
+
       - name: Install PostgreSQL
         run: |
           sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
@@ -46,6 +53,13 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v3
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '7.0.x'
+          include-prerelease: true
+
       - name: Build and Run Unit Tests On Windows
         run: .\build.ps1 --target Run-Unit-Tests
         shell: powershell
@@ -54,6 +68,13 @@ jobs:
     runs-on: macos-12
     steps:
       - uses: actions/checkout@v3
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '7.0.x'
+          include-prerelease: true
+
       - name: Build and Run Unit Tests On macOS
         run: .\build.ps1 --target Run-Unit-Tests
         shell: pwsh

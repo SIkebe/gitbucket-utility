@@ -122,7 +122,8 @@ public class IssueServiceTest
                 nodeId: "",
                 locked: false,
                 repository: null,
-                reactions: null
+                reactions: null,
+                activeLockReason: null
             ));
 
         mockGitBucketClient
@@ -152,7 +153,8 @@ public class IssueServiceTest
                 nodeId: "",
                 locked: false,
                 repository: null,
-                reactions: null
+                reactions: null,
+                activeLockReason: null
             ));
 
         mockGitBucketClient
@@ -276,7 +278,8 @@ public class IssueServiceTest
                 nodeId: "",
                 locked: false,
                 repository: null,
-                reactions: null
+                reactions: null,
+                activeLockReason: null
             ));
 
         var invocationCount = 0;
@@ -308,7 +311,8 @@ public class IssueServiceTest
                 nodeId: "",
                 locked: false,
                 repository: null,
-                reactions: null
+                reactions: null,
+                activeLockReason: null
             ));
 
         mockGitBucketClient
@@ -532,7 +536,8 @@ public class IssueServiceTest
                 nodeId: "",
                 locked: false,
                 repository: null,
-                reactions: null
+                reactions: null,
+                activeLockReason: null
             ));
 
         mockGitBucketClient
@@ -562,7 +567,8 @@ public class IssueServiceTest
                 nodeId: "",
                 locked: false,
                 repository: null,
-                reactions: null
+                reactions: null,
+                activeLockReason: null
             ));
 
         mockGitBucketClient
@@ -681,7 +687,8 @@ public class IssueServiceTest
                 nodeId: "",
                 locked: false,
                 repository: null,
-                reactions: null
+                reactions: null,
+                activeLockReason: null
             ));
 
         var invocationCount = 0;
@@ -713,7 +720,8 @@ public class IssueServiceTest
                 nodeId: "",
                 locked: false,
                 repository: null,
-                reactions: null
+                reactions: null,
+                activeLockReason: null
             ));
 
         mockGitBucketClient

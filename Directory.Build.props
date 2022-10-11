@@ -27,7 +27,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <TrimmerRootAssembly Include="Microsoft.EntityFrameworkCore.Design" />
+    <TrimmerRootAssembly Include="Microsoft.EntityFrameworkCore.*" />
   </ItemGroup>
 
   <ItemGroup>

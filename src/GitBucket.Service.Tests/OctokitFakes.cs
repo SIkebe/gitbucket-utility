@@ -5,10 +5,8 @@ namespace GitBucket.Service.Tests;
 public sealed class FakePullRequest : Octokit.PullRequest
 {
     public FakePullRequest(GitReference head, GitReference @base, int number = 1)
+        : base(0, null, null, null, null, null, null, null, number, ItemState.Open, null, null, DateTimeOffset.Now, DateTimeOffset.Now, null, null, head, @base, null, null, null, false, null, null, null, null, 0, 0, 0, 0, 0, null, false, null, null, null, null, null)
     {
-        Head = head;
-        Base = @base;
-        Number = number;
     }
 }
 
@@ -20,10 +18,7 @@ public sealed class FakeGitReference : Octokit.GitReference
 public sealed class FakeRepository : Octokit.Repository
 {
     public FakeRepository(User owner, string repository, DateTimeOffset createdAt)
+        : base(null, null, null, null, null, null, null, 0, null, owner, repository, owner?.Login + "/" + repository, false, null, null, null, false, false, 0, 0, null, 0, null, createdAt, createdAt, null, null, null, null, false, false, false, false, 0, 0, null, null, null, false, 0, null, RepositoryVisibility.Public, Array.Empty<string>(), null)
     {
-        Owner = owner;
-        Name = repository;
-        FullName = owner?.Login + "/" + repository;
-        CreatedAt = createdAt;
     }
 }

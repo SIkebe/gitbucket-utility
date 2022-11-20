@@ -12,7 +12,7 @@ Utilities for GitBucket
 # [Required]
 
 # Install as a dotnet tool or download exe from GitHub Release page.
-dotnet tool install --global gbutil --version 0.12.0
+dotnet tool install --global gbutil --version 0.13.0
 
 setx GbUtil_ConnectionStrings Host=host;Username=username;Password=password;Database=gitbucket;port=XXXX
 setx GbUtil_GitBucketUri http://localhost:8080/gitbucket/api/v3/

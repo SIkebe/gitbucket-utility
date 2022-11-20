@@ -1,4 +1,4 @@
-#addin nuget:?package=Cake.Docker&version=1.0.0
+#addin nuget:?package=Cake.Docker&version=1.1.2
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -85,7 +85,7 @@ async Task RunE2ETests(ICakeContext ctx)
         gitbucketStarted = logs.Any(log => log.IndexOf("oejs.Server:main: Started") > 0);
 
         count++;
-        if (60 < count)
+        if (100 < count)
         {
             throw new Exception("Exceeded the maximum number of attempts.");
         }
@@ -157,7 +157,7 @@ Task("Publish")
     }
 
     DotNetNuGetPush(
-        "./packages/GbUtil.0.12.0.nupkg",
+        "./packages/GbUtil.0.13.0.nupkg",
         new DotNetNuGetPushSettings
         {
             ApiKey = apiKey,
@@ -178,7 +178,7 @@ Task("Publish-SingleFile")
             OutputDirectory = "executable",
             Runtime = rid,
             PublishSingleFile = true,
-            PublishTrimmed = true,
+            PublishTrimmed = false,
             SelfContained = true,
         });
 });

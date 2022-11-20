@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   gitbucket:
-    image: gitbucket/gitbucket:4.37.2
+    image: gitbucket/gitbucket:4.38.2
     restart: always
     ports:
       - 8080:8080
@@ -19,7 +19,7 @@ services:
     command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; sleep 10; java -jar /opt/gitbucket.war'
 
   db:
-    image: postgres:14.2-alpine
+    image: postgres:15.1-alpine
     restart: always
     ports:
       - "3306:5432"

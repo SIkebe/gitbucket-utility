@@ -4,15 +4,15 @@ Utilities for GitBucket
 [![NuGet version](https://badge.fury.io/nu/gbutil.svg)](https://badge.fury.io/nu/gbutil)
 
 ## Requirements
-* [.NET 6.X SDK](https://www.microsoft.com/net/download/windows) ※Required only if you use dotnet tool version.
-* GitBucket 4.37.X+ (using PostgreSQL as backend DB)
+* [.NET 7.X SDK](https://www.microsoft.com/net/download/windows) ※Required only if you use dotnet tool version.
+* GitBucket 4.38.X+ (using PostgreSQL as backend DB)
 
 ## Preparation
 ```cmd
 # [Required]
 
 # Install as a dotnet tool or download exe from GitHub Release page.
-dotnet tool install --global gbutil --version 0.12.0
+dotnet tool install --global gbutil --version 0.13.0
 
 setx GbUtil_ConnectionStrings Host=host;Username=username;Password=password;Database=gitbucket;port=XXXX
 setx GbUtil_GitBucketUri http://localhost:8080/gitbucket/api/v3/

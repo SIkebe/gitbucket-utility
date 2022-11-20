@@ -56,6 +56,7 @@ The issue has been successfully copied to http://localhost:8080/{Repository2.Ful
             ignoreLineEndingDifferences: true);
 
         var newIssues = await GitBucketFixture.GitBucketClient.Issue.GetAllForRepository(GitBucketDefaults.Owner, Repository2.Name);
+        newIssues = newIssues.OrderByDescending(i => i.Number).ToList();
         Assert.Equal(2, newIssues.Count);
         Assert.Equal("Second Issue title", newIssues[0].Title);
         Assert.Equal($@"Second issue content.
@@ -125,6 +126,7 @@ Close the original one manually.
             output,
             ignoreLineEndingDifferences: true);
 
+        newIssues = newIssues.OrderByDescending(i => i.Number).ToList();
         Assert.Equal("Second Issue title", newIssues[0].Title);
         Assert.StartsWith($@"*From @root on {createdAt}", newIssues[0].Body, StringComparison.OrdinalIgnoreCase);
         Assert.EndsWith($@"*Second issue content.*Copied from original issue: {Repository1.FullName}#2*",

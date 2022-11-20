@@ -20,12 +20,10 @@ public class FakeConsole : IConsole
         Error
     }
 
-#pragma warning disable SA1000 // The keyword 'new' should be followed by a space
     public List<string?> Messages { get; } = new();
     public List<string?> WarnMessages { get; } = new();
     public List<string?> ErrorMessages { get; } = new();
     public ConsoleColor ForegroundColor { get; set; } = ConsoleColor.Gray;
-#pragma warning restore CA1304 // The keyword 'new' should be followed by a space
 
     public void Write(string? value)
     {

@@ -19,7 +19,7 @@ public class MilestoneServiceTest
 
         var dbContext = new GitBucketDbContext(dbContextOptions);
         var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
-        dbContext.Milestones.Add(new Milestone
+        var milestone = new Milestone
         {
             MilestoneId = 1,
             Title = "v0.1.0",
@@ -28,38 +28,52 @@ public class MilestoneServiceTest
             ClosedDate = null,
             Description = "Implement xxx feature",
             UserName = "root",
-            Issues = new[]
-            {
-                    new Issue
-                    {
-                        IssueId = 1,
-                        AssignedUserName = "user1",
-                        UserName = "root",
-                        RepositoryName = "test1",
-                        OpenedUserName = "root",
-                        Title = "Implement xxx feature",
-                    },
-                    new Issue
-                    {
-                        IssueId = 2,
-                        AssignedUserName = "user2",
-                        UserName = "root",
-                        RepositoryName = "test1",
-                        OpenedUserName = "root",
-                        Title = "Implement xxx feature",
-                    },
-                    new Issue
-                    {
-                        IssueId = 3,
-                        AssignedUserName = "user1",
-                        UserName = "root",
-                        RepositoryName = "test1",
-                        OpenedUserName = "root",
-                        Title = "Implement xxx feature",
-                    }
-            }
-        });
+        };
 
+        var issue1 = new Issue
+        {
+            IssueId = 1,
+            UserName = "root",
+            RepositoryName = "test1",
+            OpenedUserName = "root",
+            Title = "Implement xxx feature",
+        };
+        var issue2 = new Issue
+        {
+            IssueId = 2,
+            UserName = "root",
+            RepositoryName = "test1",
+            OpenedUserName = "root",
+            Title = "Implement xxx feature",
+        };
+        var issue3 = new Issue
+        {
+            IssueId = 3,
+            UserName = "root",
+            RepositoryName = "test1",
+            OpenedUserName = "root",
+            Title = "Implement xxx feature",
+        };
+        var issue4 = new Issue
+        {
+            IssueId = 4,
+            UserName = "root",
+            RepositoryName = "test1",
+            OpenedUserName = "root",
+            Title = "Implement xxx feature",
+        };
+
+        issue1.IssueAssignees.Add(new IssueAssignee { UserName = "root", RepositoryName = "test1", IssueId = 1, AssigneeUserName = "user1" });
+        issue2.IssueAssignees.Add(new IssueAssignee { UserName = "root", RepositoryName = "test1", IssueId = 2, AssigneeUserName = "user2" });
+        issue3.IssueAssignees.Add(new IssueAssignee { UserName = "root", RepositoryName = "test1", IssueId = 3, AssigneeUserName = "user1" });
+        issue4.IssueAssignees.Add(new IssueAssignee { UserName = "root", RepositoryName = "test1", IssueId = 4, AssigneeUserName = "user1" });
+
+        milestone.Issues.Add(issue1);
+        milestone.Issues.Add(issue2);
+        milestone.Issues.Add(issue3);
+        milestone.Issues.Add(issue4);
+
+        dbContext.Milestones.Add(milestone);
         dbContext.SaveChanges();
 
         var service = new MilestoneService(dbContext, FakeConsole);
@@ -89,7 +103,7 @@ public class MilestoneServiceTest
 
         var dbContext = new GitBucketDbContext(dbContextOptions);
         var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1), IncludeClosed = true };
-        dbContext.Milestones.Add(new Milestone
+        var milestone = new Milestone
         {
             MilestoneId = 1,
             Title = "v0.1.0",
@@ -98,20 +112,21 @@ public class MilestoneServiceTest
             ClosedDate = new DateTime(2018, 7, 1),
             Description = "Implement xxx feature",
             UserName = "root",
-            Issues = new[]
-            {
-                    new Issue
-                    {
-                        IssueId = 1,
-                        AssignedUserName = "user1",
-                        UserName = "root",
-                        RepositoryName = "test1",
-                        OpenedUserName = "root",
-                        Title = "Implement xxx feature",
-                    }
-            }
-        });
+        };
 
+        var issue = new Issue
+        {
+            IssueId = 1,
+            UserName = "root",
+            RepositoryName = "test1",
+            OpenedUserName = "root",
+            Title = "Implement xxx feature",
+        };
+
+        issue.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user1" });
+        milestone.Issues.Add(issue);
+
+        dbContext.Milestones.Add(milestone);
         dbContext.SaveChanges();
 
         var service = new MilestoneService(dbContext, FakeConsole);
@@ -141,7 +156,7 @@ public class MilestoneServiceTest
 
         var dbContext = new GitBucketDbContext(dbContextOptions);
         var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
-        dbContext.Milestones.Add(new Milestone
+        var milestone = new Milestone
         {
             MilestoneId = 1,
             Title = "v0.1.0",
@@ -150,20 +165,21 @@ public class MilestoneServiceTest
             ClosedDate = null,
             Description = "Implement xxx feature",
             UserName = "root",
-            Issues = new[]
-            {
-                    new Issue
-                    {
-                        IssueId = 1,
-                        AssignedUserName = "user1",
-                        UserName = "root",
-                        RepositoryName = "test1",
-                        OpenedUserName = "root",
-                        Title = "Implement xxx feature",
-                    }
-            }
-        });
+        };
 
+        var issue = new Issue
+        {
+            IssueId = 1,
+            UserName = "root",
+            RepositoryName = "test1",
+            OpenedUserName = "root",
+            Title = "Implement xxx feature",
+        };
+
+        issue.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user1" });
+        milestone.Issues.Add(issue);
+
+        dbContext.Milestones.Add(milestone);
         dbContext.SaveChanges();
 
         var service = new MilestoneService(dbContext, FakeConsole);
@@ -193,7 +209,7 @@ public class MilestoneServiceTest
 
         var dbContext = new GitBucketDbContext(dbContextOptions);
         var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
-        dbContext.Milestones.Add(new Milestone
+        var milestone = new Milestone
         {
             MilestoneId = 1,
             Title = "v0.1.0",
@@ -202,20 +218,20 @@ public class MilestoneServiceTest
             ClosedDate = null,
             Description = "Implement xxx feature",
             UserName = "root",
-            Issues = new[]
-            {
-                    new Issue
-                    {
-                        IssueId = 1,
-                        AssignedUserName = "user1",
-                        UserName = "root",
-                        RepositoryName = "test1",
-                        OpenedUserName = "root",
-                        Title = "Implement xxx feature",
-                    }
-            }
-        });
+        };
 
+        var issue = new Issue
+        {
+            IssueId = 1,
+            UserName = "root",
+            RepositoryName = "test1",
+            OpenedUserName = "root",
+            Title = "Implement xxx feature",
+        };
+
+        issue.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user1" });
+        milestone.Issues.Add(issue);
+        dbContext.Milestones.Add(milestone);
         dbContext.SaveChanges();
 
         var service = new MilestoneService(dbContext, FakeConsole);
@@ -245,7 +261,7 @@ public class MilestoneServiceTest
 
         var dbContext = new GitBucketDbContext(dbContextOptions);
         var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1) };
-        dbContext.Milestones.Add(new Milestone
+        var milestone = new Milestone
         {
             MilestoneId = 1,
             Title = "v0.1.0",
@@ -254,20 +270,20 @@ public class MilestoneServiceTest
             ClosedDate = null,
             Description = "Implement xxx feature",
             UserName = "root",
-            Issues = new[]
-            {
-                    new Issue
-                    {
-                        IssueId = 1,
-                        AssignedUserName = "user1",
-                        UserName = "root",
-                        RepositoryName = "test1",
-                        OpenedUserName = "root",
-                        Title = "Implement xxx feature",
-                    }
-            }
-        });
+        };
 
+        var issue = new Issue
+        {
+            IssueId = 1,
+            UserName = "root",
+            RepositoryName = "test1",
+            OpenedUserName = "root",
+            Title = "Implement xxx feature",
+        };
+
+        issue.IssueAssignees.Add(new IssueAssignee { IssueId = 1, AssigneeUserName = "user1" });
+        milestone.Issues.Add(issue);
+        dbContext.Milestones.Add(milestone);
         dbContext.SaveChanges();
 
         var service = new MilestoneService(dbContext, FakeConsole);
@@ -297,98 +313,65 @@ public class MilestoneServiceTest
 
         var dbContext = new GitBucketDbContext(dbContextOptions);
         var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1), IncludeClosed = true };
-        dbContext.Milestones.AddRange(new List<Core.Models.Milestone>
+        var milestones = new List<Core.Models.Milestone>
+        {
+            new Milestone
             {
-                new Milestone
-                {
-                    MilestoneId = 1,
-                    Title = "v0.1.0",
-                    RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 6, 30),
-                    ClosedDate = null,
-                    Description = "Error",
-                    UserName = "root",
-                    Issues = new[]
-                    {
-                        new Issue
-                        {
-                            IssueId = 1,
-                            AssignedUserName = "user1",
-                            UserName = "root",
-                            RepositoryName = "test1",
-                            OpenedUserName = "root",
-                            Title = "Implement xxx feature",
-                        }
-                    }
-                },
-                new Milestone
-                {
-                    MilestoneId = 2,
-                    Title = "v0.2.0",
-                    RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 7, 1),
-                    ClosedDate = new DateTime(2018, 7, 1),
-                    Description = "Closed",
-                    UserName = "root",
-                    Issues = new[]
-                    {
-                        new Issue
-                        {
-                            IssueId = 2,
-                            AssignedUserName = "user1",
-                            UserName = "root",
-                            RepositoryName = "test1",
-                            OpenedUserName = "root",
-                            Title = "Implement xxx feature",
-                        }
-                    }
-                },
-                new Milestone
-                {
-                    MilestoneId = 3,
-                    Title = "v0.3.0",
-                    RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 7, 7),
-                    ClosedDate = null,
-                    Description = "Warn",
-                    UserName = "root",
-                    Issues = new[]
-                    {
-                        new Issue
-                        {
-                            IssueId = 3,
-                            AssignedUserName = "user1",
-                            UserName = "root",
-                            RepositoryName = "test1",
-                            OpenedUserName = "root",
-                            Title = "Implement xxx feature",
-                        }
-                    }
-                },
-                new Milestone
-                {
-                    MilestoneId = 4,
-                    Title = "v0.4.0",
-                    RepositoryName = "test1",
-                    DueDate = new DateTime(2018, 7, 8),
-                    ClosedDate = null,
-                    Description = "Info",
-                    UserName = "root",
-                    Issues = new[]
-                    {
-                        new Issue
-                        {
-                            IssueId = 4,
-                            AssignedUserName = "user1",
-                            UserName = "root",
-                            RepositoryName = "test1",
-                            OpenedUserName = "root",
-                            Title = "Implement xxx feature",
-                        }
-                    }
-                }
-            });
+                MilestoneId = 1,
+                Title = "v0.1.0",
+                RepositoryName = "test1",
+                DueDate = new DateTime(2018, 6, 30),
+                ClosedDate = null,
+                Description = "Error",
+                UserName = "root",
+            },
+            new Milestone
+            {
+                MilestoneId = 2,
+                Title = "v0.2.0",
+                RepositoryName = "test1",
+                DueDate = new DateTime(2018, 7, 1),
+                ClosedDate = new DateTime(2018, 7, 1),
+                Description = "Closed",
+                UserName = "root",
+            },
+            new Milestone
+            {
+                MilestoneId = 3,
+                Title = "v0.3.0",
+                RepositoryName = "test1",
+                DueDate = new DateTime(2018, 7, 7),
+                ClosedDate = null,
+                Description = "Warn",
+                UserName = "root",
+            },
+            new Milestone
+            {
+                MilestoneId = 4,
+                Title = "v0.4.0",
+                RepositoryName = "test1",
+                DueDate = new DateTime(2018, 7, 8),
+                ClosedDate = null,
+                Description = "Info",
+                UserName = "root",
+            }
+        };
 
+        milestones.ForEach(m => m.Issues.Add(new Issue
+        {
+            IssueId = m.MilestoneId,
+            UserName = "root",
+            RepositoryName = "test1",
+            OpenedUserName = "root",
+            Title = "Implement xxx feature",
+        }));
+
+        foreach (var issue in milestones.SelectMany(m => m.Issues))
+        {
+            issue.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user1" });
+        }
+
+        dbContext.Milestones.AddRange(milestones);
         dbContext.SaveChanges();
 
         var service = new MilestoneService(dbContext, FakeConsole);

@@ -1,1 +1,1 @@
-dotnet tool update -g gbutil --add-source ./packages --version 0.12.0
+dotnet tool update -g gbutil --add-source ./packages --version 0.13.0

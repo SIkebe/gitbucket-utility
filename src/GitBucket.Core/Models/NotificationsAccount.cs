@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 
-namespace GitBucket.Core.Models
-{
-    public partial class NotificationsAccount
-    {
-        public string UserName { get; set; } = null!;
-        public bool DisableEmail { get; set; }
+namespace GitBucket.Core.Models;
 
-        public virtual Account UserNameNavigation { get; set; } = null!;
-    }
+public partial class NotificationsAccount
+{
+    public string UserName { get; set; } = null!;
+
+    public bool DisableEmail { get; set; }
+
+    public virtual Account UserNameNavigation { get; set; } = null!;
 }

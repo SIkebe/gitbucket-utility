@@ -108,7 +108,6 @@ public class ReleaseService : IReleaseService
         ReleaseOptions options,
         IEnumerable<GitBucket.Core.Models.Issue> issues)
     {
-#pragma warning disable CA1304 // Specify CultureInfo
         // "String.Equals(String, StringComparison)" causes client side evaluation.
         // https://github.com/aspnet/EntityFrameworkCore/issues/1222
         return await _context.Set<GitBucket.Core.Models.IssueLabel>()
@@ -132,7 +131,6 @@ public class ReleaseService : IReleaseService
             .Include(i => i.Priority)
             .AsNoTracking()
             .ToListAsync();
-#pragma warning restore CA1304 // Specify CultureInfo
     }
 
     private async Task<int> CreatePullRequest(
@@ -202,8 +200,6 @@ public class ReleaseService : IReleaseService
 
     private List<Core.Models.Label> FindLabels(ReleaseOptions options, List<IssueLabel> issueLabels)
     {
-#pragma warning disable CA1304 // Specify CultureInfo
-
         return _context.Set<Core.Models.Label>()
             .Where(l =>
                 l.UserName.ToLower() == options.Owner.ToLower() &&
@@ -212,7 +208,5 @@ public class ReleaseService : IReleaseService
             .OrderBy(i => i.LabelId)
             .AsNoTracking()
             .ToList();
-
-#pragma warning restore CA1304 // Specify CultureInfo
     }
 }

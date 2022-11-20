@@ -85,7 +85,7 @@ async Task RunE2ETests(ICakeContext ctx)
         gitbucketStarted = logs.Any(log => log.IndexOf("oejs.Server:main: Started") > 0);
 
         count++;
-        if (60 < count)
+        if (100 < count)
         {
             throw new Exception("Exceeded the maximum number of attempts.");
         }

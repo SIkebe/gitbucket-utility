@@ -17,8 +17,11 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = new[] { new Issue { AssignedUserName = "user1" }, }
         };
+
+        var issue = new Issue();
+        issue.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user1" });
+        milestone.Issues.Add(issue);
 
         // When
         var formatted = milestone.Format();
@@ -38,14 +41,20 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = new[]
-            {
-                    new Issue { AssignedUserName = "user1" },
-                    new Issue { AssignedUserName = "user3" },
-                    new Issue { AssignedUserName = "user2" },
-                    new Issue { AssignedUserName = "user2" },
-            }
         };
+
+        var issue1 = new Issue();
+        var issue2 = new Issue();
+        var issue3 = new Issue();
+        var issue4 = new Issue();
+        issue1.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user1" });
+        issue2.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user3" });
+        issue3.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user2" });
+        issue4.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user2" });
+        milestone.Issues.Add(issue1);
+        milestone.Issues.Add(issue2);
+        milestone.Issues.Add(issue3);
+        milestone.Issues.Add(issue4);
 
         // When
         var formatted = milestone.Format();
@@ -65,8 +74,11 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = new[] { new Issue { AssignedUserName = "user1" }, }
         };
+
+        var issue = new Issue();
+        issue.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user1" });
+        milestone.Issues.Add(issue);
 
         // When
         var formatted = milestone.Format();
@@ -86,8 +98,11 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = new[] { new Issue { AssignedUserName = "user1" }, }
         };
+
+        var issue = new Issue();
+        issue.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user1" });
+        milestone.Issues.Add(issue);
 
         // When
         var formatted = milestone.Format();
@@ -107,7 +122,6 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = Array.Empty<Issue>()
         };
 
         // When
@@ -130,8 +144,11 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = new[] { new Issue { AssignedUserName = assignedUserName }, }
         };
+
+        var issue = new Issue();
+        issue.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = assignedUserName });
+        milestone.Issues.Add(issue);
 
         // When
         var formatted = milestone.Format();
@@ -153,8 +170,11 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = new[] { new Issue { AssignedUserName = "user1" }, }
         };
+
+        var issue = new Issue();
+        issue.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user1" });
+        milestone.Issues.Add(issue);
 
         // When
         var formatted = milestone.Format();
@@ -174,8 +194,11 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = new[] { new Issue { AssignedUserName = "user1" }, }
         };
+
+        var issue = new Issue();
+        issue.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user1" });
+        milestone.Issues.Add(issue);
 
         // When
         var formatted = milestone.Format();

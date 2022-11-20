@@ -75,6 +75,7 @@ public class MilestoneService : IMilestoneService
             .ThenBy(m => m.UserName)
             .ThenBy(m => m.RepositoryName)
             .Include(m => m.Issues)
+            .ThenInclude(i => i.IssueAssignees)
             .AsNoTracking()
             .ToListAsync();
     }

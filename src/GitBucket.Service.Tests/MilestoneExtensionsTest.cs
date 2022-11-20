@@ -17,8 +17,9 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = new[] { new Issue { AssignedUserName = "user1" }, }
         };
+
+        milestone.Issues.Add(new Issue { AssignedUserName = "user1" });
 
         // When
         var formatted = milestone.Format();
@@ -38,14 +39,12 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = new[]
-            {
-                    new Issue { AssignedUserName = "user1" },
-                    new Issue { AssignedUserName = "user3" },
-                    new Issue { AssignedUserName = "user2" },
-                    new Issue { AssignedUserName = "user2" },
-            }
         };
+
+        milestone.Issues.Add(new Issue { AssignedUserName = "user1" });
+        milestone.Issues.Add(new Issue { AssignedUserName = "user3" });
+        milestone.Issues.Add(new Issue { AssignedUserName = "user2" });
+        milestone.Issues.Add(new Issue { AssignedUserName = "user2" });
 
         // When
         var formatted = milestone.Format();
@@ -65,8 +64,9 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = new[] { new Issue { AssignedUserName = "user1" }, }
         };
+
+        milestone.Issues.Add(new Issue { AssignedUserName = "user1" });
 
         // When
         var formatted = milestone.Format();
@@ -86,8 +86,9 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = new[] { new Issue { AssignedUserName = "user1" }, }
         };
+
+        milestone.Issues.Add(new Issue { AssignedUserName = "user1" });
 
         // When
         var formatted = milestone.Format();
@@ -107,7 +108,6 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = Array.Empty<Issue>()
         };
 
         // When
@@ -130,8 +130,9 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = new[] { new Issue { AssignedUserName = assignedUserName }, }
         };
+
+        milestone.Issues.Add(new Issue { AssignedUserName = assignedUserName });
 
         // When
         var formatted = milestone.Format();
@@ -153,8 +154,9 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = new[] { new Issue { AssignedUserName = "user1" }, }
         };
+
+        milestone.Issues.Add(new Issue { AssignedUserName = "user1" });
 
         // When
         var formatted = milestone.Format();
@@ -174,8 +176,9 @@ public class MilestoneExtensionsTest
             RepositoryName = "test",
             UserName = "root",
             Title = "v1.0.0",
-            Issues = new[] { new Issue { AssignedUserName = "user1" }, }
         };
+
+        milestone.Issues.Add(new Issue { AssignedUserName = "user1" });
 
         // When
         var formatted = milestone.Format();

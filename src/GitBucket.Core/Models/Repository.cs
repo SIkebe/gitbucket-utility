@@ -51,6 +51,8 @@ public partial class Repository
 
     public virtual ICollection<CommitStatus> CommitStatuses { get; } = new List<CommitStatus>();
 
+    public virtual ICollection<CustomField> CustomFields { get; } = new List<CustomField>();
+
     public virtual ICollection<DeployKey> DeployKeys { get; } = new List<DeployKey>();
 
     public virtual IssueId? IssueId { get; set; }

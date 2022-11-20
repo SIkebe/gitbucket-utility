@@ -31,6 +31,8 @@ public partial class GitBucketDbContext : DbContext
 
     public virtual DbSet<CommitStatus> CommitStatuses { get; set; }
 
+    public virtual DbSet<CustomField> CustomFields { get; set; }
+
     public virtual DbSet<DeployKey> DeployKeys { get; set; }
 
     public virtual DbSet<Gist> Gists { get; set; }
@@ -43,7 +45,11 @@ public partial class GitBucketDbContext : DbContext
 
     public virtual DbSet<Issue> Issues { get; set; }
 
+    public virtual DbSet<IssueAssignee> IssueAssignees { get; set; }
+
     public virtual DbSet<IssueComment> IssueComments { get; set; }
+
+    public virtual DbSet<IssueCustomField> IssueCustomFields { get; set; }
 
     public virtual DbSet<IssueId> IssueIds { get; set; }
 
@@ -379,6 +385,38 @@ public partial class GitBucketDbContext : DbContext
                 .HasConstraintName("idx_commit_status_fk1");
         });
 
+        modelBuilder.Entity<CustomField>(entity =>
+        {
+            entity.HasKey(e => new { e.UserName, e.RepositoryName, e.FieldId }).HasName("idx_custom_field_pk");
+
+            entity.ToTable("custom_field");
+
+            entity.HasIndex(e => e.FieldId, "custom_field_field_id_key").IsUnique();
+
+            entity.Property(e => e.UserName)
+                .HasMaxLength(100)
+                .HasColumnName("user_name");
+            entity.Property(e => e.RepositoryName)
+                .HasMaxLength(100)
+                .HasColumnName("repository_name");
+            entity.Property(e => e.FieldId)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("field_id");
+            entity.Property(e => e.EnableForIssues).HasColumnName("enable_for_issues");
+            entity.Property(e => e.EnableForPullRequests).HasColumnName("enable_for_pull_requests");
+            entity.Property(e => e.FieldName)
+                .HasMaxLength(100)
+                .HasColumnName("field_name");
+            entity.Property(e => e.FieldType)
+                .HasMaxLength(100)
+                .HasColumnName("field_type");
+
+            entity.HasOne(d => d.Repository).WithMany(p => p.CustomFields)
+                .HasForeignKey(d => new { d.UserName, d.RepositoryName })
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("idx_custom_field_fk0");
+        });
+
         modelBuilder.Entity<DeployKey>(entity =>
         {
             entity.HasKey(e => new { e.UserName, e.RepositoryName, e.DeployKeyId }).HasName("idx_deploy_key_pk");
@@ -548,9 +586,6 @@ public partial class GitBucketDbContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("repository_name");
             entity.Property(e => e.IssueId).HasColumnName("issue_id");
-            entity.Property(e => e.AssignedUserName)
-                .HasMaxLength(100)
-                .HasColumnName("assigned_user_name");
             entity.Property(e => e.Closed).HasColumnName("closed");
             entity.Property(e => e.Content).HasColumnName("content");
             entity.Property(e => e.MilestoneId).HasColumnName("milestone_id");
@@ -588,6 +623,29 @@ public partial class GitBucketDbContext : DbContext
                 .HasConstraintName("idx_issue_fk0");
         });
 
+        modelBuilder.Entity<IssueAssignee>(entity =>
+        {
+            entity.HasKey(e => new { e.UserName, e.RepositoryName, e.IssueId, e.AssigneeUserName }).HasName("idx_issue_assignee_pk");
+
+            entity.ToTable("issue_assignee");
+
+            entity.Property(e => e.UserName)
+                .HasMaxLength(100)
+                .HasColumnName("user_name");
+            entity.Property(e => e.RepositoryName)
+                .HasMaxLength(100)
+                .HasColumnName("repository_name");
+            entity.Property(e => e.IssueId).HasColumnName("issue_id");
+            entity.Property(e => e.AssigneeUserName)
+                .HasMaxLength(100)
+                .HasColumnName("assignee_user_name");
+
+            entity.HasOne(d => d.Issue).WithMany(p => p.IssueAssignees)
+                .HasForeignKey(d => new { d.UserName, d.RepositoryName, d.IssueId })
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("idx_issue_assignee_fk0");
+        });
+
         modelBuilder.Entity<IssueComment>(entity =>
         {
             entity.HasKey(e => e.CommentId).HasName("idx_issue_comment_pk");
@@ -620,6 +678,35 @@ public partial class GitBucketDbContext : DbContext
                 .HasForeignKey(d => new { d.UserName, d.RepositoryName, d.IssueId })
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("idx_issue_comment_fk0");
+        });
+
+        modelBuilder.Entity<IssueCustomField>(entity =>
+        {
+            entity.HasKey(e => new { e.UserName, e.RepositoryName, e.IssueId, e.FieldId }).HasName("idx_issue_custom_field_pk");
+
+            entity.ToTable("issue_custom_field");
+
+            entity.Property(e => e.UserName)
+                .HasMaxLength(100)
+                .HasColumnName("user_name");
+            entity.Property(e => e.RepositoryName)
+                .HasMaxLength(100)
+                .HasColumnName("repository_name");
+            entity.Property(e => e.IssueId).HasColumnName("issue_id");
+            entity.Property(e => e.FieldId).HasColumnName("field_id");
+            entity.Property(e => e.Value)
+                .HasMaxLength(200)
+                .HasColumnName("value");
+
+            entity.HasOne(d => d.CustomField).WithMany(p => p.IssueCustomFields)
+                .HasForeignKey(d => new { d.UserName, d.RepositoryName, d.FieldId })
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("idx_issue_custom_field_fk1");
+
+            entity.HasOne(d => d.Issue).WithMany(p => p.IssueCustomFields)
+                .HasForeignKey(d => new { d.UserName, d.RepositoryName, d.IssueId })
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("idx_issue_custom_field_fk0");
         });
 
         modelBuilder.Entity<IssueId>(entity =>

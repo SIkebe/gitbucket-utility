@@ -15,8 +15,6 @@ public partial class Issue
 
     public int? MilestoneId { get; set; }
 
-    public string? AssignedUserName { get; set; }
-
     public string Title { get; set; } = null!;
 
     public string? Content { get; set; }
@@ -31,7 +29,11 @@ public partial class Issue
 
     public int? PriorityId { get; set; }
 
+    public virtual ICollection<IssueAssignee> IssueAssignees { get; } = new List<IssueAssignee>();
+
     public virtual ICollection<IssueComment> IssueComments { get; } = new List<IssueComment>();
+
+    public virtual ICollection<IssueCustomField> IssueCustomFields { get; } = new List<IssueCustomField>();
 
     public virtual ICollection<IssueLabel> IssueLabels { get; } = new List<IssueLabel>();
 

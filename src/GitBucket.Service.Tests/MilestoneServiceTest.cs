@@ -30,35 +30,48 @@ public class MilestoneServiceTest
             UserName = "root",
         };
 
-        milestone.Issues.Add(new Issue
+        var issue1 = new Issue
         {
             IssueId = 1,
-            AssignedUserName = "user1",
             UserName = "root",
             RepositoryName = "test1",
             OpenedUserName = "root",
             Title = "Implement xxx feature",
-        });
-
-        milestone.Issues.Add(new Issue
+        };
+        var issue2 = new Issue
         {
             IssueId = 2,
-            AssignedUserName = "user2",
             UserName = "root",
             RepositoryName = "test1",
             OpenedUserName = "root",
             Title = "Implement xxx feature",
-        });
-
-        milestone.Issues.Add(new Issue
+        };
+        var issue3 = new Issue
         {
             IssueId = 3,
-            AssignedUserName = "user1",
             UserName = "root",
             RepositoryName = "test1",
             OpenedUserName = "root",
             Title = "Implement xxx feature",
-        });
+        };
+        var issue4 = new Issue
+        {
+            IssueId = 4,
+            UserName = "root",
+            RepositoryName = "test1",
+            OpenedUserName = "root",
+            Title = "Implement xxx feature",
+        };
+
+        issue1.IssueAssignees.Add(new IssueAssignee { UserName = "root", RepositoryName = "test1", IssueId = 1, AssigneeUserName = "user1" });
+        issue2.IssueAssignees.Add(new IssueAssignee { UserName = "root", RepositoryName = "test1", IssueId = 2, AssigneeUserName = "user2" });
+        issue3.IssueAssignees.Add(new IssueAssignee { UserName = "root", RepositoryName = "test1", IssueId = 3, AssigneeUserName = "user1" });
+        issue4.IssueAssignees.Add(new IssueAssignee { UserName = "root", RepositoryName = "test1", IssueId = 4, AssigneeUserName = "user1" });
+
+        milestone.Issues.Add(issue1);
+        milestone.Issues.Add(issue2);
+        milestone.Issues.Add(issue3);
+        milestone.Issues.Add(issue4);
 
         dbContext.Milestones.Add(milestone);
         dbContext.SaveChanges();
@@ -101,15 +114,17 @@ public class MilestoneServiceTest
             UserName = "root",
         };
 
-        milestone.Issues.Add(new Issue
+        var issue = new Issue
         {
             IssueId = 1,
-            AssignedUserName = "user1",
             UserName = "root",
             RepositoryName = "test1",
             OpenedUserName = "root",
             Title = "Implement xxx feature",
-        });
+        };
+
+        issue.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user1" });
+        milestone.Issues.Add(issue);
 
         dbContext.Milestones.Add(milestone);
         dbContext.SaveChanges();
@@ -152,15 +167,17 @@ public class MilestoneServiceTest
             UserName = "root",
         };
 
-        milestone.Issues.Add(new Issue
+        var issue = new Issue
         {
             IssueId = 1,
-            AssignedUserName = "user1",
             UserName = "root",
             RepositoryName = "test1",
             OpenedUserName = "root",
             Title = "Implement xxx feature",
-        });
+        };
+
+        issue.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user1" });
+        milestone.Issues.Add(issue);
 
         dbContext.Milestones.Add(milestone);
         dbContext.SaveChanges();
@@ -203,16 +220,17 @@ public class MilestoneServiceTest
             UserName = "root",
         };
 
-        milestone.Issues.Add(new Issue
+        var issue = new Issue
         {
             IssueId = 1,
-            AssignedUserName = "user1",
             UserName = "root",
             RepositoryName = "test1",
             OpenedUserName = "root",
             Title = "Implement xxx feature",
-        });
+        };
 
+        issue.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user1" });
+        milestone.Issues.Add(issue);
         dbContext.Milestones.Add(milestone);
         dbContext.SaveChanges();
 
@@ -254,16 +272,17 @@ public class MilestoneServiceTest
             UserName = "root",
         };
 
-        milestone.Issues.Add(new Issue
+        var issue = new Issue
         {
             IssueId = 1,
-            AssignedUserName = "user1",
             UserName = "root",
             RepositoryName = "test1",
             OpenedUserName = "root",
             Title = "Implement xxx feature",
-        });
+        };
 
+        issue.IssueAssignees.Add(new IssueAssignee { IssueId = 1, AssigneeUserName = "user1" });
+        milestone.Issues.Add(issue);
         dbContext.Milestones.Add(milestone);
         dbContext.SaveChanges();
 
@@ -341,12 +360,16 @@ public class MilestoneServiceTest
         milestones.ForEach(m => m.Issues.Add(new Issue
         {
             IssueId = m.MilestoneId,
-            AssignedUserName = "user1",
             UserName = "root",
             RepositoryName = "test1",
             OpenedUserName = "root",
             Title = "Implement xxx feature",
         }));
+
+        foreach (var issue in milestones.SelectMany(m => m.Issues))
+        {
+            issue.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user1" });
+        }
 
         dbContext.Milestones.AddRange(milestones);
         dbContext.SaveChanges();

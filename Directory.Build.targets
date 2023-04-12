@@ -2,7 +2,7 @@
 <Project>
   <ItemGroup>
     <PackageReference Update="CommandLineParser" Version="2.9.1" />
-    <PackageReference Update="libgit2sharp" Version="0.27.0-preview-0182" />
+    <PackageReference Update="libgit2sharp" Version="0.27.1" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="7.0.5" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.5" />
     <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0" />

@@ -19,5 +19,5 @@ public partial class WebHook
 
     public virtual Repository Repository { get; set; } = null!;
 
-    public virtual ICollection<WebHookEvent> WebHookEvents { get; } = new List<WebHookEvent>();
+    public virtual ICollection<WebHookEvent> WebHookEvents { get; set; } = new List<WebHookEvent>();
 }

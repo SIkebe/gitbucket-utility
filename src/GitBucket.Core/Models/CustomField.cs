@@ -19,7 +19,7 @@ public partial class CustomField
 
     public bool EnableForPullRequests { get; set; }
 
-    public virtual ICollection<IssueCustomField> IssueCustomFields { get; } = new List<IssueCustomField>();
+    public virtual ICollection<IssueCustomField> IssueCustomFields { get; set; } = new List<IssueCustomField>();
 
     public virtual Repository Repository { get; set; } = null!;
 }

@@ -1200,7 +1200,7 @@ public partial class GitBucketDbContext : DbContext
 
         modelBuilder.Entity<Version>(entity =>
         {
-            entity.HasKey(e => e.ModuleId).HasName("versions_pk");
+            entity.HasKey(e => e.ModuleId).HasName("versions_pkey");
 
             entity.ToTable("versions");
 
@@ -1240,9 +1240,7 @@ public partial class GitBucketDbContext : DbContext
 
             entity.HasIndex(e => new { e.UserName, e.RepositoryName, e.Url }, "idx_web_hook_1").IsUnique();
 
-            entity.Property(e => e.HookId)
-                .HasDefaultValueSql("nextval('web_hook_2_hook_id_seq'::regclass)")
-                .HasColumnName("hook_id");
+            entity.Property(e => e.HookId).HasColumnName("hook_id");
             entity.Property(e => e.Ctype)
                 .HasMaxLength(10)
                 .HasColumnName("ctype");

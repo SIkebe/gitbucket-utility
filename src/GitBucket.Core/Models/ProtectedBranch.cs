@@ -13,7 +13,7 @@ public partial class ProtectedBranch
 
     public bool StatusCheckAdmin { get; set; }
 
-    public virtual ICollection<ProtectedBranchRequireContext> ProtectedBranchRequireContexts { get; } = new List<ProtectedBranchRequireContext>();
+    public virtual ICollection<ProtectedBranchRequireContext> ProtectedBranchRequireContexts { get; set; } = new List<ProtectedBranchRequireContext>();
 
     public virtual Repository Repository { get; set; } = null!;
 }

@@ -21,7 +21,7 @@ public partial class ReleaseTag
 
     public DateTime UpdatedDate { get; set; }
 
-    public virtual ICollection<ReleaseAsset> ReleaseAssets { get; } = new List<ReleaseAsset>();
+    public virtual ICollection<ReleaseAsset> ReleaseAssets { get; set; } = new List<ReleaseAsset>();
 
     public virtual Repository Repository { get; set; } = null!;
 }

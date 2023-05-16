@@ -19,7 +19,7 @@ public partial class Milestone
 
     public DateTime? ClosedDate { get; set; }
 
-    public virtual ICollection<Issue> Issues { get; } = new List<Issue>();
+    public virtual ICollection<Issue> Issues { get; set; } = new List<Issue>();
 
     public virtual Repository Repository { get; set; } = null!;
 }

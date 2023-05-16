@@ -1,4 +1,4 @@
-#addin nuget:?package=Cake.Docker&version=1.1.2
+#addin nuget:?package=Cake.Docker&version=1.2.0
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS

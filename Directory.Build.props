@@ -12,10 +12,7 @@
     <!-- Include git2-8a0dc67.dll into the GbUtil.exe -->
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <ImplicitUsings>true</ImplicitUsings>
-
-    <!-- https://github.com/SIkebe/gitbucket-utility/issues/363 -->
-    <!-- <TrimMode>link</TrimMode> -->
-    <TrimMode>copyused</TrimMode>
+    <TrimMode>link</TrimMode>
 
     <!-- https://github.com/OmniSharp/omnisharp-vscode/issues/3207
          https://github.com/OmniSharp/omnisharp-roslyn/issues/1589 -->

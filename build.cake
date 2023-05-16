@@ -1,4 +1,4 @@
-#addin nuget:?package=Cake.Docker&version=1.1.2
+#addin nuget:?package=Cake.Docker&version=1.2.0
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -157,7 +157,7 @@ Task("Publish")
     }
 
     DotNetNuGetPush(
-        "./packages/GbUtil.0.13.0.nupkg",
+        "./packages/GbUtil.0.14.0.nupkg",
         new DotNetNuGetPushSettings
         {
             ApiKey = apiKey,

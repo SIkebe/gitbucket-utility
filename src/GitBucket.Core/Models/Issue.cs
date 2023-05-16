@@ -29,13 +29,13 @@ public partial class Issue
 
     public int? PriorityId { get; set; }
 
-    public virtual ICollection<IssueAssignee> IssueAssignees { get; } = new List<IssueAssignee>();
+    public virtual ICollection<IssueAssignee> IssueAssignees { get; set; } = new List<IssueAssignee>();
 
-    public virtual ICollection<IssueComment> IssueComments { get; } = new List<IssueComment>();
+    public virtual ICollection<IssueComment> IssueComments { get; set; } = new List<IssueComment>();
 
-    public virtual ICollection<IssueCustomField> IssueCustomFields { get; } = new List<IssueCustomField>();
+    public virtual ICollection<IssueCustomField> IssueCustomFields { get; set; } = new List<IssueCustomField>();
 
-    public virtual ICollection<IssueLabel> IssueLabels { get; } = new List<IssueLabel>();
+    public virtual ICollection<IssueLabel> IssueLabels { get; set; } = new List<IssueLabel>();
 
     public virtual Milestone? Milestone { get; set; }
 

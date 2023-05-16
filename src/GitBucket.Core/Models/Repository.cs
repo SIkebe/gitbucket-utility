@@ -45,31 +45,31 @@ public partial class Repository
 
     public bool? SafeMode { get; set; }
 
-    public virtual ICollection<Collaborator> Collaborators { get; } = new List<Collaborator>();
+    public virtual ICollection<Collaborator> Collaborators { get; set; } = new List<Collaborator>();
 
-    public virtual ICollection<CommitComment> CommitComments { get; } = new List<CommitComment>();
+    public virtual ICollection<CommitComment> CommitComments { get; set; } = new List<CommitComment>();
 
-    public virtual ICollection<CommitStatus> CommitStatuses { get; } = new List<CommitStatus>();
+    public virtual ICollection<CommitStatus> CommitStatuses { get; set; } = new List<CommitStatus>();
 
-    public virtual ICollection<CustomField> CustomFields { get; } = new List<CustomField>();
+    public virtual ICollection<CustomField> CustomFields { get; set; } = new List<CustomField>();
 
-    public virtual ICollection<DeployKey> DeployKeys { get; } = new List<DeployKey>();
+    public virtual ICollection<DeployKey> DeployKeys { get; set; } = new List<DeployKey>();
 
     public virtual IssueId? IssueId { get; set; }
 
-    public virtual ICollection<Issue> Issues { get; } = new List<Issue>();
+    public virtual ICollection<Issue> Issues { get; set; } = new List<Issue>();
 
-    public virtual ICollection<Label> Labels { get; } = new List<Label>();
+    public virtual ICollection<Label> Labels { get; set; } = new List<Label>();
 
-    public virtual ICollection<Milestone> Milestones { get; } = new List<Milestone>();
+    public virtual ICollection<Milestone> Milestones { get; set; } = new List<Milestone>();
 
-    public virtual ICollection<Priority> Priorities { get; } = new List<Priority>();
+    public virtual ICollection<Priority> Priorities { get; set; } = new List<Priority>();
 
-    public virtual ICollection<ProtectedBranch> ProtectedBranches { get; } = new List<ProtectedBranch>();
+    public virtual ICollection<ProtectedBranch> ProtectedBranches { get; set; } = new List<ProtectedBranch>();
 
-    public virtual ICollection<ReleaseTag> ReleaseTags { get; } = new List<ReleaseTag>();
+    public virtual ICollection<ReleaseTag> ReleaseTags { get; set; } = new List<ReleaseTag>();
 
     public virtual Account UserNameNavigation { get; set; } = null!;
 
-    public virtual ICollection<WebHook> WebHooks { get; } = new List<WebHook>();
+    public virtual ICollection<WebHook> WebHooks { get; set; } = new List<WebHook>();
 }

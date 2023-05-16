@@ -23,7 +23,7 @@ public partial class Gist
 
     public string Mode { get; set; } = null!;
 
-    public virtual ICollection<GistComment> GistComments { get; } = new List<GistComment>();
+    public virtual ICollection<GistComment> GistComments { get; set; } = new List<GistComment>();
 
     public virtual Account UserNameNavigation { get; set; } = null!;
 }

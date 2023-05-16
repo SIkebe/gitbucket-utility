@@ -31,35 +31,35 @@ public partial class Account
 
     public string? Description { get; set; }
 
-    public virtual ICollection<AccessToken> AccessTokens { get; } = new List<AccessToken>();
+    public virtual ICollection<AccessToken> AccessTokens { get; set; } = new List<AccessToken>();
 
-    public virtual ICollection<AccountFederation> AccountFederations { get; } = new List<AccountFederation>();
+    public virtual ICollection<AccountFederation> AccountFederations { get; set; } = new List<AccountFederation>();
 
     public virtual AccountPreference? AccountPreference { get; set; }
 
-    public virtual ICollection<AccountWebHook> AccountWebHooks { get; } = new List<AccountWebHook>();
+    public virtual ICollection<AccountWebHook> AccountWebHooks { get; set; } = new List<AccountWebHook>();
 
-    public virtual ICollection<Collaborator> Collaborators { get; } = new List<Collaborator>();
+    public virtual ICollection<Collaborator> Collaborators { get; set; } = new List<Collaborator>();
 
-    public virtual ICollection<CommitStatus> CommitStatusCreatorNavigations { get; } = new List<CommitStatus>();
+    public virtual ICollection<CommitStatus> CommitStatusCreatorNavigations { get; set; } = new List<CommitStatus>();
 
-    public virtual ICollection<CommitStatus> CommitStatusUserNameNavigations { get; } = new List<CommitStatus>();
+    public virtual ICollection<CommitStatus> CommitStatusUserNameNavigations { get; set; } = new List<CommitStatus>();
 
-    public virtual ICollection<GistComment> GistComments { get; } = new List<GistComment>();
+    public virtual ICollection<GistComment> GistComments { get; set; } = new List<GistComment>();
 
-    public virtual ICollection<Gist> Gists { get; } = new List<Gist>();
+    public virtual ICollection<Gist> Gists { get; set; } = new List<Gist>();
 
-    public virtual ICollection<GpgKey> GpgKeys { get; } = new List<GpgKey>();
+    public virtual ICollection<GpgKey> GpgKeys { get; set; } = new List<GpgKey>();
 
-    public virtual ICollection<GroupMember> GroupMemberGroupNameNavigations { get; } = new List<GroupMember>();
+    public virtual ICollection<GroupMember> GroupMemberGroupNameNavigations { get; set; } = new List<GroupMember>();
 
-    public virtual ICollection<GroupMember> GroupMemberUserNameNavigations { get; } = new List<GroupMember>();
+    public virtual ICollection<GroupMember> GroupMemberUserNameNavigations { get; set; } = new List<GroupMember>();
 
-    public virtual ICollection<Issue> Issues { get; } = new List<Issue>();
+    public virtual ICollection<Issue> Issues { get; set; } = new List<Issue>();
 
     public virtual NotificationsAccount? NotificationsAccount { get; set; }
 
-    public virtual ICollection<Repository> Repositories { get; } = new List<Repository>();
+    public virtual ICollection<Repository> Repositories { get; set; } = new List<Repository>();
 
-    public virtual ICollection<SshKey> SshKeys { get; } = new List<SshKey>();
+    public virtual ICollection<SshKey> SshKeys { get; set; } = new List<SshKey>();
 }

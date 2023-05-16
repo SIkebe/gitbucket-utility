@@ -21,7 +21,7 @@ public partial class Priority
 
     public string Color { get; set; } = null!;
 
-    public virtual ICollection<Issue> Issues { get; } = new List<Issue>();
+    public virtual ICollection<Issue> Issues { get; set; } = new List<Issue>();
 
     public virtual Repository Repository { get; set; } = null!;
 }

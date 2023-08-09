@@ -9,7 +9,7 @@
     <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
     <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.7.0" />
-    <PackageReference Update="Moq" Version="4.20.1" />
+    <PackageReference Update="Moq" Version="4.20.2" />
     <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
     <PackageReference Update="octokit" Version="7.1.0" />
     <PackageReference Update="StyleCop.Analyzers" Version="1.2.0-beta.507" />

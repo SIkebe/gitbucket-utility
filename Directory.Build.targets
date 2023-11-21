@@ -10,7 +10,7 @@
     <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Update="Moq" Version="4.20.69" />
-    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
+    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
     <PackageReference Update="octokit" Version="7.1.0" />
     <PackageReference Update="StyleCop.Analyzers" Version="1.2.0-beta.507" />
     <PackageReference Update="xunit" Version="2.6.1" />

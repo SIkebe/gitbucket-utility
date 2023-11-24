@@ -5,12 +5,8 @@ using Xunit.Abstractions;
 
 namespace GbUtil.E2ETests;
 
-public class PullRequestTest : E2ETestBase
+public class PullRequestTest(GitBucketFixture fixture, ITestOutputHelper output) : E2ETestBase(fixture, output)
 {
-    public PullRequestTest(GitBucketFixture fixture, ITestOutputHelper output) : base(fixture, output)
-    {
-    }
-
     [Fact]
     public async Task Should_Create_PullRequest()
     {

@@ -9,16 +9,10 @@ public interface IMilestoneService
     Task<int> ShowMilestones(MilestoneOptions options);
 }
 
-public class MilestoneService : IMilestoneService
+public class MilestoneService(DbContext context, IConsole console) : IMilestoneService
 {
-    private readonly DbContext _context;
-    private readonly IConsole _console;
-
-    public MilestoneService(DbContext context, IConsole console)
-    {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-        _console = console ?? throw new ArgumentNullException(nameof(console));
-    }
+    private readonly DbContext _context = context ?? throw new ArgumentNullException(nameof(context));
+    private readonly IConsole _console = console ?? throw new ArgumentNullException(nameof(console));
 
     public async Task<int> ShowMilestones(MilestoneOptions options)
     {
@@ -62,7 +56,6 @@ public class MilestoneService : IMilestoneService
         return 0;
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1862:Use the 'StringComparison' method overloads to perform case-insensitive string comparisons", Justification = "Can't be translated")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1304:Specify CultureInfo", Justification = "Can't be translated")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1311:Specify a culture or use an invariant version", Justification = "Can't be translated")]
     private async Task<List<Milestone>> FindMilestones(MilestoneOptions options)

@@ -315,8 +315,7 @@ public class MilestoneServiceTest
         var options = new MilestoneOptions { ExecutedDate = new DateTime(2018, 7, 1), IncludeClosed = true };
         var milestones = new List<Core.Models.Milestone>
         {
-            new Milestone
-            {
+            new() {
                 MilestoneId = 1,
                 Title = "v0.1.0",
                 RepositoryName = "test1",
@@ -325,8 +324,7 @@ public class MilestoneServiceTest
                 Description = "Error",
                 UserName = "root",
             },
-            new Milestone
-            {
+            new() {
                 MilestoneId = 2,
                 Title = "v0.2.0",
                 RepositoryName = "test1",
@@ -335,8 +333,7 @@ public class MilestoneServiceTest
                 Description = "Closed",
                 UserName = "root",
             },
-            new Milestone
-            {
+            new() {
                 MilestoneId = 3,
                 Title = "v0.3.0",
                 RepositoryName = "test1",
@@ -345,8 +342,7 @@ public class MilestoneServiceTest
                 Description = "Warn",
                 UserName = "root",
             },
-            new Milestone
-            {
+            new() {
                 MilestoneId = 4,
                 Title = "v0.4.0",
                 RepositoryName = "test1",

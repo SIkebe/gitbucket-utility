@@ -81,7 +81,7 @@ public class IssueServiceTest
         // Given
         var labels = new List<Label>
             {
-                new Label(id:1, url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
+                new(id:1, url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
             };
 
         var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
@@ -166,7 +166,7 @@ public class IssueServiceTest
         mockGitBucketClient
             .Setup(g => g.Issue.Comment.GetAllForIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
             .ReturnsAsync(new ReadOnlyCollection<Octokit.IssueComment>(new List<Octokit.IssueComment>{
-                    new Octokit.IssueComment(
+                    new(
                         id:1,
                         nodeId:"",
                         url:"",
@@ -239,7 +239,7 @@ public class IssueServiceTest
         // Given
         var labels = new List<Label>
             {
-                new Label(id:1, url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
+                new(id:1, url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
             };
 
         var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
@@ -326,7 +326,7 @@ public class IssueServiceTest
         mockGitBucketClient
             .Setup(g => g.Issue.Comment.GetAllForIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
             .ReturnsAsync(new ReadOnlyCollection<Octokit.IssueComment>(new List<Octokit.IssueComment>{
-                    new Octokit.IssueComment(
+                    new(
                         id:1,
                         nodeId:"",
                         url:"",
@@ -499,7 +499,7 @@ public class IssueServiceTest
         // Given
         var labels = new List<Label>
             {
-                new Label(id:1, url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
+                new(id:1, url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
             };
 
         var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
@@ -584,7 +584,7 @@ public class IssueServiceTest
         mockGitBucketClient
             .Setup(g => g.Issue.Comment.GetAllForIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
             .ReturnsAsync(new ReadOnlyCollection<Octokit.IssueComment>(new List<Octokit.IssueComment>{
-                    new Octokit.IssueComment(
+                    new(
                         id:1,
                         nodeId:"",
                         url:"",
@@ -652,7 +652,7 @@ public class IssueServiceTest
         // Given
         var labels = new List<Label>
             {
-                new Label(id:1, url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
+                new(id:1, url:"", name:"bug", nodeId:"1", color:"#fc2929", description:"bug", @default:true)
             };
 
         var mockGitBucketClient = new Mock<IGitHubClient>(MockBehavior.Strict);
@@ -739,7 +739,7 @@ public class IssueServiceTest
         mockGitBucketClient
             .Setup(g => g.Issue.Comment.GetAllForIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
             .ReturnsAsync(new ReadOnlyCollection<Octokit.IssueComment>(new List<Octokit.IssueComment>{
-                    new Octokit.IssueComment(
+                    new(
                         id:1,
                         nodeId:"",
                         url:"",

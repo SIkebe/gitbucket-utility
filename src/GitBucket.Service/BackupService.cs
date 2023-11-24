@@ -13,14 +13,9 @@ public interface IBackupService
 /// <summary>
 /// Port of https://github.com/gitbucket/gitbucket/wiki/Backup for C# & PostgreSQL.
 /// </summary>
-public class BackupService : IBackupService
+public class BackupService(IConsole console) : IBackupService
 {
-    private readonly IConsole _console;
-
-    public BackupService(IConsole console)
-    {
-        _console = console ?? throw new ArgumentNullException(nameof(console));
-    }
+    private readonly IConsole _console = console ?? throw new ArgumentNullException(nameof(console));
 
     /// <summary>
     /// To keep integrity as its maximum possible, the database export and git backups must be done in the shortest possible timeslot.

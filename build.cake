@@ -70,7 +70,7 @@ async Task RunE2ETests(ICakeContext ctx)
     Information("Recreating docker containers...");
     DockerComposeRm(new DockerComposeRmSettings { Force = true, Stop = true, Volumes = true });
     DeleteDirectoryWithReadonlyFiles("docker");
-    DockerComposeUp(new DockerComposeUpSettings { ForceRecreate = true, DetachedMode = true });
+    DockerComposeUp(new DockerComposeUpSettings { ForceRecreate = true, Detach = true });
 
     bool gitbucketStarted = false;
     int count = 0;
@@ -178,7 +178,7 @@ Task("Publish-SingleFile")
             OutputDirectory = "executable",
             Runtime = rid,
             PublishSingleFile = true,
-            PublishTrimmed = false,
+            PublishTrimmed = true,
             SelfContained = true,
         });
 });

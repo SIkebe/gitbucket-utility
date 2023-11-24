@@ -11,7 +11,7 @@ using Octokit;
 using Octokit.Internal;
 
 IConfiguration configuration;
-IConsole console = new GbUtilConsole();
+var console = new GbUtilConsole();
 
 try
 {

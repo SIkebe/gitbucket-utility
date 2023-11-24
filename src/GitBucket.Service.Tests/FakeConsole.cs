@@ -1,4 +1,5 @@
 using GitBucket.Core;
+using System.Collections.ObjectModel;
 
 namespace GitBucket.Service.Tests;
 
@@ -20,9 +21,9 @@ public class FakeConsole : IConsole
         Error
     }
 
-    public List<string?> Messages { get; } = new();
-    public List<string?> WarnMessages { get; } = new();
-    public List<string?> ErrorMessages { get; } = new();
+    public Collection<string?> Messages { get; } = new();
+    public Collection<string?> WarnMessages { get; } = new();
+    public Collection<string?> ErrorMessages { get; } = new();
     public ConsoleColor ForegroundColor { get; set; } = ConsoleColor.Gray;
 
     public void Write(string? value)

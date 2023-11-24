@@ -9,8 +9,6 @@ on:
 
 jobs:
   linux-e2e:
-    strategy:
-      fail-fast: false
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -33,8 +31,6 @@ jobs:
           dotnet cake ./build.cake --target Run-E2E-Tests
 
   linux-e2e-scd:
-    strategy:
-      fail-fast: false
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4

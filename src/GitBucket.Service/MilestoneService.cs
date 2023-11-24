@@ -62,14 +62,17 @@ public class MilestoneService : IMilestoneService
         return 0;
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1862:Use the 'StringComparison' method overloads to perform case-insensitive string comparisons", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1304:Specify CultureInfo", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1311:Specify a culture or use an invariant version", Justification = "Can't be translated")]
     private async Task<List<Milestone>> FindMilestones(MilestoneOptions options)
     {
-        var owners = options.Owners.Select(o => o.ToLowerInvariant());
-        var repositories = options.Repositories.Select(r => r.ToLowerInvariant());
+        var owners = options.Owners.Select(o => o.ToLower());
+        var repositories = options.Repositories.Select(r => r.ToLower());
 
         return await _context.Set<Milestone>()
-            .WhereIf(options.Owners.Any(), m => owners.Contains(m.UserName.ToLowerInvariant()))
-            .WhereIf(options.Repositories.Any(), m => repositories.Contains(m.RepositoryName.ToLowerInvariant()))
+            .WhereIf(options.Owners.Any(), m => owners.Contains(m.UserName.ToLower()))
+            .WhereIf(options.Repositories.Any(), m => repositories.Contains(m.RepositoryName.ToLower()))
             .WhereIf(!options.IncludeClosed, m => m.ClosedDate == null)
             .OrderBy(m => m.DueDate)
             .ThenBy(m => m.UserName)

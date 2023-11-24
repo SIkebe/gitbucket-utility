@@ -249,8 +249,8 @@ The highest priority among them is ""high"".
         var dbContext = EnsureDbCreated(options);
         dbContext.PullRequests.AddRange(new List<Core.Models.PullRequest>
             {
-                new Core.Models.PullRequest { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 1, CommitIdFrom = "test", CommitIdTo = "test", RequestRepositoryName = "test", RequestUserName = "root" },
-                new Core.Models.PullRequest { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 2, CommitIdFrom = "test", CommitIdTo = "test", RequestRepositoryName = "test", RequestUserName = "root" },
+                new() { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 1, CommitIdFrom = "test", CommitIdTo = "test", RequestRepositoryName = "test", RequestUserName = "root" },
+                new() { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 2, CommitIdFrom = "test", CommitIdTo = "test", RequestRepositoryName = "test", RequestUserName = "root" },
             });
         dbContext.SaveChanges();
 
@@ -451,8 +451,7 @@ The highest priority among them is ""high"".
 
         dbContext.Issues.AddRange(new List<Core.Models.Issue>
             {
-                new Core.Models.Issue
-                {
+                new() {
                     Closed = true,
                     IssueId = 1,
                     Milestone = milestone,
@@ -462,8 +461,7 @@ The highest priority among them is ""high"".
                     UserName = options.Owner,
                     OpenedUserName = "root",
                 },
-                new Core.Models.Issue
-                {
+                new() {
                     Closed = true,
                     IssueId = 2,
                     Milestone = milestone,
@@ -473,8 +471,7 @@ The highest priority among them is ""high"".
                     UserName = options.Owner,
                     OpenedUserName = "root",
                 },
-                new Core.Models.Issue
-                {
+                new() {
                     Closed = true,
                     IssueId = 3,
                     Milestone = milestone,
@@ -484,8 +481,7 @@ The highest priority among them is ""high"".
                     UserName = options.Owner,
                     OpenedUserName = "root",
                 },
-                new Core.Models.Issue
-                {
+                new() {
                     Closed = true,
                     IssueId = 4,
                     Milestone = milestone,
@@ -500,29 +496,25 @@ The highest priority among them is ""high"".
 
         dbContext.IssueLabels.AddRange(new List<Core.Models.IssueLabel>
             {
-                new Core.Models.IssueLabel
-                {
+                new() {
                     IssueId = 1,
                     LabelId = 10,
                     RepositoryName = options.Repository,
                     UserName = options.Owner,
                 },
-                new Core.Models.IssueLabel
-                {
+                new() {
                     IssueId = 2,
                     LabelId = 10,
                     RepositoryName = options.Repository,
                     UserName = options.Owner,
                 },
-                new Core.Models.IssueLabel
-                {
+                new() {
                     IssueId = 3,
                     LabelId = 30,
                     RepositoryName = options.Repository,
                     UserName = options.Owner,
                 },
-                new Core.Models.IssueLabel
-                {
+                new() {
                     IssueId = 4,
                     LabelId = 10,
                     RepositoryName = options.Repository,
@@ -532,16 +524,14 @@ The highest priority among them is ""high"".
 
         dbContext.Labels.AddRange(new List<Core.Models.Label>
             {
-                new Core.Models.Label
-                {
+                new() {
                     LabelId = 10,
                     LabelName = "Bug",
                     RepositoryName = options.Repository,
                     UserName = options.Owner,
                     Color = "red",
                 },
-                new Core.Models.Label
-                {
+                new() {
                     LabelId = 30,
                     LabelName = "Enhancement",
                     RepositoryName = options.Repository,

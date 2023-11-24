@@ -6,10 +6,7 @@ public static class MilestoneExtensions
 {
     public static string Format(this Milestone milestone)
     {
-        if (milestone == null)
-        {
-            throw new ArgumentNullException(nameof(milestone));
-        }
+        ArgumentNullException.ThrowIfNull(milestone);
 
         var assignees = string.Empty;
         if (milestone.Issues.Any())

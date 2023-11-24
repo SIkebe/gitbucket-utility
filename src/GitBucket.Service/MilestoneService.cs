@@ -22,7 +22,7 @@ public class MilestoneService : IMilestoneService
 
     public async Task<int> ShowMilestones(MilestoneOptions options)
     {
-        if (options == null) throw new ArgumentNullException(nameof(options));
+        ArgumentNullException.ThrowIfNull(options);
 
         var milestones = await FindMilestones(options);
         if (milestones.Count == 0)

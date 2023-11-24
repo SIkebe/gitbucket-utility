@@ -104,6 +104,9 @@ public class ReleaseService : IReleaseService
         return builder.ToString();
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1862:Use the 'StringComparison' method overloads to perform case-insensitive string comparisons", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1304:Specify CultureInfo", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1311:Specify a culture or use an invariant version", Justification = "Can't be translated")]
     private async Task<List<GitBucket.Core.Models.IssueLabel>> FindIssueLabels(
         ReleaseOptions options,
         IEnumerable<GitBucket.Core.Models.Issue> issues)
@@ -111,21 +114,24 @@ public class ReleaseService : IReleaseService
         // "String.Equals(String, StringComparison)" causes client side evaluation.
         // https://github.com/aspnet/EntityFrameworkCore/issues/1222
         return await _context.Set<GitBucket.Core.Models.IssueLabel>()
-            .Where(l => l.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase))
-            .Where(l => l.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase))
+            .Where(l => l.UserName.ToLower() == options.Owner.ToLower())
+            .Where(l => l.RepositoryName.ToLower() == options.Repository.ToLower())
             .Where(l => issues.Select(i => i.IssueId).Contains(l.IssueId))
             .AsNoTracking()
             .ToListAsync();
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1862:Use the 'StringComparison' method overloads to perform case-insensitive string comparisons", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1304:Specify CultureInfo", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1311:Specify a culture or use an invariant version", Justification = "Can't be translated")]
     private async Task<List<GitBucket.Core.Models.Issue>> FindIssuesRelatedToMileStone(ReleaseOptions options)
     {
         // "String.Equals(String, StringComparison)" causes client side evaluation.
         // https://github.com/aspnet/EntityFrameworkCore/issues/1222
         return await _context.Set<GitBucket.Core.Models.Issue>()
-            .Where(i => i.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase))
-            .Where(i => i.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase))
-            .Where(i => i.Milestone!.Title.Equals(options.MileStone, StringComparison.OrdinalIgnoreCase))
+            .Where(i => i.UserName.ToLower() == options.Owner.ToLower())
+            .Where(i => i.RepositoryName.ToLower() == options.Repository.ToLower())
+            .Where(i => i.Milestone!.Title.ToLower() == options.MileStone.ToLower())
             .Where(i => i.PullRequest == options.FromPullRequest)
             .Include(i => i.Milestone)
             .Include(i => i.Priority)
@@ -198,12 +204,15 @@ public class ReleaseService : IReleaseService
         return await Task.FromResult(0);
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1862:Use the 'StringComparison' method overloads to perform case-insensitive string comparisons", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1304:Specify CultureInfo", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1311:Specify a culture or use an invariant version", Justification = "Can't be translated")]
     private List<Core.Models.Label> FindLabels(ReleaseOptions options, List<IssueLabel> issueLabels)
     {
         return _context.Set<Core.Models.Label>()
             .Where(l =>
-                l.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase) &&
-                l.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase) &&
+                l.UserName.ToLower() == options.Owner.ToLower() &&
+                l.RepositoryName.ToLower() == options.Repository.ToLower() &&
                 issueLabels.Select(i => i.LabelId).Contains(l.LabelId))
             .OrderBy(i => i.LabelId)
             .AsNoTracking()

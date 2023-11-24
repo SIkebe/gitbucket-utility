@@ -6,13 +6,11 @@ namespace GitBucket.Service.Tests;
 /// <summary>
 /// Implementation of a fake <see cref="IConsole"/>.
 /// </summary>
-public class FakeConsole : IConsole
+public class FakeConsole(string input = "test") : IConsole
 {
-    private readonly string _input;
+    private readonly string _input = input;
     private ConsoleKind _consoleKind = ConsoleKind.Normal;
     private bool _hasNewLineAtTheEndOfTheMessages;
-
-    public FakeConsole(string input = "test") => _input = input;
 
     private enum ConsoleKind
     {

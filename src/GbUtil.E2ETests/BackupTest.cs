@@ -4,12 +4,8 @@ using Xunit.Abstractions;
 
 namespace GbUtil.E2ETests;
 
-public class BackupTest : E2ETestBase
+public class BackupTest(GitBucketFixture fixture, ITestOutputHelper output) : E2ETestBase(fixture, output)
 {
-    public BackupTest(GitBucketFixture fixture, ITestOutputHelper output) : base(fixture, output)
-    {
-    }
-
     [Fact]
     public async Task Should_Backup_Repositories()
     {

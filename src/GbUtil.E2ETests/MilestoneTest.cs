@@ -4,12 +4,8 @@ using Xunit.Abstractions;
 
 namespace GbUtil.E2ETests;
 
-public class MilestoneTest : E2ETestBase
+public class MilestoneTest(GitBucketFixture fixture, ITestOutputHelper output) : E2ETestBase(fixture, output)
 {
-    public MilestoneTest(GitBucketFixture fixture, ITestOutputHelper output) : base(fixture, output)
-    {
-    }
-
     [Fact]
     public async Task Should_Outout_Milestones()
     {

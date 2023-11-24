@@ -4,12 +4,8 @@ using Xunit.Abstractions;
 
 namespace GbUtil.E2ETests;
 
-public class IssueTest : E2ETestBase
+public class IssueTest(GitBucketFixture fixture, ITestOutputHelper output) : E2ETestBase(fixture, output)
 {
-    public IssueTest(GitBucketFixture fixture, ITestOutputHelper output) : base(fixture, output)
-    {
-    }
-
     public Repository Repository1 { get; set; } = default!;
     public Repository Repository2 { get; set; } = default!;
     public Issue SourceIssue1 { get; set; } = default!;

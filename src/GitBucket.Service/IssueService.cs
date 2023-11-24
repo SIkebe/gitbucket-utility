@@ -8,11 +8,9 @@ public interface IIssueService
     Task<int> Execute(IssueOptions options, IGitHubClient gitBucketClient);
 }
 
-public class IssueService : IIssueService
+public class IssueService(IConsole console) : IIssueService
 {
-    private readonly IConsole _console;
-
-    public IssueService(IConsole console) => _console = console;
+    private readonly IConsole _console = console;
 
     public async Task<int> Execute(IssueOptions options, IGitHubClient gitBucketClient)
     {

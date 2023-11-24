@@ -27,7 +27,7 @@ public class FakeConsole : IConsole
 
     public void Write(string? value)
     {
-        if (!Messages.Any())
+        if (Messages.Count == 0)
         {
             Messages.Add(value);
         }
@@ -46,7 +46,7 @@ public class FakeConsole : IConsole
 
     public void WriteLine(string? value)
     {
-        if (!Messages.Any())
+        if (Messages.Count == 0)
         {
             Messages.Add(value);
         }
@@ -66,7 +66,7 @@ public class FakeConsole : IConsole
 
     public void WriteWarn(string? value)
     {
-        if (!WarnMessages.Any())
+        if (WarnMessages.Count == 0)
         {
             WarnMessages.Add(value);
         }
@@ -85,7 +85,7 @@ public class FakeConsole : IConsole
 
     public void WriteWarnLine(string? value)
     {
-        if (!WarnMessages.Any())
+        if (WarnMessages.Count == 0)
         {
             WarnMessages.Add(value);
         }
@@ -105,7 +105,7 @@ public class FakeConsole : IConsole
 
     public void WriteError(string? value)
     {
-        if (!ErrorMessages.Any())
+        if (ErrorMessages.Count == 0)
         {
             ErrorMessages.Add(value);
         }
@@ -126,7 +126,7 @@ public class FakeConsole : IConsole
     {
         if (value != null)
         {
-            if (!ErrorMessages.Any())
+            if (ErrorMessages.Count == 0)
             {
                 ErrorMessages.Add(value);
             }

@@ -29,7 +29,7 @@ public class ReleaseService : IReleaseService
 
         var pullRequestSource = options.FromPullRequest ? "pull requests" : "issues";
         var issues = await FindIssuesRelatedToMileStone(options);
-        if (!issues.Any())
+        if (issues.Count == 0)
         {
             _console.WriteWarnLine($"There are no {pullRequestSource} related to \"{options.MileStone}\".");
             return await Task.FromResult(1);

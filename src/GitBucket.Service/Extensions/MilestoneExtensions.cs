@@ -9,7 +9,7 @@ public static class MilestoneExtensions
         ArgumentNullException.ThrowIfNull(milestone);
 
         var assignees = string.Empty;
-        if (milestone.Issues.Any())
+        if (milestone.Issues.Count != 0)
         {
             var assigneeUserNames = milestone.Issues.SelectMany(i => i.IssueAssignees.Select(i => i.AssigneeUserName));
             if (assigneeUserNames is not null && assigneeUserNames.Any())

@@ -11,8 +11,8 @@ public static class MilestoneExtensions
         var assignees = string.Empty;
         if (milestone.Issues.Count != 0)
         {
-            var assigneeUserNames = milestone.Issues.SelectMany(i => i.IssueAssignees.Select(i => i.AssigneeUserName));
-            if (assigneeUserNames is not null && assigneeUserNames.Any())
+            var assigneeUserNames = milestone.Issues.SelectMany(i => i.IssueAssignees.Select(i => i.AssigneeUserName)).ToList();
+            if (assigneeUserNames is not null && assigneeUserNames.Count != 0)
             {
                 assignees = assigneeUserNames.Distinct().OrderBy(a => a).Aggregate((current, next) => $"{current}, {next}");
             }

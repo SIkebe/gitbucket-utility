@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GitBucket.Core.Models;
 using Microsoft.EntityFrameworkCore;
@@ -434,7 +435,9 @@ public partial class GitBucketDbContext : DbContext
             entity.Property(e => e.DeployKeyId)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("deploy_key_id");
-            entity.Property(e => e.AllowWrite).HasColumnName("allow_write");
+            entity.Property(e => e.AllowWrite)
+                .HasDefaultValue(false)
+                .HasColumnName("allow_write");
             entity.Property(e => e.PublicKey).HasColumnName("public_key");
             entity.Property(e => e.Title)
                 .HasMaxLength(100)
@@ -950,7 +953,9 @@ public partial class GitBucketDbContext : DbContext
             entity.Property(e => e.Branch)
                 .HasMaxLength(100)
                 .HasColumnName("branch");
-            entity.Property(e => e.StatusCheckAdmin).HasColumnName("status_check_admin");
+            entity.Property(e => e.StatusCheckAdmin)
+                .HasDefaultValue(false)
+                .HasColumnName("status_check_admin");
 
             entity.HasOne(d => d.Repository).WithMany(p => p.ProtectedBranches)
                 .HasForeignKey(d => new { d.UserName, d.RepositoryName })
@@ -1003,7 +1008,9 @@ public partial class GitBucketDbContext : DbContext
             entity.Property(e => e.CommitIdTo)
                 .HasMaxLength(40)
                 .HasColumnName("commit_id_to");
-            entity.Property(e => e.IsDraft).HasColumnName("is_draft");
+            entity.Property(e => e.IsDraft)
+                .HasDefaultValue(false)
+                .HasColumnName("is_draft");
             entity.Property(e => e.RequestBranch)
                 .HasMaxLength(100)
                 .HasColumnName("request_branch");
@@ -1111,8 +1118,7 @@ public partial class GitBucketDbContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("repository_name");
             entity.Property(e => e.AllowFork)
-                .IsRequired()
-                .HasDefaultValueSql("true")
+                .HasDefaultValue(true)
                 .HasColumnName("allow_fork");
             entity.Property(e => e.DefaultBranch)
                 .HasMaxLength(100)
@@ -1156,8 +1162,7 @@ public partial class GitBucketDbContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("registered_date");
             entity.Property(e => e.SafeMode)
-                .IsRequired()
-                .HasDefaultValueSql("true")
+                .HasDefaultValue(true)
                 .HasColumnName("safe_mode");
             entity.Property(e => e.UpdatedDate)
                 .HasColumnType("timestamp without time zone")

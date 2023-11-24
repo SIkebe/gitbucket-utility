@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using GitBucket.Core.Models;
 using Microsoft.EntityFrameworkCore;

@@ -111,8 +111,8 @@ public class ReleaseService : IReleaseService
         // "String.Equals(String, StringComparison)" causes client side evaluation.
         // https://github.com/aspnet/EntityFrameworkCore/issues/1222
         return await _context.Set<GitBucket.Core.Models.IssueLabel>()
-            .Where(l => l.UserName.ToLower() == options.Owner.ToLower())
-            .Where(l => l.RepositoryName.ToLower() == options.Repository.ToLower())
+            .Where(l => l.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase))
+            .Where(l => l.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase))
             .Where(l => issues.Select(i => i.IssueId).Contains(l.IssueId))
             .AsNoTracking()
             .ToListAsync();
@@ -123,9 +123,9 @@ public class ReleaseService : IReleaseService
         // "String.Equals(String, StringComparison)" causes client side evaluation.
         // https://github.com/aspnet/EntityFrameworkCore/issues/1222
         return await _context.Set<GitBucket.Core.Models.Issue>()
-            .Where(i => i.UserName.ToLower() == options.Owner.ToLower())
-            .Where(i => i.RepositoryName.ToLower() == options.Repository.ToLower())
-            .Where(i => i.Milestone!.Title.ToLower() == options.MileStone.ToLower())
+            .Where(i => i.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase))
+            .Where(i => i.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase))
+            .Where(i => i.Milestone!.Title.Equals(options.MileStone, StringComparison.OrdinalIgnoreCase))
             .Where(i => i.PullRequest == options.FromPullRequest)
             .Include(i => i.Milestone)
             .Include(i => i.Priority)
@@ -202,8 +202,8 @@ public class ReleaseService : IReleaseService
     {
         return _context.Set<Core.Models.Label>()
             .Where(l =>
-                l.UserName.ToLower() == options.Owner.ToLower() &&
-                l.RepositoryName.ToLower() == options.Repository.ToLower() &&
+                l.UserName.Equals(options.Owner, StringComparison.OrdinalIgnoreCase) &&
+                l.RepositoryName.Equals(options.Repository, StringComparison.OrdinalIgnoreCase) &&
                 issueLabels.Select(i => i.LabelId).Contains(l.LabelId))
             .OrderBy(i => i.LabelId)
             .AsNoTracking()

@@ -64,12 +64,12 @@ public class MilestoneService : IMilestoneService
 
     private async Task<List<Milestone>> FindMilestones(MilestoneOptions options)
     {
-        var owners = options.Owners.Select(o => o.ToLower());
-        var repositories = options.Repositories.Select(r => r.ToLower());
+        var owners = options.Owners.Select(o => o.ToLowerInvariant());
+        var repositories = options.Repositories.Select(r => r.ToLowerInvariant());
 
         return await _context.Set<Milestone>()
-            .WhereIf(options.Owners.Any(), m => owners.Contains(m.UserName.ToLower()))
-            .WhereIf(options.Repositories.Any(), m => repositories.Contains(m.RepositoryName.ToLower()))
+            .WhereIf(options.Owners.Any(), m => owners.Contains(m.UserName.ToLowerInvariant()))
+            .WhereIf(options.Repositories.Any(), m => repositories.Contains(m.RepositoryName.ToLowerInvariant()))
             .WhereIf(!options.IncludeClosed, m => m.ClosedDate == null)
             .OrderBy(m => m.DueDate)
             .ThenBy(m => m.UserName)

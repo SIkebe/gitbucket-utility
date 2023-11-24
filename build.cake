@@ -178,7 +178,7 @@ Task("Publish-SingleFile")
             OutputDirectory = "executable",
             Runtime = rid,
             PublishSingleFile = true,
-            PublishTrimmed = true,
+            PublishTrimmed = false,
             SelfContained = true,
         });
 });

@@ -33,7 +33,7 @@ public partial class Repository
 
     public string? ExternalWikiUrl { get; set; }
 
-    public bool? AllowFork { get; set; }
+    public bool AllowFork { get; set; }
 
     public string WikiOption { get; set; } = null!;
 
@@ -43,7 +43,7 @@ public partial class Repository
 
     public string DefaultMergeOption { get; set; } = null!;
 
-    public bool? SafeMode { get; set; }
+    public bool SafeMode { get; set; }
 
     public virtual ICollection<Collaborator> Collaborators { get; set; } = new List<Collaborator>();
 

@@ -10,15 +10,8 @@ public static class IServiceCollectionExtensions
         Func<IServiceProvider, TService> implementationFactory)
         where TService : class
     {
-        if (services == null)
-        {
-            throw new ArgumentNullException(nameof(services));
-        }
-
-        if (implementationFactory == null)
-        {
-            throw new ArgumentNullException(nameof(implementationFactory));
-        }
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentNullException.ThrowIfNull(implementationFactory);
 
         if (condition)
         {
@@ -34,10 +27,7 @@ public static class IServiceCollectionExtensions
         where TService : class
         where TImplementation : class, TService
     {
-        if (services == null)
-        {
-            throw new ArgumentNullException(nameof(services));
-        }
+        ArgumentNullException.ThrowIfNull(services);
 
         if (condition)
         {

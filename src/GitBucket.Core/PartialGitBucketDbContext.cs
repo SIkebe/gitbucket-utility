@@ -15,10 +15,7 @@ public partial class GitBucketDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (optionsBuilder is null)
-        {
-            throw new System.ArgumentNullException(nameof(optionsBuilder));
-        }
+        ArgumentNullException.ThrowIfNull(optionsBuilder);
 
         if (!optionsBuilder.IsConfigured)
         {

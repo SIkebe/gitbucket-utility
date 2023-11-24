@@ -74,7 +74,7 @@ public class MilestoneServiceTest
         milestone.Issues.Add(issue4);
 
         dbContext.Milestones.Add(milestone);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
         var service = new MilestoneService(dbContext, FakeConsole);
 
@@ -127,7 +127,7 @@ public class MilestoneServiceTest
         milestone.Issues.Add(issue);
 
         dbContext.Milestones.Add(milestone);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
         var service = new MilestoneService(dbContext, FakeConsole);
 
@@ -180,7 +180,7 @@ public class MilestoneServiceTest
         milestone.Issues.Add(issue);
 
         dbContext.Milestones.Add(milestone);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
         var service = new MilestoneService(dbContext, FakeConsole);
 
@@ -232,7 +232,7 @@ public class MilestoneServiceTest
         issue.IssueAssignees.Add(new IssueAssignee { AssigneeUserName = "user1" });
         milestone.Issues.Add(issue);
         dbContext.Milestones.Add(milestone);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
         var service = new MilestoneService(dbContext, FakeConsole);
 
@@ -284,7 +284,7 @@ public class MilestoneServiceTest
         issue.IssueAssignees.Add(new IssueAssignee { IssueId = 1, AssigneeUserName = "user1" });
         milestone.Issues.Add(issue);
         dbContext.Milestones.Add(milestone);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
         var service = new MilestoneService(dbContext, FakeConsole);
 
@@ -372,7 +372,7 @@ public class MilestoneServiceTest
         }
 
         dbContext.Milestones.AddRange(milestones);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
         var service = new MilestoneService(dbContext, FakeConsole);
 

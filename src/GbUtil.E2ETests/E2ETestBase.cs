@@ -12,7 +12,7 @@ public abstract class E2ETestBase : IClassFixture<GitBucketFixture>, IDisposable
 {
     private bool _disposedValue;
 
-    public E2ETestBase(GitBucketFixture fixture, ITestOutputHelper output)
+    protected E2ETestBase(GitBucketFixture fixture, ITestOutputHelper output)
     {
         GitBucketFixture = fixture;
         Output = output;
@@ -77,10 +77,7 @@ public abstract class E2ETestBase : IClassFixture<GitBucketFixture>, IDisposable
 
     protected static void RemoveReadonlyAttribute(DirectoryInfo directoryInfo)
     {
-        if (directoryInfo is null)
-        {
-            throw new ArgumentNullException(nameof(directoryInfo));
-        }
+        ArgumentNullException.ThrowIfNull(directoryInfo);
 
         if ((directoryInfo.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
         {

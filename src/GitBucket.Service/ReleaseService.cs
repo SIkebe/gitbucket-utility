@@ -29,7 +29,7 @@ public class ReleaseService : IReleaseService
 
         var pullRequestSource = options.FromPullRequest ? "pull requests" : "issues";
         var issues = await FindIssuesRelatedToMileStone(options);
-        if (!issues.Any())
+        if (issues.Count == 0)
         {
             _console.WriteWarnLine($"There are no {pullRequestSource} related to \"{options.MileStone}\".");
             return await Task.FromResult(1);
@@ -104,6 +104,9 @@ public class ReleaseService : IReleaseService
         return builder.ToString();
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1862:Use the 'StringComparison' method overloads to perform case-insensitive string comparisons", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1304:Specify CultureInfo", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1311:Specify a culture or use an invariant version", Justification = "Can't be translated")]
     private async Task<List<GitBucket.Core.Models.IssueLabel>> FindIssueLabels(
         ReleaseOptions options,
         IEnumerable<GitBucket.Core.Models.Issue> issues)
@@ -118,6 +121,9 @@ public class ReleaseService : IReleaseService
             .ToListAsync();
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1862:Use the 'StringComparison' method overloads to perform case-insensitive string comparisons", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1304:Specify CultureInfo", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1311:Specify a culture or use an invariant version", Justification = "Can't be translated")]
     private async Task<List<GitBucket.Core.Models.Issue>> FindIssuesRelatedToMileStone(ReleaseOptions options)
     {
         // "String.Equals(String, StringComparison)" causes client side evaluation.
@@ -198,6 +204,9 @@ public class ReleaseService : IReleaseService
         return await Task.FromResult(0);
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1862:Use the 'StringComparison' method overloads to perform case-insensitive string comparisons", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1304:Specify CultureInfo", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1311:Specify a culture or use an invariant version", Justification = "Can't be translated")]
     private List<Core.Models.Label> FindLabels(ReleaseOptions options, List<IssueLabel> issueLabels)
     {
         return _context.Set<Core.Models.Label>()

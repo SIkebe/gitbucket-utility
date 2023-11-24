@@ -19,7 +19,10 @@ public class PullRequestTest : E2ETestBase
 
         // Act
         var output1 = Execute($"release -o {GitBucketDefaults.Owner} -r {Repository.Name} -m v1.0.0 --create-pr -f");
+        Console.WriteLine($"output1: {output1}");
+
         var output2 = Execute($"release -o {GitBucketDefaults.Owner} -r {Repository.Name} -m v1.0.0 --create-pr -f");
+        Console.WriteLine($"output2: {output2}");
 
         // Assert
         Assert.Equal($"A new pull request has been successfully created!{Environment.NewLine}", output1);

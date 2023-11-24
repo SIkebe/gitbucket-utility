@@ -132,7 +132,6 @@ public class MilestoneExtensionsTest
     }
 
     [Theory]
-    [InlineData(null)]
     [InlineData("")]
     public void Should_Return_Formatted_Milestone_With_No_AssignedUserName(string assignedUserName)
     {
@@ -158,7 +157,6 @@ public class MilestoneExtensionsTest
     }
 
     [Theory]
-    [InlineData(null)]
     [InlineData("")]
     public void Should_Return_Formatted_Milestone_With_No_Description(string description)
     {

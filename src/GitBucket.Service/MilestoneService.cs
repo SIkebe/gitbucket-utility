@@ -22,7 +22,7 @@ public class MilestoneService : IMilestoneService
 
     public async Task<int> ShowMilestones(MilestoneOptions options)
     {
-        if (options == null) throw new ArgumentNullException(nameof(options));
+        ArgumentNullException.ThrowIfNull(options);
 
         var milestones = await FindMilestones(options);
         if (milestones.Count == 0)
@@ -62,6 +62,9 @@ public class MilestoneService : IMilestoneService
         return 0;
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1862:Use the 'StringComparison' method overloads to perform case-insensitive string comparisons", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1304:Specify CultureInfo", Justification = "Can't be translated")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1311:Specify a culture or use an invariant version", Justification = "Can't be translated")]
     private async Task<List<Milestone>> FindMilestones(MilestoneOptions options)
     {
         var owners = options.Owners.Select(o => o.ToLower());

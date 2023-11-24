@@ -1,4 +1,4 @@
-#addin nuget:?package=Cake.Docker&version=1.2.0
+#addin nuget:?package=Cake.Docker&version=1.2.3
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -70,7 +70,7 @@ async Task RunE2ETests(ICakeContext ctx)
     Information("Recreating docker containers...");
     DockerComposeRm(new DockerComposeRmSettings { Force = true, Stop = true, Volumes = true });
     DeleteDirectoryWithReadonlyFiles("docker");
-    DockerComposeUp(new DockerComposeUpSettings { ForceRecreate = true, DetachedMode = true });
+    DockerComposeUp(new DockerComposeUpSettings { ForceRecreate = true, Detach = true });
 
     bool gitbucketStarted = false;
     int count = 0;

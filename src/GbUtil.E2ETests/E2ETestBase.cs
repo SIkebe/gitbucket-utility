@@ -131,11 +131,11 @@ public abstract class E2ETestBase : IClassFixture<GitBucketFixture>, IDisposable
     {
         if (!Directory.Exists(WorkingDir))
         {
+            var options = new CloneOptions();
+            options.FetchOptions.CredentialsProvider = (url, user, cred) => Credentials;
+
             // git clone http://localhost:8080/git/root/<repository-name>.git
-            LibGit2Sharp.Repository.Clone($"{GitBucketDefaults.BaseUri}git/{Repository.FullName}.git", WorkingDir, new CloneOptions
-            {
-                CredentialsProvider = (url, user, cred) => Credentials
-            });
+            LibGit2Sharp.Repository.Clone($"{GitBucketDefaults.BaseUri}git/{Repository.FullName}.git", WorkingDir, options);
         }
 
         // TODO: Use Web API to create a new branch if implemented in GitBucket

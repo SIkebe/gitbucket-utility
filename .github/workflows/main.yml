@@ -41,7 +41,6 @@ jobs:
           '
 
       - name: Run E2E Tests Using SingleFileExe On Linux
-        working-directory: test/E2ETests
         env:
           GbUtil_UseSingleFileExe: true
           GbUtil_SingleFileExePath: ./executable/GbUtil
@@ -82,7 +81,6 @@ jobs:
           '
 
       - name: Run E2E Tests Using SingleFileExe On Linux
-        working-directory: test/E2ETests
         env:
           GbUtil_UseSingleFileExe: true
           GbUtil_SingleFileExePath: ./executable/GbUtil

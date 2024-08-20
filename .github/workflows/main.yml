@@ -25,10 +25,29 @@ jobs:
           sudo apt-get update
           sudo apt-get install postgresql-16
         shell: bash
-      - name: Build and Run E2E Tests On Linux
+
+      - name: Publish and prepare docker environment
         run: |
-          dotnet tool restore
-          dotnet cake ./build.cake --target Run-E2E-Tests
+          dotnet publish ./src/GbUtil/GbUtil.csproj -c Release -o executable --runtime linux-x64 --self-contained true -p:PublishSingleFile=false
+          docker compose up -d
+
+          # Wait for the containers to be ready
+          timeout 150s bash -c '
+            until docker compose logs | grep -q "oejs.Server:main: Started"; do
+              echo "Waiting for '\''oejs.Server:main: Started'\'' in the logs..."
+              sleep 3
+            done
+            echo "Found '\''oejs.Server:main: Started'\'' in the logs."
+          '
+
+      - name: Run E2E Tests Using SingleFileExe On Linux
+        working-directory: test/E2ETests
+        env:
+          GbUtil_UseSingleFileExe: true
+          GbUtil_SingleFileExePath: ./executable/GbUtil
+        run: |
+          echo GbUtil_SingleFileExePath is ${{ env.GbUtil_SingleFileExePath }}
+          dotnet test ./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj
 
   linux-e2e-scd:
     runs-on: ubuntu-22.04
@@ -48,10 +67,28 @@ jobs:
           sudo apt-get install postgresql-16
         shell: bash
 
-      - name: Build and Run E2E Tests Using SingleFileExe On Linux
+      - name: Publish single file exe and prepare docker environment
         run: |
-          dotnet tool restore
-          dotnet cake ./build.cake --target Run-E2E-Tests-Using-SingleFileExe --rid linux-x64
+          dotnet publish ./src/GbUtil/GbUtil.csproj -c Release -o executable --runtime linux-x64 --self-contained true -p:PublishSingleFile=true
+          docker compose up -d
+
+          # Wait for the containers to be ready
+          timeout 150s bash -c '
+            until docker compose logs | grep -q "oejs.Server:main: Started"; do
+              echo "Waiting for '\''oejs.Server:main: Started'\'' in the logs..."
+              sleep 3
+            done
+            echo "Found '\''oejs.Server:main: Started'\'' in the logs."
+          '
+
+      - name: Run E2E Tests Using SingleFileExe On Linux
+        working-directory: test/E2ETests
+        env:
+          GbUtil_UseSingleFileExe: true
+          GbUtil_SingleFileExePath: ./executable/GbUtil
+        run: |
+          echo GbUtil_SingleFileExePath is ${{ env.GbUtil_SingleFileExePath }}
+          dotnet test ./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj
 
   windows:
     runs-on: windows-2022
@@ -65,8 +102,7 @@ jobs:
 
       - name: Build and Run Unit Tests On Windows
         run: |
-          dotnet tool restore
-          dotnet cake ./build.cake --target Run-Unit-Tests
+          dotnet test ./src/GitBucket.Service.Tests/GitBucket.Service.Tests.csproj
 
   macOS:
     runs-on: macos-13
@@ -80,5 +116,4 @@ jobs:
 
       - name: Build and Run Unit Tests On macOS
         run: |
-          dotnet tool restore
-          dotnet cake ./build.cake --target Run-Unit-Tests
+          dotnet test ./src/GitBucket.Service.Tests/GitBucket.Service.Tests.csproj

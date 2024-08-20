@@ -46,7 +46,6 @@ jobs:
           GbUtil_UseSingleFileExe: true
           GbUtil_SingleFileExePath: ./executable/GbUtil
         run: |
-          echo GbUtil_SingleFileExePath is ${{ env.GbUtil_SingleFileExePath }}
           dotnet test ./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj
 
   linux-e2e-scd:
@@ -87,7 +86,6 @@ jobs:
           GbUtil_UseSingleFileExe: true
           GbUtil_SingleFileExePath: ./executable/GbUtil
         run: |
-          echo GbUtil_SingleFileExePath is ${{ env.GbUtil_SingleFileExePath }}
           dotnet test ./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj
 
   windows:

@@ -21,12 +21,9 @@ jobs:
         git branch --remote --contains | grep origin/master
 
     - name: Pack
-      run: |
-        dotnet tool restore
-        dotnet cake ./build.cake --target Pack
+      run: dotnet pack ./src/GbUtil/GbUtil.csproj -c Release -o ./packages
 
     - name: Push
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      run: |
-        dotnet cake ./build.cake --target Publish
+      run: dotnet nuget push ./packages/GbUtil.0.14.0.nupkg -k ${{ env.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json

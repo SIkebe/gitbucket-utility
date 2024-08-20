@@ -12,7 +12,7 @@ public class IssueTest(GitBucketFixture fixture, ITestOutputHelper output) : E2E
     public Issue SourceIssue2 { get; set; } = default!;
 
     [Fact]
-    public async void Should_Copy_an_Issue_to_a_Different_Repository()
+    public async Task Should_Copy_an_Issue_to_a_Different_Repository()
     {
         // Arange
         await InitializeAsync();
@@ -36,7 +36,7 @@ public class IssueTest(GitBucketFixture fixture, ITestOutputHelper output) : E2E
     }
 
     [Fact]
-    public async void Should_Copy_Multiple_Issues_to_a_Different_Repository()
+    public async Task Should_Copy_Multiple_Issues_to_a_Different_Repository()
     {
         // Arange
         await InitializeAsync(createMultipleIssues: true);
@@ -70,7 +70,7 @@ The issue has been successfully copied to http://localhost:8080/{Repository2.Ful
     }
 
     [Fact]
-    public async void Should_Move_an_Issue_to_a_Different_Repository()
+    public async Task Should_Move_an_Issue_to_a_Different_Repository()
     {
         // Arange
         await InitializeAsync();
@@ -102,7 +102,7 @@ First issue content.
     }
 
     [Fact]
-    public async void Should_Move_Multiple_Issues_to_a_Different_Repository()
+    public async Task Should_Move_Multiple_Issues_to_a_Different_Repository()
     {
         // Arange
         await InitializeAsync(createMultipleIssues: true);

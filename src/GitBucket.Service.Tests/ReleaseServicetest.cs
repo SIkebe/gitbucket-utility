@@ -12,7 +12,7 @@ public class ReleaseServiceTest
     public FakeConsole FakeConsole { get; } = new FakeConsole("yes");
 
     [Fact]
-    public async void Milestone_Has_No_Issue()
+    public async Task Milestone_Has_No_Issue()
     {
         // Given
         var dbContextOptions = new DbContextOptionsBuilder<GitBucketDbContext>()
@@ -35,7 +35,7 @@ public class ReleaseServiceTest
     }
 
     [Fact]
-    public async void Milestone_Has_No_PullRequest()
+    public async Task Milestone_Has_No_PullRequest()
     {
         // Given
         var dbContextOptions = new DbContextOptionsBuilder<GitBucketDbContext>()
@@ -58,7 +58,7 @@ public class ReleaseServiceTest
     }
 
     [Fact]
-    public async void Milestone_Has_Unclosed_Issue()
+    public async Task Milestone_Has_Unclosed_Issue()
     {
         // Given
         var options = new ReleaseOptions { MileStone = "v1.0.0", Owner = "root", Repository = "test" };
@@ -100,7 +100,7 @@ public class ReleaseServiceTest
     }
 
     [Fact]
-    public async void Milestone_Has_Issue_Without_Labels()
+    public async Task Milestone_Has_Issue_Without_Labels()
     {
         // Given
         var options = new ReleaseOptions { MileStone = "v1.0.0", Owner = "root", Repository = "test" };
@@ -144,7 +144,7 @@ public class ReleaseServiceTest
     }
 
     [Fact]
-    public async void PullRequest_Already_Exists()
+    public async Task PullRequest_Already_Exists()
     {
         // Given
         var options = new ReleaseOptions { CreatePullRequest = true, MileStone = "v1.0.0", Owner = "root", Repository = "test" };
@@ -170,7 +170,7 @@ public class ReleaseServiceTest
     }
 
     [Fact]
-    public async void Should_Create_PullRequest()
+    public async Task Should_Create_PullRequest()
     {
         // Given
         var options = new ReleaseOptions { CreatePullRequest = true, MileStone = "v1.0.0", Owner = "root", Repository = "test" };
@@ -242,7 +242,7 @@ The highest priority among them is ""high"".
     }
 
     [Fact]
-    public async void Should_Create_Draft_PullRequest()
+    public async Task Should_Create_Draft_PullRequest()
     {
         // Given
         var options = new ReleaseOptions { Draft = true, CreatePullRequest = true, MileStone = "v1.0.0", Owner = "root", Repository = "test" };
@@ -314,7 +314,7 @@ The highest priority among them is ""high"".
     }
 
     [Fact]
-    public async void Should_Create_PullRequest_With_Different_Options()
+    public async Task Should_Create_PullRequest_With_Different_Options()
     {
         // Given
         var options = new ReleaseOptions
@@ -384,7 +384,7 @@ The highest priority among them is ""default"".
     }
 
     [Fact]
-    public async void Should_Output_ReleaseNote()
+    public async Task Should_Output_ReleaseNote()
     {
         // Given
         var options = new ReleaseOptions { MileStone = "v1.0.0", Owner = "root", Repository = "test" };

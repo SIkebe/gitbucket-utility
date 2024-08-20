@@ -28,6 +28,7 @@ jobs:
 
       - name: Publish and prepare docker environment
         run: |
+          dotnet build
           dotnet publish ./src/GbUtil/GbUtil.csproj -c Release -o executable --runtime linux-x64 --self-contained true -p:PublishSingleFile=false
           docker compose up -d
 
@@ -68,6 +69,7 @@ jobs:
 
       - name: Publish single file exe and prepare docker environment
         run: |
+          dotnet build
           dotnet publish ./src/GbUtil/GbUtil.csproj -c Release -o executable --runtime linux-x64 --self-contained true -p:PublishSingleFile=true
           docker compose up -d
 

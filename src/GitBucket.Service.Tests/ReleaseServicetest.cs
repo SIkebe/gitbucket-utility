@@ -82,7 +82,7 @@ public class ReleaseServiceTest
             Title = "Implement xxx feature",
         });
 
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
         var console = new FakeConsole("no");
         var service = new ReleaseService(dbContext, console);
@@ -123,7 +123,7 @@ public class ReleaseServiceTest
             Title = "Implement xxx feature",
         });
 
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
         var service = new ReleaseService(dbContext, FakeConsole);
 
@@ -252,7 +252,7 @@ The highest priority among them is ""high"".
                 new() { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 1, CommitIdFrom = "test", CommitIdTo = "test", RequestRepositoryName = "test", RequestUserName = "root" },
                 new() { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 2, CommitIdFrom = "test", CommitIdTo = "test", RequestRepositoryName = "test", RequestUserName = "root" },
             });
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
         var service = new ReleaseService(dbContext, FakeConsole);
         var gitbucketClient = new Mock<IGitHubClient>();

@@ -45,8 +45,7 @@ jobs:
         env:
           GbUtil_UseSingleFileExe: true
           GbUtil_SingleFileExePath: ./executable/GbUtil
-        run: |
-          dotnet test ./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj
+        run: dotnet test ./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj
 
   linux-e2e-scd:
     runs-on: ubuntu-22.04
@@ -85,8 +84,7 @@ jobs:
         env:
           GbUtil_UseSingleFileExe: true
           GbUtil_SingleFileExePath: ./executable/GbUtil
-        run: |
-          dotnet test ./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj
+        run: dotnet test ./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj
 
   windows:
     runs-on: windows-2022
@@ -99,8 +97,7 @@ jobs:
           global-json-file: global.json
 
       - name: Build and Run Unit Tests On Windows
-        run: |
-          dotnet test ./src/GitBucket.Service.Tests/GitBucket.Service.Tests.csproj
+        run: dotnet test ./src/GitBucket.Service.Tests/GitBucket.Service.Tests.csproj
 
   macOS:
     runs-on: macos-13
@@ -113,5 +110,4 @@ jobs:
           global-json-file: global.json
 
       - name: Build and Run Unit Tests On macOS
-        run: |
-          dotnet test ./src/GitBucket.Service.Tests/GitBucket.Service.Tests.csproj
+        run: dotnet test ./src/GitBucket.Service.Tests/GitBucket.Service.Tests.csproj

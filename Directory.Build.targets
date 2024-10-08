@@ -6,7 +6,7 @@
     <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="8.0.8" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.8" />
     <PackageReference Update="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
-    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
     <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageReference Update="Moq" Version="4.20.72" />

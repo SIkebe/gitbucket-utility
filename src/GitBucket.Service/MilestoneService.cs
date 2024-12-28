@@ -38,8 +38,8 @@ public class MilestoneService(DbContext context, IConsole console) : IMilestoneS
                 _console.WriteLine(milestone.Format());
             }
             else if (milestone.DueDate == null ||
-                    (milestone.DueDate >= options.ExecutedDate) &&
-                    (milestone.DueDate.Value.Date < options.ExecutedDate.Date.AddDays(7)))
+                    ((milestone.DueDate >= options.ExecutedDate) &&
+                    (milestone.DueDate.Value.Date < options.ExecutedDate.Date.AddDays(7))))
             {
                 _console.WriteWarnLine(milestone.Format());
             }

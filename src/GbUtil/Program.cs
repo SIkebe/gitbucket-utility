@@ -25,9 +25,9 @@ try
         .WithNotParsed(errors =>
         {
             if (errors.Any(e =>
-                e.Tag != ErrorType.HelpVerbRequestedError &&
-                e.Tag != ErrorType.VersionRequestedError &&
-                e.Tag != ErrorType.NoVerbSelectedError))
+                e.Tag is not ErrorType.HelpVerbRequestedError and
+                not ErrorType.VersionRequestedError and
+                not ErrorType.NoVerbSelectedError))
             {
                 throw new InvalidConfigurationException($"Failed to parse arguments.");
             }
@@ -46,7 +46,7 @@ try
         return 0;
     }
 
-    var requireDbConnection = options is ReleaseOptions || options is MilestoneOptions || options is BackupOptions;
+    var requireDbConnection = options is ReleaseOptions or MilestoneOptions or BackupOptions;
     using var scope = CreateServiceProvider(configuration, requireDbConnection).CreateScope();
     var result = options switch
     {

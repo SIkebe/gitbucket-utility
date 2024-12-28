@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace GitBucket.Core.Models;
@@ -18,6 +18,8 @@ public partial class CustomField
     public bool EnableForIssues { get; set; }
 
     public bool EnableForPullRequests { get; set; }
+
+    public string? Constraints { get; set; }
 
     public virtual ICollection<IssueCustomField> IssueCustomFields { get; set; } = new List<IssueCustomField>();
 

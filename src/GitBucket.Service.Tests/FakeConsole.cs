@@ -19,9 +19,9 @@ public class FakeConsole(string input = "test") : IConsole
         Error
     }
 
-    public Collection<string?> Messages { get; } = new();
-    public Collection<string?> WarnMessages { get; } = new();
-    public Collection<string?> ErrorMessages { get; } = new();
+    public Collection<string?> Messages { get; } = [];
+    public Collection<string?> WarnMessages { get; } = [];
+    public Collection<string?> ErrorMessages { get; } = [];
     public ConsoleColor ForegroundColor { get; set; } = ConsoleColor.Gray;
 
     public void Write(string? value)
@@ -173,7 +173,7 @@ public class FakeConsole(string input = "test") : IConsole
                 }
 
                 break;
-
+            case ConsoleKind.Normal:
             default:
                 if (!_hasNewLineAtTheEndOfTheMessages)
                 {

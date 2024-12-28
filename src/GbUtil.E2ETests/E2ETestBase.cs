@@ -119,7 +119,7 @@ public abstract class E2ETestBase : IClassFixture<GitBucketFixture>, IDisposable
     protected async Task UpdateReadme(string branchName)
     {
         var contents = await GitBucketFixture.GitBucketClient.Repository.Content.GetAllContentsByRef(GitBucketDefaults.Owner, Repository.Name, branchName);
-        var readme = contents.Where(c => c.Name == "README.md").Single();
+        var readme = contents.Single(c => c.Name == "README.md");
         await GitBucketFixture.GitBucketClient.Repository.Content.UpdateFile(
             GitBucketDefaults.Owner,
             Repository.Name,

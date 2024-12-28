@@ -13,12 +13,7 @@ public static class IServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(services);
         ArgumentNullException.ThrowIfNull(implementationFactory);
 
-        if (condition)
-        {
-            return services.AddScoped(typeof(TService), implementationFactory);
-        }
-
-        return services;
+        return condition ? services.AddScoped(implementationFactory) : services;
     }
 
     public static IServiceCollection AddTransientIf<TService, TImplementation>(
@@ -29,11 +24,6 @@ public static class IServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        if (condition)
-        {
-            return services.AddTransient(typeof(TService), typeof(TImplementation));
-        }
-
-        return services;
+        return condition ? services.AddTransient<TService, TImplementation>() : services;
     }
 }

@@ -52,14 +52,9 @@ public class ReleaseService(DbContext context, IConsole console) : IReleaseServi
         }
 
         var labels = FindLabels(options, issueLabels);
-        if (options.CreatePullRequest)
-        {
-            return await CreatePullRequest(options, issues, issueLabels, pullRequestSource, labels, gitBucketClient);
-        }
-        else
-        {
-            return await OutputReleaseNote(issues, issueLabels, pullRequestSource, labels);
-        }
+        return options.CreatePullRequest
+            ? await CreatePullRequest(options, issues, issueLabels, pullRequestSource, labels, gitBucketClient)
+            : await OutputReleaseNote(issues, issueLabels, pullRequestSource, labels);
     }
 
     private static string CreateReleaseNote(
@@ -88,7 +83,7 @@ public class ReleaseService(DbContext context, IConsole console) : IReleaseServi
 
             foreach (var issueId in ids)
             {
-                var issue = issues.Where(i => i.IssueId == issueId).Single();
+                var issue = issues.Single(i => i.IssueId == issueId);
                 builder.AppendLine($"* {issue.Title} #{issue.IssueId}");
             }
 

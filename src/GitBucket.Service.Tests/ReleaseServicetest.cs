@@ -153,10 +153,10 @@ public class ReleaseServiceTest
         var gitbucketClient = new Mock<IGitHubClient>();
         gitbucketClient
             .Setup(g => g.PullRequest.GetAllForRepository(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>
-            {
+            .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(
+            [
                     new FakePullRequest(new FakeGitReference("develop"), new FakeGitReference("master"))
-            }));
+            ]));
 
         // When
         var result = await service.Execute(options, gitbucketClient.Object);
@@ -179,11 +179,11 @@ public class ReleaseServiceTest
         var gitbucketClient = new Mock<IGitHubClient>();
         gitbucketClient
             .SetupSequence(g => g.PullRequest.GetAllForRepository(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>()))
-            .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>
-            {
+            .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>([]))
+            .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(
+            [
                     new FakePullRequest(new FakeGitReference("develop"), new FakeGitReference("master"))
-            }));
+            ]));
 
         var body = string.Empty;
         bool? isDraft = null;
@@ -258,11 +258,11 @@ The highest priority among them is ""high"".
         var gitbucketClient = new Mock<IGitHubClient>();
         gitbucketClient
             .SetupSequence(g => g.PullRequest.GetAllForRepository(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>()))
-            .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>
-            {
+            .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>([]))
+            .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(
+            [
                     new FakePullRequest(new FakeGitReference("develop"), new FakeGitReference("master"), 2)
-            }));
+            ]));
 
         var body = string.Empty;
         bool? isDraft = null;
@@ -334,15 +334,15 @@ The highest priority among them is ""high"".
         var gitbucketClient = new Mock<IGitHubClient>();
         gitbucketClient
             .SetupSequence(g => g.PullRequest.GetAllForRepository(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>
-            {
+            .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(
+            [
                     new FakePullRequest(new FakeGitReference("improve-performance"), new FakeGitReference("master"))
-            }))
-            .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(new List<Octokit.PullRequest>
-            {
+            ]))
+            .ReturnsAsync(new ReadOnlyCollection<Octokit.PullRequest>(
+            [
                     new FakePullRequest(new FakeGitReference("improve-performance"), new FakeGitReference("master")),
                     new FakePullRequest(new FakeGitReference("release/v1.0.0"), new FakeGitReference("master"), 2)
-            }));
+            ]));
 
         var body = string.Empty;
         gitbucketClient

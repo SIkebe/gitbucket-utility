@@ -9,7 +9,7 @@ on:
 
 jobs:
   linux-e2e:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -48,7 +48,7 @@ jobs:
         run: dotnet test ./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj
 
   linux-e2e-scd:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -87,7 +87,7 @@ jobs:
         run: dotnet test ./src/GbUtil.E2ETests/GbUtil.E2ETests.csproj
 
   windows:
-    runs-on: windows-2022
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -100,7 +100,7 @@ jobs:
         run: dotnet test ./src/GitBucket.Service.Tests/GitBucket.Service.Tests.csproj
 
   macOS:
-    runs-on: macos-13
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
 

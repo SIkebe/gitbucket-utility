@@ -2,6 +2,7 @@ using CommandLine;
 using GbUtil;
 using GbUtil.Extensions;
 using GitBucket.Core;
+using GitBucket.Core.Models;
 using GitBucket.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

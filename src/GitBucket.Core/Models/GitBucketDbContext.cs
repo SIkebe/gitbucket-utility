@@ -1,8 +1,8 @@
+﻿using System;
 using System.Collections.Generic;
-using GitBucket.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace GitBucket.Core;
+namespace GitBucket.Core.Models;
 
 public partial class GitBucketDbContext : DbContext
 {
@@ -402,9 +402,6 @@ public partial class GitBucketDbContext : DbContext
             entity.Property(e => e.FieldId)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("field_id");
-            entity.Property(e => e.Constraints)
-                .HasMaxLength(200)
-                .HasColumnName("constraints");
             entity.Property(e => e.EnableForIssues).HasColumnName("enable_for_issues");
             entity.Property(e => e.EnableForPullRequests).HasColumnName("enable_for_pull_requests");
             entity.Property(e => e.FieldName)

@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using GitBucket.Core;
+using GitBucket.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Octokit;
@@ -247,11 +248,11 @@ The highest priority among them is ""high"".
         // Given
         var options = new ReleaseOptions { Draft = true, CreatePullRequest = true, MileStone = "v1.0.0", Owner = "root", Repository = "test" };
         var dbContext = EnsureDbCreated(options);
-        dbContext.PullRequests.AddRange(new List<Core.Models.PullRequest>
-            {
+        dbContext.PullRequests.AddRange(
+            [
                 new() { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 1, CommitIdFrom = "test", CommitIdTo = "test", RequestRepositoryName = "test", RequestUserName = "root" },
                 new() { UserName = "root", RepositoryName = "test", RequestBranch = "develop", Branch = "master", IssueId = 2, CommitIdFrom = "test", CommitIdTo = "test", RequestRepositoryName = "test", RequestUserName = "root" },
-            });
+            ]);
         await dbContext.SaveChangesAsync();
 
         var service = new ReleaseService(dbContext, FakeConsole);
@@ -449,8 +450,8 @@ The highest priority among them is ""high"".
             Color = "red",
         };
 
-        dbContext.Issues.AddRange(new List<Core.Models.Issue>
-            {
+        dbContext.Issues.AddRange(
+            [
                 new() {
                     Closed = true,
                     IssueId = 1,
@@ -492,10 +493,10 @@ The highest priority among them is ""high"".
                     UserName = options.Owner,
                     OpenedUserName = "root",
                 }
-            });
+            ]);
 
-        dbContext.IssueLabels.AddRange(new List<Core.Models.IssueLabel>
-            {
+        dbContext.IssueLabels.AddRange(
+            [
                 new() {
                     IssueId = 1,
                     LabelId = 10,
@@ -520,10 +521,10 @@ The highest priority among them is ""high"".
                     RepositoryName = options.Repository,
                     UserName = options.Owner,
                 }
-            });
+            ]);
 
-        dbContext.Labels.AddRange(new List<Core.Models.Label>
-            {
+        dbContext.Labels.AddRange(
+            [
                 new() {
                     LabelId = 10,
                     LabelName = "Bug",
@@ -538,7 +539,7 @@ The highest priority among them is ""high"".
                     UserName = options.Owner,
                     Color = "red",
                 }
-            });
+            ]);
 
         dbContext.SaveChanges();
         return dbContext;

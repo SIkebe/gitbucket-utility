@@ -52,14 +52,9 @@ public class ReleaseService(DbContext context, IConsole console) : IReleaseServi
         }
 
         var labels = FindLabels(options, issueLabels);
-        if (options.CreatePullRequest)
-        {
-            return await CreatePullRequest(options, issues, issueLabels, pullRequestSource, labels, gitBucketClient);
-        }
-        else
-        {
-            return await OutputReleaseNote(issues, issueLabels, pullRequestSource, labels);
-        }
+        return options.CreatePullRequest
+            ? await CreatePullRequest(options, issues, issueLabels, pullRequestSource, labels, gitBucketClient)
+            : await OutputReleaseNote(issues, issueLabels, pullRequestSource, labels);
     }
 
     private static string CreateReleaseNote(
@@ -88,7 +83,7 @@ public class ReleaseService(DbContext context, IConsole console) : IReleaseServi
 
             foreach (var issueId in ids)
             {
-                var issue = issues.Where(i => i.IssueId == issueId).Single();
+                var issue = issues.Single(i => i.IssueId == issueId);
                 builder.AppendLine($"* {issue.Title} #{issue.IssueId}");
             }
 
@@ -98,6 +93,7 @@ public class ReleaseService(DbContext context, IConsole console) : IReleaseServi
         return builder.ToString();
     }
 
+#pragma warning disable IDE0079 // Remove unnecessary suppression
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1862:Use the 'StringComparison' method overloads to perform case-insensitive string comparisons", Justification = "Can't be translated")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1304:Specify CultureInfo", Justification = "Can't be translated")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1311:Specify a culture or use an invariant version", Justification = "Can't be translated")]
@@ -201,15 +197,15 @@ public class ReleaseService(DbContext context, IConsole console) : IReleaseServi
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1862:Use the 'StringComparison' method overloads to perform case-insensitive string comparisons", Justification = "Can't be translated")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1304:Specify CultureInfo", Justification = "Can't be translated")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1311:Specify a culture or use an invariant version", Justification = "Can't be translated")]
+#pragma warning restore IDE0079 // Remove unnecessary suppression
     private List<Core.Models.Label> FindLabels(ReleaseOptions options, List<IssueLabel> issueLabels)
     {
-        return _context.Set<Core.Models.Label>()
+        return [.. _context.Set<Core.Models.Label>()
             .Where(l =>
                 l.UserName.ToLower() == options.Owner.ToLower() &&
                 l.RepositoryName.ToLower() == options.Repository.ToLower() &&
                 issueLabels.Select(i => i.LabelId).Contains(l.LabelId))
             .OrderBy(i => i.LabelId)
-            .AsNoTracking()
-            .ToList();
+            .AsNoTracking()];
     }
 }

@@ -1,8 +1,8 @@
+﻿using System;
 using System.Collections.Generic;
-using GitBucket.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace GitBucket.Core;
+namespace GitBucket.Core.Models;
 
 public partial class GitBucketDbContext : DbContext
 {

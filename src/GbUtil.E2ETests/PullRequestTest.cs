@@ -97,9 +97,9 @@ The highest priority among them is """".
 
         // Create issues which target milestone v1.0.0
         var issue1 = await client.Issue.Create(GitBucketDefaults.Owner, Repository.Name, new NewIssue("Bump to v1.0.0") { Milestone = milestone.Number });
-        await client.Issue.Labels.AddToIssue(GitBucketDefaults.Owner, Repository.Name, issue1.Number, new[] { "Enhancement" });
+        await client.Issue.Labels.AddToIssue(GitBucketDefaults.Owner, Repository.Name, issue1.Number, ["Enhancement"]);
 
         var issue2 = await client.Issue.Create(GitBucketDefaults.Owner, Repository.Name, new NewIssue("Found a bug") { Milestone = milestone.Number });
-        await client.Issue.Labels.AddToIssue(GitBucketDefaults.Owner, Repository.Name, issue2.Number, new[] { "Bug" });
+        await client.Issue.Labels.AddToIssue(GitBucketDefaults.Owner, Repository.Name, issue2.Number, ["Bug"]);
     }
 }

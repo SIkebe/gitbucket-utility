@@ -38,8 +38,8 @@ public class MilestoneService(DbContext context, IConsole console) : IMilestoneS
                 _console.WriteLine(milestone.Format());
             }
             else if (milestone.DueDate == null ||
-                    (milestone.DueDate >= options.ExecutedDate) &&
-                    (milestone.DueDate.Value.Date < options.ExecutedDate.Date.AddDays(7)))
+                    ((milestone.DueDate >= options.ExecutedDate) &&
+                    (milestone.DueDate.Value.Date < options.ExecutedDate.Date.AddDays(7))))
             {
                 _console.WriteWarnLine(milestone.Format());
             }
@@ -56,8 +56,10 @@ public class MilestoneService(DbContext context, IConsole console) : IMilestoneS
         return 0;
     }
 
+#pragma warning disable IDE0079 // Remove unnecessary suppression
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1304:Specify CultureInfo", Justification = "Can't be translated")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1311:Specify a culture or use an invariant version", Justification = "Can't be translated")]
+#pragma warning restore IDE0079 // Remove unnecessary suppression
     private async Task<List<Milestone>> FindMilestones(MilestoneOptions options)
     {
         var owners = options.Owners.Select(o => o.ToLower());

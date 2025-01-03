@@ -1,7 +1,9 @@
+#nullable enable
+
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace GitBucket.Core;
+namespace GitBucket.Core.Models;
 
 /// <summary>
 /// DBContext class against GitBucket DB.

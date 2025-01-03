@@ -165,7 +165,7 @@ public class IssueServiceTest
 
         mockGitBucketClient
             .Setup(g => g.Issue.Comment.GetAllForIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
-            .ReturnsAsync(new ReadOnlyCollection<Octokit.IssueComment>(new List<Octokit.IssueComment>{
+            .ReturnsAsync(new ReadOnlyCollection<Octokit.IssueComment>([
                     new(
                         id:1,
                         nodeId:"",
@@ -178,7 +178,7 @@ public class IssueServiceTest
                         reactions:new ReactionSummary(),
                         authorAssociation:AuthorAssociation.Collaborator
                     )
-            }));
+            ]));
 
         mockGitBucketClient
             .Setup(g => g.Issue.Comment.Create(
@@ -189,9 +189,9 @@ public class IssueServiceTest
         var options = new IssueOptions
         {
             ExecutedDate = new DateTime(2018, 7, 1),
-            Source = new[] { "root", "test1" },
-            Destination = new[] { "root", "test2" },
-            IssueNumbers = new[] { 1 }
+            Source = ["root", "test1"],
+            Destination = ["root", "test2"],
+            IssueNumbers = [1]
         };
 
         var console = new FakeConsole();
@@ -325,7 +325,7 @@ public class IssueServiceTest
 
         mockGitBucketClient
             .Setup(g => g.Issue.Comment.GetAllForIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
-            .ReturnsAsync(new ReadOnlyCollection<Octokit.IssueComment>(new List<Octokit.IssueComment>{
+            .ReturnsAsync(new ReadOnlyCollection<Octokit.IssueComment>([
                     new(
                         id:1,
                         nodeId:"",
@@ -338,7 +338,7 @@ public class IssueServiceTest
                         reactions:new ReactionSummary(),
                         authorAssociation:AuthorAssociation.Collaborator
                     )
-            }));
+            ]));
 
         mockGitBucketClient
             .Setup(g => g.Issue.Comment.Create(
@@ -349,9 +349,9 @@ public class IssueServiceTest
         var options = new IssueOptions
         {
             ExecutedDate = new DateTime(2018, 7, 1),
-            Source = new[] { "root", "test1" },
-            Destination = new[] { "root", "test2" },
-            IssueNumbers = new[] { 1, 2 }
+            Source = ["root", "test1"],
+            Destination = ["root", "test2"],
+            IssueNumbers = [1, 2]
         };
 
         var console = new FakeConsole();
@@ -439,9 +439,9 @@ public class IssueServiceTest
         var options = new IssueOptions
         {
             ExecutedDate = new DateTime(2018, 7, 1),
-            Source = new[] { "root", "test1" },
-            Destination = new[] { "root", "test2" },
-            IssueNumbers = new[] { 1 },
+            Source = ["root", "test1"],
+            Destination = ["root", "test2"],
+            IssueNumbers = [1],
             Type = "copy"
         };
 
@@ -475,9 +475,9 @@ public class IssueServiceTest
         var options = new IssueOptions
         {
             ExecutedDate = new DateTime(2018, 7, 1),
-            Source = new[] { "root", "test1" },
-            Destination = new[] { "root", "test2" },
-            IssueNumbers = new[] { 1 },
+            Source = ["root", "test1"],
+            Destination = ["root", "test2"],
+            IssueNumbers = [1],
             Type = "Invalid Type"
         };
 
@@ -583,7 +583,7 @@ public class IssueServiceTest
 
         mockGitBucketClient
             .Setup(g => g.Issue.Comment.GetAllForIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
-            .ReturnsAsync(new ReadOnlyCollection<Octokit.IssueComment>(new List<Octokit.IssueComment>{
+            .ReturnsAsync(new ReadOnlyCollection<Octokit.IssueComment>([
                     new(
                         id:1,
                         nodeId:"",
@@ -596,7 +596,7 @@ public class IssueServiceTest
                         reactions:new ReactionSummary(),
                         authorAssociation:AuthorAssociation.Collaborator
                     )
-            }));
+            ]));
 
         mockGitBucketClient
             .Setup(g => g.Issue.Comment.Create(
@@ -607,9 +607,9 @@ public class IssueServiceTest
         var options = new IssueOptions
         {
             ExecutedDate = new DateTime(2018, 7, 1),
-            Source = new[] { "root", "test1" },
-            Destination = new[] { "root", "test2" },
-            IssueNumbers = new[] { 1 },
+            Source = ["root", "test1"],
+            Destination = ["root", "test2"],
+            IssueNumbers = [1],
             Type = "copy"
         };
 
@@ -738,7 +738,7 @@ public class IssueServiceTest
 
         mockGitBucketClient
             .Setup(g => g.Issue.Comment.GetAllForIssue(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
-            .ReturnsAsync(new ReadOnlyCollection<Octokit.IssueComment>(new List<Octokit.IssueComment>{
+            .ReturnsAsync(new ReadOnlyCollection<Octokit.IssueComment>([
                     new(
                         id:1,
                         nodeId:"",
@@ -751,7 +751,7 @@ public class IssueServiceTest
                         reactions:new ReactionSummary(),
                         authorAssociation:AuthorAssociation.Collaborator
                     )
-            }));
+            ]));
 
         mockGitBucketClient
             .Setup(g => g.Issue.Comment.Create(
@@ -762,9 +762,9 @@ public class IssueServiceTest
         var options = new IssueOptions
         {
             ExecutedDate = new DateTime(2018, 7, 1),
-            Source = new[] { "root", "test1" },
-            Destination = new[] { "root", "test2" },
-            IssueNumbers = new[] { 1, 2 },
+            Source = ["root", "test1"],
+            Destination = ["root", "test2"],
+            IssueNumbers = [1, 2],
             Type = "copy"
         };
 
